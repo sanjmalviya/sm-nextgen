@@ -21,7 +21,7 @@ export default function Services() {
     };
     window.addEventListener('mousemove', moveCursor);
 
-    // 2. Sanity Data Fetching (React Way)
+    // 2. Sanity Data Fetching
     const PROJECT_ID = "y31b2jo0";
     const DATASET = "production";
     const QUERY = encodeURIComponent('*[_type == "service"]{title, "slug": slug.current, category, cardBadge, cardIcon, cardShortDesc, cardPrice, "imageUrl": cardBgImage.asset->url}');
@@ -40,7 +40,7 @@ export default function Services() {
           else if (service.category === 'Finance') fetchedData.Finance.push(service);
         });
 
-        setSanityServices(fetchedData); // State update kardi
+        setSanityServices(fetchedData);
       })
       .catch(err => console.error("Sanity Fetch Error:", err));
 
@@ -57,8 +57,8 @@ export default function Services() {
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-brand rounded-full mix-blend-screen filter blur-[150px] opacity-15 animate-pulse"></div>
         
         <div className="relative z-10 max-w-7xl mx-auto px-4 text-center">
-          <span className="inline-block px-4 py-1 rounded-full bg-yellow-400/10 border border-yellow-400/50 text-yellow-400 font-bold text-xs tracking-widest uppercase mb-6 animate-bounce">
-            🔥 Services Starting @ ₹250
+          <span className="inline-block px-4 py-1 rounded-full bg-brand/10 border border-brand/50 text-brand font-bold text-xs tracking-widest uppercase mb-6">
+            Growth Optimized Services
           </span>
           <h1 className="text-4xl md:text-6xl font-heading font-bold text-white mb-6 leading-tight">
             Complete Business Growth Solutions.<br />
@@ -101,7 +101,6 @@ export default function Services() {
           </div>
           
           <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {/* 1. Static Cards */}
             <div className="service-card group">
               <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop" alt="Brand Strategy" />
               <div className="card-overlay"></div>
@@ -109,11 +108,7 @@ export default function Services() {
               <div className="absolute bottom-0 left-0 w-full p-6 z-10">
                 <div className="floating-icon text-pink-400"><i className="fas fa-chess"></i></div>
                 <h3 className="text-lg font-bold text-white mb-1">Brand Strategy</h3>
-                <p className="text-xs text-gray-300 mb-3 opacity-90">Positioning & Business Roadmap.</p>
-                <div className="mb-4">
-                  <span className="text-[10px] text-gray-400 uppercase tracking-wider block font-bold">Starts @</span>
-                  <span className="text-xl font-bold text-white">₹11,000 - ₹25,000</span>
-                </div>
+                <p className="text-xs text-gray-300 mb-4 opacity-90">Positioning & Business Roadmap.</p>
                 <a href="/service-brand-strategy" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
               </div>
             </div>
@@ -125,11 +120,7 @@ export default function Services() {
               <div className="absolute bottom-0 left-0 w-full p-6 z-10">
                 <div className="floating-icon text-pink-400"><i className="fas fa-pen-nib"></i></div>
                 <h3 className="text-lg font-bold text-white mb-1">Logo Design</h3>
-                <p className="text-xs text-gray-300 mb-3 opacity-90">Professional Custom Logo.</p>
-                <div className="mb-4">
-                  <span className="text-[10px] text-gray-400 uppercase tracking-wider block font-bold">Starts @</span>
-                  <span className="text-xl font-bold text-white">₹250 - ₹1,500</span>
-                </div>
+                <p className="text-xs text-gray-300 mb-4 opacity-90">Professional Custom Logo.</p>
                 <a href="/service-logo-design" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
               </div>
             </div>
@@ -141,11 +132,7 @@ export default function Services() {
               <div className="absolute bottom-0 left-0 w-full p-6 z-10">
                 <div className="floating-icon text-pink-400"><i className="fas fa-palette"></i></div>
                 <h3 className="text-lg font-bold text-white mb-1">Visual Identity</h3>
-                <p className="text-xs text-gray-300 mb-3 opacity-90">Complete Brand Kit.</p>
-                <div className="mb-4">
-                  <span className="text-[10px] text-gray-400 uppercase tracking-wider block font-bold">Starts @</span>
-                  <span className="text-xl font-bold text-white">₹6,500 - ₹15,000</span>
-                </div>
+                <p className="text-xs text-gray-300 mb-4 opacity-90">Complete Brand Kit.</p>
                 <a href="/service-visual-identity" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
               </div>
             </div>
@@ -157,11 +144,7 @@ export default function Services() {
               <div className="absolute bottom-0 left-0 w-full p-6 z-10">
                 <div className="floating-icon text-blue-400"><i className="fas fa-share-alt"></i></div>
                 <h3 className="text-lg font-bold text-white mb-1">Social Media Mgmt</h3>
-                <p className="text-xs text-gray-300 mb-3 opacity-90">Organic Growth & Mgmt.</p>
-                <div className="mb-4">
-                  <span className="text-[10px] text-gray-400 uppercase tracking-wider block font-bold">Starts @</span>
-                  <span className="text-xl font-bold text-white">₹7,000 - ₹25,000</span>
-                </div>
+                <p className="text-xs text-gray-300 mb-4 opacity-90">Organic Growth & Mgmt.</p>
                 <a href="/service-social-media" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
               </div>
             </div>
@@ -173,11 +156,7 @@ export default function Services() {
               <div className="absolute bottom-0 left-0 w-full p-6 z-10">
                 <div className="floating-icon text-blue-400"><i className="fas fa-video"></i></div>
                 <h3 className="text-lg font-bold text-white mb-1">Content Creation</h3>
-                <p className="text-xs text-gray-300 mb-3 opacity-90">Posts/Reels/Ad Creatives.</p>
-                <div className="mb-4">
-                  <span className="text-[10px] text-gray-400 uppercase tracking-wider block font-bold">Starts @</span>
-                  <span className="text-xl font-bold text-white">₹350 - ₹1,500</span>
-                </div>
+                <p className="text-xs text-gray-300 mb-4 opacity-90">Posts/Reels/Ad Creatives.</p>
                 <a href="/service-content-creation" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
               </div>
             </div>
@@ -189,11 +168,7 @@ export default function Services() {
               <div className="absolute bottom-0 left-0 w-full p-6 z-10">
                 <div className="floating-icon text-blue-400"><i className="fab fa-meta"></i></div>
                 <h3 className="text-lg font-bold text-white mb-1">Meta Ads Mgmt</h3>
-                <p className="text-xs text-gray-300 mb-3 opacity-90">FB/Insta Paid Campaigns.</p>
-                <div className="mb-4">
-                  <span className="text-[10px] text-gray-400 uppercase tracking-wider block font-bold">Starts @</span>
-                  <span className="text-xl font-bold text-white">₹5,500 - ₹20,000</span>
-                </div>
+                <p className="text-xs text-gray-300 mb-4 opacity-90">FB/Insta Paid Campaigns.</p>
                 <a href="/service-ads" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
               </div>
             </div>
@@ -205,11 +180,7 @@ export default function Services() {
               <div className="absolute bottom-0 left-0 w-full p-6 z-10">
                 <div className="floating-icon text-blue-400"><i className="fab fa-google"></i></div>
                 <h3 className="text-lg font-bold text-white mb-1">Google Ads Mgmt</h3>
-                <p className="text-xs text-gray-300 mb-3 opacity-90">Search & YouTube Ads.</p>
-                <div className="mb-4">
-                  <span className="text-[10px] text-gray-400 uppercase tracking-wider block font-bold">Starts @</span>
-                  <span className="text-xl font-bold text-white">₹5,500 - ₹20,000</span>
-                </div>
+                <p className="text-xs text-gray-300 mb-4 opacity-90">Search & YouTube Ads.</p>
                 <a href="/service-ads" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
               </div>
             </div>
@@ -221,11 +192,7 @@ export default function Services() {
               <div className="absolute bottom-0 left-0 w-full p-6 z-10">
                 <div className="floating-icon text-green-400"><i className="fas fa-search-plus"></i></div>
                 <h3 className="text-lg font-bold text-white mb-1">SEO & Content</h3>
-                <p className="text-xs text-gray-300 mb-3 opacity-90">Monthly Ranking Service.</p>
-                <div className="mb-4">
-                  <span className="text-[10px] text-gray-400 uppercase tracking-wider block font-bold">Starts @</span>
-                  <span className="text-xl font-bold text-white">₹7,000 - ₹25,000</span>
-                </div>
+                <p className="text-xs text-gray-300 mb-4 opacity-90">Monthly Ranking Service.</p>
                 <a href="/service-seo" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
               </div>
             </div>
@@ -237,11 +204,7 @@ export default function Services() {
               <div className="absolute bottom-0 left-0 w-full p-6 z-10">
                 <div className="floating-icon text-green-400"><i className="fas fa-percentage"></i></div>
                 <h3 className="text-lg font-bold text-white mb-1">PPC/Ads Mgmt %</h3>
-                <p className="text-xs text-gray-300 mb-3 opacity-90">Performance Based Fee.</p>
-                <div className="mb-4">
-                  <span className="text-[10px] text-gray-400 uppercase tracking-wider block font-bold">Starts @</span>
-                  <span className="text-xl font-bold text-white">7% - 22% <span className="text-xs text-gray-400 font-normal">of spend</span></span>
-                </div>
+                <p className="text-xs text-gray-300 mb-4 opacity-90">Performance Based Fee.</p>
                 <a href="/service-ads" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
               </div>
             </div>
@@ -253,16 +216,11 @@ export default function Services() {
               <div className="absolute bottom-0 left-0 w-full p-6 z-10">
                 <div className="floating-icon text-pink-400"><i className="fas fa-star"></i></div>
                 <h3 className="text-lg font-bold text-white mb-1">Influencer Marketing</h3>
-                <p className="text-xs text-gray-300 mb-3 opacity-90">Campaign Management.</p>
-                <div className="mb-4">
-                  <span className="text-[10px] text-gray-400 uppercase tracking-wider block font-bold">Starts @</span>
-                  <span className="text-xl font-bold text-white">₹4,500 - ₹15,000</span>
-                </div>
+                <p className="text-xs text-gray-300 mb-4 opacity-90">Campaign Management.</p>
                 <a href="/service-influencer-marketing" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
               </div>
             </div>
 
-            {/* 2. Dynamic Cards (Sanity) */}
             {sanityServices.Marketing.map((service, index) => (
               <div key={index} className="service-card group">
                 <img src={service.imageUrl || 'https://images.unsplash.com/photo-1557838923-2985c318be48?auto=format&fit=crop&w=600&q=80'} alt={service.title} />
@@ -271,16 +229,11 @@ export default function Services() {
                 <div className="absolute bottom-0 left-0 w-full p-6 z-10">
                   <div className="floating-icon text-brand"><i className={service.cardIcon || "fas fa-star"}></i></div>
                   <h3 className="text-lg font-bold text-white mb-1">{service.title}</h3>
-                  <p className="text-xs text-gray-300 mb-3 opacity-90">{service.cardShortDesc}</p>
-                  <div className="mb-4">
-                    <span className="text-[10px] text-gray-400 uppercase tracking-wider block font-bold">Starts @</span>
-                    <span className="text-xl font-bold text-white">{service.cardPrice || 'Custom Pricing'}</span>
-                  </div>
+                  <p className="text-xs text-gray-300 mb-4 opacity-90">{service.cardShortDesc}</p>
                   <a href={`/services/${service.slug}`} className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
                 </div>
               </div>
             ))}
-
           </div>
         </div>
       </section>
@@ -297,7 +250,6 @@ export default function Services() {
           </div>
           
           <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {/* 1. Static Cards */}
              <div className="service-card group">
                 <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=2074&auto=format&fit=crop" alt="Lead Generation" />
                 <div className="card-overlay"></div>
@@ -305,11 +257,7 @@ export default function Services() {
                 <div className="absolute bottom-0 left-0 w-full p-6 z-10">
                     <div className="floating-icon text-purple-400"><i className="fas fa-magnet"></i></div>
                     <h3 className="text-lg font-bold text-white mb-1">Lead Gen Systems</h3>
-                    <p className="text-xs text-gray-300 mb-3 opacity-90">Automated Pipelines.</p>
-                    <div className="mb-4">
-                        <span className="text-[10px] text-gray-400 uppercase tracking-wider block font-bold">Starts @</span>
-                        <span className="text-2xl font-bold text-white">₹11,000 - ₹30,000</span>
-                    </div>
+                    <p className="text-xs text-gray-300 mb-4 opacity-90">Automated Pipelines.</p>
                     <a href="/service-lead-generation" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
                 </div>
             </div>
@@ -321,11 +269,7 @@ export default function Services() {
                 <div className="absolute bottom-0 left-0 w-full p-6 z-10">
                     <div className="floating-icon text-purple-400"><i className="fas fa-filter"></i></div>
                     <h3 className="text-lg font-bold text-white mb-1">Marketing Funnels</h3>
-                    <p className="text-xs text-gray-300 mb-3 opacity-90">Funnel Design & Setup.</p>
-                    <div className="mb-4">
-                        <span className="text-[10px] text-gray-400 uppercase tracking-wider block font-bold">Starts @</span>
-                        <span className="text-2xl font-bold text-white">₹9,000 - ₹25,000</span>
-                    </div>
+                    <p className="text-xs text-gray-300 mb-4 opacity-90">Funnel Design & Setup.</p>
                     <a href="/service-marketing-funnels" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
                 </div>
             </div>
@@ -337,11 +281,7 @@ export default function Services() {
                 <div className="absolute bottom-0 left-0 w-full p-6 z-10">
                     <div className="floating-icon text-purple-400"><i className="fas fa-tasks"></i></div>
                     <h3 className="text-lg font-bold text-white mb-1">CRM Setup</h3>
-                    <p className="text-xs text-gray-300 mb-3 opacity-90">Business Automation.</p>
-                    <div className="mb-4">
-                        <span className="text-[10px] text-gray-400 uppercase tracking-wider block font-bold">Starts @</span>
-                        <span className="text-2xl font-bold text-white">₹13,500 - ₹35,000</span>
-                    </div>
+                    <p className="text-xs text-gray-300 mb-4 opacity-90">Business Automation.</p>
                     <a href="/service-crm-setup" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
                 </div>
             </div>
@@ -353,11 +293,7 @@ export default function Services() {
                 <div className="absolute bottom-0 left-0 w-full p-6 z-10">
                     <div className="floating-icon text-purple-400"><i className="fab fa-whatsapp"></i></div>
                     <h3 className="text-lg font-bold text-white mb-1">Email/WA Automation</h3>
-                    <p className="text-xs text-gray-300 mb-3 opacity-90">Auto-Marketing Setup.</p>
-                    <div className="mb-4">
-                        <span className="text-[10px] text-gray-400 uppercase tracking-wider block font-bold">Starts @</span>
-                        <span className="text-2xl font-bold text-white">₹7,000 - ₹20,000</span>
-                    </div>
+                    <p className="text-xs text-gray-300 mb-4 opacity-90">Auto-Marketing Setup.</p>
                     <a href="/service-whatsapp-automation" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
                 </div>
             </div>
@@ -369,11 +305,7 @@ export default function Services() {
                 <div className="absolute bottom-0 left-0 w-full p-6 z-10">
                     <div className="floating-icon text-purple-400"><i className="fas fa-brain"></i></div>
                     <h3 className="text-lg font-bold text-white mb-1">AI Enablement</h3>
-                    <p className="text-xs text-gray-300 mb-3 opacity-90">Tools & Prompt Eng.</p>
-                    <div className="mb-4">
-                        <span className="text-[10px] text-gray-400 uppercase tracking-wider block font-bold">Starts @</span>
-                        <span className="text-2xl font-bold text-white">₹7,000 - ₹20,000</span>
-                    </div>
+                    <p className="text-xs text-gray-300 mb-4 opacity-90">Tools & Prompt Eng.</p>
                     <a href="/service-ai-enablement" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
                 </div>
             </div>
@@ -385,16 +317,11 @@ export default function Services() {
                 <div className="absolute bottom-0 left-0 w-full p-6 z-10">
                     <div className="floating-icon text-purple-400"><i className="fas fa-chart-line"></i></div>
                     <h3 className="text-lg font-bold text-white mb-1">Growth Consulting</h3>
-                    <p className="text-xs text-gray-300 mb-3 opacity-90">Startup Strategy.</p>
-                    <div className="mb-4">
-                        <span className="text-[10px] text-gray-400 uppercase tracking-wider block font-bold">Starts @</span>
-                        <span className="text-2xl font-bold text-white">₹2,500 - ₹10,000</span>
-                    </div>
+                    <p className="text-xs text-gray-300 mb-4 opacity-90">Startup Strategy.</p>
                     <a href="/service-growth-consulting" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
                 </div>
             </div>
 
-            {/* 2. Dynamic Automation Cards */}
             {sanityServices.Automation.map((service, index) => (
               <div key={index} className="service-card group">
                 <img src={service.imageUrl || 'https://images.unsplash.com/photo-1557838923-2985c318be48?auto=format&fit=crop&w=600&q=80'} alt={service.title} />
@@ -403,11 +330,7 @@ export default function Services() {
                 <div className="absolute bottom-0 left-0 w-full p-6 z-10">
                   <div className="floating-icon text-brand"><i className={service.cardIcon || "fas fa-star"}></i></div>
                   <h3 className="text-lg font-bold text-white mb-1">{service.title}</h3>
-                  <p className="text-xs text-gray-300 mb-3 opacity-90">{service.cardShortDesc}</p>
-                  <div className="mb-4">
-                    <span className="text-[10px] text-gray-400 uppercase tracking-wider block font-bold">Starts @</span>
-                    <span className="text-xl font-bold text-white">{service.cardPrice || 'Custom Pricing'}</span>
-                  </div>
+                  <p className="text-xs text-gray-300 mb-4 opacity-90">{service.cardShortDesc}</p>
                   <a href={`/services/${service.slug}`} className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
                 </div>
               </div>
@@ -428,7 +351,6 @@ export default function Services() {
           </div>
           
           <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {/* 1. Static Cards */}
             <div className="service-card group">
                 <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?q=80&w=2071&auto=format&fit=crop" alt="Financial Planning" />
                 <div className="card-overlay"></div>
@@ -436,11 +358,7 @@ export default function Services() {
                 <div className="absolute bottom-0 left-0 w-full p-6 z-10">
                     <div className="floating-icon text-green-400"><i className="fas fa-coins"></i></div>
                     <h3 className="text-lg font-bold text-white mb-1">Financial Planning</h3>
-                    <p className="text-xs text-gray-300 mb-3 opacity-90">Budgeting & Strategy.</p>
-                    <div className="mb-4">
-                        <span className="text-[10px] text-gray-400 uppercase tracking-wider block font-bold">Starts @</span>
-                        <span className="text-2xl font-bold text-white">₹7,000 - ₹20,000</span>
-                    </div>
+                    <p className="text-xs text-gray-300 mb-4 opacity-90">Budgeting & Strategy.</p>
                     <a href="/service-financial-planning" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
                 </div>
             </div>
@@ -452,11 +370,7 @@ export default function Services() {
                 <div className="absolute bottom-0 left-0 w-full p-6 z-10">
                     <div className="floating-icon text-green-400"><i className="fas fa-book"></i></div>
                     <h3 className="text-lg font-bold text-white mb-1">Accounting</h3>
-                    <p className="text-xs text-gray-300 mb-3 opacity-90">Bookkeeping Service.</p>
-                    <div className="mb-4">
-                        <span className="text-[10px] text-gray-400 uppercase tracking-wider block font-bold">Starts @</span>
-                        <span className="text-2xl font-bold text-white">₹7,000 - ₹20,000</span>
-                    </div>
+                    <p className="text-xs text-gray-300 mb-4 opacity-90">Bookkeeping Service.</p>
                     <a href="/service-accounting" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
                 </div>
             </div>
@@ -468,11 +382,7 @@ export default function Services() {
                 <div className="absolute bottom-0 left-0 w-full p-6 z-10">
                     <div className="floating-icon text-green-400"><i className="fas fa-file-contract"></i></div>
                     <h3 className="text-lg font-bold text-white mb-1">GST Filing</h3>
-                    <p className="text-xs text-gray-300 mb-3 opacity-90">Reg. & Compliance.</p>
-                    <div className="mb-4">
-                        <span className="text-[10px] text-gray-400 uppercase tracking-wider block font-bold">Starts @</span>
-                        <span className="text-2xl font-bold text-white">₹450 - ₹1,500</span>
-                    </div>
+                    <p className="text-xs text-gray-300 mb-4 opacity-90">Reg. & Compliance.</p>
                     <a href="/service-gst-legal" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
                 </div>
             </div>
@@ -484,11 +394,7 @@ export default function Services() {
                 <div className="absolute bottom-0 left-0 w-full p-6 z-10">
                     <div className="floating-icon text-green-400"><i className="fas fa-rupee-sign"></i></div>
                     <h3 className="text-lg font-bold text-white mb-1">Income Tax</h3>
-                    <p className="text-xs text-gray-300 mb-3 opacity-90">ITR Filing & Advisory.</p>
-                    <div className="mb-4">
-                        <span className="text-[10px] text-gray-400 uppercase tracking-wider block font-bold">Starts @</span>
-                        <span className="text-2xl font-bold text-white">₹1,200 - ₹3,000</span>
-                    </div>
+                    <p className="text-xs text-gray-300 mb-4 opacity-90">ITR Filing & Advisory.</p>
                     <a href="/service-income-tax" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
                 </div>
             </div>
@@ -500,11 +406,7 @@ export default function Services() {
                 <div className="absolute bottom-0 left-0 w-full p-6 z-10">
                     <div className="floating-icon text-green-400"><i className="fas fa-users"></i></div>
                     <h3 className="text-lg font-bold text-white mb-1">Payroll Mgmt</h3>
-                    <p className="text-xs text-gray-300 mb-3 opacity-90">Salaries & PF Slips.</p>
-                    <div className="mb-4">
-                        <span className="text-[10px] text-gray-400 uppercase tracking-wider block font-bold">Starts @</span>
-                        <span className="text-2xl font-bold text-white">₹280 - ₹700</span>
-                    </div>
+                    <p className="text-xs text-gray-300 mb-4 opacity-90">Salaries & PF Slips.</p>
                     <a href="/service-payroll" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
                 </div>
             </div>
@@ -516,11 +418,7 @@ export default function Services() {
                 <div className="absolute bottom-0 left-0 w-full p-6 z-10">
                     <div className="floating-icon text-green-400"><i className="fas fa-receipt"></i></div>
                     <h3 className="text-lg font-bold text-white mb-1">Invoice Systems</h3>
-                    <p className="text-xs text-gray-300 mb-3 opacity-90">Billing Setup.</p>
-                    <div className="mb-4">
-                        <span className="text-[10px] text-gray-400 uppercase tracking-wider block font-bold">Starts @</span>
-                        <span className="text-2xl font-bold text-white">₹7,000 - ₹20,000</span>
-                    </div>
+                    <p className="text-xs text-gray-300 mb-4 opacity-90">Billing Setup.</p>
                     <a href="/service-billing-systems" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
                 </div>
             </div>
@@ -532,11 +430,7 @@ export default function Services() {
                 <div className="absolute bottom-0 left-0 w-full p-6 z-10">
                     <div className="floating-icon text-green-400"><i className="fas fa-chart-pie"></i></div>
                     <h3 className="text-lg font-bold text-white mb-1">MIS Reporting</h3>
-                    <p className="text-xs text-gray-300 mb-3 opacity-90">Financial Reports.</p>
-                    <div className="mb-4">
-                        <span className="text-[10px] text-gray-400 uppercase tracking-wider block font-bold">Starts @</span>
-                        <span className="text-2xl font-bold text-white">₹9,000 - ₹25,000</span>
-                    </div>
+                    <p className="text-xs text-gray-300 mb-4 opacity-90">Financial Reports.</p>
                     <a href="/service-mis-reporting" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
                 </div>
             </div>
@@ -548,16 +442,11 @@ export default function Services() {
                 <div className="absolute bottom-0 left-0 w-full p-6 z-10">
                     <div className="floating-icon text-green-400"><i className="fas fa-building"></i></div>
                     <h3 className="text-lg font-bold text-white mb-1">Startup Compliance</h3>
-                    <p className="text-xs text-gray-300 mb-3 opacity-90">Registration Support.</p>
-                    <div className="mb-4">
-                        <span className="text-[10px] text-gray-400 uppercase tracking-wider block font-bold">Starts @</span>
-                        <span className="text-2xl font-bold text-white">₹2,500 - ₹7,000</span>
-                    </div>
+                    <p className="text-xs text-gray-300 mb-4 opacity-90">Registration Support.</p>
                     <a href="/service-startup-registration" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
                 </div>
             </div>
 
-            {/* 2. Dynamic Finance Cards */}
             {sanityServices.Finance.map((service, index) => (
               <div key={index} className="service-card group">
                 <img src={service.imageUrl || 'https://images.unsplash.com/photo-1557838923-2985c318be48?auto=format&fit=crop&w=600&q=80'} alt={service.title} />
@@ -566,11 +455,7 @@ export default function Services() {
                 <div className="absolute bottom-0 left-0 w-full p-6 z-10">
                   <div className="floating-icon text-brand"><i className={service.cardIcon || "fas fa-star"}></i></div>
                   <h3 className="text-lg font-bold text-white mb-1">{service.title}</h3>
-                  <p className="text-xs text-gray-300 mb-3 opacity-90">{service.cardShortDesc}</p>
-                  <div className="mb-4">
-                    <span className="text-[10px] text-gray-400 uppercase tracking-wider block font-bold">Starts @</span>
-                    <span className="text-xl font-bold text-white">{service.cardPrice || 'Custom Pricing'}</span>
-                  </div>
+                  <p className="text-xs text-gray-300 mb-4 opacity-90">{service.cardShortDesc}</p>
                   <a href={`/services/${service.slug}`} className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
                 </div>
               </div>
@@ -580,4 +465,4 @@ export default function Services() {
       </section>
     </main>
   );
-}
+} 
