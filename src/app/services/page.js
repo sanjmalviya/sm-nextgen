@@ -4,8 +4,8 @@ import { useEffect, useRef, useState } from "react";
 export default function Services() {
   const cursorRef = useRef(null);
   
-  // Sanity se data hold karne ke liye React State
-  const [sanityServices, setSanityServices] = useState({
+  // MongoDB se data hold karne ke liye React State
+  const [dbServices, setDbServices] = useState({
     Marketing: [],
     Automation: [],
     Finance: []
@@ -21,28 +21,26 @@ export default function Services() {
     };
     window.addEventListener('mousemove', moveCursor);
 
-    // 2. Sanity Data Fetching
-    const PROJECT_ID = "y31b2jo0";
-    const DATASET = "production";
-    const QUERY = encodeURIComponent('*[_type == "service"]{title, "slug": slug.current, category, cardBadge, cardIcon, cardShortDesc, cardPrice, "imageUrl": cardBgImage.asset->url}');
-    const URL = `https://${PROJECT_ID}.api.sanity.io/v2021-10-21/data/query/${DATASET}?query=${QUERY}`;
-
-    fetch(URL)
+    // 2. MongoDB API se Data Fetching (Ab Sanity ki jagah MongoDB se aayega)
+    fetch('/api/services')
       .then(res => res.json())
-      .then(({ result }) => {
-        if (!result || result.length === 0) return;
+      .then(result => {
+        // Handle different API response formats
+        const servicesArray = result.data || result || result.services; 
+        
+        if (!servicesArray || !Array.isArray(servicesArray) || servicesArray.length === 0) return;
 
         let fetchedData = { Marketing: [], Automation: [], Finance: [] };
         
-        result.forEach(service => {
+        servicesArray.forEach(service => {
           if (service.category === 'Marketing') fetchedData.Marketing.push(service);
           else if (service.category === 'Automation') fetchedData.Automation.push(service);
           else if (service.category === 'Finance') fetchedData.Finance.push(service);
         });
 
-        setSanityServices(fetchedData);
+        setDbServices(fetchedData); // State update kardi
       })
-      .catch(err => console.error("Sanity Fetch Error:", err));
+      .catch(err => console.error("MongoDB Fetch Error:", err));
 
     return () => window.removeEventListener('mousemove', moveCursor);
   }, []);
@@ -221,15 +219,16 @@ export default function Services() {
               </div>
             </div>
 
-            {sanityServices.Marketing.map((service, index) => (
+            {/* Dynamic Marketing Cards se Sanity field names ko MongoDB se match kar diya hai */}
+            {dbServices.Marketing.map((service, index) => (
               <div key={index} className="service-card group">
                 <img src={service.imageUrl || 'https://images.unsplash.com/photo-1557838923-2985c318be48?auto=format&fit=crop&w=600&q=80'} alt={service.title} />
                 <div className="card-overlay"></div>
-                {service.cardBadge && <span className="discount-badge text-brand">{service.cardBadge}</span>}
+                {service.heroBadge && <span className="discount-badge text-brand">{service.heroBadge}</span>}
                 <div className="absolute bottom-0 left-0 w-full p-6 z-10">
-                  <div className="floating-icon text-brand"><i className={service.cardIcon || "fas fa-star"}></i></div>
+                  <div className="floating-icon text-brand"><i className="fas fa-star"></i></div>
                   <h3 className="text-lg font-bold text-white mb-1">{service.title}</h3>
-                  <p className="text-xs text-gray-300 mb-4 opacity-90">{service.cardShortDesc}</p>
+                  <p className="text-xs text-gray-300 mb-4 opacity-90">{service.description}</p>
                   <a href={`/services/${service.slug}`} className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
                 </div>
               </div>
@@ -322,15 +321,16 @@ export default function Services() {
                 </div>
             </div>
 
-            {sanityServices.Automation.map((service, index) => (
+            {/* Dynamic Automation Cards */}
+            {dbServices.Automation.map((service, index) => (
               <div key={index} className="service-card group">
                 <img src={service.imageUrl || 'https://images.unsplash.com/photo-1557838923-2985c318be48?auto=format&fit=crop&w=600&q=80'} alt={service.title} />
                 <div className="card-overlay"></div>
-                {service.cardBadge && <span className="discount-badge text-brand">{service.cardBadge}</span>}
+                {service.heroBadge && <span className="discount-badge text-brand">{service.heroBadge}</span>}
                 <div className="absolute bottom-0 left-0 w-full p-6 z-10">
-                  <div className="floating-icon text-brand"><i className={service.cardIcon || "fas fa-star"}></i></div>
+                  <div className="floating-icon text-brand"><i className="fas fa-star"></i></div>
                   <h3 className="text-lg font-bold text-white mb-1">{service.title}</h3>
-                  <p className="text-xs text-gray-300 mb-4 opacity-90">{service.cardShortDesc}</p>
+                  <p className="text-xs text-gray-300 mb-4 opacity-90">{service.description}</p>
                   <a href={`/services/${service.slug}`} className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
                 </div>
               </div>
@@ -447,15 +447,16 @@ export default function Services() {
                 </div>
             </div>
 
-            {sanityServices.Finance.map((service, index) => (
+            {/* Dynamic Finance Cards */}
+            {dbServices.Finance.map((service, index) => (
               <div key={index} className="service-card group">
                 <img src={service.imageUrl || 'https://images.unsplash.com/photo-1557838923-2985c318be48?auto=format&fit=crop&w=600&q=80'} alt={service.title} />
                 <div className="card-overlay"></div>
-                {service.cardBadge && <span className="discount-badge text-brand">{service.cardBadge}</span>}
+                {service.heroBadge && <span className="discount-badge text-brand">{service.heroBadge}</span>}
                 <div className="absolute bottom-0 left-0 w-full p-6 z-10">
-                  <div className="floating-icon text-brand"><i className={service.cardIcon || "fas fa-star"}></i></div>
+                  <div className="floating-icon text-brand"><i className="fas fa-star"></i></div>
                   <h3 className="text-lg font-bold text-white mb-1">{service.title}</h3>
-                  <p className="text-xs text-gray-300 mb-4 opacity-90">{service.cardShortDesc}</p>
+                  <p className="text-xs text-gray-300 mb-4 opacity-90">{service.description}</p>
                   <a href={`/services/${service.slug}`} className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
                 </div>
               </div>
@@ -465,4 +466,4 @@ export default function Services() {
       </section>
     </main>
   );
-} 
+}

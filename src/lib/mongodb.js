@@ -3,38 +3,34 @@ import mongoose from 'mongoose';
 const MONGODB_URI = process.env.MONGODB_URI;
 
 if (!MONGODB_URI) {
-  throw new Error('Please define the MONGODB_URI environment variable');
+  throw new Error('Please define the MONGODB_URI environment variable inside .env');
 }
 
 let cached = global.mongoose;
+
 if (!cached) {
   cached = global.mongoose = { conn: null, promise: null };
 }
 
-async function connectToDatabase() {
-  if (cached.conn) return cached.conn;
+async function dbConnect() {
+  if (cached.conn) {
+    return cached.conn;
+  }
 
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
-      connectTimeoutMS: 20000,
-      family: 4 // Ye force karega connection ko (Hotspot issue fix)
+      serverSelectionTimeoutMS: 10000, // 10 seconds mein connect na ho toh fail ho jaye
+      family: 4 // Ye line laptop ko sahi network rasta lene par majboor karegi
     };
 
     cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-      console.log("SM NextGen Database Linked! 🚀");
+      console.log("🔥 MongoDB Local Connection Successful!");
       return mongoose;
     });
   }
-  
-  try {
-    cached.conn = await cached.promise;
-  } catch (e) {
-    cached.promise = null;
-    throw e;
-  }
-
+  cached.conn = await cached.promise;
   return cached.conn;
 }
 
-export default connectToDatabase;
+export default dbConnect;
