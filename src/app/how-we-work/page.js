@@ -1,7 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import Head from "next/head";
 
 // --- WHATSAPP SETUP ---
 const WHATSAPP_NUMBER = "917073538077"; 
@@ -51,10 +50,6 @@ export default function HowWeWork() {
 
   return (
     <>
-      <Head>
-        <title>How We Work | The SM NextGen Growth OS™</title>
-        <meta name="description" content="Discover the SM NextGen 4-step Growth OS™. We diagnose, strategize, build, and scale modern businesses using data-driven marketing, AI automation, and financial systems." />
-      </Head>
 
       <main className="bg-[#F8FAFC] dark:bg-[#0B2545] font-body text-[#0B2545] dark:text-[#E6EEF2] relative overflow-x-hidden pb-10 transition-colors duration-300">
         

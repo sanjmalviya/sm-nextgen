@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import Head from "next/head";
 import confetti from "canvas-confetti";
 
 // --- WHATSAPP SETUP ---
@@ -198,10 +197,6 @@ export default function Contact() {
 
   return (
     <>
-      <Head>
-        <title>Contact Us | Free Growth Audit | SM NextGen</title>
-        <meta name="description" content="Talk to our team at SM NextGen to receive a free growth audit. Discover how marketing, automation, and business compliance systems can help you scale." />
-      </Head>
 
       <main className="bg-[#F8FAFC] dark:bg-[#0B2545] font-body text-[#0B2545] dark:text-[#E6EEF2] min-h-screen selection:bg-[#0097B2] selection:text-white w-full overflow-x-hidden transition-colors duration-300 relative">
         
