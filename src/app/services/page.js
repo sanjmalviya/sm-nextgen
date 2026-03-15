@@ -1,18 +1,115 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 
-export default function Services() {
+// --- URL SLUG GENERATOR ---
+const generateSlug = (text) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+
+// --- WHATSAPP SETUP ---
+const WHATSAPP_NUMBER = "917073538077"; // Assumed Number
+const getWhatsAppLink = (message) => `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+
+// --- 1. CORE DATA SETS (24 Services Total) ---
+// Note: colorStyles contain explicit full classes for hover and checks to fix light mode issues.
+const OVERVIEW_CATEGORIES = [
+  {
+    title: "Marketing",
+    icon: "fas fa-bullhorn",
+    colorStyles: {
+      iconBg: "bg-pink-100 dark:bg-pink-500/20 text-pink-500",
+      checkText: "text-pink-500",
+      // Explicit classes prevent Tailwind purge in light mode on hover
+      btnClass: "border-pink-500 text-pink-500 hover:bg-pink-500 hover:text-white dark:hover:text-white"
+    },
+    desc: "Data-driven strategies to acquire customers and dominate attention.",
+    services: [
+      "Brand Strategy & Positioning", "Search Engine Optimization (SEO)", 
+      "Performance Advertising", "Social Media Marketing", 
+      "Content Marketing", "Lead Generation Systems", 
+      "Sales Funnel & Conversion Optimization", "Email & Marketing Automation"
+    ]
+  },
+  {
+    title: "AI Automation",
+    icon: "fas fa-robot",
+    colorStyles: {
+      iconBg: "bg-purple-100 dark:bg-purple-500/20 text-purple-500",
+      checkText: "text-purple-500",
+      btnClass: "border-purple-500 text-purple-500 hover:bg-purple-500 hover:text-white dark:hover:text-white"
+    },
+    desc: "Intelligent systems to scale operations without scaling headcount.",
+    services: [
+      "AI Business Automation Systems", "AI Marketing Automation", 
+      "AI Lead Generation Systems", "AI Chatbots & Conversational AI", 
+      "WhatsApp Automation Systems", "AI Content Creation Systems", 
+      "AI Data Analytics & Business Intelligence", "Custom AI Tools & Integrations"
+    ]
+  },
+  {
+    title: "Legal & Finance",
+    icon: "fas fa-balance-scale",
+    colorStyles: {
+      iconBg: "bg-green-100 dark:bg-green-500/20 text-green-500",
+      checkText: "text-green-500",
+      // Explicit hover text-white for light mode fix
+      btnClass: "border-green-500 text-green-500 hover:bg-green-500 hover:text-white dark:hover:text-white"
+    },
+    desc: "Bulletproof compliance and financial architecture for your business.",
+    services: [
+      "Business Registration Services", "GST Services", 
+      "Income Tax Services", "Accounting & Bookkeeping", 
+      "Payroll & Employee Compliance", "Business Compliance Management", 
+      "Trademark & Intellectual Property", "Financial Consulting & Business Advisory"
+    ]
+  }
+];
+
+const SERVICES_DATA = {
+  MARKETING: [
+    { title: "Brand Strategy & Positioning", slug: "brand-strategy-and-positioning", desc: "Build a strong brand identity and unique market positioning.", img: "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop", icon: "fas fa-chess" },
+    { title: "Search Engine Optimization (SEO)", desc: "Increase organic traffic through technical and on-page SEO.", img: "https://images.unsplash.com/photo-1571786256017-aee7a0c009b6?q=80&w=2080&auto=format&fit=crop", icon: "fas fa-search-plus" },
+    { title: "Performance Advertising", desc: "Scale revenue with ROI-focused Meta, Google & YouTube Ads.", img: "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=1470&auto=format&fit=crop", icon: "fab fa-meta" },
+    { title: "Social Media Marketing", desc: "Grow engaged audiences and build community presence.", img: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1974&auto=format&fit=crop", icon: "fas fa-hashtag" },
+    { title: "Content Marketing", desc: "Attract audiences through blogs, videos, and strategic content.", img: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=2070&auto=format&fit=crop", icon: "fas fa-pen-nib" }, // FIXED IMAGE
+    { title: "Lead Generation Systems", desc: "Automate B2B/B2C lead pipelines and cold outreach.", img: "https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=2074&auto=format&fit=crop", icon: "fas fa-magnet" },
+    { title: "Sales Funnel & Conversion", desc: "Optimize landing pages to maximize conversion rates.", img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop", icon: "fas fa-filter" },
+    { title: "Email & Marketing Automation", desc: "Retain customers through automated email drip campaigns.", img: "https://images.unsplash.com/photo-1596526131083-e8c633c948d2?q=80&w=1974&auto=format&fit=crop", icon: "fas fa-envelope-open-text" }
+  ],
+  AI_AUTOMATION: [
+    { title: "AI Business Automation Systems", desc: "Streamline operations with smart workflow automations.", img: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2070&auto=format&fit=crop", icon: "fas fa-cogs" },
+    { title: "AI Marketing Automation", desc: "Automate ad optimizations and marketing workflows.", img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop", icon: "fas fa-chart-network" },
+    { title: "AI Lead Generation Systems", desc: "Deploy AI scrapers and automated qualification bots.", img: "https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=2074&auto=format&fit=crop", icon: "fas fa-satellite-dish" },
+    { title: "AI Chatbots & Conversational AI", desc: "24/7 AI-powered website support and sales bots.", img: "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?q=80&w=2006&auto=format&fit=crop", icon: "fas fa-robot" },
+    { title: "WhatsApp Automation Systems", desc: "Automated WhatsApp marketing and customer support.", img: "https://images.unsplash.com/photo-1611746872915-64382b5c76da?q=80&w=2070&auto=format&fit=crop", icon: "fab fa-whatsapp" },
+    { title: "AI Content Creation Systems", desc: "Scale production with AI copywriting and video generation.", img: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1965&auto=format&fit=crop", icon: "fas fa-brain" },
+    { title: "AI Data Analytics & Business Intelligence", desc: "Predictive dashboards providing real-time business insights.", img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop", icon: "fas fa-chart-pie" },
+    { title: "Custom AI Tools & Integrations", desc: "Bespoke AI APIs and custom software development.", img: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=2070&auto=format&fit=crop", icon: "fas fa-code" }
+  ],
+  LEGAL_FINANCE: [
+    { title: "Business Registration Services", desc: "Company, LLP, and Startup India registration.", img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop", icon: "fas fa-building" },
+    { title: "GST Services", desc: "Complete GST registration, filing, and compliance.", img: "https://images.unsplash.com/photo-1580519542036-c47de6196ba5?q=80&w=2071&auto=format&fit=crop", icon: "fas fa-file-invoice" },
+    { title: "Income Tax Services", desc: "Corporate tax filing, planning, and advisory.", img: "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?q=80&w=2071&auto=format&fit=crop", icon: "fas fa-file-invoice-dollar" },
+    { title: "Accounting & Bookkeeping", desc: "Accurate financial records and statement preparation.", img: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=2070&auto=format&fit=crop", icon: "fas fa-book" },
+    { title: "Payroll & Employee Compliance", desc: "Automated salary processing and HR compliance.", img: "https://images.unsplash.com/photo-1553877522-43269d4ea984?q=80&w=2070&auto=format&fit=crop", icon: "fas fa-users" },
+    { title: "Business Compliance Management", desc: "ROC filings and ongoing legal documentation.", img: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=2112&auto=format&fit=crop", icon: "fas fa-balance-scale" },
+    { title: "Trademark & Intellectual Property", desc: "Protect your brand with trademark and copyright filing.", img: "https://images.unsplash.com/photo-1505330622279-bf7d7fc918f4?q=80&w=2070&auto=format&fit=crop", icon: "fas fa-copyright" },
+    { title: "Financial Consulting & Advisory", desc: "Strategic financial planning and business scaling advice.", img: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=2070&auto=format&fit=crop", icon: "fas fa-chart-line" }
+  ]
+};
+
+const FAQS = [
+  { q: "What services does SM NextGen offer?", a: "We provide an end-to-end business growth ecosystem. This includes comprehensive Marketing (SEO, Ads, Funnels), AI Automation (Chatbots, Workflows), and Legal & Finance (Registration, Tax, Payroll)." },
+  { q: "Do you provide AI automation?", a: "Yes, we specialize in deploying custom AI solutions. From automated lead scraping and WhatsApp chatbots to full predictive analytics dashboards, we help you scale without adding headcount." },
+  { q: "Can startups work with SM NextGen?", a: "Absolutely. We are built for modern startups and SMEs. We handle everything from your initial Company Registration and Branding to scaling your first Performance Ad campaigns." },
+  { q: "How long does it take to see results?", a: "Results vary by service. Performance Ads and AI Chatbot deployments can yield ROI within weeks. Long-term strategies like SEO, Brand Positioning, and Content Marketing typically take 3 to 6 months to build an undeniable market moat." },
+  { q: "Can I combine multiple services?", a: "Yes! Our most successful partners use our services synergistically. For example, using our Marketing to generate leads, AI to automate the follow-ups, and Finance to handle the resulting revenue." }
+];
+
+export default function ServicesPage() {
+  const [activeFaq, setActiveFaq] = useState(null);
   const cursorRef = useRef(null);
-  
-  // MongoDB se data hold karne ke liye React State
-  const [dbServices, setDbServices] = useState({
-    Marketing: [],
-    Automation: [],
-    Finance: []
-  });
 
   useEffect(() => {
-    // 1. Mouse Glow Animation
     const moveCursor = (e) => {
       if (cursorRef.current) {
         cursorRef.current.style.left = e.clientX + 'px';
@@ -20,216 +117,276 @@ export default function Services() {
       }
     };
     window.addEventListener('mousemove', moveCursor);
-
-    // 2. MongoDB API se Data Fetching (Ab Sanity ki jagah MongoDB se aayega)
-    fetch('/api/services')
-      .then(res => res.json())
-      .then(result => {
-        // Handle different API response formats
-        const servicesArray = result.data || result || result.services; 
-        
-        if (!servicesArray || !Array.isArray(servicesArray) || servicesArray.length === 0) return;
-
-        let fetchedData = { Marketing: [], Automation: [], Finance: [] };
-        
-        servicesArray.forEach(service => {
-          if (service.category === 'Marketing') fetchedData.Marketing.push(service);
-          else if (service.category === 'Automation') fetchedData.Automation.push(service);
-          else if (service.category === 'Finance') fetchedData.Finance.push(service);
-        });
-
-        setDbServices(fetchedData); // State update kardi
-      })
-      .catch(err => console.error("MongoDB Fetch Error:", err));
-
     return () => window.removeEventListener('mousemove', moveCursor);
   }, []);
 
+  // 🚀 REUSABLE PREMIUM CARD (Glitch-Free Hover with 'isolate transform-gpu' for Informational Service Access)
+  const PremiumCard = ({ item, themeColor }) => (
+    <Link href={`/services/${generateSlug(item.title)}`} className="group flex flex-col bg-white dark:bg-[#162032] rounded-3xl shadow-lg border border-gray-100 dark:border-white/5 hover:border-brand hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 overflow-hidden isolate transform-gpu relative z-10">
+      <div className="relative h-56 w-full overflow-hidden shrink-0">
+        <img src={item.img} alt={item.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out" />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/40 to-transparent"></div>
+        <div className={`absolute top-4 right-4 w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 shadow-lg group-hover:bg-${themeColor}-500 transition-colors z-10`}>
+          <i className={item.icon}></i>
+        </div>
+      </div>
+      <div className="p-6 bg-white dark:bg-[#162032] flex-grow flex flex-col justify-between">
+        <div>
+          <h3 className="text-xl font-bold text-navy dark:text-white mb-2 group-hover:text-brand transition-colors leading-snug">{item.title}</h3>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-6 line-clamp-2">{item.desc}</p>
+        </div>
+        <div className={`inline-flex items-center text-sm font-bold text-${themeColor}-500 mt-auto`}>
+          Explore Service <i className="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+        </div>
+      </div>
+    </Link>
+  );
+
   return (
-    <main className="bg-[#F8FAFC] dark:bg-navy transition-colors duration-300 font-body text-gray-800 dark:text-gray-200 overflow-x-hidden selection:bg-brand selection:text-white">
+    <main className="bg-[#F8FAFC] dark:bg-navy font-body text-gray-800 dark:text-gray-200 min-h-screen selection:bg-brand selection:text-white overflow-x-hidden">
       <div ref={cursorRef} id="cursor-glow" className="hidden md:block"></div>
 
-      {/* HERO SECTION */}
-      <section className="relative pt-36 pb-20 bg-navy overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none"></div>
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-brand rounded-full mix-blend-screen filter blur-[150px] opacity-15 animate-pulse"></div>
-        
-        <div className="relative z-10 max-w-7xl mx-auto px-4 text-center">
-          <span className="inline-block px-4 py-1 rounded-full bg-brand/10 border border-brand/50 text-brand font-bold text-xs tracking-widest uppercase mb-6">
-            Growth Optimized Services
-          </span>
-          <h1 className="text-4xl md:text-6xl font-heading font-bold text-white mb-6 leading-tight">
-            Complete Business Growth Solutions.<br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand to-cyan-400">One Partner. No Headaches.</span>
+      {/* 1️⃣ HERO SECTION (Clear positioning with autofill WhatsApp lead CTA) */}
+      <section className="relative pt-40 pb-28 bg-navy overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop" 
+               alt="Business Analytics Dashboard" 
+               className="w-full h-full object-cover opacity-10 filter grayscale blur-[2px]" />
+          <div className="absolute inset-0 bg-gradient-to-t from-navy to-navy/80"></div>
+        </div>
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-brand/20 rounded-full blur-[150px] animate-pulse pointer-events-none"></div>
+
+        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-gray-300 text-xs font-bold uppercase tracking-widest mb-6 backdrop-blur-sm">
+            <span className="w-2 h-2 rounded-full bg-brand animate-pulse"></span> Everything Your Business Needs To Grow
+          </div>
+          <h1 className="text-5xl md:text-7xl font-heading font-extrabold text-white mb-6 leading-tight tracking-tight">
+            Marketing • AI Automation • <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand to-cyan-400">Legal & Finance</span>
           </h1>
-          
-          <p className="text-lg text-gray-400 max-w-4xl mx-auto mb-12 leading-relaxed">
-            Your all-in-one growth engine. We seamlessly integrate <strong>Data-Driven Marketing</strong>, <strong>AI Automation</strong>, and <strong>Financial Compliance</strong> to build predictable revenue systems for Indian Founders.
+          <p className="text-xl text-gray-400 mb-10 leading-relaxed font-light max-w-3xl mx-auto">
+            We help modern businesses grow faster using advanced marketing, AI automation and strategic financial systems. The complete ecosystem under one roof.
           </p>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
-            <a href="#marketing" className="cat-card cat-marketing rounded-2xl p-6 text-left group">
-              <div className="w-10 h-10 rounded-full bg-pink-500/20 text-pink-400 flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition"><i className="fas fa-bullhorn"></i></div>
-              <h3 className="text-white font-bold text-lg mb-1">Marketing</h3>
-              <p className="text-xs text-gray-400">Brand, Ads & SEO</p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a href="#overview" className="px-8 py-4 bg-brand hover:bg-brand/90 text-white font-bold rounded-xl shadow-lg transition-transform hover:-translate-y-1 text-lg w-full sm:w-auto">
+              Explore Services
             </a>
-            <a href="#growth" className="cat-card cat-growth rounded-2xl p-6 text-left group">
-              <div className="w-10 h-10 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition"><i className="fas fa-robot"></i></div>
-              <h3 className="text-white font-bold text-lg mb-1">Automation</h3>
-              <p className="text-xs text-gray-400">AI, CRM & Leads</p>
-            </a>
-            <a href="#finance" className="cat-card cat-finance rounded-2xl p-6 text-left group">
-              <div className="w-10 h-10 rounded-full bg-green-500/20 text-green-400 flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition"><i className="fas fa-calculator"></i></div>
-              <h3 className="text-white font-bold text-lg mb-1">Finance</h3>
-              <p className="text-xs text-gray-400">Legal & Accounting</p>
+            <a href={getWhatsAppLink("Hi SM NextGen Team, I am interested in exploring services for my business growth. Please connect. Niche: ")} target="_blank" rel="noreferrer" className="px-8 py-4 bg-white/5 hover:bg-white/10 text-white font-bold rounded-xl border border-white/10 transition-colors text-lg w-full sm:w-auto flex items-center justify-center gap-2">
+              <i className="fab fa-whatsapp text-xl text-green-500"></i> Book Strategy Call
             </a>
           </div>
         </div>
       </section>
 
-      {/* MARKETING SECTION */}
-      <section id="marketing" className="py-20 bg-white dark:bg-navy border-b border-gray-100 dark:border-white/5">
+      {/* 2️⃣ CATEGORY OVERVIEW (3 PILLARS) with direct WhatsApp capability for each category */}
+      <section id="overview" className="py-24 bg-white dark:bg-[#0B1120] relative -mt-10 rounded-t-[3rem] z-20 shadow-2xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-4 mb-10">
-            <div className="p-3 rounded-lg bg-pink-100 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400 text-2xl"><i className="fas fa-bullhorn"></i></div>
-            <div>
-              <h2 className="text-3xl font-heading font-bold text-navy dark:text-white">Branding & Marketing</h2>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Build Authority & Acquire Customers.</p>
-            </div>
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-heading font-extrabold text-navy dark:text-white mb-4">Our Ecosystem</h2>
+            <p className="text-gray-500 text-lg">Three pillars to build an unstoppable business.</p>
           </div>
           
-          <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
-            <div className="service-card group">
-              <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop" alt="Brand Strategy" />
-              <div className="card-overlay"></div>
-              <span className="discount-badge text-pink-600">SAVE 10%</span>
-              <div className="absolute bottom-0 left-0 w-full p-6 z-10">
-                <div className="floating-icon text-pink-400"><i className="fas fa-chess"></i></div>
-                <h3 className="text-lg font-bold text-white mb-1">Brand Strategy</h3>
-                <p className="text-xs text-gray-300 mb-4 opacity-90">Positioning & Business Roadmap.</p>
-                <a href="/service-brand-strategy" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
+          <div className="grid lg:grid-cols-3 gap-8">
+            {OVERVIEW_CATEGORIES.map((cat, idx) => (
+              <div key={idx} className="bg-gray-50 dark:bg-[#162032] p-8 rounded-[2rem] border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-xl transition-shadow flex flex-col relative isolate">
+                {/* Category ID for anchoring from top CTA if necessary */}
+                <div id={cat.title.toLowerCase().split(' ')[0]} className="absolute -top-32"></div> 
+                
+                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-md ${cat.colorStyles.iconBg}`}>
+                  <i className={cat.icon}></i>
+                </div>
+                <h3 className="text-2xl font-bold text-navy dark:text-white mb-3">{cat.title}</h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mb-8">{cat.desc}</p>
+                <ul className="space-y-3 mb-8 flex-grow">
+                  {cat.services.map((item, i) => (
+                    <li key={i} className="flex items-start gap-3 text-sm text-navy dark:text-white font-medium">
+                      <i className={`fas fa-check-circle mt-1 ${cat.colorStyles.checkText}`}></i> <span className="leading-snug">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+                <a href={getWhatsAppLink(`Hi SM NextGen Team, I am interested in exploring ${cat.title} capabilities for my business growth. Niche: `)} target="_blank" rel="noreferrer" className={`w-full py-4 text-center font-bold rounded-xl border-2 transition-colors flex items-center justify-center gap-2 ${cat.colorStyles.btnClass}`}>
+                  <i className="fab fa-whatsapp text-xl"></i> Enquire for {cat.title} &rarr;
+                </a>
               </div>
-            </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-            <div className="service-card group">
-              <img src="https://images.unsplash.com/photo-1626785774625-ddcddc3445e9?q=80&w=2071&auto=format&fit=crop" alt="Logo Design" />
-              <div className="card-overlay"></div>
-              <span className="discount-badge text-pink-600">BEST SELLER</span>
-              <div className="absolute bottom-0 left-0 w-full p-6 z-10">
-                <div className="floating-icon text-pink-400"><i className="fas fa-pen-nib"></i></div>
-                <h3 className="text-lg font-bold text-white mb-1">Logo Design</h3>
-                <p className="text-xs text-gray-300 mb-4 opacity-90">Professional Custom Logo.</p>
-                <a href="/service-logo-design" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
-              </div>
+      {/* 3️⃣ MARKETING SERVICES GRID (Informational Detail Pages Access) */}
+      <section id="marketing" className="py-24 bg-gray-50 dark:bg-navy border-t border-gray-200 dark:border-white/5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center gap-4 mb-12">
+            <div className="w-14 h-14 rounded-2xl bg-pink-500 text-white flex items-center justify-center text-2xl shadow-lg shadow-pink-500/30"><i className="fas fa-bullhorn"></i></div>
+            <div>
+              <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-navy dark:text-white">Marketing Services</h2>
+              <p className="text-gray-500 dark:text-gray-400 mt-1">Dominate attention and acquire customers profitably.</p>
             </div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {SERVICES_DATA.MARKETING.map((item, idx) => <PremiumCard key={idx} item={item} themeColor="pink" />)}
+          </div>
+        </div>
+      </section>
 
-            <div className="service-card group">
-              <img src="https://images.unsplash.com/photo-1505330622279-bf7d7fc918f4?q=80&w=2070&auto=format&fit=crop" alt="Visual Identity" />
-              <div className="card-overlay"></div>
-              <span className="discount-badge text-pink-600">FULL KIT</span>
-              <div className="absolute bottom-0 left-0 w-full p-6 z-10">
-                <div className="floating-icon text-pink-400"><i className="fas fa-palette"></i></div>
-                <h3 className="text-lg font-bold text-white mb-1">Visual Identity</h3>
-                <p className="text-xs text-gray-300 mb-4 opacity-90">Complete Brand Kit.</p>
-                <a href="/service-visual-identity" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
-              </div>
+      {/* 4️⃣ AI AUTOMATION SERVICES GRID (Informational Detail Pages Access) */}
+      <section id="ai" className="py-24 bg-white dark:bg-[#0B1120]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center gap-4 mb-12">
+            <div className="w-14 h-14 rounded-2xl bg-purple-500 text-white flex items-center justify-center text-2xl shadow-lg shadow-purple-500/30"><i className="fas fa-robot"></i></div>
+            <div>
+              <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-navy dark:text-white">AI Automation Services</h2>
+              <p className="text-gray-500 dark:text-gray-400 mt-1">Scale your operations without scaling your headcount.</p>
             </div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {SERVICES_DATA.AI_AUTOMATION.map((item, idx) => <PremiumCard key={idx} item={item} themeColor="purple" />)}
+          </div>
+        </div>
+      </section>
 
-            <div className="service-card group">
-              <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1974&auto=format&fit=crop" alt="Social Media Marketing" />
-              <div className="card-overlay"></div>
-              <span className="discount-badge text-blue-600">MONTHLY</span>
-              <div className="absolute bottom-0 left-0 w-full p-6 z-10">
-                <div className="floating-icon text-blue-400"><i className="fas fa-share-alt"></i></div>
-                <h3 className="text-lg font-bold text-white mb-1">Social Media Mgmt</h3>
-                <p className="text-xs text-gray-300 mb-4 opacity-90">Organic Growth & Mgmt.</p>
-                <a href="/service-social-media" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
-              </div>
+      {/* 5️⃣ LEGAL & FINANCE SERVICES GRID (Informational Detail Pages Access) */}
+      <section id="legal" className="py-24 bg-gray-50 dark:bg-navy border-t border-gray-200 dark:border-white/5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center gap-4 mb-12">
+            <div className="w-14 h-14 rounded-2xl bg-green-500 text-white flex items-center justify-center text-2xl shadow-lg shadow-green-500/30"><i className="fas fa-balance-scale"></i></div>
+            <div>
+              <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-navy dark:text-white">Legal & Finance Services</h2>
+              <p className="text-gray-500 dark:text-gray-400 mt-1">Bulletproof compliance and financial architecture.</p>
             </div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {SERVICES_DATA.LEGAL_FINANCE.map((item, idx) => <PremiumCard key={idx} item={item} themeColor="green" />)}
+          </div>
+        </div>
+      </section>
 
-            <div className="service-card group">
-              <img src="https://images.unsplash.com/photo-1611162616475-46b635cb6868?q=80&w=1974&auto=format&fit=crop" alt="Content Creation" />
-              <div className="card-overlay"></div>
-              <span className="discount-badge text-blue-600">CREATIVE</span>
-              <div className="absolute bottom-0 left-0 w-full p-6 z-10">
-                <div className="floating-icon text-blue-400"><i className="fas fa-video"></i></div>
-                <h3 className="text-lg font-bold text-white mb-1">Content Creation</h3>
-                <p className="text-xs text-gray-300 mb-4 opacity-90">Posts/Reels/Ad Creatives.</p>
-                <a href="/service-content-creation" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
-              </div>
+      {/* 6️⃣ WHY CHOOSE SM NEXTGEN */}
+      <section className="py-24 bg-white dark:bg-[#0B1120]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl md:text-5xl font-heading font-extrabold text-navy dark:text-white mb-16">Why Choose SM NextGen</h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="p-8 bg-gray-50 dark:bg-[#162032] rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm">
+              <i className="fas fa-brain text-5xl text-brand mb-6"></i>
+              <h3 className="text-xl font-bold text-navy dark:text-white mb-2">AI Powered Growth</h3>
+              <p className="text-sm text-gray-500">We leverage the latest AI models to execute faster and smarter.</p>
             </div>
-
-            <div className="service-card group">
-              <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=1470&auto=format&fit=crop" alt="Meta Ads" />
-              <div className="card-overlay"></div>
-              <span className="discount-badge text-green-700">ROI FOCUS</span>
-              <div className="absolute bottom-0 left-0 w-full p-6 z-10">
-                <div className="floating-icon text-blue-400"><i className="fab fa-meta"></i></div>
-                <h3 className="text-lg font-bold text-white mb-1">Meta Ads Mgmt</h3>
-                <p className="text-xs text-gray-300 mb-4 opacity-90">FB/Insta Paid Campaigns.</p>
-                <a href="/service-ads" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
-              </div>
+            <div className="p-8 bg-gray-50 dark:bg-[#162032] rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm">
+              <i className="fas fa-chart-pie text-5xl text-pink-500 mb-6"></i>
+              <h3 className="text-xl font-bold text-navy dark:text-white mb-2">Data Driven Strategy</h3>
+              <p className="text-sm text-gray-500">No guesswork. Every campaign is backed by hard analytics.</p>
             </div>
-
-            <div className="service-card group">
-              <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop" alt="Google Ads" />
-              <div className="card-overlay"></div>
-              <span className="discount-badge text-blue-600">PPC</span>
-              <div className="absolute bottom-0 left-0 w-full p-6 z-10">
-                <div className="floating-icon text-blue-400"><i className="fab fa-google"></i></div>
-                <h3 className="text-lg font-bold text-white mb-1">Google Ads Mgmt</h3>
-                <p className="text-xs text-gray-300 mb-4 opacity-90">Search & YouTube Ads.</p>
-                <a href="/service-ads" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
-              </div>
+            <div className="p-8 bg-gray-50 dark:bg-[#162032] rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm">
+              <i className="fas fa-cubes text-5xl text-purple-500 mb-6"></i>
+              <h3 className="text-xl font-bold text-navy dark:text-white mb-2">Complete Business Systems</h3>
+              <p className="text-sm text-gray-500">From registration to scaling revenue, we handle the entire stack.</p>
             </div>
-
-            <div className="service-card group">
-              <img src="https://images.unsplash.com/photo-1571786256017-aee7a0c009b6?q=80&w=2080&auto=format&fit=crop" alt="SEO Services" />
-              <div className="card-overlay"></div>
-              <span className="discount-badge text-green-700">RANK #1</span>
-              <div className="absolute bottom-0 left-0 w-full p-6 z-10">
-                <div className="floating-icon text-green-400"><i className="fas fa-search-plus"></i></div>
-                <h3 className="text-lg font-bold text-white mb-1">SEO & Content</h3>
-                <p className="text-xs text-gray-300 mb-4 opacity-90">Monthly Ranking Service.</p>
-                <a href="/service-seo" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
-              </div>
+            <div className="p-8 bg-gray-50 dark:bg-[#162032] rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm">
+              <i className="fas fa-globe text-5xl text-green-500 mb-6"></i>
+              <h3 className="text-xl font-bold text-navy dark:text-white mb-2">Global Scalable Infrastructure</h3>
+              <p className="text-sm text-gray-500">Building infrastructures capable of scaling beyond borders.</p>
             </div>
+          </div>
+        </div>
+      </section>
 
-            <div className="service-card group">
-              <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop" alt="PPC Percent" />
-              <div className="card-overlay"></div>
-              <span className="discount-badge text-green-700">LOW FEE</span>
-              <div className="absolute bottom-0 left-0 w-full p-6 z-10">
-                <div className="floating-icon text-green-400"><i className="fas fa-percentage"></i></div>
-                <h3 className="text-lg font-bold text-white mb-1">PPC/Ads Mgmt %</h3>
-                <p className="text-xs text-gray-300 mb-4 opacity-90">Performance Based Fee.</p>
-                <a href="/service-ads" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
-              </div>
+      {/* 7️⃣ OUR PROCESS */}
+      <section className="py-24 bg-navy text-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-heading font-extrabold mb-4">Our Deployment Process</h2>
+            <p className="text-gray-400">A clear, straightforward path to scaling your operations.</p>
+          </div>
+          <div className="grid md:grid-cols-4 gap-6 text-center">
+            <div className="bg-white/5 border border-white/10 p-8 rounded-3xl backdrop-blur-sm relative">
+              <div className="text-5xl font-black text-white/10 absolute top-4 left-4">01</div>
+              <i className="fas fa-phone-alt text-3xl text-brand mb-4 relative z-10"></i>
+              <h3 className="text-xl font-bold mb-2">Strategy Call</h3>
+              <p className="text-sm text-gray-400">Understanding your vision and goals.</p>
             </div>
-
-            <div className="service-card group">
-              <img src="https://images.unsplash.com/photo-1533750349088-cd871a92f312?q=80&w=2070&auto=format&fit=crop" alt="Influencer Marketing" />
-              <div className="card-overlay"></div>
-              <span className="discount-badge text-pink-600">VIRAL</span>
-              <div className="absolute bottom-0 left-0 w-full p-6 z-10">
-                <div className="floating-icon text-pink-400"><i className="fas fa-star"></i></div>
-                <h3 className="text-lg font-bold text-white mb-1">Influencer Marketing</h3>
-                <p className="text-xs text-gray-300 mb-4 opacity-90">Campaign Management.</p>
-                <a href="/service-influencer-marketing" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
-              </div>
+            <div className="bg-white/5 border border-white/10 p-8 rounded-3xl backdrop-blur-sm relative">
+              <div className="text-5xl font-black text-white/10 absolute top-4 left-4">02</div>
+              <i className="fas fa-search text-3xl text-pink-500 mb-4 relative z-10"></i>
+              <h3 className="text-xl font-bold mb-2">Business Analysis</h3>
+              <p className="text-sm text-gray-400">Auditing gaps and market opportunities.</p>
             </div>
+            <div className="bg-white/5 border border-white/10 p-8 rounded-3xl backdrop-blur-sm relative">
+              <div className="text-5xl font-black text-white/10 absolute top-4 left-4">03</div>
+              <i className="fas fa-map-marked-alt text-3xl text-purple-500 mb-4 relative z-10"></i>
+              <h3 className="text-xl font-bold mb-2">Growth Plan</h3>
+              <p className="text-sm text-gray-400">Architecting the exact customized roadmap.</p>
+            </div>
+            <div className="bg-brand p-8 rounded-3xl shadow-xl shadow-brand/20 relative transform md:-translate-y-4 border border-brand/50">
+              <div className="text-5xl font-black text-white/20 absolute top-4 left-4">04</div>
+              <i className="fas fa-rocket text-3xl text-white mb-4 relative z-10"></i>
+              <h3 className="text-xl font-bold mb-2">Execution & Scaling</h3>
+              <p className="text-sm text-white/90">Deploying systems and driving measurable ROI.</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-            {/* Dynamic Marketing Cards se Sanity field names ko MongoDB se match kar diya hai */}
-            {dbServices.Marketing.map((service, index) => (
-              <div key={index} className="service-card group">
-                <img src={service.imageUrl || 'https://images.unsplash.com/photo-1557838923-2985c318be48?auto=format&fit=crop&w=600&q=80'} alt={service.title} />
-                <div className="card-overlay"></div>
-                {service.heroBadge && <span className="discount-badge text-brand">{service.heroBadge}</span>}
-                <div className="absolute bottom-0 left-0 w-full p-6 z-10">
-                  <div className="floating-icon text-brand"><i className="fas fa-star"></i></div>
-                  <h3 className="text-lg font-bold text-white mb-1">{service.title}</h3>
-                  <p className="text-xs text-gray-300 mb-4 opacity-90">{service.description}</p>
-                  <a href={`/services/${service.slug}`} className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
+      {/* 8️⃣ CASE STUDIES */}
+      <section className="py-24 bg-white dark:bg-navy border-b border-gray-200 dark:border-white/5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-heading font-extrabold text-navy dark:text-white mb-4">Proven Results</h2>
+            <p className="text-gray-500 text-lg">We measure success in revenue, not just metrics.</p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-gray-50 dark:bg-[#162032] p-10 rounded-3xl shadow-sm border-t-[6px] border-brand text-center hover:-translate-y-2 transition-transform">
+              <div className="text-5xl md:text-6xl font-black text-brand mb-4">+300%</div>
+              <h3 className="text-xl font-bold text-navy dark:text-white mb-2">Revenue Growth</h3>
+              <p className="text-sm text-gray-500">For an E-commerce brand via Full-Funnel Performance Marketing.</p>
+            </div>
+            <div className="bg-gray-50 dark:bg-[#162032] p-10 rounded-3xl shadow-sm border-t-[6px] border-pink-500 text-center hover:-translate-y-2 transition-transform">
+              <div className="text-5xl md:text-6xl font-black text-pink-500 mb-4">+500%</div>
+              <h3 className="text-xl font-bold text-navy dark:text-white mb-2">Leads Generated</h3>
+              <p className="text-sm text-gray-500">For a B2B SaaS utilizing Custom AI Lead Gen Systems.</p>
+            </div>
+            <div className="bg-gray-50 dark:bg-[#162032] p-10 rounded-3xl shadow-sm border-t-[6px] border-green-500 text-center hover:-translate-y-2 transition-transform">
+              <div className="text-5xl md:text-6xl font-black text-green-500 mb-4">10X</div>
+              <h3 className="text-xl font-bold text-navy dark:text-white mb-2">Brand Visibility</h3>
+              <p className="text-sm text-gray-500">Achieved via aggressive SEO & Content Strategies.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 9️⃣ INDUSTRIES WE SERVE */}
+      <section className="py-24 bg-gray-50 dark:bg-[#0B1120]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl md:text-5xl font-heading font-extrabold text-navy dark:text-white mb-12">Industries We Serve</h2>
+          <div className="flex flex-wrap justify-center gap-4 md:gap-6">
+            {['Ecommerce', 'Startups', 'Real Estate', 'Local Businesses', 'Healthcare', 'Education', 'SaaS', 'Personal Brands'].map((ind, i) => (
+              <span key={i} className="px-6 py-4 bg-white dark:bg-[#162032] border border-gray-200 dark:border-white/5 rounded-2xl font-bold text-navy dark:text-white hover:border-brand hover:text-brand transition-colors cursor-default shadow-sm text-lg">
+                {ind}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 🔟 FAQ SECTION */}
+      <section className="py-24 bg-white dark:bg-navy border-t border-gray-200 dark:border-white/5">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-heading font-extrabold text-navy dark:text-white mb-6">Frequently Asked Questions</h2>
+          </div>
+          <div className="space-y-4">
+            {FAQS.map((faq, index) => (
+              <div key={index} className="bg-gray-50 dark:bg-[#162032] border border-gray-200 dark:border-white/5 rounded-2xl overflow-hidden shadow-sm hover:border-brand/50 transition-all duration-300">
+                <button 
+                  onClick={() => setActiveFaq(activeFaq === index ? null : index)}
+                  className="w-full px-8 py-6 text-left font-bold text-navy dark:text-white flex justify-between items-center focus:outline-none text-lg"
+                >
+                  {faq.q}
+                  <div className={`w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center transition-all duration-300 ${activeFaq === index ? 'bg-brand text-white rotate-180' : 'bg-white dark:bg-navy text-brand border border-gray-200 dark:border-white/10'}`}>
+                    <i className="fas fa-chevron-down"></i>
+                  </div>
+                </button>
+                <div className={`px-8 pb-6 text-gray-600 dark:text-gray-400 text-base leading-relaxed ${activeFaq === index ? 'block' : 'hidden'}`}>
+                  {faq.a}
                 </div>
               </div>
             ))}
@@ -237,233 +394,26 @@ export default function Services() {
         </div>
       </section>
 
-      {/* AUTOMATION & GROWTH SECTION */}
-      <section id="growth" className="py-20 bg-light dark:bg-[#081b33]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-4 mb-10">
-            <div className="p-3 rounded-lg bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 text-2xl"><i className="fas fa-robot"></i></div>
-            <div>
-              <h2 className="text-3xl font-heading font-bold text-navy dark:text-white">Growth & Automation</h2>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Scale without chaos.</p>
-            </div>
-          </div>
+      {/* 11️⃣ FINAL MASSIVE CTA (Direct autofill WhatsApp lead CTA) */}
+      <section className="relative py-32 bg-brand overflow-hidden">
+        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-white/10 rounded-full blur-[100px]"></div>
+        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-navy/10 rounded-full blur-[100px]"></div>
+        
+        <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
+          <h2 className="text-5xl md:text-7xl font-heading font-black text-white mb-6 leading-tight">Ready To Scale Your Business?</h2>
+          <p className="text-xl text-white/90 mb-12 font-light max-w-2xl mx-auto">Let SM NextGen build your marketing, automation and financial systems for sustainable, long-term predictable growth.</p>
           
-          <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
-             <div className="service-card group">
-                <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=2074&auto=format&fit=crop" alt="Lead Generation" />
-                <div className="card-overlay"></div>
-                <span className="discount-badge text-purple-700">GUARANTEED</span>
-                <div className="absolute bottom-0 left-0 w-full p-6 z-10">
-                    <div className="floating-icon text-purple-400"><i className="fas fa-magnet"></i></div>
-                    <h3 className="text-lg font-bold text-white mb-1">Lead Gen Systems</h3>
-                    <p className="text-xs text-gray-300 mb-4 opacity-90">Automated Pipelines.</p>
-                    <a href="/service-lead-generation" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
-                </div>
-            </div>
-
-            <div className="service-card group">
-                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop" alt="Funnels" />
-                <div className="card-overlay"></div>
-                <span className="discount-badge text-purple-700">SYSTEMS</span>
-                <div className="absolute bottom-0 left-0 w-full p-6 z-10">
-                    <div className="floating-icon text-purple-400"><i className="fas fa-filter"></i></div>
-                    <h3 className="text-lg font-bold text-white mb-1">Marketing Funnels</h3>
-                    <p className="text-xs text-gray-300 mb-4 opacity-90">Funnel Design & Setup.</p>
-                    <a href="/service-marketing-funnels" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
-                </div>
-            </div>
-
-            <div className="service-card group">
-                <img src="https://images.unsplash.com/photo-1552581234-26160f608093?q=80&w=2074&auto=format&fit=crop" alt="CRM Setup" />
-                <div className="card-overlay"></div>
-                <span className="discount-badge text-purple-700">HUBSPOT</span>
-                <div className="absolute bottom-0 left-0 w-full p-6 z-10">
-                    <div className="floating-icon text-purple-400"><i className="fas fa-tasks"></i></div>
-                    <h3 className="text-lg font-bold text-white mb-1">CRM Setup</h3>
-                    <p className="text-xs text-gray-300 mb-4 opacity-90">Business Automation.</p>
-                    <a href="/service-crm-setup" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
-                </div>
-            </div>
-
-            <div className="service-card group">
-                <img src="https://images.unsplash.com/photo-1611746872915-64382b5c76da?q=80&w=2070&auto=format&fit=crop" alt="WhatsApp Automation" />
-                <div className="card-overlay"></div>
-                <span className="discount-badge text-purple-700">HOT</span>
-                <div className="absolute bottom-0 left-0 w-full p-6 z-10">
-                    <div className="floating-icon text-purple-400"><i className="fab fa-whatsapp"></i></div>
-                    <h3 className="text-lg font-bold text-white mb-1">Email/WA Automation</h3>
-                    <p className="text-xs text-gray-300 mb-4 opacity-90">Auto-Marketing Setup.</p>
-                    <a href="/service-whatsapp-automation" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
-                </div>
-            </div>
-
-            <div className="service-card group">
-                <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2070&auto=format&fit=crop" alt="AI Enablement" />
-                <div className="card-overlay"></div>
-                <span className="discount-badge text-purple-700">FUTURE</span>
-                <div className="absolute bottom-0 left-0 w-full p-6 z-10">
-                    <div className="floating-icon text-purple-400"><i className="fas fa-brain"></i></div>
-                    <h3 className="text-lg font-bold text-white mb-1">AI Enablement</h3>
-                    <p className="text-xs text-gray-300 mb-4 opacity-90">Tools & Prompt Eng.</p>
-                    <a href="/service-ai-enablement" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
-                </div>
-            </div>
-
-            <div className="service-card group">
-                <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=2032&auto=format&fit=crop" alt="Growth Consulting" />
-                <div className="card-overlay"></div>
-                <span className="discount-badge text-purple-700">STRATEGY</span>
-                <div className="absolute bottom-0 left-0 w-full p-6 z-10">
-                    <div className="floating-icon text-purple-400"><i className="fas fa-chart-line"></i></div>
-                    <h3 className="text-lg font-bold text-white mb-1">Growth Consulting</h3>
-                    <p className="text-xs text-gray-300 mb-4 opacity-90">Startup Strategy.</p>
-                    <a href="/service-growth-consulting" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
-                </div>
-            </div>
-
-            {/* Dynamic Automation Cards */}
-            {dbServices.Automation.map((service, index) => (
-              <div key={index} className="service-card group">
-                <img src={service.imageUrl || 'https://images.unsplash.com/photo-1557838923-2985c318be48?auto=format&fit=crop&w=600&q=80'} alt={service.title} />
-                <div className="card-overlay"></div>
-                {service.heroBadge && <span className="discount-badge text-brand">{service.heroBadge}</span>}
-                <div className="absolute bottom-0 left-0 w-full p-6 z-10">
-                  <div className="floating-icon text-brand"><i className="fas fa-star"></i></div>
-                  <h3 className="text-lg font-bold text-white mb-1">{service.title}</h3>
-                  <p className="text-xs text-gray-300 mb-4 opacity-90">{service.description}</p>
-                  <a href={`/services/${service.slug}`} className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
-                </div>
-              </div>
-            ))}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+            <a href={getWhatsAppLink("Hi SM NextGen Team, I am ready to scale my business using your integrated systems. Please schedule a strategy call. Niche: ")} target="_blank" rel="noreferrer" className="px-10 py-5 bg-white text-brand font-extrabold rounded-2xl shadow-2xl hover:scale-105 transition-transform text-lg flex items-center justify-center gap-3">
+               <i className="fas fa-arrow-right"></i> Book Strategy Call
+            </a>
+            <a href={getWhatsAppLink("Hi SM NextGen Team, I have some questions about your growth ecosystem. Please connect. ")} target="_blank" rel="noreferrer" className="px-10 py-5 bg-transparent border-2 border-white/20 hover:border-white text-white font-extrabold rounded-2xl hover:bg-white/10 transition-colors text-lg flex items-center justify-center gap-3">
+              <i className="fab fa-whatsapp text-xl text-white"></i> Contact on WhatsApp
+            </a>
           </div>
         </div>
       </section>
 
-      {/* FINANCE & LEGAL SECTION */}
-      <section id="finance" className="py-20 bg-white dark:bg-navy">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-4 mb-10">
-            <div className="p-3 rounded-lg bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 text-2xl"><i className="fas fa-file-invoice-dollar"></i></div>
-            <div>
-              <h2 className="text-3xl font-heading font-bold text-navy dark:text-white">Finance & Legal</h2>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Compliance & Accounting.</p>
-            </div>
-          </div>
-          
-          <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
-            <div className="service-card group">
-                <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?q=80&w=2071&auto=format&fit=crop" alt="Financial Planning" />
-                <div className="card-overlay"></div>
-                <span className="discount-badge text-green-700">SAVE 10%</span>
-                <div className="absolute bottom-0 left-0 w-full p-6 z-10">
-                    <div className="floating-icon text-green-400"><i className="fas fa-coins"></i></div>
-                    <h3 className="text-lg font-bold text-white mb-1">Financial Planning</h3>
-                    <p className="text-xs text-gray-300 mb-4 opacity-90">Budgeting & Strategy.</p>
-                    <a href="/service-financial-planning" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
-                </div>
-            </div>
-
-            <div className="service-card group">
-                <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=2070&auto=format&fit=crop" alt="Accounting" />
-                <div className="card-overlay"></div>
-                <span className="discount-badge text-green-700">ESSENTIAL</span>
-                <div className="absolute bottom-0 left-0 w-full p-6 z-10">
-                    <div className="floating-icon text-green-400"><i className="fas fa-book"></i></div>
-                    <h3 className="text-lg font-bold text-white mb-1">Accounting</h3>
-                    <p className="text-xs text-gray-300 mb-4 opacity-90">Bookkeeping Service.</p>
-                    <a href="/service-accounting" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
-                </div>
-            </div>
-
-            <div className="service-card group">
-                <img src="https://images.unsplash.com/photo-1580519542036-c47de6196ba5?q=80&w=2071&auto=format&fit=crop" alt="GST Filing" />
-                <div className="card-overlay"></div>
-                <span className="discount-badge text-orange-700">MUST HAVE</span>
-                <div className="absolute bottom-0 left-0 w-full p-6 z-10">
-                    <div className="floating-icon text-green-400"><i className="fas fa-file-contract"></i></div>
-                    <h3 className="text-lg font-bold text-white mb-1">GST Filing</h3>
-                    <p className="text-xs text-gray-300 mb-4 opacity-90">Reg. & Compliance.</p>
-                    <a href="/service-gst-legal" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
-                </div>
-            </div>
-
-            <div className="service-card group">
-                <img src="https://images.unsplash.com/photo-1634733988138-bf2c3a2a13fa?q=80&w=2070&auto=format&fit=crop" alt="Income Tax" />
-                <div className="card-overlay"></div>
-                <span className="discount-badge text-green-700">SEASONAL</span>
-                <div className="absolute bottom-0 left-0 w-full p-6 z-10">
-                    <div className="floating-icon text-green-400"><i className="fas fa-rupee-sign"></i></div>
-                    <h3 className="text-lg font-bold text-white mb-1">Income Tax</h3>
-                    <p className="text-xs text-gray-300 mb-4 opacity-90">ITR Filing & Advisory.</p>
-                    <a href="/service-income-tax" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
-                </div>
-            </div>
-
-            <div className="service-card group">
-                <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?q=80&w=2070&auto=format&fit=crop" alt="Payroll Management" />
-                <div className="card-overlay"></div>
-                <span className="discount-badge text-green-700">HR</span>
-                <div className="absolute bottom-0 left-0 w-full p-6 z-10">
-                    <div className="floating-icon text-green-400"><i className="fas fa-users"></i></div>
-                    <h3 className="text-lg font-bold text-white mb-1">Payroll Mgmt</h3>
-                    <p className="text-xs text-gray-300 mb-4 opacity-90">Salaries & PF Slips.</p>
-                    <a href="/service-payroll" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
-                </div>
-            </div>
-
-            <div className="service-card group">
-                <img src="https://images.unsplash.com/photo-1580048915913-54c30580796f?q=80&w=2070&auto=format&fit=crop" alt="Invoice Systems" />
-                <div className="card-overlay"></div>
-                <span className="discount-badge text-green-700">AUTOMATED</span>
-                <div className="absolute bottom-0 left-0 w-full p-6 z-10">
-                    <div className="floating-icon text-green-400"><i className="fas fa-receipt"></i></div>
-                    <h3 className="text-lg font-bold text-white mb-1">Invoice Systems</h3>
-                    <p className="text-xs text-gray-300 mb-4 opacity-90">Billing Setup.</p>
-                    <a href="/service-billing-systems" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
-                </div>
-            </div>
-
-            <div className="service-card group">
-                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop" alt="MIS Reporting" />
-                <div className="card-overlay"></div>
-                <span className="discount-badge text-green-700">ANALYTICS</span>
-                <div className="absolute bottom-0 left-0 w-full p-6 z-10">
-                    <div className="floating-icon text-green-400"><i className="fas fa-chart-pie"></i></div>
-                    <h3 className="text-lg font-bold text-white mb-1">MIS Reporting</h3>
-                    <p className="text-xs text-gray-300 mb-4 opacity-90">Financial Reports.</p>
-                    <a href="/service-mis-reporting" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
-                </div>
-            </div>
-
-            <div className="service-card group">
-                <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop" alt="Startup Compliance" />
-                <div className="card-overlay"></div>
-                <span className="discount-badge text-orange-700">STARTUP INDIA</span>
-                <div className="absolute bottom-0 left-0 w-full p-6 z-10">
-                    <div className="floating-icon text-green-400"><i className="fas fa-building"></i></div>
-                    <h3 className="text-lg font-bold text-white mb-1">Startup Compliance</h3>
-                    <p className="text-xs text-gray-300 mb-4 opacity-90">Registration Support.</p>
-                    <a href="/service-startup-registration" className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
-                </div>
-            </div>
-
-            {/* Dynamic Finance Cards */}
-            {dbServices.Finance.map((service, index) => (
-              <div key={index} className="service-card group">
-                <img src={service.imageUrl || 'https://images.unsplash.com/photo-1557838923-2985c318be48?auto=format&fit=crop&w=600&q=80'} alt={service.title} />
-                <div className="card-overlay"></div>
-                {service.heroBadge && <span className="discount-badge text-brand">{service.heroBadge}</span>}
-                <div className="absolute bottom-0 left-0 w-full p-6 z-10">
-                  <div className="floating-icon text-brand"><i className="fas fa-star"></i></div>
-                  <h3 className="text-lg font-bold text-white mb-1">{service.title}</h3>
-                  <p className="text-xs text-gray-300 mb-4 opacity-90">{service.description}</p>
-                  <a href={`/services/${service.slug}`} className="block w-full py-3 bg-brand hover:bg-brandDark text-white text-center text-xs font-bold rounded-xl transition shadow-lg">View Details</a>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
     </main>
   );
 }

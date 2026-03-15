@@ -88,7 +88,7 @@ export default function Blogs() {
   // Handle WhatsApp Lead Form Submit
   const handleQuickLead = (e) => {
     e.preventDefault();
-    const phone = "918824325438"; // Sanjay's Number
+    const phone = "917073538077"; // Sanjay's Number
     const message = `Hi, I was reading your insights. Name: ${leadName} | Interested in: ${leadService}. Please call me back.`;
     const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank');

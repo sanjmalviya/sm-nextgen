@@ -22,7 +22,7 @@ export default function Footer() {
               </a>
               <a href="https://www.instagram.com/smnextgen/" target="_blank" className="hover:text-[#0097B2] transition"><i className="fab fa-instagram text-xl"></i></a>
               <a href="https://www.linkedin.com/company/109211431" target="_blank" className="hover:text-[#0097B2] transition"><i className="fab fa-linkedin text-xl"></i></a>
-              <a href="https://wa.me/918824325438" target="_blank" className="hover:text-[#0097B2] transition"><i className="fab fa-whatsapp text-xl"></i></a>
+              <a href="https://wa.me/917073538077" target="_blank" className="hover:text-[#0097B2] transition"><i className="fab fa-whatsapp text-xl"></i></a>
             </div>
           </div>
 
@@ -74,13 +74,13 @@ export default function Footer() {
       
       {/* FLOATING BUTTONS (Keep Existing) */}
       <div className="fixed bottom-6 right-6 flex flex-col gap-4 z-50">
-        <a href="https://wa.me/918824325438" target="_blank" 
+        <a href="https://wa.me/917073538077" target="_blank" 
            className="w-14 h-14 bg-[#25D366] text-white rounded-full shadow-xl flex items-center justify-center transition-all duration-300 hover:scale-110 hover:-translate-y-1 group relative border-2 border-white dark:border-navy">
             <i className="fab fa-whatsapp text-3xl"></i>
             <span className="absolute right-16 bg-white text-navy px-2 py-1 rounded text-xs font-bold opacity-0 group-hover:opacity-100 transition shadow-lg whitespace-nowrap pointer-events-none">WhatsApp Us</span>
         </a>
 
-        <a href="tel:+918824325438" 
+        <a href="tel:+917073538077" 
            className="w-14 h-14 bg-[#0097B2] text-white rounded-full shadow-xl flex items-center justify-center transition-all duration-300 hover:scale-110 hover:-translate-y-1 group relative border-2 border-white dark:border-navy">
             <i className="fas fa-phone-alt text-2xl"></i>
         </a>

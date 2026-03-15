@@ -282,7 +282,7 @@ export default function CaseStudies() {
           <p className="text-white/90 text-lg mb-10">We don't just "try". We execute proven systems. Book your free strategy audit and let's find your goldmine.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="/contact" className="px-8 py-4 bg-white text-brand font-bold rounded-full shadow-2xl hover:bg-navy hover:text-white transition transform hover:-translate-y-1">Book Free Audit</a>
-            <a href="https://wa.me/918824325438?text=Hi%20Sanjay,%20I%20saw%20your%20case%20studies.%20I%20want%20similar%20growth." target="_blank" className="px-8 py-4 border-2 border-white text-white font-bold rounded-full hover:bg-white/10 transition flex items-center justify-center gap-2">
+            <a href="https://wa.me/917073538077?text=Hi%20SM%NextGen,%20I%20saw%20your%20case%20studies.%20I%20want%20similar%20growth." target="_blank" className="px-8 py-4 border-2 border-white text-white font-bold rounded-full hover:bg-white/10 transition flex items-center justify-center gap-2">
               <i className="fab fa-whatsapp text-xl"></i> WhatsApp Us
             </a>
           </div>

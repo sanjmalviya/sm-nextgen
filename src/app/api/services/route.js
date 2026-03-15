@@ -1,26 +1,23 @@
 import { NextResponse } from 'next/server';
-import connectToDatabase from '../../../lib/mongodb';
-import Service from '../../../lib/models/Service';
+import { supabase } from '../../../lib/supabase';
 
-// GET: Saari services fetch karne ke liye
 export async function GET() {
   try {
-    await connectToDatabase();
-    const services = await Service.find({}).sort({ createdAt: -1 });
-    return NextResponse.json({ success: true, data: services });
-  } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 400 });
-  }
-}
+    // Supabase ki 'services' table se saara data fetch karna
+    const { data, error } = await supabase
+      .from('services')
+      .select('*')
+      .order('created_at', { ascending: false });
 
-// POST: Nayi service create karne ke liye
-export async function POST(req) {
-  try {
-    await connectToDatabase();
-    const body = await req.json();
-    const service = await Service.create(body);
-    return NextResponse.json({ success: true, data: service }, { status: 201 });
+    if (error) {
+      throw error;
+    }
+
+    // Frontend ko successfully data bhej dena
+    return NextResponse.json({ data: data });
+    
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 400 });
+    console.error("Supabase Fetch Error:", error.message);
+    return NextResponse.json({ error: "Failed to fetch services" }, { status: 500 });
   }
 }

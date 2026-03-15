@@ -71,8 +71,8 @@ export default function Tools() {
       setShowSuccess(true);
       
       // Redirect to WhatsApp
-      const msg = `Hi Sanjay, I requested a *7-Point Business Audit*.\n\n*Website:* ${auditUrl}\n*Phone:* ${auditPhone}\n\nPlease check.`;
-      window.open(`https://wa.me/918824325438?text=${encodeURIComponent(msg)}`, '_blank');
+      const msg = `Hi SM NextGen Team, I requested a *7-Point Business Audit*.\n\n*Website:* ${auditUrl}\n*Phone:* ${auditPhone}\n\nPlease check.`;
+      window.open(`https://wa.me/917073538077?text=${encodeURIComponent(msg)}`, '_blank');
       
       // Reset form after delay
       setTimeout(() => {
