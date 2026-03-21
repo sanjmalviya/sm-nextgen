@@ -27,7 +27,7 @@ export default function HomePage() {
   const [formData, setFormData] = useState({ name: "", email: "", phone: "", businessType: "", budget: "" });
   const [submitted, setSubmitted] = useState(false);
 
-  const words = ["the smart way.", "with AI Automation.", "with Data Science."];
+  const words = ["the smart way.", "with AI Automation.", "with Data Science.", "with Robust Tech."];
 
   // --- MOUSE GLOW LOGIC (Fixed & Optimized) ---
   useEffect(() => {
@@ -77,7 +77,7 @@ export default function HomePage() {
     setSubmitted(true);
 
     try {
-      // 1. Send Email via Web3Forms (JSON Format - Best for React/Next.js)
+      // 1. Send Email via Web3Forms
       const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: {
@@ -97,7 +97,7 @@ export default function HomePage() {
       });
 
       const result = await response.json();
-      console.log("Web3Forms Response:", result); // Browser console mein status dikhayega
+      console.log("Web3Forms Response:", result);
 
       if (result.success) {
         // 2. Open WhatsApp after successful email
@@ -124,10 +124,10 @@ export default function HomePage() {
   const handleFormChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const faqs = [
-    { q: "What services does SM NextGen offer?", a: "We provide an integrated growth ecosystem combining Data-Driven Digital Marketing, Custom AI Automation, and reliable Legal & Financial compliance. We handle your scale from generating leads to managing your accounting." },
+    { q: "What services does SM NextGen offer?", a: "We provide an integrated growth ecosystem combining Data-Driven Digital Marketing, Custom Tech Development (Web & Apps), AI Automation, and reliable Legal & Financial compliance. We handle your scale from generating leads to managing your accounting." },
     { q: "How can AI automation help my business?", a: "AI systems reduce repetitive manual work. From 24/7 autonomous lead qualification chatbots to smart CRM workflows, AI allows your team to focus on high-level strategy and sales, significantly lowering operational costs." },
-    { q: "Do you work with international clients?", a: "Yes. We support startups, e-commerce brands, and SaaS companies globally, providing digital marketing infrastructure and cross-border financial advisory." },
-    { q: "How long before marketing results appear?", a: "Performance Ads generate inbound leads within weeks. However, foundational growth strategies like SEO, Content Marketing, and Brand Positioning build compounding organic equity over 3 to 6 months." }
+    { q: "Do you work with international clients?", a: "Yes. We support startups, e-commerce brands, and SaaS companies globally, providing digital marketing, tech infrastructure, and cross-border financial advisory." },
+    { q: "How long before marketing results appear?", a: "Performance Ads generate inbound leads within weeks. However, foundational growth strategies like SEO, App deployments, and Brand Positioning build compounding organic equity over 3 to 6 months." }
   ];
 
   return (
@@ -157,19 +157,13 @@ export default function HomePage() {
           }
         `}} />
 
-        {/* 1️⃣ HERO SECTION (Premium SaaS Design with Grid & Mesh Glows) */}
+        {/* 1️⃣ HERO SECTION */}
         <section className="relative pt-32 pb-12 md:pt-40 md:pb-16 bg-[#071A30] text-center px-4 sm:px-6 lg:px-8 z-10 overflow-hidden border-b border-white/5">
           
-          {/* Subtle Grid Background Pattern */}
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px] z-0"></div>
-          
-          {/* Top Center Radial Gradient for depth */}
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_center,#11325B,transparent_70%)] opacity-80 z-0"></div>
-
-          {/* Primary Brand Glow */}
           <div className="absolute top-[-20%] left-1/2 transform -translate-x-1/2 w-[600px] md:w-[800px] h-[600px] md:h-[800px] bg-[#0097B2]/25 rounded-full blur-[120px] md:blur-[150px] pointer-events-none z-0"></div>
           
-          {/* Subtle Side Glows (Pink/Purple) for modern aesthetic */}
           <div className="absolute top-[20%] left-[-10%] w-[300px] h-[300px] bg-pink-500/10 rounded-full blur-[120px] pointer-events-none z-0 hidden md:block"></div>
           <div className="absolute bottom-[-10%] right-[-10%] w-[300px] h-[300px] bg-purple-500/10 rounded-full blur-[120px] pointer-events-none z-0 hidden md:block"></div>
 
@@ -179,8 +173,9 @@ export default function HomePage() {
               <span className="text-[#0097B2] text-3xl sm:text-4xl md:text-6xl lg:text-7xl min-h-[40px] md:min-h-[90px] block mt-1 md:mt-2">{typewriterText}<span className="animate-blink font-light opacity-50 text-white">|</span></span>
             </h1>
             
+            {/* UPDATED SUBTEXT INCLUDES TECH */}
             <p className="text-base md:text-xl text-[#E6EEF2]/80 mb-8 md:mb-10 leading-relaxed font-body max-w-2xl font-light">
-              SM NextGen helps businesses scale through data-driven marketing, intelligent automation systems, and reliable legal &amp; financial support - giving founders the tools and systems needed to grow efficiently.
+              SM NextGen helps businesses scale through data-driven marketing, robust technical infrastructure, intelligent automation systems, and reliable legal &amp; financial support.
             </p>
             
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-5 w-full sm:w-auto mb-8">
@@ -218,77 +213,97 @@ export default function HomePage() {
             <div className="flex flex-wrap justify-center lg:justify-between items-center gap-4 md:gap-6 text-xs md:text-sm font-bold text-[#0B2545] dark:text-[#E6EEF2]/90">
               <span className="flex items-center gap-2"><i className="fas fa-check-circle text-[#0097B2]"></i> ROI-focused strategies</span>
               <span className="hidden lg:block w-px h-5 bg-gray-300 dark:bg-white/10"></span>
-              <span className="flex items-center gap-2"><i className="fas fa-check-circle text-[#0097B2]"></i> AI automation systems</span>
+              <span className="flex items-center gap-2"><i className="fas fa-check-circle text-[#0097B2]"></i> Custom Tech & Apps</span>
               <span className="hidden lg:block w-px h-5 bg-gray-300 dark:bg-white/10"></span>
-              <span className="flex items-center gap-2"><i className="fas fa-check-circle text-[#0097B2]"></i> Transparent reporting</span>
+              <span className="flex items-center gap-2"><i className="fas fa-check-circle text-[#0097B2]"></i> AI automation systems</span>
               <span className="hidden lg:block w-px h-5 bg-gray-300 dark:bg-white/10"></span>
               <span className="flex items-center gap-2"><i className="fas fa-check-circle text-[#0097B2]"></i> Dedicated support</span>
             </div>
           </div>
         </section>
 
-        {/* 3️⃣ CORE SERVICES SECTION */}
+        {/* 3️⃣ CORE SERVICES SECTION (UPDATED TO 4 CARDS) */}
         <section id="services" className="py-16 md:py-24 bg-[#F8FAFC] dark:bg-[#0B2545] transition-colors duration-300 relative z-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-10 md:mb-16 max-w-3xl mx-auto relative z-10">
               <h2 className="text-3xl md:text-5xl font-heading font-extrabold text-[#0B2545] dark:text-white mb-4">Everything Your Business Needs to Grow</h2>
-              <p className="text-base md:text-lg text-gray-600 dark:text-[#E6EEF2]/80 leading-relaxed">SM NextGen combines marketing, automation, and business compliance into one integrated growth system.</p>
+              <p className="text-base md:text-lg text-gray-600 dark:text-[#E6EEF2]/80 leading-relaxed">SM NextGen combines marketing, tech development, AI automation, and business compliance into one integrated growth system.</p>
             </div>
             
-            <div className="grid lg:grid-cols-3 gap-6 md:gap-8 relative z-10">
-              <div className="bg-white/80 dark:bg-white/5 backdrop-blur-xl rounded-[2rem] p-8 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none border border-white/20 dark:border-white/10 hover:border-pink-500/50 transition-all duration-500 hover:-translate-y-2 group relative overflow-hidden isolate">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 relative z-10">
+              
+              {/* Marketing Card */}
+              <div className="bg-white/80 dark:bg-white/5 backdrop-blur-xl rounded-[2rem] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none border border-white/20 dark:border-white/10 hover:border-pink-500/50 transition-all duration-500 hover:-translate-y-2 group relative overflow-hidden isolate flex flex-col">
                 <div className="absolute inset-0 bg-gradient-to-b from-pink-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0"></div>
-                <div className="relative z-10">
+                <div className="relative z-10 flex flex-col h-full">
                   <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#f472b6] to-[#db2777] text-white flex items-center justify-center text-2xl mb-6 shadow-lg shadow-pink-500/30"><i className="fas fa-chart-line"></i></div>
                   <h3 className="text-2xl font-bold text-[#0B2545] dark:text-white mb-4">Digital Marketing</h3>
-                  <p className="text-sm text-gray-600 dark:text-[#E6EEF2]/70 mb-6">Drive targeted traffic, acquire customers profitably, and dominate your niche search rankings.</p>
-                  <ul className="space-y-4 mb-10 flex-grow">
-                    <li className="text-gray-700 dark:text-[#E6EEF2]/90 font-medium flex items-center gap-3"><i className="fas fa-angle-right text-pink-500"></i> SEO</li>
-                    <li className="text-gray-700 dark:text-[#E6EEF2]/90 font-medium flex items-center gap-3"><i className="fas fa-angle-right text-pink-500"></i> Performance Ads</li>
-                    <li className="text-gray-700 dark:text-[#E6EEF2]/90 font-medium flex items-center gap-3"><i className="fas fa-angle-right text-pink-500"></i> Social Media Marketing</li>
-                    <li className="text-gray-700 dark:text-[#E6EEF2]/90 font-medium flex items-center gap-3"><i className="fas fa-angle-right text-pink-500"></i> Lead Generation</li>
+                  <p className="text-sm text-gray-600 dark:text-[#E6EEF2]/70 mb-6 flex-grow">Drive targeted traffic, acquire customers profitably, and dominate your niche search rankings.</p>
+                  <ul className="space-y-3 mb-8">
+                    <li className="text-gray-700 dark:text-[#E6EEF2]/90 text-sm font-medium flex items-center gap-3"><i className="fas fa-angle-right text-pink-500"></i> SEO & Content</li>
+                    <li className="text-gray-700 dark:text-[#E6EEF2]/90 text-sm font-medium flex items-center gap-3"><i className="fas fa-angle-right text-pink-500"></i> Performance Ads</li>
+                    <li className="text-gray-700 dark:text-[#E6EEF2]/90 text-sm font-medium flex items-center gap-3"><i className="fas fa-angle-right text-pink-500"></i> Social Media</li>
                   </ul>
-                  <Link href="/services/" className="inline-flex items-center font-bold text-pink-600 dark:text-pink-400 group-hover:text-pink-500 transition-colors">
-                    Explore Marketing Services <i className="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+                  <Link href="/services" className="inline-flex items-center text-sm font-bold text-pink-600 dark:text-pink-400 group-hover:text-pink-500 transition-colors mt-auto">
+                    Explore Marketing <i className="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
                   </Link>
                 </div>
               </div>
 
-              <div className="bg-white/80 dark:bg-white/5 backdrop-blur-xl rounded-[2rem] p-8 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none border border-white/20 dark:border-white/10 hover:border-purple-500/50 transition-all duration-500 hover:-translate-y-2 group relative overflow-hidden isolate">
+              {/* NEW: Tech Development Card */}
+              <div className="bg-white/80 dark:bg-white/5 backdrop-blur-xl rounded-[2rem] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none border border-white/20 dark:border-white/10 hover:border-blue-500/50 transition-all duration-500 hover:-translate-y-2 group relative overflow-hidden isolate flex flex-col">
+                <div className="absolute inset-0 bg-gradient-to-b from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0"></div>
+                <div className="relative z-10 flex flex-col h-full">
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#60a5fa] to-[#2563eb] text-white flex items-center justify-center text-2xl mb-6 shadow-lg shadow-blue-500/30"><i className="fas fa-laptop-code"></i></div>
+                  <h3 className="text-2xl font-bold text-[#0B2545] dark:text-white mb-4">Tech Development</h3>
+                  <p className="text-sm text-gray-600 dark:text-[#E6EEF2]/70 mb-6 flex-grow">Build robust, high-performance websites, scalable web applications, and digital infrastructure.</p>
+                  <ul className="space-y-3 mb-8">
+                    <li className="text-gray-700 dark:text-[#E6EEF2]/90 text-sm font-medium flex items-center gap-3"><i className="fas fa-angle-right text-blue-500"></i> Web Development</li>
+                    <li className="text-gray-700 dark:text-[#E6EEF2]/90 text-sm font-medium flex items-center gap-3"><i className="fas fa-angle-right text-blue-500"></i> App Development</li>
+                    <li className="text-gray-700 dark:text-[#E6EEF2]/90 text-sm font-medium flex items-center gap-3"><i className="fas fa-angle-right text-blue-500"></i> E-Commerce Stores</li>
+                  </ul>
+                  <Link href="/services" className="inline-flex items-center text-sm font-bold text-blue-600 dark:text-blue-400 group-hover:text-blue-500 transition-colors mt-auto">
+                    Explore Tech <i className="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+                  </Link>
+                </div>
+              </div>
+
+              {/* AI Automation Card */}
+              <div className="bg-white/80 dark:bg-white/5 backdrop-blur-xl rounded-[2rem] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none border border-white/20 dark:border-white/10 hover:border-purple-500/50 transition-all duration-500 hover:-translate-y-2 group relative overflow-hidden isolate flex flex-col">
                 <div className="absolute inset-0 bg-gradient-to-b from-purple-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0"></div>
-                <div className="relative z-10">
+                <div className="relative z-10 flex flex-col h-full">
                   <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#c084fc] to-[#9333ea] text-white flex items-center justify-center text-2xl mb-6 shadow-lg shadow-purple-500/30"><i className="fas fa-robot"></i></div>
                   <h3 className="text-2xl font-bold text-[#0B2545] dark:text-white mb-4">AI Automation</h3>
-                  <p className="text-sm text-gray-600 dark:text-[#E6EEF2]/70 mb-6">Reduce manual tasks and scale operations flawlessly with custom conversational AI and smart workflows.</p>
-                  <ul className="space-y-4 mb-10 flex-grow">
-                    <li className="text-gray-700 dark:text-[#E6EEF2]/90 font-medium flex items-center gap-3"><i className="fas fa-angle-right text-purple-500"></i> AI Chatbots</li>
-                    <li className="text-gray-700 dark:text-[#E6EEF2]/90 font-medium flex items-center gap-3"><i className="fas fa-angle-right text-purple-500"></i> CRM Automation</li>
-                    <li className="text-gray-700 dark:text-[#E6EEF2]/90 font-medium flex items-center gap-3"><i className="fas fa-angle-right text-purple-500"></i> WhatsApp Automation</li>
-                    <li className="text-gray-700 dark:text-[#E6EEF2]/90 font-medium flex items-center gap-3"><i className="fas fa-angle-right text-purple-500"></i> Workflow Automation</li>
+                  <p className="text-sm text-gray-600 dark:text-[#E6EEF2]/70 mb-6 flex-grow">Reduce manual tasks and scale operations flawlessly with custom conversational AI and workflows.</p>
+                  <ul className="space-y-3 mb-8">
+                    <li className="text-gray-700 dark:text-[#E6EEF2]/90 text-sm font-medium flex items-center gap-3"><i className="fas fa-angle-right text-purple-500"></i> AI Chatbots</li>
+                    <li className="text-gray-700 dark:text-[#E6EEF2]/90 text-sm font-medium flex items-center gap-3"><i className="fas fa-angle-right text-purple-500"></i> CRM Automation</li>
+                    <li className="text-gray-700 dark:text-[#E6EEF2]/90 text-sm font-medium flex items-center gap-3"><i className="fas fa-angle-right text-purple-500"></i> WhatsApp Bots</li>
                   </ul>
-                  <Link href="/services/" className="inline-flex items-center font-bold text-purple-600 dark:text-purple-400 group-hover:text-purple-500 transition-colors">
-                    Explore AI Automation <i className="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+                  <Link href="/services" className="inline-flex items-center text-sm font-bold text-purple-600 dark:text-purple-400 group-hover:text-purple-500 transition-colors mt-auto">
+                    Explore Automation <i className="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
                   </Link>
                 </div>
               </div>
 
-              <div className="bg-white/80 dark:bg-white/5 backdrop-blur-xl rounded-[2rem] p-8 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none border border-white/20 dark:border-white/10 hover:border-[#10B981]/50 transition-all duration-500 hover:-translate-y-2 group relative overflow-hidden isolate">
+              {/* Legal & Finance Card */}
+              <div className="bg-white/80 dark:bg-white/5 backdrop-blur-xl rounded-[2rem] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none border border-white/20 dark:border-white/10 hover:border-[#10B981]/50 transition-all duration-500 hover:-translate-y-2 group relative overflow-hidden isolate flex flex-col">
                 <div className="absolute inset-0 bg-gradient-to-b from-[#10B981]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0"></div>
-                <div className="relative z-10">
+                <div className="relative z-10 flex flex-col h-full">
                   <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#34D399] to-[#059669] text-white flex items-center justify-center text-2xl mb-6 shadow-lg shadow-[#059669]/30"><i className="fas fa-balance-scale"></i></div>
                   <h3 className="text-2xl font-bold text-[#0B2545] dark:text-white mb-4">Legal &amp; Finance</h3>
-                  <p className="text-sm text-gray-600 dark:text-[#E6EEF2]/70 mb-6">Build a bulletproof operational foundation, manage cash flows, and stay 100% legally compliant.</p>
-                  <ul className="space-y-4 mb-10 flex-grow">
-                    <li className="text-gray-700 dark:text-[#E6EEF2]/90 font-medium flex items-center gap-3"><i className="fas fa-angle-right text-[#10B981]"></i> GST Registration</li>
-                    <li className="text-gray-700 dark:text-[#E6EEF2]/90 font-medium flex items-center gap-3"><i className="fas fa-angle-right text-[#10B981]"></i> Accounting &amp; Bookkeeping</li>
-                    <li className="text-gray-700 dark:text-[#E6EEF2]/90 font-medium flex items-center gap-3"><i className="fas fa-angle-right text-[#10B981]"></i> Business Compliance</li>
-                    <li className="text-gray-700 dark:text-[#E6EEF2]/90 font-medium flex items-center gap-3"><i className="fas fa-angle-right text-[#10B981]"></i> Financial Advisory</li>
+                  <p className="text-sm text-gray-600 dark:text-[#E6EEF2]/70 mb-6 flex-grow">Build a bulletproof operational foundation, manage cash flows, and stay completely compliant.</p>
+                  <ul className="space-y-3 mb-8">
+                    <li className="text-gray-700 dark:text-[#E6EEF2]/90 text-sm font-medium flex items-center gap-3"><i className="fas fa-angle-right text-[#10B981]"></i> GST & Tax</li>
+                    <li className="text-gray-700 dark:text-[#E6EEF2]/90 text-sm font-medium flex items-center gap-3"><i className="fas fa-angle-right text-[#10B981]"></i> Bookkeeping</li>
+                    <li className="text-gray-700 dark:text-[#E6EEF2]/90 text-sm font-medium flex items-center gap-3"><i className="fas fa-angle-right text-[#10B981]"></i> Registrations</li>
                   </ul>
-                  <Link href="/services/" className="inline-flex items-center font-bold text-[#10B981] dark:text-[#34D399] group-hover:text-[#059669] transition-colors">
-                    Explore Legal Services <i className="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+                  <Link href="/services" className="inline-flex items-center text-sm font-bold text-[#10B981] dark:text-[#34D399] group-hover:text-[#059669] transition-colors mt-auto">
+                    Explore Compliance <i className="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
                   </Link>
                 </div>
               </div>
+
             </div>
           </div>
         </section>
@@ -317,7 +332,7 @@ export default function HomePage() {
               <div className="bg-[#F8FAFC] dark:bg-[#11325B] border border-gray-100 dark:border-white/5 p-6 md:p-8 rounded-3xl relative shadow-sm transform md:-translate-y-2 border-[#0097B2]/30">
                 <div className="w-12 h-12 rounded-full bg-[#0097B2] text-white flex items-center justify-center font-bold text-xl mx-auto mb-4 md:mb-6 shadow-lg shadow-[#0097B2]/30">3</div>
                 <h3 className="text-xl font-bold text-[#0B2545] dark:text-white mb-2 md:mb-3">Implementation</h3>
-                <p className="text-sm text-gray-600 dark:text-[#E6EEF2]/70 leading-relaxed">Launching targeted campaigns, automation workflows, and financial systems.</p>
+                <p className="text-sm text-gray-600 dark:text-[#E6EEF2]/70 leading-relaxed">Launching targeted campaigns, automation workflows, and technical systems.</p>
               </div>
               
               <div className="bg-[#F8FAFC] dark:bg-[#11325B] border border-gray-100 dark:border-white/5 p-6 md:p-8 rounded-3xl relative shadow-sm">
@@ -329,7 +344,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 5️⃣ GROWTH SYSTEM VISUAL */}
+        {/* 5️⃣ GROWTH SYSTEM VISUAL (UPDATED WITH TECH) */}
         <section className="py-16 md:py-24 bg-[#0B2545] text-white relative overflow-hidden border-y border-white/5 z-20">
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5 mix-blend-overlay"></div>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
@@ -370,10 +385,14 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-6 md:gap-8 text-left max-w-5xl mx-auto">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 text-left max-w-6xl mx-auto">
               <div className="bg-white/5 p-6 md:p-8 rounded-2xl border border-white/10">
                 <h4 className="text-[#0097B2] font-bold text-base md:text-lg mb-2 md:mb-3"><i className="fas fa-bullhorn mr-2"></i> Marketing</h4>
                 <p className="text-[#E6EEF2]/80 text-sm leading-relaxed">Marketing and SEO strategies generate highly qualified inbound leads.</p>
+              </div>
+              <div className="bg-white/5 p-6 md:p-8 rounded-2xl border border-white/10">
+                <h4 className="text-[#0097B2] font-bold text-base md:text-lg mb-2 md:mb-3"><i className="fas fa-laptop-code mr-2"></i> Tech</h4>
+                <p className="text-[#E6EEF2]/80 text-sm leading-relaxed">Robust web and app development ensures flawless user experience and conversion.</p>
               </div>
               <div className="bg-white/5 p-6 md:p-8 rounded-2xl border border-white/10">
                 <h4 className="text-[#0097B2] font-bold text-base md:text-lg mb-2 md:mb-3"><i className="fas fa-robot mr-2"></i> Automation</h4>
@@ -381,7 +400,7 @@ export default function HomePage() {
               </div>
               <div className="bg-white/5 p-6 md:p-8 rounded-2xl border border-white/10">
                 <h4 className="text-[#0097B2] font-bold text-base md:text-lg mb-2 md:mb-3"><i className="fas fa-balance-scale mr-2"></i> Finance</h4>
-                <p className="text-[#E6EEF2]/80 text-sm leading-relaxed">Finance systems and tracking ensure complete operational stability.</p>
+                <p className="text-[#E6EEF2]/80 text-sm leading-relaxed">Finance systems and compliance tracking ensure complete operational stability.</p>
               </div>
             </div>
           </div>
@@ -477,7 +496,7 @@ export default function HomePage() {
                 <h3 className="text-xl md:text-2xl font-bold text-[#0B2545] dark:text-white mb-2">Starter</h3>
                 <p className="text-sm text-gray-600 dark:text-[#E6EEF2]/70 mb-6">For small businesses.</p>
                 <ul className="space-y-3 flex-grow mb-8 text-sm text-[#0B2545] dark:text-[#E6EEF2] font-medium">
-                  <li><i className="fas fa-check text-[#0097B2] mr-2"></i> Basic Marketing Support</li>
+                  <li><i className="fas fa-check text-[#0097B2] mr-2"></i> Basic Web & Marketing</li>
                   <li><i className="fas fa-check text-[#0097B2] mr-2"></i> Content Creation Setup</li>
                   <li><i className="fas fa-check text-[#0097B2] mr-2"></i> Initial SEO Foundation</li>
                 </ul>
@@ -490,9 +509,9 @@ export default function HomePage() {
                 <h3 className="text-xl md:text-2xl font-bold mb-2">Growth</h3>
                 <p className="text-sm text-[#E6EEF2]/80 mb-6">For scaling companies.</p>
                 <ul className="space-y-3 flex-grow mb-8 text-sm font-medium text-[#E6EEF2]">
-                  <li><i className="fas fa-check text-[#0097B2] mr-2"></i> Performance Ads Management</li>
+                  <li><i className="fas fa-check text-[#0097B2] mr-2"></i> Performance Ads & SEO</li>
+                  <li><i className="fas fa-check text-[#0097B2] mr-2"></i> Custom App/Web Dev</li>
                   <li><i className="fas fa-check text-[#0097B2] mr-2"></i> CRM & Automation Setup</li>
-                  <li><i className="fas fa-check text-[#0097B2] mr-2"></i> Analytics Reporting</li>
                 </ul>
                 <Link href="/pricing" className="block w-full py-3 md:py-4 text-center rounded-xl bg-[#0097B2] text-white hover:bg-white hover:text-[#0B2545] font-bold transition-colors shadow-lg">Request Custom Plan</Link>
               </div>
@@ -500,11 +519,11 @@ export default function HomePage() {
               {/* Custom */}
               <div className="bg-[#F8FAFC] dark:bg-[#11325B] p-6 md:p-8 rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm flex flex-col transition-colors duration-300 relative z-10 hover:-translate-y-1">
                 <h3 className="text-xl md:text-2xl font-bold text-[#0B2545] dark:text-white mb-2">Custom</h3>
-                <p className="text-sm text-gray-600 dark:text-[#E6EEF2]/70 mb-6">For advanced marketing and automation systems.</p>
+                <p className="text-sm text-gray-600 dark:text-[#E6EEF2]/70 mb-6">For advanced systems.</p>
                 <ul className="space-y-3 flex-grow mb-8 text-sm text-[#0B2545] dark:text-[#E6EEF2] font-medium">
-                  <li><i className="fas fa-check text-[#0097B2] mr-2"></i> Enterprise Level Systems</li>
+                  <li><i className="fas fa-check text-[#0097B2] mr-2"></i> Enterprise Level Tech</li>
                   <li><i className="fas fa-check text-[#0097B2] mr-2"></i> Custom AI Integrations</li>
-                  <li><i className="fas fa-check text-[#0097B2] mr-2"></i> Dedicated Strategy Manager</li>
+                  <li><i className="fas fa-check text-[#0097B2] mr-2"></i> Dedicated Manager & CFO</li>
                 </ul>
                 <a href="#leadForm" className="block w-full py-3 md:py-4 text-center rounded-xl border border-gray-300 dark:border-white/20 text-[#0B2545] dark:text-white font-bold hover:bg-gray-100 dark:hover:bg-white/10 transition-colors">Request Custom Plan</a>
               </div>
@@ -521,10 +540,10 @@ export default function HomePage() {
                 <div className="absolute top-0 left-0 w-full h-full bg-[#0097B2]/20 mix-blend-overlay z-0"></div>
                 <div className="relative z-10">
                   <h2 className="text-2xl md:text-3xl font-heading font-extrabold mb-4">Get Your Free Growth Consultation</h2>
-                  <p className="text-[#E6EEF2]/80 text-sm mb-6 md:mb-8 leading-relaxed">Let&apos;s analyze your current business operations and design a custom marketing and automation roadmap.</p>
+                  <p className="text-[#E6EEF2]/80 text-sm mb-6 md:mb-8 leading-relaxed">Let&apos;s analyze your current business operations and design a custom tech and marketing roadmap.</p>
                   <div className="space-y-4 text-sm font-medium">
                     <div className="flex items-center gap-3"><i className="fas fa-check text-[#0097B2]"></i> 30-Minute Strategy Call</div>
-                    <div className="flex items-center gap-3"><i className="fas fa-check text-[#0097B2]"></i> Technical &amp; Marketing Audit</div>
+                    <div className="flex items-center gap-3"><i className="fas fa-check text-[#0097B2]"></i> Tech &amp; Marketing Audit</div>
                     <div className="flex items-center gap-3"><i className="fas fa-check text-[#0097B2]"></i> No Obligations</div>
                   </div>
                 </div>
@@ -563,7 +582,7 @@ export default function HomePage() {
                         </select>
                       </div>
                       <div>
-                        <label className="block text-xs font-bold text-gray-500 dark:text-[#E6EEF2]/60 uppercase tracking-widest mb-1">Monthly Marketing Budget</label>
+                        <label className="block text-xs font-bold text-gray-500 dark:text-[#E6EEF2]/60 uppercase tracking-widest mb-1">Monthly Growth Budget</label>
                         <select name="budget" value={formData.budget} onChange={handleFormChange} required 
                           className="w-full bg-[#F8FAFC] dark:bg-[#0B1120] border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#0097B2] dark:text-white transition cursor-pointer relative z-20">
                           <option value="" disabled>Select</option>
@@ -630,7 +649,7 @@ export default function HomePage() {
           
           <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
             <h2 className="text-3xl md:text-6xl font-heading font-extrabold mb-4 md:mb-6 leading-tight tracking-tight">Ready to Grow Your Business the Smart Way?</h2>
-            <p className="text-lg md:text-xl text-[#E6EEF2] mb-8 md:mb-12 font-body max-w-2xl mx-auto font-light leading-relaxed">Talk to our team and discover how marketing, automation and business systems can help your business scale.</p>
+            <p className="text-lg md:text-xl text-[#E6EEF2] mb-8 md:mb-12 font-body max-w-2xl mx-auto font-light leading-relaxed">Talk to our team and discover how marketing, custom tech, and business systems can help your business scale.</p>
             
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6">
               <a href="#leadForm" className="px-8 py-4 md:py-5 bg-[#0097B2] hover:bg-white hover:text-[#0B2545] text-white font-bold rounded-xl shadow-[0_0_30px_-5px_rgba(0,151,178,0.5)] hover:scale-105 transition-all duration-300 text-base md:text-lg flex items-center justify-center gap-3 w-full sm:w-auto relative z-20">
