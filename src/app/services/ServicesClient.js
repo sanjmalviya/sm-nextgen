@@ -83,44 +83,44 @@ const OVERVIEW_CATEGORIES = [
 
 const SERVICES_DATA = {
   MARKETING: [
-    { title: "Brand Strategy & Positioning", slug: "brand-strategy-and-positioning", desc: "Build a strong brand identity and unique market positioning.", img: "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop", icon: "fas fa-chess" },
-    { title: "Search Engine Optimization (SEO)", desc: "Increase organic traffic through technical and on-page SEO.", img: "https://images.unsplash.com/photo-1571786256017-aee7a0c009b6?q=80&w=2080&auto=format&fit=crop", icon: "fas fa-search-plus" },
-    { title: "Performance Advertising", desc: "Scale revenue with ROI-focused Meta, Google & YouTube Ads.", img: "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=1470&auto=format&fit=crop", icon: "fab fa-meta" },
-    { title: "Social Media Marketing", desc: "Grow engaged audiences and build community presence.", img: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1974&auto=format&fit=crop", icon: "fas fa-hashtag" },
-    { title: "Content Marketing", desc: "Attract audiences through blogs, videos, and strategic content.", img: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=2070&auto=format&fit=crop", icon: "fas fa-pen-nib" }, 
-    { title: "Lead Generation Systems", desc: "Automate B2B/B2C lead pipelines and cold outreach.", img: "https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=2074&auto=format&fit=crop", icon: "fas fa-magnet" },
-    { title: "Sales Funnel & Conversion", desc: "Optimize landing pages to maximize conversion rates.", img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop", icon: "fas fa-filter" },
-    { title: "Email & Marketing Automation", desc: "Retain customers through automated email drip campaigns.", img: "https://images.unsplash.com/photo-1596526131083-e8c633c948d2?q=80&w=1974&auto=format&fit=crop", icon: "fas fa-envelope-open-text" }
+    { title: "Brand Strategy & Positioning", slug: "brand-strategy-and-positioning", desc: "Build a strong brand identity and unique market positioning.", img: "/images/services/brand-strategy-positioning.png", icon: "fas fa-chess" },
+    { title: "Search Engine Optimization (SEO)", desc: "Increase organic traffic through technical and on-page SEO.", img: "/images/services/search-engine-optimization-seo.png", icon: "fas fa-search-plus" },
+    { title: "Performance Advertising", desc: "Scale revenue with ROI-focused Meta, Google & YouTube Ads.", img: "/images/services/performance-advertising.png", icon: "fab fa-meta" },
+    { title: "Social Media Marketing", desc: "Grow engaged audiences and build community presence.", img: "/images/services/social-media-marketing.png", icon: "fas fa-hashtag" },
+    { title: "Content Marketing", desc: "Attract audiences through blogs, videos, and strategic content.", img: "/images/services/content-marketing.png", icon: "fas fa-pen-nib" }, 
+    { title: "Lead Generation Systems", desc: "Automate B2B/B2C lead pipelines and cold outreach.", img: "/images/services/lead-generation-systems.png", icon: "fas fa-magnet" },
+    { title: "Sales Funnel & Conversion", desc: "Optimize landing pages to maximize conversion rates.", img: "/images/services/sales-funnel-conversion.png", icon: "fas fa-filter" },
+    { title: "Email & Marketing Automation", desc: "Retain customers through automated email drip campaigns.", img: "/images/services/email-marketing-automation.png", icon: "fas fa-envelope-open-text" }
   ],
   TECH_DEVELOPMENT: [
-    { title: "Website Development", desc: "Business websites, landing pages, and SEO-ready UI/UX development.", img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2072&auto=format&fit=crop", icon: "fas fa-globe" },
-    { title: "E-Commerce Development", desc: "Shopify, WooCommerce, payment gateways, and custom stores.", img: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=1950&auto=format&fit=crop", icon: "fas fa-shopping-cart" },
-    { title: "Funnel & Landing Page Development", desc: "High-converting funnels, lead capture, and A/B testing setups.", img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop", icon: "fas fa-filter" },
-    { title: "Web App Development", desc: "Custom web applications, SaaS platforms, and CRM dashboards.", img: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop", icon: "fas fa-laptop-code" },
-    { title: "Mobile App Development", desc: "Android, iOS, cross-platform apps, and Play/App Store deployment.", img: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=2070&auto=format&fit=crop", icon: "fas fa-mobile-alt" },
-    { title: "Automation & Integration", desc: "API integrations, Zapier/Make setups, and workflow systems.", img: "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop", icon: "fas fa-project-diagram" },
-    { title: "UI/UX & Product Design", desc: "User journey mapping, wireframing, and Figma prototype design.", img: "https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=2000&auto=format&fit=crop", icon: "fas fa-paint-brush" },
-    { title: "Website Maintenance & Support", desc: "Bug fixing, security monitoring, server support, and optimization.", img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2070&auto=format&fit=crop", icon: "fas fa-tools" }
+    { title: "Website Development", desc: "Business websites, landing pages, and SEO-ready UI/UX development.", img: "/images/services/website-development.png", icon: "fas fa-globe" },
+    { title: "E-Commerce Development", desc: "Shopify, WooCommerce, payment gateways, and custom stores.", img: "/images/services/e-commerce-development.png", icon: "fas fa-shopping-cart" },
+    { title: "Funnel & Landing Page Development", desc: "High-converting funnels, lead capture, and A/B testing setups.", img: "/images/services/funnel-landing-page-development.png", icon: "fas fa-filter" },
+    { title: "Web App Development", desc: "Custom web applications, SaaS platforms, and CRM dashboards.", img: "/images/services/web-app-development.png", icon: "fas fa-laptop-code" },
+    { title: "Mobile App Development", desc: "Android, iOS, cross-platform apps, and Play/App Store deployment.", img: "/images/services/mobile-app-development.png", icon: "fas fa-mobile-alt" },
+    { title: "Automation & Integration", desc: "API integrations, Zapier/Make setups, and workflow systems.", img: "/images/services/automation-integration.png", icon: "fas fa-project-diagram" },
+    { title: "UI/UX & Product Design", desc: "User journey mapping, wireframing, and Figma prototype design.", img: "/images/services/ui-ux-product-design.png", icon: "fas fa-paint-brush" },
+    { title: "Website Maintenance & Support", desc: "Bug fixing, security monitoring, server support, and optimization.", img: "/images/services/website-maintenance-support.png", icon: "fas fa-tools" }
   ],
   AI_AUTOMATION: [
-    { title: "AI Business Automation Systems", desc: "Streamline operations with smart workflow automations.", img: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2070&auto=format&fit=crop", icon: "fas fa-cogs" },
-    { title: "AI Marketing Automation", desc: "Automate ad optimizations and marketing workflows.", img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop", icon: "fas fa-chart-network" },
-    { title: "AI Lead Generation Systems", desc: "Deploy AI scrapers and automated qualification bots.", img: "https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=2074&auto=format&fit=crop", icon: "fas fa-satellite-dish" },
-    { title: "AI Chatbots & Conversational AI", desc: "24/7 AI-powered website support and sales bots.", img: "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?q=80&w=2006&auto=format&fit=crop", icon: "fas fa-robot" },
-    { title: "WhatsApp Automation Systems", desc: "Automated WhatsApp marketing and customer support.", img: "https://images.unsplash.com/photo-1611746872915-64382b5c76da?q=80&w=2070&auto=format&fit=crop", icon: "fab fa-whatsapp" },
-    { title: "AI Content Creation Systems", desc: "Scale production with AI copywriting and video generation.", img: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1965&auto=format&fit=crop", icon: "fas fa-brain" },
-    { title: "AI Data Analytics & Business Intelligence", desc: "Predictive dashboards providing real-time business insights.", img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop", icon: "fas fa-chart-pie" },
-    { title: "Custom AI Tools & Integrations", desc: "Bespoke AI APIs and custom software development.", img: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=2070&auto=format&fit=crop", icon: "fas fa-code" }
+    { title: "AI Business Automation Systems", desc: "Streamline operations with smart workflow automations.", img: "/images/services/ai-business-automation-systems.png", icon: "fas fa-cogs" },
+    { title: "AI Marketing Automation", desc: "Automate ad optimizations and marketing workflows.", img: "/images/services/ai-marketing-automation.png", icon: "fas fa-chart-network" },
+    { title: "AI Lead Generation Systems", desc: "Deploy AI scrapers and automated qualification bots.", img: "/images/services/ai-lead-generation-systems.png", icon: "fas fa-satellite-dish" },
+    { title: "AI Chatbots & Conversational AI", desc: "24/7 AI-powered website support and sales bots.", img: "/images/services/ai-chatbots-conversational-ai.png", icon: "fas fa-robot" },
+    { title: "WhatsApp Automation Systems", desc: "Automated WhatsApp marketing and customer support.", img: "/images/services/whatsapp-automation-systems.png", icon: "fab fa-whatsapp" },
+    { title: "AI Content Creation Systems", desc: "Scale production with AI copywriting and video generation.", img: "/images/services/ai-content-creation-systems.png", icon: "fas fa-brain" },
+    { title: "AI Data Analytics & Business Intelligence", desc: "Predictive dashboards providing real-time business insights.", img: "/images/services/ai-data-analytics-business-intelligence.png", icon: "fas fa-chart-pie" },
+    { title: "Custom AI Tools & Integrations", desc: "Bespoke AI APIs and custom software development.", img: "/images/services/custom-ai-tools-integrations.png", icon: "fas fa-code" }
   ],
   LEGAL_FINANCE: [
-    { title: "Business Registration Services", desc: "Company, LLP, and Startup India registration.", img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop", icon: "fas fa-building" },
-    { title: "GST Services", desc: "Complete GST registration, filing, and compliance.", img: "https://images.unsplash.com/photo-1580519542036-c47de6196ba5?q=80&w=2071&auto=format&fit=crop", icon: "fas fa-file-invoice" },
-    { title: "Income Tax Services", desc: "Corporate tax filing, planning, and advisory.", img: "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?q=80&w=2071&auto=format&fit=crop", icon: "fas fa-file-invoice-dollar" },
-    { title: "Accounting & Bookkeeping", desc: "Accurate financial records and statement preparation.", img: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=2070&auto=format&fit=crop", icon: "fas fa-book" },
-    { title: "Payroll & Employee Compliance", desc: "Automated salary processing and HR compliance.", img: "https://images.unsplash.com/photo-1553877522-43269d4ea984?q=80&w=2070&auto=format&fit=crop", icon: "fas fa-users" },
-    { title: "Business Compliance Management", desc: "ROC filings and ongoing legal documentation.", img: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=2112&auto=format&fit=crop", icon: "fas fa-balance-scale" },
-    { title: "Trademark & Intellectual Property", desc: "Protect your brand with trademark and copyright filing.", img: "https://images.unsplash.com/photo-1505330622279-bf7d7fc918f4?q=80&w=2070&auto=format&fit=crop", icon: "fas fa-copyright" },
-    { title: "Financial Consulting & Advisory", desc: "Strategic financial planning and business scaling advice.", img: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=2070&auto=format&fit=crop", icon: "fas fa-chart-line" }
+    { title: "Business Registration Services", desc: "Company, LLP, and Startup India registration.", img: "/images/services/business-registration.png", icon: "fas fa-building" },
+    { title: "GST Services", desc: "Complete GST registration, filing, and compliance.", img: "/images/services/gst-services.png", icon: "fas fa-file-invoice" },
+    { title: "Income Tax Services", desc: "Corporate tax filing, planning, and advisory.", img: "/images/services/income-tax.png", icon: "fas fa-file-invoice-dollar" },
+    { title: "Accounting & Bookkeeping", desc: "Accurate financial records and statement preparation.", img: "/images/services/accounting.png", icon: "fas fa-book" },
+    { title: "Payroll & Employee Compliance", desc: "Automated salary processing and HR compliance.", img: "/images/services/payroll.png", icon: "fas fa-users" },
+    { title: "Business Compliance Management", desc: "ROC filings and ongoing legal documentation.", img: "/images/services/compliance.png", icon: "fas fa-balance-scale" },
+    { title: "Trademark & Intellectual Property", desc: "Protect your brand with trademark and copyright filing.", img: "/images/services/trademark.png", icon: "fas fa-copyright" },
+    { title: "Financial Consulting & Advisory", desc: "Strategic financial planning and business scaling advice.", img: "/images/services/financial-advisory.png", icon: "fas fa-chart-line" }
   ]
 };
 
@@ -176,7 +176,7 @@ export default function ServicesClient() {
       {/* 1️⃣ HERO SECTION */}
       <section className="relative pt-40 pb-28 bg-[#071A30] overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop" 
+          <img src="/images/services/hero-bg.png" // You can also replace this one if needed, previously it was an Unsplash link
                alt="Business Analytics Dashboard" 
                className="w-full h-full object-cover opacity-10 filter grayscale blur-[2px]" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#071A30] to-[#071A30]/80"></div>

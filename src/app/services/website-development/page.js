@@ -308,7 +308,7 @@ export default function WebsiteDevelopmentPage() {
       <section className="py-24 bg-[#F8FAFC] dark:bg-[#0B2545] border-y border-gray-200 dark:border-white/5 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-4xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-5xl font-heading font-bold text-[#0B2545] dark:text-white mb-4">The Development Arsenal</h2>
+            <h2 className="text-3xl md:text-5xl font-heading font-bold text-[#0B2545] dark:text-white mb-4">The Development System</h2>
             <p className="text-lg text-gray-600 dark:text-[#E6EEF2]/80">From blazing fast loading speeds to bulletproof security, here is what comes standard with every SM NextGen build.</p>
           </div>
           

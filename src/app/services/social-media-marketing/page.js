@@ -296,7 +296,7 @@ export default function SocialMediaMarketingPage() {
 
       {/* 🟢 FULL WIDTH SECTIONS BELOW */}
 
-      {/* 6️⃣ WHAT YOU GET (Massive Exhaustive 12-Point Section: Replacing "Performance Arsenal") */}
+      {/* 6️⃣ WHAT YOU GET (Massive Exhaustive 12-Point Section: Replacing "Performance System") */}
       <section className="py-24 bg-[#F8FAFC] dark:bg-[#0B1120] border-y border-gray-200 dark:border-white/5 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-4xl mx-auto mb-16">

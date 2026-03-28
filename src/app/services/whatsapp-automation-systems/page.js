@@ -298,7 +298,7 @@ export default function WhatsAppAutomationPage() {
       <section className="py-24 bg-[#F8FAFC] dark:bg-[#0B2545] border-y border-gray-200 dark:border-white/5 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-4xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-5xl font-heading font-bold text-[#0B2545] dark:text-white mb-4">The Complete Conversational Arsenal</h2>
+            <h2 className="text-3xl md:text-5xl font-heading font-bold text-[#0B2545] dark:text-white mb-4">The Complete Conversational System</h2>
             <p className="text-lg text-gray-600 dark:text-[#E6EEF2]/80">From obtaining your Green Tick to building complex e-commerce recovery flows, we deploy a complete WhatsApp sales engine.</p>
           </div>
           
