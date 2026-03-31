@@ -113,14 +113,14 @@ const SERVICES_DATA = {
     { title: "Custom AI Tools & Integrations", desc: "Bespoke AI APIs and custom software development.", img: "/images/services/custom-ai-tools-integrations.png", icon: "fas fa-code" }
   ],
   LEGAL_FINANCE: [
-    { title: "Business Registration Services", desc: "Company, LLP, and Startup India registration.", img: "/images/services/business-registration.png", icon: "fas fa-building" },
+    { title: "Business Registration Services", desc: "Company, LLP, and Startup India registration.", img: "/images/services/business-registration-services.png", icon: "fas fa-building" },
     { title: "GST Services", desc: "Complete GST registration, filing, and compliance.", img: "/images/services/gst-services.png", icon: "fas fa-file-invoice" },
-    { title: "Income Tax Services", desc: "Corporate tax filing, planning, and advisory.", img: "/images/services/income-tax.png", icon: "fas fa-file-invoice-dollar" },
-    { title: "Accounting & Bookkeeping", desc: "Accurate financial records and statement preparation.", img: "/images/services/accounting.png", icon: "fas fa-book" },
-    { title: "Payroll & Employee Compliance", desc: "Automated salary processing and HR compliance.", img: "/images/services/payroll.png", icon: "fas fa-users" },
-    { title: "Business Compliance Management", desc: "ROC filings and ongoing legal documentation.", img: "/images/services/compliance.png", icon: "fas fa-balance-scale" },
-    { title: "Trademark & Intellectual Property", desc: "Protect your brand with trademark and copyright filing.", img: "/images/services/trademark.png", icon: "fas fa-copyright" },
-    { title: "Financial Consulting & Advisory", desc: "Strategic financial planning and business scaling advice.", img: "/images/services/financial-advisory.png", icon: "fas fa-chart-line" }
+    { title: "Income Tax Services", desc: "Corporate tax filing, planning, and advisory.", img: "/images/services/income-tax-services.png", icon: "fas fa-file-invoice-dollar" },
+    { title: "Accounting & Bookkeeping", desc: "Accurate financial records and statement preparation.", img: "/images/services/accounting-bookkeeping.png", icon: "fas fa-book" },
+    { title: "Payroll & Employee Compliance", desc: "Automated salary processing and HR compliance.", img: "/images/services/payroll-employee-compliance.png", icon: "fas fa-users" },
+    { title: "Business Compliance Management", desc: "ROC filings and ongoing legal documentation.", img: "/images/services/business-compliance-management.png", icon: "fas fa-balance-scale" },
+    { title: "Trademark & Intellectual Property", desc: "Protect your brand with trademark and copyright filing.", img: "/images/services/trademark-intellectual-property.png", icon: "fas fa-copyright" },
+    { title: "Financial Consulting & Advisory", desc: "Strategic financial planning and business scaling advice.", img: "/images/services/financial-consulting-advisory.png", icon: "fas fa-chart-line" }
   ]
 };
 

@@ -6,13 +6,44 @@ import Link from "next/link";
 const WHATSAPP_NUMBER = "917073538077"; 
 const getWhatsAppLink = (message) => `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
-// --- PREMIUM SLIDER IMAGES (High-Res Unsplash) ---
+// --- PREMIUM SLIDER IMAGES (All 32 Services Images) ---
 const HERO_IMAGES = [
-  "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop", // Dashboard/Tech
-  "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop", // Analytics & Growth
-  "https://images.unsplash.com/photo-1553877522-43269d4ea984?q=80&w=2070&auto=format&fit=crop", // Strategy/Meeting
-  "https://images.unsplash.com/photo-1661956602116-aa6865609028?q=80&w=1964&auto=format&fit=crop", // AI / Code
-  "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?q=80&w=2076&auto=format&fit=crop"  // Financial Charts
+  // MARKETING
+  "/images/services/brand-strategy-positioning.png",
+  "/images/services/search-engine-optimization-seo.png",
+  "/images/services/performance-advertising.png",
+  "/images/services/social-media-marketing.png",
+  "/images/services/content-marketing.png",
+  "/images/services/lead-generation-systems.png",
+  "/images/services/sales-funnel-conversion.png",
+  "/images/services/email-marketing-automation.png",
+  // TECH DEVELOPMENT
+  "/images/services/website-development.png",
+  "/images/services/e-commerce-development.png",
+  "/images/services/funnel-landing-page-development.png",
+  "/images/services/web-app-development.png",
+  "/images/services/mobile-app-development.png",
+  "/images/services/automation-integration.png",
+  "/images/services/ui-ux-product-design.png",
+  "/images/services/website-maintenance-support.png",
+  // AI AUTOMATION
+  "/images/services/ai-business-automation-systems.png",
+  "/images/services/ai-marketing-automation.png",
+  "/images/services/ai-lead-generation-systems.png",
+  "/images/services/ai-chatbots-conversational-ai.png",
+  "/images/services/whatsapp-automation-systems.png",
+  "/images/services/ai-content-creation-systems.png",
+  "/images/services/ai-data-analytics-business-intelligence.png",
+  "/images/services/custom-ai-tools-integrations.png",
+  // LEGAL & FINANCE
+  "/images/services/business-registration-services.png",
+  "/images/services/gst-services.png",
+  "/images/services/income-tax-services.png",
+  "/images/services/accounting-bookkeeping.png",
+  "/images/services/payroll-employee-compliance.png",
+  "/images/services/business-compliance-management.png",
+  "/images/services/trademark-intellectual-property.png",
+  "/images/services/financial-consulting-advisory.png"
 ];
 
 export default function HomePage() {
@@ -29,12 +60,13 @@ export default function HomePage() {
 
   const words = ["the smart way.", "with AI Automation.", "with Data Science.", "with Robust Tech."];
 
-  // --- MOUSE GLOW LOGIC (Fixed & Optimized) ---
+  // --- MOUSE GLOW LOGIC (Size & Brightness Reduced) ---
   useEffect(() => {
     const moveCursor = (e) => {
       if (cursorRef.current) {
         requestAnimationFrame(() => {
-          cursorRef.current.style.transform = `translate3d(${e.clientX - 250}px, ${e.clientY - 250}px, 0)`;
+          // Changed offset from 250 to 150 because we reduced size to 300px
+          cursorRef.current.style.transform = `translate3d(${e.clientX - 150}px, ${e.clientY - 150}px, 0)`;
         });
       }
     };
@@ -46,7 +78,7 @@ export default function HomePage() {
   useEffect(() => {
     const slideInterval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % HERO_IMAGES.length);
-    }, 5000);
+    }, 4000); // Thoda fast kiya hai smooth feel ke liye
     return () => clearInterval(slideInterval);
   }, []);
 
@@ -77,7 +109,6 @@ export default function HomePage() {
     setSubmitted(true);
 
     try {
-      // 1. Send Email via Web3Forms
       const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: {
@@ -100,7 +131,6 @@ export default function HomePage() {
       console.log("Web3Forms Response:", result);
 
       if (result.success) {
-        // 2. Open WhatsApp after successful email
         const leadMsg = `*New Free Growth Audit Request* 📈\n\n*Name:* ${formData.name}\n*Email:* ${formData.email}\n*Phone:* ${formData.phone}\n*Business Type:* ${formData.businessType}\n*Monthly Budget:* ${formData.budget}\n\nPlease review my details and schedule the audit.`;
         
         setTimeout(() => {
@@ -134,14 +164,14 @@ export default function HomePage() {
     <>
       <main className="bg-[#F8FAFC] dark:bg-[#0B2545] font-body text-[#0B2545] dark:text-[#E6EEF2] min-h-screen selection:bg-[#0097B2] selection:text-white w-full overflow-x-hidden transition-colors duration-300 relative">
         
-        {/* --- GLOBAL CURSOR GLOW --- */}
+        {/* --- GLOBAL CURSOR GLOW (Size & Opacity Reduced) --- */}
         <div 
           ref={cursorRef} 
-          className="pointer-events-none fixed top-0 left-0 w-[500px] h-[500px] bg-[#0097B2]/30 dark:bg-[#0097B2]/20 rounded-full blur-[120px] z-[99] hidden lg:block mix-blend-screen dark:mix-blend-lighten"
+          className="pointer-events-none fixed top-0 left-0 w-[300px] h-[300px] bg-[#0097B2]/15 dark:bg-[#0097B2]/10 rounded-full blur-[100px] z-[99] hidden lg:block mix-blend-screen dark:mix-blend-lighten"
           style={{ willChange: 'transform' }}
         ></div>
 
-        {/* --- INLINE CSS FOR INFINITE MARQUEE --- */}
+        {/* --- INLINE CSS FOR ANIMATIONS & SLIDER --- */}
         <style dangerouslySetInnerHTML={{__html: `
           @keyframes marquee {
             0% { transform: translateX(0%); }
@@ -155,30 +185,35 @@ export default function HomePage() {
           .animate-marquee:hover {
             animation-play-state: paused;
           }
+          @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+          .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+          }
         `}} />
 
         {/* 1️⃣ HERO SECTION */}
-        <section className="relative pt-32 pb-12 md:pt-40 md:pb-16 bg-[#071A30] text-center px-4 sm:px-6 lg:px-8 z-10 overflow-hidden border-b border-white/5">
+        <section className="relative pt-32 pb-16 md:pt-40 md:pb-24 bg-[#071A30] text-center px-4 sm:px-6 lg:px-8 z-10 overflow-hidden border-b border-white/5">
           
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px] z-0"></div>
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_center,#11325B,transparent_70%)] opacity-80 z-0"></div>
-          <div className="absolute top-[-20%] left-1/2 transform -translate-x-1/2 w-[600px] md:w-[800px] h-[600px] md:h-[800px] bg-[#0097B2]/25 rounded-full blur-[120px] md:blur-[150px] pointer-events-none z-0"></div>
           
-          <div className="absolute top-[20%] left-[-10%] w-[300px] h-[300px] bg-pink-500/10 rounded-full blur-[120px] pointer-events-none z-0 hidden md:block"></div>
-          <div className="absolute bottom-[-10%] right-[-10%] w-[300px] h-[300px] bg-purple-500/10 rounded-full blur-[120px] pointer-events-none z-0 hidden md:block"></div>
-
-          <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-heading font-extrabold text-white mb-4 leading-tight tracking-tight drop-shadow-sm">
-              Let&apos;s Grow Your Business <br className="hidden md:block" />
-              <span className="text-[#0097B2] text-3xl sm:text-4xl md:text-6xl lg:text-7xl min-h-[40px] md:min-h-[90px] block mt-1 md:mt-2">{typewriterText}<span className="animate-blink font-light opacity-50 text-white">|</span></span>
-            </h1>
+          <div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center">
             
-            {/* UPDATED SUBTEXT INCLUDES TECH */}
-            <p className="text-base md:text-xl text-[#E6EEF2]/80 mb-8 md:mb-10 leading-relaxed font-body max-w-2xl font-light">
-              SM NextGen helps businesses scale through data-driven marketing, robust technical infrastructure, intelligent automation systems, and reliable legal &amp; financial support.
-            </p>
+            <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-heading font-extrabold text-white mb-4 leading-tight tracking-tight drop-shadow-sm">
+                Let's Grow Your Business <br className="hidden md:block" />
+                <span className="text-[#0097B2] text-3xl sm:text-4xl md:text-6xl lg:text-7xl min-h-[40px] md:min-h-[90px] block mt-1 md:mt-2">{typewriterText}<span className="animate-blink font-light opacity-50 text-white">|</span></span>
+              </h1>
+              
+              <p className="text-base md:text-xl text-[#E6EEF2]/80 mb-8 md:mb-10 leading-relaxed font-body max-w-2xl mx-auto font-light">
+                SM NextGen helps businesses scale through data-driven marketing, robust technical infrastructure, intelligent automation systems, and reliable legal &amp; financial support.
+              </p>
+            </div>
             
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-5 w-full sm:w-auto mb-8">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-5 w-full sm:w-auto mb-16 opacity-0 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
               <a href="#leadForm" className="w-full sm:w-auto px-8 py-4 bg-[#0097B2] hover:bg-white hover:text-[#0B2545] text-white font-bold rounded-xl shadow-[0_0_30px_-5px_rgba(0,151,178,0.4)] transition-all duration-300 hover:-translate-y-1 text-base md:text-lg relative z-20">
                 Get Free Growth Audit
               </a>
@@ -187,24 +222,50 @@ export default function HomePage() {
               </a>
             </div>
 
-            <div className="text-center text-[10px] md:text-sm font-medium text-[#E6EEF2]/60 uppercase tracking-widest mt-2 px-4 leading-relaxed bg-white/5 py-2 px-6 rounded-full border border-white/10 backdrop-blur-sm">
+            {/* 1.5️⃣ MODERN 3D SLIDER */}
+            <div className="relative w-full h-[300px] md:h-[500px] flex justify-center items-center perspective-[1200px] opacity-0 animate-fade-in-up mt-4" style={{ animationDelay: '0.5s' }}>
+              {HERO_IMAGES.map((img, index) => {
+                
+                // PERFECT CIRCULAR MATH FOR 32 IMAGES
+                let offset = index - currentSlide;
+                if (offset < -Math.floor(HERO_IMAGES.length / 2)) offset += HERO_IMAGES.length;
+                if (offset > Math.floor(HERO_IMAGES.length / 2)) offset -= HERO_IMAGES.length;
+
+                let zIndex = 50 - Math.abs(offset);
+                let scale = offset === 0 ? 1 : 0.85;
+                let translateX = offset * 40; // 40% shift left/right
+                let rotateY = offset * -20; // 20deg rotation
+                
+                // Sirf current aur uske aas-paas wale (left/right) dikhenge
+                let opacity = Math.abs(offset) > 1 ? 0 : (offset === 0 ? 1 : 0.6);
+
+                return (
+                  <div 
+                    key={index} 
+                    className="absolute w-[85%] md:w-[65%] h-full transition-all duration-700 ease-in-out"
+                    style={{
+                      transform: `translateX(${translateX}%) scale(${scale}) rotateY(${rotateY}deg)`,
+                      zIndex: zIndex,
+                      opacity: opacity,
+                      pointerEvents: Math.abs(offset) > 1 ? "none" : "auto", // Hidden items won't block clicks
+                      transformStyle: "preserve-3d"
+                    }}
+                  >
+                    <img 
+                      src={img} 
+                      alt={`SM NextGen Service ${index}`} 
+                      className="w-full h-full object-cover rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10" 
+                    />
+                    {offset === 0 && <div className="absolute inset-0 bg-gradient-to-t from-[#0B2545]/80 to-transparent rounded-3xl"></div>}
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="text-center text-[10px] md:text-sm font-medium text-[#E6EEF2]/60 uppercase tracking-widest mt-12 px-4 leading-relaxed bg-white/5 py-2 px-6 rounded-full border border-white/10 backdrop-blur-sm opacity-0 animate-fade-in-up" style={{ animationDelay: '0.7s' }}>
               <i className="fas fa-shield-alt text-[#0097B2] mr-1.5"></i> Trusted by startups, MSMEs, and growing businesses.
             </div>
           </div>
-        </section>
-
-        {/* 1.5️⃣ FULL-WIDTH IMAGE SLIDER SECTION */}
-        <section className="relative w-full h-[30vh] md:h-[60vh] bg-[#071A30] overflow-hidden group border-b border-white/5">
-          {HERO_IMAGES.map((img, index) => (
-            <div 
-              key={index}
-              className={`absolute inset-0 transition-all duration-1500 ease-in-out transform origin-center ${index === currentSlide ? "opacity-60 scale-100 z-10" : "opacity-0 scale-105 z-0"}`}
-            >
-              <img src={img} alt={`SM NextGen Business Growth ${index}`} className="w-full h-full object-cover filter grayscale-[20%] contrast-110" />
-            </div>
-          ))}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0B2545] via-transparent to-[#F8FAFC] dark:to-[#0B2545] z-20 opacity-90"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0B2545]/60 via-transparent to-[#0B2545]/60 z-20"></div>
         </section>
 
         {/* 2️⃣ TRUST / VALUE STRIP */}
@@ -222,16 +283,15 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 3️⃣ CORE SERVICES SECTION (UPDATED TO 4 CARDS) */}
+        {/* 3️⃣ CORE SERVICES SECTION */}
         <section id="services" className="py-16 md:py-24 bg-[#F8FAFC] dark:bg-[#0B2545] transition-colors duration-300 relative z-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-10 md:mb-16 max-w-3xl mx-auto relative z-10">
+            <div className="text-center mb-10 md:mb-16 max-w-3xl mx-auto relative z-10 opacity-0 animate-fade-in-up">
               <h2 className="text-3xl md:text-5xl font-heading font-extrabold text-[#0B2545] dark:text-white mb-4">Everything Your Business Needs to Grow</h2>
               <p className="text-base md:text-lg text-gray-600 dark:text-[#E6EEF2]/80 leading-relaxed">SM NextGen combines marketing, tech development, AI automation, and business compliance into one integrated growth system.</p>
             </div>
             
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 relative z-10">
-              
               {/* Marketing Card */}
               <div className="bg-white/80 dark:bg-white/5 backdrop-blur-xl rounded-[2rem] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none border border-white/20 dark:border-white/10 hover:border-pink-500/50 transition-all duration-500 hover:-translate-y-2 group relative overflow-hidden isolate flex flex-col">
                 <div className="absolute inset-0 bg-gradient-to-b from-pink-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0"></div>
@@ -250,7 +310,7 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* NEW: Tech Development Card */}
+              {/* Tech Development Card */}
               <div className="bg-white/80 dark:bg-white/5 backdrop-blur-xl rounded-[2rem] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none border border-white/20 dark:border-white/10 hover:border-blue-500/50 transition-all duration-500 hover:-translate-y-2 group relative overflow-hidden isolate flex flex-col">
                 <div className="absolute inset-0 bg-gradient-to-b from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0"></div>
                 <div className="relative z-10 flex flex-col h-full">
@@ -317,13 +377,13 @@ export default function HomePage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 text-center relative">
               <div className="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-[#0097B2]/30 to-transparent -z-10"></div>
               
-              <div className="bg-[#F8FAFC] dark:bg-[#11325B] border border-gray-100 dark:border-white/5 p-6 md:p-8 rounded-3xl relative shadow-sm">
+              <div className="bg-[#F8FAFC] dark:bg-[#11325B] border border-gray-100 dark:border-white/5 p-6 md:p-8 rounded-3xl relative shadow-sm hover:-translate-y-1 transition-transform">
                 <div className="w-12 h-12 rounded-full bg-[#0097B2] text-white flex items-center justify-center font-bold text-xl mx-auto mb-4 md:mb-6 shadow-lg shadow-[#0097B2]/30">1</div>
                 <h3 className="text-xl font-bold text-[#0B2545] dark:text-white mb-2 md:mb-3">Discovery</h3>
                 <p className="text-sm text-gray-600 dark:text-[#E6EEF2]/70 leading-relaxed">Understanding your business models, unit economics, and primary growth goals.</p>
               </div>
               
-              <div className="bg-[#F8FAFC] dark:bg-[#11325B] border border-gray-100 dark:border-white/5 p-6 md:p-8 rounded-3xl relative shadow-sm">
+              <div className="bg-[#F8FAFC] dark:bg-[#11325B] border border-gray-100 dark:border-white/5 p-6 md:p-8 rounded-3xl relative shadow-sm hover:-translate-y-1 transition-transform">
                 <div className="w-12 h-12 rounded-full bg-[#0097B2] text-white flex items-center justify-center font-bold text-xl mx-auto mb-4 md:mb-6 shadow-lg shadow-[#0097B2]/30">2</div>
                 <h3 className="text-xl font-bold text-[#0B2545] dark:text-white mb-2 md:mb-3">Strategy</h3>
                 <p className="text-sm text-gray-600 dark:text-[#E6EEF2]/70 leading-relaxed">Designing a tailored, data-backed marketing and automation roadmap.</p>
@@ -335,7 +395,7 @@ export default function HomePage() {
                 <p className="text-sm text-gray-600 dark:text-[#E6EEF2]/70 leading-relaxed">Launching targeted campaigns, automation workflows, and technical systems.</p>
               </div>
               
-              <div className="bg-[#F8FAFC] dark:bg-[#11325B] border border-gray-100 dark:border-white/5 p-6 md:p-8 rounded-3xl relative shadow-sm">
+              <div className="bg-[#F8FAFC] dark:bg-[#11325B] border border-gray-100 dark:border-white/5 p-6 md:p-8 rounded-3xl relative shadow-sm hover:-translate-y-1 transition-transform">
                 <div className="w-12 h-12 rounded-full bg-[#0097B2] text-white flex items-center justify-center font-bold text-xl mx-auto mb-4 md:mb-6 shadow-lg shadow-[#0097B2]/30">4</div>
                 <h3 className="text-xl font-bold text-[#0B2545] dark:text-white mb-2 md:mb-3">Optimization</h3>
                 <p className="text-sm text-gray-600 dark:text-[#E6EEF2]/70 leading-relaxed">Scaling results continuously using real-time data and performance insights.</p>
@@ -386,19 +446,19 @@ export default function HomePage() {
             </div>
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 text-left max-w-6xl mx-auto">
-              <div className="bg-white/5 p-6 md:p-8 rounded-2xl border border-white/10">
+              <div className="bg-white/5 p-6 md:p-8 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
                 <h4 className="text-[#0097B2] font-bold text-base md:text-lg mb-2 md:mb-3"><i className="fas fa-bullhorn mr-2"></i> Marketing</h4>
                 <p className="text-[#E6EEF2]/80 text-sm leading-relaxed">Marketing and SEO strategies generate highly qualified inbound leads.</p>
               </div>
-              <div className="bg-white/5 p-6 md:p-8 rounded-2xl border border-white/10">
+              <div className="bg-white/5 p-6 md:p-8 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
                 <h4 className="text-[#0097B2] font-bold text-base md:text-lg mb-2 md:mb-3"><i className="fas fa-laptop-code mr-2"></i> Tech</h4>
                 <p className="text-[#E6EEF2]/80 text-sm leading-relaxed">Robust web and app development ensures flawless user experience and conversion.</p>
               </div>
-              <div className="bg-white/5 p-6 md:p-8 rounded-2xl border border-white/10">
+              <div className="bg-white/5 p-6 md:p-8 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
                 <h4 className="text-[#0097B2] font-bold text-base md:text-lg mb-2 md:mb-3"><i className="fas fa-robot mr-2"></i> Automation</h4>
                 <p className="text-[#E6EEF2]/80 text-sm leading-relaxed">Automation and AI chatbots naturally nurture and qualify prospects 24/7.</p>
               </div>
-              <div className="bg-white/5 p-6 md:p-8 rounded-2xl border border-white/10">
+              <div className="bg-white/5 p-6 md:p-8 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
                 <h4 className="text-[#0097B2] font-bold text-base md:text-lg mb-2 md:mb-3"><i className="fas fa-balance-scale mr-2"></i> Finance</h4>
                 <p className="text-[#E6EEF2]/80 text-sm leading-relaxed">Finance systems and compliance tracking ensure complete operational stability.</p>
               </div>
@@ -421,7 +481,7 @@ export default function HomePage() {
                 { name: "SaaS", icon: "fas fa-cloud" },
                 { name: "Professional Services", icon: "fas fa-user-tie" }
               ].map((ind, i) => (
-                <div key={i} className="flex flex-col items-center justify-center p-6 md:p-8 bg-[#F8FAFC] dark:bg-[#11325B] border border-gray-100 dark:border-white/5 rounded-2xl hover:border-[#0097B2] dark:hover:border-[#0097B2] hover:shadow-md transition-all group relative z-10">
+                <div key={i} className="flex flex-col items-center justify-center p-6 md:p-8 bg-[#F8FAFC] dark:bg-[#11325B] border border-gray-100 dark:border-white/5 rounded-2xl hover:border-[#0097B2] dark:hover:border-[#0097B2] hover:shadow-md hover:-translate-y-1 transition-all group relative z-10">
                   <i className={`${ind.icon} text-2xl md:text-3xl text-gray-400 group-hover:text-[#0097B2] mb-3 md:mb-4 transition-colors`}></i>
                   <span className="font-bold text-[#0B2545] dark:text-white text-sm md:text-base">{ind.name}</span>
                 </div>
@@ -441,7 +501,7 @@ export default function HomePage() {
             <div className="animate-marquee gap-6 md:gap-8 pr-6 md:pr-8">
               {[...Array(2)].map((_, arrayIndex) => (
                 <div key={arrayIndex} className="flex gap-6 md:gap-8">
-                  <div className="w-[300px] md:w-[400px] bg-white dark:bg-[#162032] p-6 md:p-8 rounded-3xl shadow-sm border border-gray-100 dark:border-white/5 flex flex-col transition-all relative z-10">
+                  <div className="w-[300px] md:w-[400px] bg-white dark:bg-[#162032] p-6 md:p-8 rounded-3xl shadow-sm border border-gray-100 dark:border-white/5 flex flex-col transition-all relative z-10 hover:border-[#0097B2]/50 hover:-translate-y-1">
                     <div className="flex text-yellow-400 mb-3 md:mb-4 text-xs md:text-sm"><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i></div>
                     <p className="text-gray-700 dark:text-[#E6EEF2]/90 text-sm italic mb-4 md:mb-6 flex-grow leading-relaxed">&quot;They streamlined our ad spend and built automated CRM workflows. We are seeing much better operational stability and consistent lead flow now.&quot;</p>
                     <div className="flex items-center gap-3 md:gap-4 mt-auto pt-4 border-t border-gray-100 dark:border-white/10">
@@ -453,7 +513,7 @@ export default function HomePage() {
                     </div>
                   </div>
 
-                  <div className="w-[300px] md:w-[400px] bg-white dark:bg-[#162032] p-6 md:p-8 rounded-3xl shadow-sm border border-gray-100 dark:border-white/5 flex flex-col transition-all relative z-10">
+                  <div className="w-[300px] md:w-[400px] bg-white dark:bg-[#162032] p-6 md:p-8 rounded-3xl shadow-sm border border-gray-100 dark:border-white/5 flex flex-col transition-all relative z-10 hover:border-[#0097B2]/50 hover:-translate-y-1">
                     <div className="flex text-yellow-400 mb-3 md:mb-4 text-xs md:text-sm"><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i></div>
                     <p className="text-gray-700 dark:text-[#E6EEF2]/90 text-sm italic mb-4 md:mb-6 flex-grow leading-relaxed">&quot;Getting our GST compliance and Virtual CFO services from the same team that runs our marketing has been a huge relief. Everything is connected.&quot;</p>
                     <div className="flex items-center gap-3 md:gap-4 mt-auto pt-4 border-t border-gray-100 dark:border-white/10">
@@ -465,7 +525,7 @@ export default function HomePage() {
                     </div>
                   </div>
 
-                  <div className="w-[300px] md:w-[400px] bg-white dark:bg-[#162032] p-6 md:p-8 rounded-3xl shadow-sm border border-gray-100 dark:border-white/5 flex flex-col transition-all relative z-10">
+                  <div className="w-[300px] md:w-[400px] bg-white dark:bg-[#162032] p-6 md:p-8 rounded-3xl shadow-sm border border-gray-100 dark:border-white/5 flex flex-col transition-all relative z-10 hover:border-[#0097B2]/50 hover:-translate-y-1">
                     <div className="flex text-yellow-400 mb-3 md:mb-4 text-xs md:text-sm"><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i></div>
                     <p className="text-gray-700 dark:text-[#E6EEF2]/90 text-sm italic mb-4 md:mb-6 flex-grow leading-relaxed">&quot;The AI chatbot they deployed on our site handles 60% of our basic support queries, saving our human team hours of repetitive work every day.&quot;</p>
                     <div className="flex items-center gap-3 md:gap-4 mt-auto pt-4 border-t border-gray-100 dark:border-white/10">
@@ -492,7 +552,7 @@ export default function HomePage() {
             
             <div className="grid md:grid-cols-3 gap-6 md:gap-8">
               {/* Starter */}
-              <div className="bg-[#F8FAFC] dark:bg-[#11325B] p-6 md:p-8 rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm flex flex-col transition-colors duration-300 relative z-10 hover:-translate-y-1">
+              <div className="bg-[#F8FAFC] dark:bg-[#11325B] p-6 md:p-8 rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm flex flex-col transition-all duration-300 relative z-10 hover:-translate-y-2 hover:shadow-xl hover:border-[#0097B2]/30">
                 <h3 className="text-xl md:text-2xl font-bold text-[#0B2545] dark:text-white mb-2">Starter</h3>
                 <p className="text-sm text-gray-600 dark:text-[#E6EEF2]/70 mb-6">For small businesses.</p>
                 <ul className="space-y-3 flex-grow mb-8 text-sm text-[#0B2545] dark:text-[#E6EEF2] font-medium">
@@ -504,7 +564,7 @@ export default function HomePage() {
               </div>
               
               {/* Growth - Highlighted */}
-              <div className="bg-[#0B2545] p-6 md:p-8 rounded-3xl border-2 border-[#0097B2] shadow-2xl flex flex-col transform md:-translate-y-4 relative isolate text-white hover:-translate-y-2 md:hover:-translate-y-5 transition-transform z-10">
+              <div className="bg-[#0B2545] p-6 md:p-8 rounded-3xl border-2 border-[#0097B2] shadow-[0_15px_40px_rgba(0,151,178,0.25)] flex flex-col transform md:-translate-y-4 relative isolate text-white hover:-translate-y-6 transition-transform z-10">
                 <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#0097B2] text-white px-4 md:px-5 py-1 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-wider shadow-md">Most Popular</div>
                 <h3 className="text-xl md:text-2xl font-bold mb-2">Growth</h3>
                 <p className="text-sm text-[#E6EEF2]/80 mb-6">For scaling companies.</p>
@@ -517,7 +577,7 @@ export default function HomePage() {
               </div>
 
               {/* Custom */}
-              <div className="bg-[#F8FAFC] dark:bg-[#11325B] p-6 md:p-8 rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm flex flex-col transition-colors duration-300 relative z-10 hover:-translate-y-1">
+              <div className="bg-[#F8FAFC] dark:bg-[#11325B] p-6 md:p-8 rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm flex flex-col transition-all duration-300 relative z-10 hover:-translate-y-2 hover:shadow-xl hover:border-[#0097B2]/30">
                 <h3 className="text-xl md:text-2xl font-bold text-[#0B2545] dark:text-white mb-2">Custom</h3>
                 <p className="text-sm text-gray-600 dark:text-[#E6EEF2]/70 mb-6">For advanced systems.</p>
                 <ul className="space-y-3 flex-grow mb-8 text-sm text-[#0B2545] dark:text-[#E6EEF2] font-medium">
@@ -534,13 +594,13 @@ export default function HomePage() {
         {/* 9️⃣ LEAD CAPTURE SECTION */}
         <section id="leadForm" className="py-16 md:py-24 bg-[#F8FAFC] dark:bg-[#0B1120] border-t border-gray-200 dark:border-white/5 transition-colors duration-300 relative z-20">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div className="bg-white dark:bg-[#162032] rounded-[2rem] shadow-xl border border-gray-100 dark:border-white/5 overflow-hidden flex flex-col lg:flex-row relative z-10">
+            <div className="bg-white dark:bg-[#162032] rounded-[2rem] shadow-xl border border-gray-100 dark:border-white/5 overflow-hidden flex flex-col lg:flex-row relative z-10 hover:shadow-2xl transition-shadow duration-500">
               
               <div className="lg:w-5/12 bg-[#0B2545] p-8 md:p-10 text-white flex flex-col justify-center relative isolate">
                 <div className="absolute top-0 left-0 w-full h-full bg-[#0097B2]/20 mix-blend-overlay z-0"></div>
                 <div className="relative z-10">
                   <h2 className="text-2xl md:text-3xl font-heading font-extrabold mb-4">Get Your Free Growth Consultation</h2>
-                  <p className="text-[#E6EEF2]/80 text-sm mb-6 md:mb-8 leading-relaxed">Let&apos;s analyze your current business operations and design a custom tech and marketing roadmap.</p>
+                  <p className="text-[#E6EEF2]/80 text-sm mb-6 md:mb-8 leading-relaxed">Let's analyze your current business operations and design a custom tech and marketing roadmap.</p>
                   <div className="space-y-4 text-sm font-medium">
                     <div className="flex items-center gap-3"><i className="fas fa-check text-[#0097B2]"></i> 30-Minute Strategy Call</div>
                     <div className="flex items-center gap-3"><i className="fas fa-check text-[#0097B2]"></i> Tech &amp; Marketing Audit</div>
@@ -593,7 +653,7 @@ export default function HomePage() {
                       </div>
                     </div>
                     
-                    <button type="submit" className="w-full bg-[#0097B2] hover:bg-[#0B2545] dark:hover:bg-white dark:hover:text-[#0B2545] text-white font-bold py-3 md:py-4 rounded-xl transition-all shadow-md mt-4 text-sm uppercase tracking-wider relative z-20">
+                    <button type="submit" className="w-full bg-[#0097B2] hover:bg-[#0B2545] dark:hover:bg-white dark:hover:text-[#0B2545] text-white font-bold py-3 md:py-4 rounded-xl transition-all shadow-md mt-4 text-sm uppercase tracking-wider relative z-20 hover:-translate-y-1">
                       Request Free Audit
                     </button>
 
