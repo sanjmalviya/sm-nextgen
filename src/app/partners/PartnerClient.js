@@ -1,5 +1,6 @@
+// file: app/partner/PartnerClient.js
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import confetti from "canvas-confetti";
 import Link from "next/link";
 
@@ -7,7 +8,6 @@ const WHATSAPP_NUMBER = "917073538077";
 const getWhatsAppLink = (message) => `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
 export function PartnerClient() {
-  const cursorRef = useRef(null);
   
   // Form States
   const [formStep, setFormStep] = useState(1);
@@ -30,25 +30,7 @@ export function PartnerClient() {
   // Broad skills for any partner
   const availableSkills = ["Marketing", "Ads", "SEO", "Automation", "Design", "Web Dev", "Finance", "Sales/Network", "Other"];
 
-  // Mouse Glow Effect (Cyan Blue)
-  useEffect(() => {
-    const moveCursor = (e) => {
-      if (cursorRef.current) {
-        requestAnimationFrame(() => {
-          cursorRef.current.style.transform = `translate3d(${e.clientX - 250}px, ${e.clientY - 250}px, 0)`;
-          cursorRef.current.style.opacity = '1';
-        });
-      }
-    };
-    const hideCursor = () => { if (cursorRef.current) cursorRef.current.style.opacity = '0'; };
-
-    window.addEventListener('mousemove', moveCursor);
-    window.addEventListener('mouseleave', hideCursor);
-    return () => {
-      window.removeEventListener('mousemove', moveCursor);
-      window.removeEventListener('mouseleave', hideCursor);
-    };
-  }, []);
+  // NOTE: Mouse Glow Effect logic removed to use the global CursorGlow from layout.js
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
   const handleSkillToggle = (skill) => {
@@ -126,11 +108,9 @@ export function PartnerClient() {
 
   return (
     <>
-      <main className="bg-[#F8FAFC] dark:bg-[#0B2545] font-body text-[#0B2545] dark:text-[#E6EEF2] min-h-screen selection:bg-[#0097B2] selection:text-white w-full overflow-x-hidden transition-colors duration-300 relative">
+      {/* <main> class updated to remove hardcoded background colors, relying on layout.js */}
+      <main className="relative w-full z-10 overflow-x-hidden transition-colors duration-300">
         
-        {/* Cursor Glow */}
-        <div ref={cursorRef} className="pointer-events-none fixed top-0 left-0 w-[500px] h-[500px] bg-[#0097B2]/10 dark:bg-[#0097B2]/10 rounded-full blur-[120px] z-[99] hidden lg:block mix-blend-screen dark:mix-blend-lighten opacity-0 transition-opacity duration-300" style={{ willChange: 'transform' }}></div>
-
         {/* 1️⃣ HERO SECTION */}
         <section className="relative pt-32 pb-16 md:pt-40 md:pb-24 bg-[#071A30] text-center px-4 z-10 overflow-hidden border-b border-white/5">
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px] z-0"></div>
@@ -190,8 +170,6 @@ export function PartnerClient() {
             
             <div className="grid md:grid-cols-3 gap-6 md:gap-8 text-[#0B2545] dark:text-white items-start">
               
-              
-
               {/* 1. Secondary Focus: Tech & AI Automation */}
               <div className="bg-white dark:bg-[#162032] p-8 rounded-[2rem] shadow-sm border border-gray-100 dark:border-white/5 hover:-translate-y-2 transition-transform duration-300">
                 <div className="w-14 h-14 rounded-2xl bg-[#0097B2]/10 text-[#0097B2] flex items-center justify-center text-2xl mx-auto mb-6"><i className="fas fa-microchip"></i></div>

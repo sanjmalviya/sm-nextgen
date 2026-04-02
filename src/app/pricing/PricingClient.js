@@ -1,6 +1,6 @@
 // app/pricing/PricingClient.js
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
 // --- WHATSAPP SETUP ---
 const WHATSAPP_NUMBER = "917073538077"; 
@@ -71,7 +71,6 @@ const tableData = [
 ];
 
 export default function PricingClient() {
-  const cursorRef = useRef(null);
   const [activeFaq, setActiveFaq] = useState(null);
   const [activeTab, setActiveTab] = useState(0); 
   
@@ -88,16 +87,6 @@ export default function PricingClient() {
   };
 
   useEffect(() => {
-    // Mouse Glow Logic
-    const moveCursor = (e) => {
-      if (cursorRef.current) {
-        requestAnimationFrame(() => {
-          cursorRef.current.style.transform = `translate3d(${e.clientX - 250}px, ${e.clientY - 250}px, 0)`;
-        });
-      }
-    };
-    window.addEventListener('mousemove', moveCursor);
-
     // Sanity Fetch Logic
     const PROJECT_ID = "y31b2jo0";
     const DATASET = "production";
@@ -115,8 +104,6 @@ export default function PricingClient() {
         setSanityPricing(fetchedData);
       })
       .catch(err => console.error("Sanity Fetch Error:", err));
-
-    return () => window.removeEventListener('mousemove', moveCursor);
   }, []);
 
   const renderDynamicCards = (packages) => {
@@ -180,10 +167,9 @@ export default function PricingClient() {
         .animate-fade-in-up { animation: fadeInUp 0.6s ease-out forwards; }
       `}} />
 
-      <main className="bg-[#F8FAFC] dark:bg-[#0B2545] transition-colors duration-300 font-body text-[#0B2545] dark:text-[#E6EEF2] overflow-x-hidden selection:bg-[#0097B2] selection:text-white relative">
+      {/* <main> class updated to inherit background and text colors from layout.js */}
+      <main className="relative w-full z-10 overflow-x-hidden transition-colors duration-300">
         
-        <div ref={cursorRef} className="pointer-events-none fixed top-0 left-0 w-[500px] h-[500px] bg-[#0097B2]/20 dark:bg-[#0097B2]/15 rounded-full blur-[120px] z-[99] hidden lg:block mix-blend-screen dark:mix-blend-lighten" style={{ willChange: 'transform' }}></div>
-
         {/* 1️⃣ HERO SECTION */}
         <section className="relative pt-40 pb-28 bg-[#0B2545] text-center px-4 sm:px-6 lg:px-8 z-10 overflow-hidden">
           <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#0097B2] rounded-full mix-blend-screen filter blur-[150px] opacity-20 animate-pulse pointer-events-none"></div>
@@ -686,7 +672,6 @@ export default function PricingClient() {
             </div>
           </div>
         </section>
-
 
       </main>
     </>

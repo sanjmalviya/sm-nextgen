@@ -1,5 +1,6 @@
+// file: ContactClient.js (ya ContactFormClient.js)
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import confetti from "canvas-confetti";
 
 // --- WHATSAPP SETUP ---
@@ -7,7 +8,6 @@ const WHATSAPP_NUMBER = "917073538077";
 const getWhatsAppLink = (message) => `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
 export function ContactFormClient() {
-  const cursorRef = useRef(null);
   
   // States for Dynamic Contact Settings (from Sanity - Fallbacks active since Sanity is removed)
   const [contactInfo, setContactInfo] = useState({
@@ -51,23 +51,9 @@ export function ContactFormClient() {
     "Lead Generation Systems", "Sales Funnel & Conversion Optimization", "Email & Marketing Automation", "AI Marketing Automation", "AI Lead Generation Systems", "Accounting", "Business Registration Services"
   ];
 
-  // 1. Cursor Glow Effect
+  // --- AUTO-SELECT PACKAGE FROM URL LOGIC ---
+  // (Cursor logic removed, only URL parsing kept)
   useEffect(() => {
-    const moveCursor = (e) => {
-      if (cursorRef.current) {
-        requestAnimationFrame(() => {
-          cursorRef.current.style.transform = `translate3d(${e.clientX - 250}px, ${e.clientY - 250}px, 0)`;
-          cursorRef.current.style.opacity = '1';
-        });
-      }
-    };
-    const hideCursor = () => {
-      if (cursorRef.current) cursorRef.current.style.opacity = '0';
-    };
-
-    window.addEventListener('mousemove', moveCursor);
-    window.addEventListener('mouseleave', hideCursor);
-
     // Auto-select package from URL parameter (e.g. ?plan=Growth_Core)
     const urlParams = new URLSearchParams(window.location.search);
     const plan = urlParams.get('plan');
@@ -75,11 +61,6 @@ export function ContactFormClient() {
       const normalizedPlan = plan.replace(/_/g, ' ');
       setFormData(prev => ({ ...prev, packageInterested: normalizedPlan }));
     }
-
-    return () => {
-      window.removeEventListener('mousemove', moveCursor);
-      window.removeEventListener('mouseleave', hideCursor);
-    };
   }, []);
 
   // Handle Form Input Change
@@ -167,15 +148,9 @@ export function ContactFormClient() {
 
   return (
     <>
-      <main className="bg-[#F8FAFC] dark:bg-[#0B2545] font-body text-[#0B2545] dark:text-[#E6EEF2] min-h-screen selection:bg-[#0097B2] selection:text-white w-full overflow-x-hidden transition-colors duration-300 relative">
+      {/* <main> class updated to remove hardcoded background colors, relying on layout.js */}
+      <main className="relative w-full z-10 overflow-x-hidden transition-colors duration-300">
         
-        {/* --- DYNAMIC CURSOR SPOTLIGHT GLOW --- */}
-        <div 
-          ref={cursorRef} 
-          className="pointer-events-none fixed top-0 left-0 w-[500px] h-[500px] bg-[#0097B2]/20 dark:bg-[#0097B2]/15 rounded-full blur-[120px] z-[99] hidden lg:block mix-blend-screen dark:mix-blend-lighten opacity-0 transition-opacity duration-300"
-          style={{ willChange: 'transform' }}
-        ></div>
-
         {/* 1️⃣ HERO CONTACT SECTION (Responsive Padding) */}
         <section className="relative pt-32 pb-16 md:pt-40 md:pb-24 bg-[#0B2545] overflow-hidden z-10 border-b border-white/5">
           <div className="absolute top-[-20%] left-[-10%] w-[800px] h-[800px] bg-[#0097B2]/20 rounded-full blur-[150px] animate-pulse pointer-events-none z-0"></div>

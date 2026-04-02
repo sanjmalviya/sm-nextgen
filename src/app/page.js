@@ -1,4 +1,3 @@
-// file: src/app/page.js
 import HomeClient from './HomeClient';
 
 export const metadata = {
@@ -7,7 +6,7 @@ export const metadata = {
   metadataBase: new URL('https://smnextgen.com'), 
   openGraph: {
     title: 'SM NextGen | Business Growth Solutions',
-    description: 'We build growth engines, not just ads.',
+    description: 'Let\'s grow your business the smart way',
     url: 'https://smnextgen.com',
     siteName: 'SM NextGen',
     images: [
@@ -23,7 +22,6 @@ export const metadata = {
   },
 };
 
-// YAHAN NAAM HomePage HONA CHAHIYE, HomeClient NAHI
 export default function HomePage() {
   return <HomeClient />;
 }

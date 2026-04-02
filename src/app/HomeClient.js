@@ -53,27 +53,12 @@ export default function HomeClient() {
   const [typewriterText, setTypewriterText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
   const [wordIndex, setWordIndex] = useState(0);
-  const cursorRef = useRef(null);
 
   // Form State for Inline Lead Capture
   const [formData, setFormData] = useState({ name: "", email: "", phone: "", businessType: "", budget: "" });
   const [submitted, setSubmitted] = useState(false);
 
   const words = ["the smart way.", "with AI Automation.", "with Data Science.", "with Robust Tech."];
-
-  // --- MOUSE GLOW LOGIC (Size & Brightness Reduced) ---
-  useEffect(() => {
-    const moveCursor = (e) => {
-      if (cursorRef.current) {
-        requestAnimationFrame(() => {
-          // Changed offset from 250 to 150 because we reduced size to 300px
-          cursorRef.current.style.transform = `translate3d(${e.clientX - 150}px, ${e.clientY - 150}px, 0)`;
-        });
-      }
-    };
-    window.addEventListener('mousemove', moveCursor);
-    return () => window.removeEventListener('mousemove', moveCursor);
-  }, []);
 
   // --- BACKGROUND SLIDER LOGIC ---
   useEffect(() => {
@@ -164,13 +149,6 @@ export default function HomeClient() {
   return (
     <>
       <main className="bg-[#F8FAFC] dark:bg-[#0B2545] font-body text-[#0B2545] dark:text-[#E6EEF2] min-h-screen selection:bg-[#0097B2] selection:text-white w-full overflow-x-hidden transition-colors duration-300 relative">
-        
-        {/* --- GLOBAL CURSOR GLOW (Size & Opacity Reduced) --- */}
-        <div 
-          ref={cursorRef} 
-          className="pointer-events-none fixed top-0 left-0 w-[300px] h-[300px] bg-[#0097B2]/15 dark:bg-[#0097B2]/10 rounded-full blur-[100px] z-[99] hidden lg:block mix-blend-screen dark:mix-blend-lighten"
-          style={{ willChange: 'transform' }}
-        ></div>
 
         {/* --- INLINE CSS FOR ANIMATIONS & SLIDER --- */}
         <style dangerouslySetInnerHTML={{__html: `

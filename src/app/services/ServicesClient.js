@@ -1,5 +1,6 @@
+// file: app/services/ServicesClient.js
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 
 // --- URL SLUG GENERATOR ---
@@ -134,18 +135,6 @@ const FAQS = [
 
 export default function ServicesClient() {
   const [activeFaq, setActiveFaq] = useState(null);
-  const cursorRef = useRef(null);
-
-  useEffect(() => {
-    const moveCursor = (e) => {
-      if (cursorRef.current) {
-        cursorRef.current.style.left = e.clientX + 'px';
-        cursorRef.current.style.top = e.clientY + 'px';
-      }
-    };
-    window.addEventListener('mousemove', moveCursor);
-    return () => window.removeEventListener('mousemove', moveCursor);
-  }, []);
 
   // 🚀 REUSABLE PREMIUM CARD
   const PremiumCard = ({ item, themeColor }) => (
@@ -170,13 +159,13 @@ export default function ServicesClient() {
   );
 
   return (
-    <main className="bg-[#F8FAFC] dark:bg-[#0B2545] font-body text-[#0B2545] dark:text-[#E6EEF2] min-h-screen selection:bg-[#0097B2] selection:text-white overflow-x-hidden">
-      <div ref={cursorRef} id="cursor-glow" className="hidden md:block"></div>
-
+    // <main> class updated to remove hardcoded background colors, inheriting from layout.js
+    <main className="relative w-full z-10 overflow-x-hidden transition-colors duration-300">
+      
       {/* 1️⃣ HERO SECTION */}
       <section className="relative pt-40 pb-28 bg-[#071A30] overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img src="/images/services/hero-bg.png" // You can also replace this one if needed, previously it was an Unsplash link
+          <img src="/images/services/hero-bg.png" 
                alt="Business Analytics Dashboard" 
                className="w-full h-full object-cover opacity-10 filter grayscale blur-[2px]" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#071A30] to-[#071A30]/80"></div>
@@ -204,7 +193,7 @@ export default function ServicesClient() {
         </div>
       </section>
 
-      {/* 2️⃣ CATEGORY OVERVIEW (4 PILLARS) - PREMIUM REDESIGN WITH UNIFORM SCROLL BUTTONS */}
+      {/* 2️⃣ CATEGORY OVERVIEW (4 PILLARS) */}
       <section id="overview" className="py-24 bg-white dark:bg-[#0B1120] relative -mt-10 rounded-t-[3rem] z-20 shadow-2xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -228,7 +217,6 @@ export default function ServicesClient() {
                   ))}
                   <li className="text-[12px] text-gray-400 italic pt-2 border-t border-gray-200 dark:border-white/10">+ {cat.services.length - 5} more specialized services</li>
                 </ul>
-                {/* 🚀 FIXED BUTTON: Clean, Uniform, No Overflow, Smooth Scroll to Section */}
                 <button onClick={() => document.getElementById(cat.sectionId).scrollIntoView({behavior:'smooth'})} className={`w-full py-3.5 text-center font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 text-sm ${cat.colorStyles.btnClass}`}>
                   Explore Services <i className="fas fa-chevron-down text-xs"></i>
                 </button>
@@ -364,7 +352,7 @@ export default function ServicesClient() {
         </div>
       </section>
 
-      {/* 8️⃣ GENUINE IMPACT (Replaced Fake Stats) */}
+      {/* 8️⃣ GENUINE IMPACT */}
       <section className="py-24 bg-white dark:bg-[#0B1120] border-b border-gray-200 dark:border-white/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">

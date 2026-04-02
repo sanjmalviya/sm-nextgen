@@ -1,7 +1,7 @@
-// AboutClient.js
+// file: app/about/AboutClient.js
 "use client";
 
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import Link from 'next/link';
 
 // --- WHATSAPP SETUP ---
@@ -9,23 +9,13 @@ const WHATSAPP_NUMBER = "917073538077";
 const getWhatsAppLink = (message) => `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
 export default function AboutClient() {
-  const cursorRef = useRef(null);
-
-  useEffect(() => {
-    const moveCursor = (e) => {
-      if (cursorRef.current) {
-        cursorRef.current.style.left = e.clientX + 'px';
-        cursorRef.current.style.top = e.clientY + 'px';
-      }
-    };
-    window.addEventListener('mousemove', moveCursor);
-    return () => window.removeEventListener('mousemove', moveCursor);
-  }, []);
+  
+  // NOTE: Cursor logic removed from here as it is now in layout.js
 
   return (
-    <main className="bg-[#F8FAFC] dark:bg-[#0B2545] font-body text-[#0B2545] dark:text-[#E6EEF2] min-h-screen selection:bg-[#0097B2] selection:text-white overflow-x-hidden">
-      <div ref={cursorRef} id="cursor-glow" className="hidden md:block"></div>
-
+    // <main> class updated to remove hardcoded background colors, relying on layout.js
+    <main className="relative w-full z-10 overflow-x-hidden">
+      
       {/* 1️⃣ HERO SECTION */}
       <section className="relative pt-32 pb-20 bg-[#071A30] overflow-hidden">
         <div className="absolute inset-0 z-0">
