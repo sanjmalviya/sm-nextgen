@@ -6,6 +6,7 @@ import Footer from "./components/Footer";
 export const metadata = {
   title: "SM NextGen | Marketing, Branding, Automation & Finance",
   description: "Lets grow your business the smart way with SM NextGen.",
+  metadataBase: new URL('https://smnextgen.com'),
 };
 
 export default function RootLayout({ children }) {
