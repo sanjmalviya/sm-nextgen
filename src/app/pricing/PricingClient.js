@@ -16,7 +16,7 @@ const tableData = [
       { name: "Brand Strategy & Positioning", ind: "15,000 - 45,000", ours: "13,500 - 40,500" },
       { name: "Search Engine Optimization (SEO)", ind: "10,000 - 30,000", ours: "9,000 - 27,000" },
       { name: "Performance Advertising", ind: "12,500 - 37,500", ours: "11,250 - 33,750" },
-      { name: "Social Media Marketing", ind: "7,500 - 22,500", ours: "6,750 - 20,250" },
+      { name: "Social Media Marketing", ind: "8,000 - 40,000", ours: "7,200 - 36,000" },
       { name: "Content Marketing", ind: "10,000 - 30,000", ours: "9,000 - 27,000" },
       { name: "Lead Generation Systems", ind: "15,000 - 45,000", ours: "13,500 - 40,500" },
       { name: "Sales Funnel & CRO", ind: "20,000 - 60,000", ours: "18,000 - 54,000" },
