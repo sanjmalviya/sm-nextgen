@@ -30,6 +30,13 @@ export default function RootLayout({ children }) {
         <Header /> {/* Page ke upar Header */}
         {children} {/* Ye aapka main content (page.js) hai */}
         <Footer /> {/* Page ke neeche Footer */}
+      
+      {/* --- METRICOOL TRACKING PIXEL --- */}
+        <img 
+          src="https://tracker.metricool.com/c3po.jpg?hash=60d0bd7bcdaa5c5717c3be93f2864e9f" 
+          alt="Metricool Tracking" 
+          style={{ display: 'none' }} 
+        />
       </body>
     </html>
   );
