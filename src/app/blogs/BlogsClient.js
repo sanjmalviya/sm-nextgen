@@ -2,7 +2,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { supabase } from "@/lib/supabase"; // Supabase import kiya
+import { supabase } from "../../lib/supabase";
 
 export default function BlogsClient() {
   const [allBlogs, setAllBlogs] = useState([]);
