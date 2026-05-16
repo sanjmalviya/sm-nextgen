@@ -1,8 +1,10 @@
+// file: src/app/blogs/page.js
 import BlogsClient from './BlogsClient';
+import { client } from "../../lib/sanity";
 
 export const metadata = {
   title: 'Growth Lab Insights & Strategies | SM NextGen',
-  description: 'Engineering-grade strategies for Marketing, AI Automation, and Finance. Read our latest insights written for ambitious founders in India.',
+  description: 'Engineering-grade strategies for Marketing, AI Automation, and Finance. Read our latest insights.',
   metadataBase: new URL('https://smnextgen.com'),
   openGraph: {
     title: 'Growth Lab Insights | SM NextGen',
@@ -22,6 +24,18 @@ export const metadata = {
   },
 };
 
-export default function BlogsPage() {
-  return <BlogsClient />;
+export default async function BlogsPage() {
+  // Sanity se saare blogs mangwane ki query
+  const query = `*[_type == "blog"] | order(_createdAt desc) {
+    _id,
+    title,
+    "slug": slug.current,
+    "imageUrl": image.asset->url
+  }`;
+
+  // Data fetch karna
+  const sanityBlogs = await client.fetch(query);
+
+  // Aapke existing client component mein data pass karna
+  return <BlogsClient initialBlogs={sanityBlogs} />;
 }

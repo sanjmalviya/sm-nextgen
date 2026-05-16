@@ -1,51 +1,25 @@
-// file: app/blogs/BlogsClient.js
+// file: src/app/blogs/BlogsClient.js
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { supabase } from "../../lib/supabase";
 
-export default function BlogsClient() {
-  const [allBlogs, setAllBlogs] = useState([]);
-  const [filteredBlogs, setFilteredBlogs] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+// Sanity se aane wala data hum 'initialBlogs' props ke through receive kar rahe hain
+export default function BlogsClient({ initialBlogs = [] }) {
+  const [allBlogs, setAllBlogs] = useState(initialBlogs);
+  const [filteredBlogs, setFilteredBlogs] = useState(initialBlogs);
+  const [isLoading, setIsLoading] = useState(false); // Data server se already aa chuka hai
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("all");
 
   const [leadName, setLeadName] = useState("");
   const [leadService, setLeadService] = useState("Growth Strategy");
 
-  // Fetch Blogs from SUPABASE on Page Load
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        // Supabase se 'blogs' table ka data la rahe hain
-        const { data, error } = await supabase
-          .from('blogs')
-          .select('title, slug, category, content, image_url, created_at')
-          .order('created_at', { ascending: false });
-
-        if (error) throw error;
-        
-        if (data) {
-          setAllBlogs(data);
-          setFilteredBlogs(data);
-        }
-      } catch (error) {
-        console.error("Supabase Fetch Error:", error.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchBlogs();
-  }, []);
-
-  // Filter Logic
+  // Filter Logic (Same as before)
   useEffect(() => {
     const filtered = allBlogs.filter(blog => {
       let catMatch = true;
       if (activeCategory !== 'all') {
-        const blogCat = (blog.category || '').toLowerCase();
+        const blogCat = (blog.category || 'growth').toLowerCase();
         if (activeCategory === 'marketing' && !blogCat.includes('marketing')) catMatch = false;
         if (activeCategory === 'automation' && !(blogCat.includes('automation') || blogCat.includes('tech'))) catMatch = false;
         if (activeCategory === 'finance' && !(blogCat.includes('finance') || blogCat.includes('legal'))) catMatch = false;
@@ -65,12 +39,26 @@ export default function BlogsClient() {
     setFilteredBlogs(filtered);
   }, [searchQuery, activeCategory, allBlogs]);
 
-  // Supabase string content se plain text extract karne ka helper
-  const extractPlainText = (htmlContent) => {
-    if (!htmlContent) return "Read the full case study and strategy inside...";
-    // HTML tags hatane ke liye simple regex
-    const plainText = htmlContent.replace(/<[^>]+>/g, '');
-    return plainText.length > 150 ? plainText.substring(0, 150) + '...' : plainText;
+  // Sanity Text / HTML se plain text nikalne ka updated helper
+  const extractPlainText = (content) => {
+    if (!content) return "Read the full case study and strategy inside...";
+    
+    // Agar old HTML string hai
+    if (typeof content === 'string') {
+      const plainText = content.replace(/<[^>]+>/g, '');
+      return plainText.length > 150 ? plainText.substring(0, 150) + '...' : plainText;
+    }
+    
+    // Agar Sanity ka Portable Text (Array) hai
+    if (Array.isArray(content)) {
+      const plainText = content
+        .filter(block => block._type === 'block' && block.children)
+        .map(block => block.children.map(child => child.text).join(''))
+        .join(' ');
+      return plainText.length > 150 ? plainText.substring(0, 150) + '...' : plainText || "Read the full case study and strategy inside...";
+    }
+    
+    return "Read the full case study and strategy inside...";
   };
 
   const getCategoryColor = (category) => {
@@ -147,10 +135,11 @@ export default function BlogsClient() {
                   </div>
                 ) : (
                   filteredBlogs.map((post, index) => (
-                    <article key={index} className="bg-white dark:bg-[#162032] rounded-2xl overflow-hidden shadow-lg border border-gray-100 dark:border-white/5 hover:shadow-2xl transition group relative">
+                    <article key={post._id || index} className="bg-white dark:bg-[#162032] rounded-2xl overflow-hidden shadow-lg border border-gray-100 dark:border-white/5 hover:shadow-2xl transition group relative">
                       <Link href={`/blogs/${post.slug}`} className="absolute inset-0 z-10"></Link>
                       <div className="h-64 overflow-hidden relative">
-                        <img src={post.image_url || 'https://images.unsplash.com/photo-1557838923-2985c318be48?auto=format&fit=crop&w=800&q=80'} className="w-full h-full object-cover group-hover:scale-110 transition duration-700" alt={post.title} />
+                        {/* Notice: updated to post.imageUrl based on Sanity fetch */}
+                        <img src={post.imageUrl || post.image_url || 'https://images.unsplash.com/photo-1557838923-2985c318be48?auto=format&fit=crop&w=800&q=80'} className="w-full h-full object-cover group-hover:scale-110 transition duration-700" alt={post.title} />
                         <div className={`absolute top-4 left-4 ${getCategoryColor(post.category)} text-white text-xs font-bold px-3 py-1 rounded z-20`}>
                           {post.category || "Growth"}
                         </div>
