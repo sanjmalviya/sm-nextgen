@@ -2,6 +2,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion"; // 🔥 NEW: Imported framer-motion for 3D scroll effects
 
 // --- WHATSAPP SETUP ---
 const WHATSAPP_NUMBER = "917073538077"; 
@@ -64,7 +65,7 @@ export default function HomeClient() {
   useEffect(() => {
     const slideInterval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % HERO_IMAGES.length);
-    }, 4000); // Thoda fast kiya hai smooth feel ke liye
+    }, 4000); 
     return () => clearInterval(slideInterval);
   }, []);
 
@@ -204,18 +205,14 @@ export default function HomeClient() {
             {/* 1.5️⃣ MODERN 3D SLIDER */}
             <div className="relative w-full h-[300px] md:h-[500px] flex justify-center items-center perspective-[1200px] opacity-0 animate-fade-in-up mt-4" style={{ animationDelay: '0.5s' }}>
               {HERO_IMAGES.map((img, index) => {
-                
-                // PERFECT CIRCULAR MATH FOR 32 IMAGES
                 let offset = index - currentSlide;
                 if (offset < -Math.floor(HERO_IMAGES.length / 2)) offset += HERO_IMAGES.length;
                 if (offset > Math.floor(HERO_IMAGES.length / 2)) offset -= HERO_IMAGES.length;
 
                 let zIndex = 50 - Math.abs(offset);
                 let scale = offset === 0 ? 1 : 0.85;
-                let translateX = offset * 40; // 40% shift left/right
-                let rotateY = offset * -20; // 20deg rotation
-                
-                // Sirf current aur uske aas-paas wale (left/right) dikhenge
+                let translateX = offset * 40; 
+                let rotateY = offset * -20; 
                 let opacity = Math.abs(offset) > 1 ? 0 : (offset === 0 ? 1 : 0.6);
 
                 return (
@@ -226,7 +223,7 @@ export default function HomeClient() {
                       transform: `translateX(${translateX}%) scale(${scale}) rotateY(${rotateY}deg)`,
                       zIndex: zIndex,
                       opacity: opacity,
-                      pointerEvents: Math.abs(offset) > 1 ? "none" : "auto", // Hidden items won't block clicks
+                      pointerEvents: Math.abs(offset) > 1 ? "none" : "auto", 
                       transformStyle: "preserve-3d"
                     }}
                   >
@@ -262,17 +259,31 @@ export default function HomeClient() {
           </div>
         </section>
 
-        {/* 3️⃣ CORE SERVICES SECTION */}
-        <section id="services" className="py-16 md:py-24 bg-[#F8FAFC] dark:bg-[#0B2545] transition-colors duration-300 relative z-20">
+        {/* 3️⃣ CORE SERVICES SECTION (🔥 3D ANIMATED) */}
+        <section id="services" className="py-16 md:py-24 bg-[#F8FAFC] dark:bg-[#0B2545] transition-colors duration-300 relative z-20 overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-10 md:mb-16 max-w-3xl mx-auto relative z-10 opacity-0 animate-fade-in-up">
+            
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6 }}
+              className="text-center mb-10 md:mb-16 max-w-3xl mx-auto relative z-10"
+            >
               <h2 className="text-3xl md:text-5xl font-heading font-extrabold text-[#0B2545] dark:text-white mb-4">Everything Your Business Needs to Grow</h2>
               <p className="text-base md:text-lg text-gray-600 dark:text-[#E6EEF2]/80 leading-relaxed">SM NextGen combines marketing, tech development, AI automation, and business compliance into one integrated growth system.</p>
-            </div>
+            </motion.div>
             
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 relative z-10">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 relative z-10 perspective-[1000px]">
+              
               {/* Marketing Card */}
-              <div className="bg-white/80 dark:bg-white/5 backdrop-blur-xl rounded-[2rem] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none border border-white/20 dark:border-white/10 hover:border-pink-500/50 transition-all duration-500 hover:-translate-y-2 group relative overflow-hidden isolate flex flex-col">
+              <motion.div 
+                initial={{ opacity: 0, y: 50, rotateX: 15 }}
+                whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="bg-white/80 dark:bg-white/5 backdrop-blur-xl rounded-[2rem] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none border border-white/20 dark:border-white/10 hover:border-pink-500/50 transition-colors group relative overflow-hidden isolate flex flex-col"
+              >
                 <div className="absolute inset-0 bg-gradient-to-b from-pink-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0"></div>
                 <div className="relative z-10 flex flex-col h-full">
                   <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#f472b6] to-[#db2777] text-white flex items-center justify-center text-2xl mb-6 shadow-lg shadow-pink-500/30"><i className="fas fa-chart-line"></i></div>
@@ -287,10 +298,16 @@ export default function HomeClient() {
                     Explore Marketing <i className="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
                   </Link>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Tech Development Card */}
-              <div className="bg-white/80 dark:bg-white/5 backdrop-blur-xl rounded-[2rem] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none border border-white/20 dark:border-white/10 hover:border-blue-500/50 transition-all duration-500 hover:-translate-y-2 group relative overflow-hidden isolate flex flex-col">
+              <motion.div 
+                initial={{ opacity: 0, y: 50, rotateX: 15 }}
+                whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="bg-white/80 dark:bg-white/5 backdrop-blur-xl rounded-[2rem] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none border border-white/20 dark:border-white/10 hover:border-blue-500/50 transition-colors group relative overflow-hidden isolate flex flex-col"
+              >
                 <div className="absolute inset-0 bg-gradient-to-b from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0"></div>
                 <div className="relative z-10 flex flex-col h-full">
                   <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#60a5fa] to-[#2563eb] text-white flex items-center justify-center text-2xl mb-6 shadow-lg shadow-blue-500/30"><i className="fas fa-laptop-code"></i></div>
@@ -305,10 +322,16 @@ export default function HomeClient() {
                     Explore Tech <i className="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
                   </Link>
                 </div>
-              </div>
+              </motion.div>
 
               {/* AI Automation Card */}
-              <div className="bg-white/80 dark:bg-white/5 backdrop-blur-xl rounded-[2rem] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none border border-white/20 dark:border-white/10 hover:border-purple-500/50 transition-all duration-500 hover:-translate-y-2 group relative overflow-hidden isolate flex flex-col">
+              <motion.div 
+                initial={{ opacity: 0, y: 50, rotateX: 15 }}
+                whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="bg-white/80 dark:bg-white/5 backdrop-blur-xl rounded-[2rem] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none border border-white/20 dark:border-white/10 hover:border-purple-500/50 transition-colors group relative overflow-hidden isolate flex flex-col"
+              >
                 <div className="absolute inset-0 bg-gradient-to-b from-purple-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0"></div>
                 <div className="relative z-10 flex flex-col h-full">
                   <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#c084fc] to-[#9333ea] text-white flex items-center justify-center text-2xl mb-6 shadow-lg shadow-purple-500/30"><i className="fas fa-robot"></i></div>
@@ -323,10 +346,16 @@ export default function HomeClient() {
                     Explore Automation <i className="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
                   </Link>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Legal & Finance Card */}
-              <div className="bg-white/80 dark:bg-white/5 backdrop-blur-xl rounded-[2rem] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none border border-white/20 dark:border-white/10 hover:border-[#10B981]/50 transition-all duration-500 hover:-translate-y-2 group relative overflow-hidden isolate flex flex-col">
+              <motion.div 
+                initial={{ opacity: 0, y: 50, rotateX: 15 }}
+                whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="bg-white/80 dark:bg-white/5 backdrop-blur-xl rounded-[2rem] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none border border-white/20 dark:border-white/10 hover:border-[#10B981]/50 transition-colors group relative overflow-hidden isolate flex flex-col"
+              >
                 <div className="absolute inset-0 bg-gradient-to-b from-[#10B981]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0"></div>
                 <div className="relative z-10 flex flex-col h-full">
                   <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#34D399] to-[#059669] text-white flex items-center justify-center text-2xl mb-6 shadow-lg shadow-[#059669]/30"><i className="fas fa-balance-scale"></i></div>
@@ -341,87 +370,129 @@ export default function HomeClient() {
                     Explore Compliance <i className="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
                   </Link>
                 </div>
-              </div>
+              </motion.div>
 
             </div>
           </div>
         </section>
 
         {/* 4️⃣ HOW SM NEXTGEN WORKS (PROCESS) */}
-        <section className="py-16 md:py-24 bg-white dark:bg-[#071A30] border-y border-gray-200 dark:border-white/5 transition-colors duration-300 relative z-20">
+        <section className="py-16 md:py-24 bg-white dark:bg-[#071A30] border-y border-gray-200 dark:border-white/5 transition-colors duration-300 relative z-20 overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-             <div className="text-center mb-10 md:mb-16">
+             <motion.div 
+               initial={{ opacity: 0, y: 30 }}
+               whileInView={{ opacity: 1, y: 0 }}
+               viewport={{ once: true }}
+               className="text-center mb-10 md:mb-16"
+             >
               <h2 className="text-3xl md:text-5xl font-heading font-extrabold text-[#0B2545] dark:text-white mb-4">Our Growth Process</h2>
-            </div>
+            </motion.div>
+            
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 text-center relative">
               <div className="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-[#0097B2]/30 to-transparent -z-10"></div>
               
-              <div className="bg-[#F8FAFC] dark:bg-[#11325B] border border-gray-100 dark:border-white/5 p-6 md:p-8 rounded-3xl relative shadow-sm hover:-translate-y-1 transition-transform">
+              <motion.div 
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="bg-[#F8FAFC] dark:bg-[#11325B] border border-gray-100 dark:border-white/5 p-6 md:p-8 rounded-3xl relative shadow-sm hover:border-[#0097B2]/50 transition-colors"
+              >
                 <div className="w-12 h-12 rounded-full bg-[#0097B2] text-white flex items-center justify-center font-bold text-xl mx-auto mb-4 md:mb-6 shadow-lg shadow-[#0097B2]/30">1</div>
                 <h3 className="text-xl font-bold text-[#0B2545] dark:text-white mb-2 md:mb-3">Discovery</h3>
                 <p className="text-sm text-gray-600 dark:text-[#E6EEF2]/70 leading-relaxed">Understanding your business models, unit economics, and primary growth goals.</p>
-              </div>
+              </motion.div>
               
-              <div className="bg-[#F8FAFC] dark:bg-[#11325B] border border-gray-100 dark:border-white/5 p-6 md:p-8 rounded-3xl relative shadow-sm hover:-translate-y-1 transition-transform">
+              <motion.div 
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="bg-[#F8FAFC] dark:bg-[#11325B] border border-gray-100 dark:border-white/5 p-6 md:p-8 rounded-3xl relative shadow-sm hover:border-[#0097B2]/50 transition-colors"
+              >
                 <div className="w-12 h-12 rounded-full bg-[#0097B2] text-white flex items-center justify-center font-bold text-xl mx-auto mb-4 md:mb-6 shadow-lg shadow-[#0097B2]/30">2</div>
                 <h3 className="text-xl font-bold text-[#0B2545] dark:text-white mb-2 md:mb-3">Strategy</h3>
                 <p className="text-sm text-gray-600 dark:text-[#E6EEF2]/70 leading-relaxed">Designing a tailored, data-backed marketing and automation roadmap.</p>
-              </div>
+              </motion.div>
               
-              <div className="bg-[#F8FAFC] dark:bg-[#11325B] border border-gray-100 dark:border-white/5 p-6 md:p-8 rounded-3xl relative shadow-sm transform md:-translate-y-2 border-[#0097B2]/30">
+              <motion.div 
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                className="bg-[#F8FAFC] dark:bg-[#11325B] border border-[#0097B2]/30 p-6 md:p-8 rounded-3xl relative shadow-sm transform md:-translate-y-2"
+              >
                 <div className="w-12 h-12 rounded-full bg-[#0097B2] text-white flex items-center justify-center font-bold text-xl mx-auto mb-4 md:mb-6 shadow-lg shadow-[#0097B2]/30">3</div>
                 <h3 className="text-xl font-bold text-[#0B2545] dark:text-white mb-2 md:mb-3">Implementation</h3>
                 <p className="text-sm text-gray-600 dark:text-[#E6EEF2]/70 leading-relaxed">Launching targeted campaigns, automation workflows, and technical systems.</p>
-              </div>
+              </motion.div>
               
-              <div className="bg-[#F8FAFC] dark:bg-[#11325B] border border-gray-100 dark:border-white/5 p-6 md:p-8 rounded-3xl relative shadow-sm hover:-translate-y-1 transition-transform">
+              <motion.div 
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="bg-[#F8FAFC] dark:bg-[#11325B] border border-gray-100 dark:border-white/5 p-6 md:p-8 rounded-3xl relative shadow-sm hover:border-[#0097B2]/50 transition-colors"
+              >
                 <div className="w-12 h-12 rounded-full bg-[#0097B2] text-white flex items-center justify-center font-bold text-xl mx-auto mb-4 md:mb-6 shadow-lg shadow-[#0097B2]/30">4</div>
                 <h3 className="text-xl font-bold text-[#0B2545] dark:text-white mb-2 md:mb-3">Optimization</h3>
                 <p className="text-sm text-gray-600 dark:text-[#E6EEF2]/70 leading-relaxed">Scaling results continuously using real-time data and performance insights.</p>
-              </div>
+              </motion.div>
             </div>
           </div>
         </section>
 
-        {/* 5️⃣ GROWTH SYSTEM VISUAL (UPDATED WITH TECH) */}
+        {/* 5️⃣ GROWTH SYSTEM VISUAL (🔥 POP ANIMATION) */}
         <section className="py-16 md:py-24 bg-[#0B2545] text-white relative overflow-hidden border-y border-white/5 z-20">
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5 mix-blend-overlay"></div>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-            <h2 className="text-3xl md:text-5xl font-heading font-extrabold mb-10 md:mb-16">How Our Growth System Works</h2>
+            <motion.h2 
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              className="text-3xl md:text-5xl font-heading font-extrabold mb-10 md:mb-16"
+            >
+              How Our Growth System Works
+            </motion.h2>
             
             <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 mb-10 md:mb-16">
-              <div className="w-full md:w-auto bg-white/5 backdrop-blur-sm border border-white/10 p-5 md:p-6 rounded-2xl flex-1 max-w-[220px] transition-transform hover:scale-105">
+              
+              <motion.div initial={{ opacity: 0, scale: 0.5 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ type: "spring", stiffness: 100, delay: 0.1 }} className="w-full md:w-auto bg-white/5 backdrop-blur-sm border border-white/10 p-5 md:p-6 rounded-2xl flex-1 max-w-[220px]">
                 <i className="fas fa-mouse-pointer text-2xl md:text-3xl text-pink-400 mb-2 md:mb-3"></i>
                 <h4 className="font-bold text-base md:text-lg">Traffic</h4>
-              </div>
-              <i className="fas fa-arrow-right text-xl text-white/30 hidden md:block"></i>
+              </motion.div>
+              
+              <motion.i initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="fas fa-arrow-right text-xl text-white/30 hidden md:block"></motion.i>
               <i className="fas fa-arrow-down text-xl text-white/30 md:hidden"></i>
               
-              <div className="w-full md:w-auto bg-white/5 backdrop-blur-sm border border-white/10 p-5 md:p-6 rounded-2xl flex-1 max-w-[220px] transition-transform hover:scale-105">
+              <motion.div initial={{ opacity: 0, scale: 0.5 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ type: "spring", stiffness: 100, delay: 0.3 }} className="w-full md:w-auto bg-white/5 backdrop-blur-sm border border-white/10 p-5 md:p-6 rounded-2xl flex-1 max-w-[220px]">
                 <i className="fas fa-users text-2xl md:text-3xl text-blue-400 mb-2 md:mb-3"></i>
                 <h4 className="font-bold text-base md:text-lg">Leads</h4>
-              </div>
-              <i className="fas fa-arrow-right text-xl text-white/30 hidden md:block"></i>
+              </motion.div>
+              
+              <motion.i initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.4 }} className="fas fa-arrow-right text-xl text-white/30 hidden md:block"></motion.i>
               <i className="fas fa-arrow-down text-xl text-white/30 md:hidden"></i>
 
-              <div className="w-full md:w-auto bg-white/10 backdrop-blur-md border border-[#0097B2] p-5 md:p-6 rounded-2xl shadow-[0_0_20px_rgba(0,151,178,0.4)] flex-1 max-w-[220px] scale-100 md:scale-105">
+              <motion.div initial={{ opacity: 0, scale: 0.5, rotate: -5 }} whileInView={{ opacity: 1, scale: 1.05, rotate: 0 }} viewport={{ once: true }} transition={{ type: "spring", stiffness: 200, delay: 0.5 }} className="w-full md:w-auto bg-white/10 backdrop-blur-md border border-[#0097B2] p-5 md:p-6 rounded-2xl shadow-[0_0_20px_rgba(0,151,178,0.4)] flex-1 max-w-[220px]">
                 <i className="fas fa-cogs text-2xl md:text-3xl text-[#0097B2] mb-2 md:mb-3"></i>
                 <h4 className="font-bold text-base md:text-lg">Automation</h4>
-              </div>
-              <i className="fas fa-arrow-right text-xl text-white/30 hidden md:block"></i>
+              </motion.div>
+              
+              <motion.i initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.6 }} className="fas fa-arrow-right text-xl text-white/30 hidden md:block"></motion.i>
               <i className="fas fa-arrow-down text-xl text-white/30 md:hidden"></i>
 
-              <div className="w-full md:w-auto bg-white/5 backdrop-blur-sm border border-white/10 p-5 md:p-6 rounded-2xl flex-1 max-w-[220px] transition-transform hover:scale-105">
+              <motion.div initial={{ opacity: 0, scale: 0.5 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ type: "spring", stiffness: 100, delay: 0.7 }} className="w-full md:w-auto bg-white/5 backdrop-blur-sm border border-white/10 p-5 md:p-6 rounded-2xl flex-1 max-w-[220px]">
                 <i className="fas fa-hand-holding-usd text-2xl md:text-3xl text-green-400 mb-2 md:mb-3"></i>
                 <h4 className="font-bold text-base md:text-lg">Sales</h4>
-              </div>
-              <i className="fas fa-arrow-right text-xl text-white/30 hidden md:block"></i>
+              </motion.div>
+              
+              <motion.i initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.8 }} className="fas fa-arrow-right text-xl text-white/30 hidden md:block"></motion.i>
               <i className="fas fa-arrow-down text-xl text-white/30 md:hidden"></i>
 
-              <div className="w-full md:w-auto bg-white/5 backdrop-blur-sm border border-white/10 p-5 md:p-6 rounded-2xl flex-1 max-w-[220px] transition-transform hover:scale-105">
+              <motion.div initial={{ opacity: 0, scale: 0.5 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ type: "spring", stiffness: 100, delay: 0.9 }} className="w-full md:w-auto bg-white/5 backdrop-blur-sm border border-white/10 p-5 md:p-6 rounded-2xl flex-1 max-w-[220px]">
                 <i className="fas fa-rocket text-2xl md:text-3xl text-purple-400 mb-2 md:mb-3"></i>
                 <h4 className="font-bold text-base md:text-lg">Scale</h4>
-              </div>
+              </motion.div>
             </div>
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 text-left max-w-6xl mx-auto">
@@ -469,13 +540,12 @@ export default function HomeClient() {
           </div>
         </section>
 
-        {/* 7️⃣ TESTIMONIALS SECTION (Horizontal Auto-Scrolling) */}
+        {/* 7️⃣ TESTIMONIALS SECTION */}
         <section className="py-16 md:py-24 bg-[#F8FAFC] dark:bg-[#0B1120] border-y border-gray-200 dark:border-white/5 overflow-hidden transition-colors duration-300 relative z-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 md:mb-12 text-center">
             <h2 className="text-3xl md:text-5xl font-heading font-extrabold text-[#0B2545] dark:text-white mb-4">What Founders Say About SM NextGen</h2>
           </div>
           
-          {/* Infinite Marquee Container */}
           <div className="flex overflow-hidden group w-full">
             <div className="animate-marquee gap-6 md:gap-8 pr-6 md:pr-8">
               {[...Array(2)].map((_, arrayIndex) => (
@@ -521,7 +591,7 @@ export default function HomeClient() {
           </div>
         </section>
 
-        {/* 8️⃣ PRICING / PLANS */}
+        {/* 8️⃣ PRICING / PLANS (🔥 3D POP) */}
         <section className="py-16 md:py-24 bg-white dark:bg-[#071A30] transition-colors duration-300 relative z-20">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-10 md:mb-16">
@@ -529,9 +599,15 @@ export default function HomeClient() {
               <p className="text-base md:text-lg text-gray-600 dark:text-[#E6EEF2]/80">Scalable solutions tailored to your exact business stage.</p>
             </div>
             
-            <div className="grid md:grid-cols-3 gap-6 md:gap-8">
-              {/* Starter */}
-              <div className="bg-[#F8FAFC] dark:bg-[#11325B] p-6 md:p-8 rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm flex flex-col transition-all duration-300 relative z-10 hover:-translate-y-2 hover:shadow-xl hover:border-[#0097B2]/30">
+            <div className="grid md:grid-cols-3 gap-6 md:gap-8 perspective-[1000px]">
+              
+              <motion.div 
+                initial={{ opacity: 0, y: 50, scale: 0.9, rotateY: 10 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1, rotateY: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5 }}
+                className="bg-[#F8FAFC] dark:bg-[#11325B] p-6 md:p-8 rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm flex flex-col transition-all duration-300 relative z-10 hover:shadow-xl hover:border-[#0097B2]/30"
+              >
                 <h3 className="text-xl md:text-2xl font-bold text-[#0B2545] dark:text-white mb-2">Starter</h3>
                 <p className="text-sm text-gray-600 dark:text-[#E6EEF2]/70 mb-6">For small businesses.</p>
                 <ul className="space-y-3 flex-grow mb-8 text-sm text-[#0B2545] dark:text-[#E6EEF2] font-medium">
@@ -540,10 +616,15 @@ export default function HomeClient() {
                   <li><i className="fas fa-check text-[#0097B2] mr-2"></i> Initial SEO Foundation</li>
                 </ul>
                 <Link href="/pricing" className="block w-full py-3 md:py-4 text-center rounded-xl border border-gray-300 dark:border-white/20 text-[#0B2545] dark:text-white font-bold hover:bg-gray-100 dark:hover:bg-white/10 transition-colors">Request Custom Plan</Link>
-              </div>
+              </motion.div>
               
-              {/* Growth - Highlighted */}
-              <div className="bg-[#0B2545] p-6 md:p-8 rounded-3xl border-2 border-[#0097B2] shadow-[0_15px_40px_rgba(0,151,178,0.25)] flex flex-col transform md:-translate-y-4 relative isolate text-white hover:-translate-y-6 transition-transform z-10">
+              <motion.div 
+                initial={{ opacity: 0, y: 50, scale: 0.8, rotateX: -10 }}
+                whileInView={{ opacity: 1, y: -16, scale: 1, rotateX: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.6, type: "spring", stiffness: 100 }}
+                className="bg-[#0B2545] p-6 md:p-8 rounded-3xl border-2 border-[#0097B2] shadow-[0_15px_40px_rgba(0,151,178,0.25)] flex flex-col relative isolate text-white hover:-translate-y-6 transition-transform z-10"
+              >
                 <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#0097B2] text-white px-4 md:px-5 py-1 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-wider shadow-md">Most Popular</div>
                 <h3 className="text-xl md:text-2xl font-bold mb-2">Growth</h3>
                 <p className="text-sm text-[#E6EEF2]/80 mb-6">For scaling companies.</p>
@@ -553,10 +634,15 @@ export default function HomeClient() {
                   <li><i className="fas fa-check text-[#0097B2] mr-2"></i> CRM & Automation Setup</li>
                 </ul>
                 <Link href="/pricing" className="block w-full py-3 md:py-4 text-center rounded-xl bg-[#0097B2] text-white hover:bg-white hover:text-[#0B2545] font-bold transition-colors shadow-lg">Request Custom Plan</Link>
-              </div>
+              </motion.div>
 
-              {/* Custom */}
-              <div className="bg-[#F8FAFC] dark:bg-[#11325B] p-6 md:p-8 rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm flex flex-col transition-all duration-300 relative z-10 hover:-translate-y-2 hover:shadow-xl hover:border-[#0097B2]/30">
+              <motion.div 
+                initial={{ opacity: 0, y: 50, scale: 0.9, rotateY: -10 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1, rotateY: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5 }}
+                className="bg-[#F8FAFC] dark:bg-[#11325B] p-6 md:p-8 rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm flex flex-col transition-all duration-300 relative z-10 hover:shadow-xl hover:border-[#0097B2]/30"
+              >
                 <h3 className="text-xl md:text-2xl font-bold text-[#0B2545] dark:text-white mb-2">Custom</h3>
                 <p className="text-sm text-gray-600 dark:text-[#E6EEF2]/70 mb-6">For advanced systems.</p>
                 <ul className="space-y-3 flex-grow mb-8 text-sm text-[#0B2545] dark:text-[#E6EEF2] font-medium">
@@ -565,7 +651,7 @@ export default function HomeClient() {
                   <li><i className="fas fa-check text-[#0097B2] mr-2"></i> Dedicated Manager & CFO</li>
                 </ul>
                 <a href="#leadForm" className="block w-full py-3 md:py-4 text-center rounded-xl border border-gray-300 dark:border-white/20 text-[#0B2545] dark:text-white font-bold hover:bg-gray-100 dark:hover:bg-white/10 transition-colors">Request Custom Plan</a>
-              </div>
+              </motion.div>
             </div>
           </div>
         </section>

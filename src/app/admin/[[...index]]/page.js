@@ -18,30 +18,48 @@ const blogSchema = {
     
     { name: 'authorName', title: 'Author Name', type: 'string', initialValue: 'Sanjay Lohar' },
     { name: 'authorRole', title: 'Author Role', type: 'string', initialValue: 'Founder, SM NextGen' },
-    { name: 'authorImage', title: 'Author Image', type: 'image', options: { hotspot: true } },
+    { name: 'authorImage', title: 'Author Profile Image', type: 'image', options: { hotspot: true } },
     
     { name: 'whatYouWillLearn', title: "What You'll Learn (Bullets)", type: 'array', of: [{ type: 'string' }] },
     
-    // 🔥 NEW: Blog Content mein ab Images bhi daal sakte ho!
     { 
       name: 'content', 
       title: 'Blog Content', 
       type: 'array', 
       of: [
         { type: 'block' },
-        { 
-          type: 'image',
-          title: 'Inline Image',
-          options: { hotspot: true },
+        { type: 'image', title: 'Inline Image', options: { hotspot: true }, fields: [{ name: 'alt', type: 'string', title: 'Alternative Text (SEO)' }] }
+      ] 
+    },
+
+    // 🔥 NEW: FAQ SECTION
+    {
+      name: 'faqs',
+      title: 'Frequently Asked Questions (FAQs)',
+      type: 'array',
+      description: 'Add up to 5 FAQs. This automatically generates AI-friendly SEO Schema.',
+      of: [
+        {
+          type: 'object',
           fields: [
-            {
-              name: 'alt',
-              type: 'string',
-              title: 'Alternative Text (SEO k liye)',
-            }
+            { name: 'question', title: 'Question', type: 'string' },
+            { name: 'answer', title: 'Answer', type: 'text' }
           ]
         }
-      ] 
+      ]
+    },
+
+    // 🔥 NEW: SEO METADATA SECTION
+    {
+      name: 'seo',
+      title: 'SEO Settings',
+      type: 'object',
+      group: 'seo',
+      fields: [
+        { name: 'metaTitle', title: 'Meta Title', type: 'string', description: 'Ideal length 50-60 chars. Leaves blank to auto-use Blog Title.' },
+        { name: 'metaDescription', title: 'Meta Description', type: 'text', description: 'Ideal length 150-160 chars. Leaves blank to auto-use Subtitle.' },
+        { name: 'focusKeyword', title: 'Focus Keyword', type: 'string', description: 'Main keyword you want to rank for.' }
+      ]
     },
 
     {
@@ -49,41 +67,22 @@ const blogSchema = {
       title: 'Manual Table of Contents',
       type: 'array',
       group: 'sidebar',
-      description: 'Add the exact headings you want to show in the TOC.',
       of: [{ type: 'object', fields: [{ name: 'headingText', title: 'Heading Text', type: 'string' }] }]
     },
-
     { name: 'leadFormHeading', title: 'Lead Form Heading', type: 'string', initialValue: 'Quick Consultation 📞', group: 'sidebar' },
     { name: 'leadFormText', title: 'Lead Form Subtext', type: 'string', initialValue: 'Drop your details for a quick strategy call.', group: 'sidebar' },
-    
     {
       name: 'relatedServices',
       title: 'Promote Services',
       type: 'array',
       group: 'sidebar',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            { name: 'title', type: 'string', title: 'Service Title' },
-            { name: 'desc', type: 'string', title: 'Short Desc' },
-            { name: 'link', type: 'string', title: 'Link' },
-            { name: 'icon', type: 'string', initialValue: 'fab fa-whatsapp' }
-          ]
-        }
-      ]
+      of: [{ type: 'object', fields: [{ name: 'title', type: 'string' }, { name: 'desc', type: 'string' }, { name: 'link', type: 'string' }, { name: 'icon', type: 'string', initialValue: 'fab fa-whatsapp' }] }]
     },
-    
-    {
-      name: 'relatedBlogs',
-      title: 'Suggested Blogs',
-      type: 'array',
-      group: 'sidebar',
-      of: [{ type: 'reference', to: [{ type: 'blog' }] }]
-    }
+    { name: 'relatedBlogs', title: 'Suggested Blogs', type: 'array', group: 'sidebar', of: [{ type: 'reference', to: [{ type: 'blog' }] }] }
   ],
   groups: [
-    { name: 'sidebar', title: '👉 Sidebar Settings' }
+    { name: 'sidebar', title: '👉 Sidebar Settings' },
+    { name: 'seo', title: '🚀 SEO & Meta' }
   ]
 };
 
@@ -98,9 +97,5 @@ const config = defineConfig({
 });
 
 export default function AdminPage() {
-  return (
-    <div className="fixed inset-0 z-[99999] bg-[#1a1a1a]">
-      <NextStudio config={config} />
-    </div>
-  );
+  return <div className="fixed inset-0 z-[99999] bg-[#1a1a1a]"><NextStudio config={config} /></div>;
 }
