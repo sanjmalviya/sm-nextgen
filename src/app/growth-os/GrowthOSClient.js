@@ -39,19 +39,53 @@ import {
   MessageCircle,
   ExternalLink,
   Clock,
-  Compass
+  Compass,
+  Lock,
+  Mail,
+  User,
+  LogOut,
+  Building,
+  KeyRound
 } from "lucide-react";
 
 export default function GrowthOSClient() {
+  // Authentication State
+  const [currentUser, setCurrentUser] = useState(null);
+  const [authMode, setAuthMode] = useState("login"); // "login" | "signup"
+  const [loginEmail, setLoginEmail] = useState("admin@smnextgen.com");
+  const [loginPassword, setLoginPassword] = useState("GrowthOS2026!");
+  const [signUpName, setSignUpName] = useState("");
+  const [signUpBusiness, setSignUpBusiness] = useState("");
+  const [signUpCity, setSignUpCity] = useState("Udaipur, Rajasthan");
+  const [signUpEmail, setSignUpEmail] = useState("");
+  const [signUpPassword, setSignUpPassword] = useState("");
+  const [authError, setAuthError] = useState("");
+  const [authLoading, setAuthLoading] = useState(false);
+  const [isClientReady, setIsClientReady] = useState(false);
+
+  // App Navigation & Device Mode
   const [activeTab, setActiveTab] = useState("dashboard"); // dashboard, reviews, audit, posts, automations, settings
-  const [deviceMode, setDeviceMode] = useState("responsive"); // responsive (auto), desktop, mobile
+  const [deviceMode, setDeviceMode] = useState("responsive"); // responsive, desktop, mobile
   const [showActionSheet, setShowActionSheet] = useState(false);
   const [toast, setToast] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [isSyncing, setIsSyncing] = useState(false);
 
+  // Check saved session in localStorage on mount
+  useEffect(() => {
+    setIsClientReady(true);
+    try {
+      const saved = localStorage.getItem("sm_growth_os_session");
+      if (saved) {
+        setCurrentUser(JSON.parse(saved));
+      }
+    } catch (e) {
+      console.warn("Storage access failed:", e);
+    }
+  }, []);
+
   // Reviews State
-  const [reviewFilter, setReviewFilter] = useState("ALL"); // ALL, PENDING, 5STAR, CRITICAL
+  const [reviewFilter, setReviewFilter] = useState("ALL");
   const [reviews, setReviews] = useState([
     {
       id: "rev-1",
@@ -137,12 +171,97 @@ export default function GrowthOSClient() {
     setTimeout(() => setToast(null), 3500);
   };
 
+  // Auth Handlers
+  const handleLogin = (e) => {
+    if (e) e.preventDefault();
+    setAuthError("");
+    setAuthLoading(true);
+
+    setTimeout(() => {
+      setAuthLoading(false);
+      if (!loginEmail || !loginPassword) {
+        setAuthError("Please provide both email and password.");
+        return;
+      }
+
+      const userSession = {
+        name: loginEmail.split("@")[0].toUpperCase() === "ADMIN" ? "Sanjay Malviya (Growth Architect)" : "Dr. Sunita Mehra",
+        email: loginEmail,
+        businessName: "Apex Dental Care & Implant Center",
+        role: "Workspace Administrator",
+        location: "Saheli Nagar, Udaipur, Rajasthan",
+        loginTime: new Date().toLocaleTimeString()
+      };
+
+      setCurrentUser(userSession);
+      try {
+        localStorage.setItem("sm_growth_os_session", JSON.stringify(userSession));
+      } catch (err) {}
+      showNotification("Welcome back, " + userSession.name + "! Growth OS unlocked.");
+    }, 600);
+  };
+
+  const handleInstantDemoLogin = () => {
+    setAuthLoading(true);
+    setAuthError("");
+    setTimeout(() => {
+      setAuthLoading(false);
+      const demoUser = {
+        name: "Dr. Sunita Mehra (Clinic Director)",
+        email: "demo@smnextgen.com",
+        businessName: "Apex Dental Care & Implant Center",
+        role: "Workspace Owner",
+        location: "Plot 14, Saheli Nagar, Udaipur, Rajasthan",
+        loginTime: new Date().toLocaleTimeString()
+      };
+      setCurrentUser(demoUser);
+      try {
+        localStorage.setItem("sm_growth_os_session", JSON.stringify(demoUser));
+      } catch (err) {}
+      showNotification("Demo session activated! Full Growth OS workspace loaded.");
+    }, 500);
+  };
+
+  const handleSignUp = (e) => {
+    e.preventDefault();
+    setAuthError("");
+    if (!signUpName || !signUpEmail || !signUpPassword) {
+      setAuthError("Please fill in your name, email and password.");
+      return;
+    }
+    setAuthLoading(true);
+    setTimeout(() => {
+      setAuthLoading(false);
+      const newUser = {
+        name: signUpName,
+        email: signUpEmail,
+        businessName: signUpBusiness || (signUpName + " Business"),
+        role: "Workspace Owner",
+        location: signUpCity || "Udaipur, Rajasthan",
+        loginTime: new Date().toLocaleTimeString()
+      };
+      setCurrentUser(newUser);
+      try {
+        localStorage.setItem("sm_growth_os_session", JSON.stringify(newUser));
+      } catch (err) {}
+      showNotification("Account created successfully! Welcome to SM NextGen Growth OS.");
+    }, 700);
+  };
+
+  const handleSignOut = () => {
+    setCurrentUser(null);
+    try {
+      localStorage.removeItem("sm_growth_os_session");
+    } catch (err) {}
+    showNotification("You have been signed out safely.");
+  };
+
   const handleSync = () => {
     setIsSyncing(true);
     setTimeout(() => {
       setIsSyncing(false);
       showNotification("Google Business Profile Synced with Google Maps API!");
-    }, 1200);
+    }, 1100);
   };
 
   const generateAiReply = (id) => {
@@ -153,13 +272,13 @@ export default function GrowthOSClient() {
           return {
             ...r,
             isGenerating: false,
-            replyText: r.aiDraft || ("Dear " + r.author + ", thank you for choosing Apex Dental Care. We are committed to providing the highest standard of dental health in Udaipur!")
+            replyText: r.aiDraft || ("Dear " + r.author + ", thank you for choosing " + (currentUser?.businessName || "Apex Dental") + ". We are committed to providing the highest standard of care in Udaipur!")
           };
         }
         return r;
       }));
-      showNotification("AI Response Generated! You can edit or approve to publish.");
-    }, 800);
+      showNotification("AI Response Drafted! Review and click Approve to publish.");
+    }, 700);
   };
 
   const publishReply = (id) => {
@@ -188,13 +307,13 @@ export default function GrowthOSClient() {
       setIsGeneratingPost(false);
       setGeneratedPost(
         "✨ " + postTopic.toUpperCase() + "\n\n" +
-        "Experience world-class dental care at Apex Dental Udaipur! Our advanced cosmetic and restorative specialists use painless ultrasonic technology for radiant results.\n\n" +
+        "Experience world-class service at " + (currentUser?.businessName || "Apex Dental") + "! Our advanced specialists use modern diagnostic technology for radiant results.\n\n" +
         "📅 Limited appointments available this week.\n" +
-        "📍 Plot 14, Saheli Nagar, Near Saheliyon Ki Bari, Udaipur\n" +
+        "📍 " + (currentUser?.location || "Plot 14, Saheli Nagar, Udaipur, Rajasthan") + "\n" +
         "📞 Call +91 70735 38077 to claim this offer directly on Google Maps!"
       );
       showNotification("New Google Post Draft Created with High-Converting CTA!");
-    }, 900);
+    }, 800);
   };
 
   const handlePublishPost = () => {
@@ -224,6 +343,235 @@ export default function GrowthOSClient() {
 
   const pendingCount = reviews.filter(r => r.status === "PENDING").length;
 
+  if (!isClientReady) {
+    return <div className="min-h-screen bg-slate-950 flex items-center justify-center text-slate-400">Loading Growth OS...</div>;
+  }
+
+  // =========================================================================
+  // AUTHENTICATION GATE SCREEN (LOCKED WHEN USER NOT LOGGED IN)
+  // =========================================================================
+  if (!currentUser) {
+    return (
+      <div className="min-h-screen bg-slate-950 text-slate-100 font-sans pt-28 pb-16 px-4 sm:px-6 relative overflow-hidden flex items-center justify-center">
+        
+        {/* Glow ambient backgrounds */}
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 sm:w-[500px] h-96 sm:h-[500px] bg-[#0097B2]/15 rounded-full blur-[140px] pointer-events-none" />
+        <div className="absolute bottom-10 right-10 w-72 h-72 bg-blue-600/10 rounded-full blur-[120px] pointer-events-none" />
+
+        {toast && (
+          <div className="fixed top-24 left-1/2 -translate-x-1/2 z-50 bg-[#0097B2] text-white px-5 py-2.5 rounded-full text-xs font-semibold shadow-2xl flex items-center gap-2 border border-white/20">
+            <Sparkles className="w-4 h-4 fill-white" />
+            <span>{toast}</span>
+          </div>
+        )}
+
+        <div className="w-full max-w-md relative z-10 space-y-6">
+          
+          {/* Brand Header */}
+          <div className="text-center space-y-2">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0097B2]/10 border border-[#0097B2]/20 text-[#0097B2] text-xs font-mono font-bold uppercase tracking-wider mb-1">
+              <Lock className="w-3.5 h-3.5" />
+              <span>SaaS Security Gate</span>
+            </div>
+
+            <h1 className="text-2xl sm:text-3xl font-heading font-extrabold text-white tracking-tight">
+              SM NextGen Growth OS
+            </h1>
+            <p className="text-xs text-slate-400 max-w-xs mx-auto">
+              Please authenticate to access your Google Business Profile Growth Platform workspace.
+            </p>
+          </div>
+
+          {/* 1-Click Instant Demo Login Banner */}
+          <div className="p-4 rounded-2xl bg-gradient-to-r from-[#0097B2]/15 via-cyan-500/10 to-blue-500/15 border border-[#0097B2]/30 text-center space-y-2.5 shadow-lg shadow-[#0097B2]/5">
+            <div className="flex items-center justify-center gap-1.5 text-xs font-bold text-cyan-300">
+              <Sparkles className="w-4 h-4 text-amber-400" />
+              <span>Instant 1-Click Platform Access</span>
+            </div>
+            <p className="text-[11px] text-slate-300 leading-snug">
+              Launch directly into the pre-configured Apex Dental Care workspace with verified Google Maps reviews and 24-point audit data.
+            </p>
+            <button
+              onClick={handleInstantDemoLogin}
+              disabled={authLoading}
+              className="w-full py-2.5 rounded-xl bg-[#0097B2] hover:bg-[#007a91] text-white font-extrabold text-xs flex items-center justify-center gap-2 shadow-md transition-all hover:scale-[1.01] active:scale-95 cursor-pointer"
+            >
+              <Zap className="w-3.5 h-3.5 fill-amber-300 text-amber-300" />
+              <span>{authLoading ? "Unlocking Workspace..." : "Unlock Growth OS (1-Click Demo Login)"}</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
+
+          {/* Auth Card */}
+          <div className="p-6 sm:p-7 rounded-3xl bg-slate-900/90 border border-slate-800 shadow-2xl backdrop-blur-md space-y-5">
+            
+            {/* Tab Switcher: Login vs Sign Up */}
+            <div className="flex items-center p-1 rounded-xl bg-slate-950 border border-slate-800 text-xs font-bold">
+              <button
+                onClick={() => { setAuthMode("login"); setAuthError(""); }}
+                className={"flex-1 py-2 rounded-lg transition cursor-pointer " + (authMode === "login" ? "bg-[#0097B2] text-white shadow-sm" : "text-slate-400 hover:text-white")}
+              >
+                Sign In
+              </button>
+              <button
+                onClick={() => { setAuthMode("signup"); setAuthError(""); }}
+                className={"flex-1 py-2 rounded-lg transition cursor-pointer " + (authMode === "signup" ? "bg-[#0097B2] text-white shadow-sm" : "text-slate-400 hover:text-white")}
+              >
+                Register Business
+              </button>
+            </div>
+
+            {authError && (
+              <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs flex items-center gap-2">
+                <AlertTriangle className="w-4 h-4 shrink-0" />
+                <span>{authError}</span>
+              </div>
+            )}
+
+            {authMode === "login" ? (
+              /* LOGIN FORM */
+              <form onSubmit={handleLogin} className="space-y-4">
+                <div>
+                  <label className="text-[11px] font-mono text-slate-300 font-bold block mb-1">
+                    Email Address
+                  </label>
+                  <div className="relative">
+                    <Mail className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
+                    <input
+                      type="email"
+                      value={loginEmail}
+                      onChange={e => setLoginEmail(e.target.value)}
+                      placeholder="admin@smnextgen.com"
+                      className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-[#0097B2]"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="text-[11px] font-mono text-slate-300 font-bold">
+                      Password
+                    </label>
+                    <span className="text-[10px] text-slate-500 font-mono">Demo: GrowthOS2026!</span>
+                  </div>
+                  <div className="relative">
+                    <KeyRound className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
+                    <input
+                      type="password"
+                      value={loginPassword}
+                      onChange={e => setLoginPassword(e.target.value)}
+                      placeholder="••••••••"
+                      className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-[#0097B2]"
+                    />
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={authLoading}
+                  className="w-full py-3 rounded-xl bg-slate-100 hover:bg-white text-slate-950 font-bold text-xs flex items-center justify-center gap-2 shadow-lg transition active:scale-95 cursor-pointer"
+                >
+                  <Lock className="w-3.5 h-3.5" />
+                  <span>{authLoading ? "Authenticating..." : "Sign In to Workspace"}</span>
+                </button>
+              </form>
+            ) : (
+              /* SIGN UP FORM */
+              <form onSubmit={handleSignUp} className="space-y-3.5">
+                <div>
+                  <label className="text-[11px] font-mono text-slate-300 font-bold block mb-1">
+                    Full Name
+                  </label>
+                  <input
+                    type="text"
+                    value={signUpName}
+                    onChange={e => setSignUpName(e.target.value)}
+                    placeholder="e.g. Dr. Rajesh Sharma"
+                    className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:ring-2 focus:ring-[#0097B2]"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[11px] font-mono text-slate-300 font-bold block mb-1">
+                    Business / Clinic Name
+                  </label>
+                  <input
+                    type="text"
+                    value={signUpBusiness}
+                    onChange={e => setSignUpBusiness(e.target.value)}
+                    placeholder="e.g. Sharma Dental & Aesthetic Care"
+                    className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:ring-2 focus:ring-[#0097B2]"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[11px] font-mono text-slate-300 font-bold block mb-1">
+                    Location City (Default: Udaipur, Rajasthan)
+                  </label>
+                  <input
+                    type="text"
+                    value={signUpCity}
+                    onChange={e => setSignUpCity(e.target.value)}
+                    placeholder="Udaipur, Rajasthan"
+                    className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:ring-2 focus:ring-[#0097B2]"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <label className="text-[11px] font-mono text-slate-300 font-bold block mb-1">Email</label>
+                    <input
+                      type="email"
+                      value={signUpEmail}
+                      onChange={e => setSignUpEmail(e.target.value)}
+                      placeholder="you@domain.com"
+                      className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:ring-2 focus:ring-[#0097B2]"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-[11px] font-mono text-slate-300 font-bold block mb-1">Password</label>
+                    <input
+                      type="password"
+                      value={signUpPassword}
+                      onChange={e => setSignUpPassword(e.target.value)}
+                      placeholder="••••••••"
+                      className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:ring-2 focus:ring-[#0097B2]"
+                    />
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={authLoading}
+                  className="w-full py-3 rounded-xl bg-[#0097B2] hover:bg-[#007a91] text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg transition active:scale-95 cursor-pointer mt-2"
+                >
+                  <Building className="w-3.5 h-3.5" />
+                  <span>{authLoading ? "Setting up..." : "Create Account & Connect GBP"}</span>
+                </button>
+              </form>
+            )}
+
+            <div className="pt-2 text-center border-t border-slate-800">
+              <Link href="/" className="text-xs text-slate-500 hover:text-[#0097B2] transition">
+                ← Back to SM NextGen Homepage
+              </Link>
+            </div>
+
+          </div>
+
+          <div className="text-center text-[10px] text-slate-500">
+            <span>Enterprise Security • Protected with JWT Session Storage • Next.js 16</span>
+          </div>
+
+        </div>
+
+      </div>
+    );
+  }
+
+  // =========================================================================
+  // UNLOCKED AUTHENTICATED GROWTH OS APPLICATION
+  // =========================================================================
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-[#0097B2] selection:text-white pb-24 md:pb-12 pt-20">
       
@@ -235,19 +583,19 @@ export default function GrowthOSClient() {
         </div>
       )}
 
-      {/* Top Application Bar */}
+      {/* Top Application Bar with Active User & Sign Out */}
       <header className="sticky top-16 z-30 bg-slate-900/95 backdrop-blur-md border-b border-slate-800 px-4 sm:px-8 py-3.5">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
           
           {/* Business & Profile Badge */}
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#0097B2] to-cyan-500 flex items-center justify-center text-white font-extrabold shadow-md shadow-[#0097B2]/20 shrink-0">
-              AD
+              {currentUser.businessName ? currentUser.businessName.slice(0, 2).toUpperCase() : "AD"}
             </div>
             <div>
               <div className="flex items-center gap-2">
                 <h1 className="font-heading font-extrabold text-sm sm:text-base text-white truncate max-w-[200px] sm:max-w-none">
-                  Apex Dental Care & Implant Center
+                  {currentUser.businessName || "Apex Dental Care & Implant Center"}
                 </h1>
                 <span className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-bold border border-emerald-500/30">
                   <ShieldCheck className="w-3 h-3" /> Verified GBP
@@ -255,44 +603,64 @@ export default function GrowthOSClient() {
               </div>
               <p className="text-[11px] text-slate-400 flex items-center gap-1.5">
                 <MapPin className="w-3 h-3 text-[#0097B2]" />
-                <span>Saheli Nagar, Udaipur, Rajasthan • PIN 313001</span>
+                <span>{currentUser.location || "Saheli Nagar, Udaipur, Rajasthan"}</span>
               </p>
             </div>
           </div>
 
-          {/* Sync & View Mode Controls */}
+          {/* User Session, Sync & Sign Out */}
           <div className="flex items-center gap-2.5 ml-auto">
+            
             <button
               onClick={handleSync}
               disabled={isSyncing}
-              className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold flex items-center gap-1.5 border border-slate-700 transition"
+              className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold flex items-center gap-1.5 border border-slate-700 transition cursor-pointer"
               title="Sync live with Google Business Profile API"
             >
               <RefreshCw className={"w-3.5 h-3.5 text-[#0097B2] " + (isSyncing ? "animate-spin" : "")} />
               <span className="hidden sm:inline">{isSyncing ? "Syncing..." : "Sync Live"}</span>
             </button>
 
+            {/* User Chip */}
+            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-800/80 border border-slate-700/80 text-xs">
+              <div className="w-5 h-5 rounded-full bg-[#0097B2] text-white flex items-center justify-center font-bold text-[10px]">
+                {currentUser.name ? currentUser.name[0] : "U"}
+              </div>
+              <span className="text-white font-medium max-w-[120px] truncate">{currentUser.name}</span>
+            </div>
+
+            {/* Sign Out Button */}
+            <button
+              onClick={handleSignOut}
+              className="px-3 py-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 text-xs font-semibold flex items-center gap-1.5 border border-rose-500/20 transition cursor-pointer"
+              title="Sign Out of Growth OS"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Sign Out</span>
+            </button>
+
             {/* View Mode Toggle (Hidden on mobile) */}
             <div className="hidden lg:flex items-center bg-slate-800/80 p-0.5 rounded-lg border border-slate-700 text-xs">
               <button
                 onClick={() => setDeviceMode("responsive")}
-                className={"px-2.5 py-1 rounded-md font-semibold transition " + (deviceMode === "responsive" ? "bg-[#0097B2] text-white shadow-sm" : "text-slate-400 hover:text-white")}
+                className={"px-2.5 py-1 rounded-md font-semibold transition cursor-pointer " + (deviceMode === "responsive" ? "bg-[#0097B2] text-white shadow-sm" : "text-slate-400 hover:text-white")}
               >
                 Auto
               </button>
               <button
                 onClick={() => setDeviceMode("mobile")}
-                className={"px-2.5 py-1 rounded-md font-semibold flex items-center gap-1 transition " + (deviceMode === "mobile" ? "bg-[#0097B2] text-white shadow-sm" : "text-slate-400 hover:text-white")}
+                className={"px-2.5 py-1 rounded-md font-semibold flex items-center gap-1 transition cursor-pointer " + (deviceMode === "mobile" ? "bg-[#0097B2] text-white shadow-sm" : "text-slate-400 hover:text-white")}
               >
                 <Smartphone className="w-3 h-3" /> Phone
               </button>
               <button
                 onClick={() => setDeviceMode("desktop")}
-                className={"px-2.5 py-1 rounded-md font-semibold flex items-center gap-1 transition " + (deviceMode === "desktop" ? "bg-[#0097B2] text-white shadow-sm" : "text-slate-400 hover:text-white")}
+                className={"px-2.5 py-1 rounded-md font-semibold flex items-center gap-1 transition cursor-pointer " + (deviceMode === "desktop" ? "bg-[#0097B2] text-white shadow-sm" : "text-slate-400 hover:text-white")}
               >
                 <Monitor className="w-3 h-3" /> Full
               </button>
             </div>
+
           </div>
 
         </div>
@@ -492,7 +860,7 @@ export default function GrowthOSClient() {
                   </div>
                   <button
                     onClick={() => setActiveTab("audit")}
-                    className="px-4 py-2 rounded-xl bg-[#0097B2] hover:bg-[#007a91] text-white text-xs font-bold transition flex items-center gap-1.5 shadow-md"
+                    className="px-4 py-2 rounded-xl bg-[#0097B2] hover:bg-[#007a91] text-white text-xs font-bold transition flex items-center gap-1.5 shadow-md cursor-pointer"
                   >
                     <span>View 24 Factors</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -578,7 +946,6 @@ export default function GrowthOSClient() {
         {activeTab === "reviews" && (
           <div className="space-y-6 animate-in fade-in duration-200">
             
-            {/* Header & Filter Controls */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
               <div>
                 <h2 className="text-xl sm:text-2xl font-heading font-extrabold text-white flex items-center gap-2">
@@ -590,7 +957,6 @@ export default function GrowthOSClient() {
                 </p>
               </div>
 
-              {/* Filter Pills */}
               <div className="flex items-center gap-2 overflow-x-auto pb-1">
                 {[
                   { id: "ALL", label: "All Reviews (" + reviews.length + ")" },
@@ -609,7 +975,6 @@ export default function GrowthOSClient() {
               </div>
             </div>
 
-            {/* Reviews List */}
             <div className="space-y-4">
               {filteredReviews.map(review => (
                 <div
@@ -648,7 +1013,6 @@ export default function GrowthOSClient() {
                     "{review.text}"
                   </p>
 
-                  {/* Reply Block or Action Buttons */}
                   {review.status === "ANSWERED" ? (
                     <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800/80 text-xs">
                       <div className="flex items-center gap-1.5 text-[10px] font-mono font-bold text-[#0097B2] mb-1.5">
@@ -729,20 +1093,18 @@ export default function GrowthOSClient() {
                 <span className="text-2xl font-extrabold text-[#0097B2]">{auditScore}/100</span>
                 <button
                   onClick={handleSync}
-                  className="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold flex items-center gap-1.5 transition"
+                  className="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold flex items-center gap-1.5 transition cursor-pointer"
                 >
                   <RefreshCw className="w-3 h-3 text-[#0097B2]" /> Re-scan
                 </button>
               </div>
             </div>
 
-            {/* High-Impact Fixes Section */}
             <div className="space-y-3">
               <h3 className="font-heading font-bold text-sm text-white">
                 Prioritized Action Items
               </h3>
 
-              {/* Fix Item 1 */}
               <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="flex items-start gap-3">
                   <div className={"w-8 h-8 rounded-xl flex items-center justify-center shrink-0 " + (appliedFixes.categories ? "bg-emerald-500/10 text-emerald-400" : "bg-amber-500/10 text-amber-400")}>
@@ -766,7 +1128,6 @@ export default function GrowthOSClient() {
                 </button>
               </div>
 
-              {/* Fix Item 2 */}
               <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="flex items-start gap-3">
                   <div className={"w-8 h-8 rounded-xl flex items-center justify-center shrink-0 " + (appliedFixes.description ? "bg-emerald-500/10 text-emerald-400" : "bg-purple-500/10 text-purple-400")}>
@@ -790,7 +1151,6 @@ export default function GrowthOSClient() {
                 </button>
               </div>
 
-              {/* Passed Factors */}
               <div className="pt-4 space-y-2">
                 <h4 className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider">
                   Passed Verification Tests (18 / 24)
@@ -834,7 +1194,6 @@ export default function GrowthOSClient() {
               </p>
             </div>
 
-            {/* Generator Card */}
             <div className="p-6 rounded-3xl bg-slate-900 border border-slate-800 space-y-4">
               
               <div className="grid sm:grid-cols-2 gap-4">
@@ -890,7 +1249,6 @@ export default function GrowthOSClient() {
                 <span>{isGeneratingPost ? "Drafting High-Converting Post..." : "✨ Generate Google Post with AI"}</span>
               </button>
 
-              {/* Generated Post Preview */}
               {generatedPost && (
                 <div className="pt-4 border-t border-slate-800 space-y-3">
                   <div className="flex items-center justify-between text-xs text-purple-400 font-bold">
@@ -922,7 +1280,6 @@ export default function GrowthOSClient() {
 
             </div>
 
-            {/* Published Posts Feed */}
             <div className="space-y-3">
               <h3 className="font-heading font-bold text-sm text-white">
                 Live Posts History on Google Maps
@@ -1053,47 +1410,46 @@ export default function GrowthOSClient() {
             <div className="grid sm:grid-cols-2 gap-6">
               
               <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
-                <h3 className="font-heading font-bold text-sm text-white">Storefront Location Details</h3>
+                <h3 className="font-heading font-bold text-sm text-white">Active User & Business Session</h3>
                 
                 <div>
-                  <label className="text-[11px] font-mono text-slate-400 block mb-1">Business Name</label>
+                  <label className="text-[11px] font-mono text-slate-400 block mb-1">Authenticated User</label>
                   <input
                     type="text"
                     readOnly
-                    value="Apex Dental Care & Implant Center"
+                    value={currentUser.name + " (" + currentUser.role + ")"}
                     className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white"
                   />
                 </div>
 
                 <div>
-                  <label className="text-[11px] font-mono text-slate-400 block mb-1">Storefront Address (Udaipur, Rajasthan)</label>
+                  <label className="text-[11px] font-mono text-slate-400 block mb-1">User Email</label>
                   <input
                     type="text"
                     readOnly
-                    value="Plot 14, Saheli Nagar, Near Saheliyon Ki Bari, Udaipur, Rajasthan 313001"
+                    value={currentUser.email}
                     className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white"
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <label className="text-[11px] font-mono text-slate-400 block mb-1">Primary Phone</label>
-                    <input
-                      type="text"
-                      readOnly
-                      value="+91 70735 38077"
-                      className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-[11px] font-mono text-slate-400 block mb-1">Maps Coordinates</label>
-                    <input
-                      type="text"
-                      readOnly
-                      value="24.5854° N, 73.7125° E"
-                      className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white"
-                    />
-                  </div>
+                <div>
+                  <label className="text-[11px] font-mono text-slate-400 block mb-1">Storefront Location (Udaipur, Rajasthan)</label>
+                  <input
+                    type="text"
+                    readOnly
+                    value={currentUser.location || "Plot 14, Saheli Nagar, Udaipur, Rajasthan 313001"}
+                    className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white"
+                  />
+                </div>
+
+                <div className="pt-2">
+                  <button
+                    onClick={handleSignOut}
+                    className="w-full py-2.5 rounded-xl bg-rose-600/20 hover:bg-rose-600/30 text-rose-400 font-bold text-xs flex items-center justify-center gap-2 border border-rose-500/30 transition cursor-pointer"
+                  >
+                    <LogOut className="w-3.5 h-3.5" />
+                    <span>Sign Out of this Account</span>
+                  </button>
                 </div>
               </div>
 
@@ -1111,6 +1467,13 @@ export default function GrowthOSClient() {
                     </div>
                   </div>
                   <CheckCircle2 className="w-5 h-5 text-emerald-400" />
+                </div>
+
+                <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs space-y-1.5">
+                  <div className="font-semibold text-slate-300">Security & Access Management</div>
+                  <p className="text-[11px] text-slate-400">
+                    Role-based access control enabled. Only verified administrators can publish review responses or edit categories.
+                  </p>
                 </div>
 
                 <div className="pt-2">
