@@ -8,25 +8,25 @@ export default function GrowthStatsStrip() {
       icon: Zap,
       value: "+38%",
       label: "Average CRO Lift",
-      desc: "Frictionless checkout & funnel optimization"
+      desc: "Higher converting funnels & checkout"
     },
     {
       icon: TrendingDown,
       value: "-24%",
       label: "Blended CAC Reduction",
-      desc: "High-intent organic & inbound loops"
+      desc: "Lower cost per acquired customer"
     },
     {
       icon: Target,
       value: "96.4%",
       label: "Attribution Precision",
-      desc: "Closed-loop bank & CRM tracking"
+      desc: "Accurate CRM & revenue tracking"
     },
     {
       icon: ShieldCheck,
       value: "4-Hour",
-      label: "Principal SLA Guarantee",
-      desc: "Direct leadership access, zero junior reps"
+      label: "Response Guarantee",
+      desc: "Direct expert support, no junior handoffs"
     },
   ];
 

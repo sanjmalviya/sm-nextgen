@@ -49,7 +49,7 @@ const METRICS = [
 export default function AboutClient() {
   const handleWhatsApp = () => {
     const msg = "Hi SM NextGen Leadership, I would like to explore a strategic growth partnership for my business.";
-    window.open(`https://wa.me/919179577717?text=${encodeURIComponent(msg)}`, "_blank");
+    window.open(`https://wa.me/917073538077?text=${encodeURIComponent(msg)}`, "_blank");
   };
 
   return (
@@ -211,28 +211,47 @@ export default function AboutClient() {
           <div className="absolute top-0 right-0 w-96 h-96 bg-[#0097B2]/15 rounded-full blur-3xl pointer-events-none" />
           
           <div className="grid lg:grid-cols-12 gap-10 items-center relative z-10">
-            {/* Executive Portrait Card (4 cols) */}
-            <div className="lg:col-span-5 flex flex-col items-center sm:items-start">
-              <div className="relative group">
-                <div className="relative w-64 h-72 sm:w-72 sm:h-80 rounded-2xl overflow-hidden border-2 border-[#0097B2]/40 shadow-2xl shadow-[#0097B2]/20 bg-[#0B2545]">
-                  <img
-                    src="/images/sanjay.png"
-                    alt="Sanjay Malviya — Founder & Principal Growth Strategist"
-                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#040e1b] via-transparent to-transparent opacity-80" />
-                  <div className="absolute bottom-3 left-3 right-3 text-left">
-                    <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 text-[10px] font-mono font-bold mb-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-                      Direct Principal Partner
+            {/* Senior Growth Leadership Pod Visual (5 cols) */}
+            <div className="lg:col-span-5 flex flex-col items-center sm:items-start w-full">
+              <div className="w-full rounded-2xl bg-white/5 border border-white/15 p-6 backdrop-blur-md shadow-2xl relative overflow-hidden group">
+                <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-5">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-[#0097B2]/20 border border-[#0097B2]/40 flex items-center justify-center text-[#0097B2]">
+                      <ShieldCheck className="w-5 h-5" />
                     </div>
-                    <div className="text-lg font-bold font-heading text-white">
-                      Sanjay Malviya
-                    </div>
-                    <div className="text-xs text-[#0097B2] font-semibold">
-                      Founder & Principal Growth Strategist
+                    <div>
+                      <div className="text-sm font-bold font-heading text-white">
+                        Growth Leadership Team
+                      </div>
+                      <div className="text-[11px] text-[#0097B2] font-semibold">
+                        Direct Strategic Governance
+                      </div>
                     </div>
                   </div>
+                  <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-mono font-bold">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    Active Pod
+                  </div>
+                </div>
+
+                <div className="space-y-3 mb-6">
+                  <div className="p-3 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between">
+                    <span className="text-xs text-[#E6EEF2]/90 font-medium">Growth Strategy & Economics</span>
+                    <span className="text-[11px] font-mono text-[#0097B2] font-bold">Principal Level</span>
+                  </div>
+                  <div className="p-3 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between">
+                    <span className="text-xs text-[#E6EEF2]/90 font-medium">Next.js & Software Engineering</span>
+                    <span className="text-[11px] font-mono text-[#0097B2] font-bold">Lead Architect</span>
+                  </div>
+                  <div className="p-3 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between">
+                    <span className="text-xs text-[#E6EEF2]/90 font-medium">Performance Media & Conversion</span>
+                    <span className="text-[11px] font-mono text-[#0097B2] font-bold">Senior Specialist</span>
+                  </div>
+                </div>
+
+                <div className="pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs">
+                  <span className="text-[#E6EEF2]/70">Direct Call: <strong className="text-white">+91 70735 38077</strong></span>
+                  <span className="text-[#E6EEF2]/70">Support: <strong className="text-[#0097B2]">info@smnextgen.com</strong></span>
                 </div>
               </div>
             </div>
@@ -241,32 +260,32 @@ export default function AboutClient() {
             <div className="lg:col-span-7">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0097B2]/20 border border-[#0097B2]/30 text-[#0097B2] text-xs font-mono font-bold uppercase tracking-wider mb-4">
                 <ShieldCheck className="w-3.5 h-3.5" />
-                <span>LEADERSHIP COMMITMENT</span>
+                <span>DIRECT PARTNER COMMITMENT</span>
               </div>
 
               <h3 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold font-heading mb-4 leading-tight">
-                Direct Principal Access. <br />
+                Direct Senior Leadership. <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0097B2] to-cyan-400">
-                  Zero Account Management Bloat.
+                  Zero Middlemen or Handoffs.
                 </span>
               </h3>
 
               <p className="text-sm sm:text-base text-[#E6EEF2]/80 leading-relaxed font-light mb-6">
-                When you partner with SM NextGen, your growth roadmap, software architecture, and acquisition campaigns are engineered and directed by experienced principals. You never get passed down to junior account reps, outsourced freelancers, or telephone-game coordinators.
+                When you partner with SM NextGen, your growth roadmap, digital platforms, and customer acquisition campaigns are directed and executed by senior specialists. You never get passed down to junior account reps or outsourced interns.
               </p>
 
               <div className="grid sm:grid-cols-2 gap-3 mb-8 text-xs font-medium text-[#E6EEF2]/90">
                 <div className="flex items-center gap-2.5 p-3 rounded-xl bg-white/5 border border-white/10">
                   <CheckCircle2 className="w-4 h-4 text-[#0097B2] shrink-0" />
-                  <span>4-Hour Principal SLA Response</span>
+                  <span>4-Hour Guaranteed Response Time</span>
                 </div>
                 <div className="flex items-center gap-2.5 p-3 rounded-xl bg-white/5 border border-white/10">
                   <CheckCircle2 className="w-4 h-4 text-[#0097B2] shrink-0" />
-                  <span>Full-Stack Architecture Governance</span>
+                  <span>End-to-End Technical & Growth Ownership</span>
                 </div>
                 <div className="flex items-center gap-2.5 p-3 rounded-xl bg-white/5 border border-white/10">
                   <CheckCircle2 className="w-4 h-4 text-[#0097B2] shrink-0" />
-                  <span>Weekly Executive Growth Syncs</span>
+                  <span>Weekly Strategy & Performance Reviews</span>
                 </div>
                 <div className="flex items-center gap-2.5 p-3 rounded-xl bg-white/5 border border-white/10">
                   <CheckCircle2 className="w-4 h-4 text-[#0097B2] shrink-0" />
@@ -288,7 +307,7 @@ export default function AboutClient() {
                   className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs tracking-wider uppercase text-center border border-white/20 transition-all cursor-pointer flex items-center justify-center gap-2"
                 >
                   <MessageSquare className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>WhatsApp Principal Directly</span>
+                  <span>WhatsApp Directly (+91 70735 38077)</span>
                 </button>
               </div>
             </div>

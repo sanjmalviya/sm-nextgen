@@ -64,12 +64,12 @@ export function ContactFormClient() {
         setSubmitted(true);
       } else {
         const waMsg = `Hi SM NextGen Leadership, I want to schedule a Strategic Consultation.\n\nName: ${formData.name}\nCompany: ${formData.company}\nEngagement: ${formData.engagement}\nRevenue: ${formData.revenue}\nPhone: ${formData.phone}`;
-        window.open(`https://wa.me/919179577717?text=${encodeURIComponent(waMsg)}`, "_blank");
+        window.open(`https://wa.me/917073538077?text=${encodeURIComponent(waMsg)}`, "_blank");
         setSubmitted(true);
       }
     } catch {
       const waMsg = `Hi SM NextGen Leadership, I want to schedule a Strategic Consultation.\n\nName: ${formData.name}\nCompany: ${formData.company}\nPhone: ${formData.phone}`;
-      window.open(`https://wa.me/919179577717?text=${encodeURIComponent(waMsg)}`, "_blank");
+      window.open(`https://wa.me/917073538077?text=${encodeURIComponent(waMsg)}`, "_blank");
       setSubmitted(true);
     } finally {
       setLoading(false);
@@ -78,7 +78,7 @@ export function ContactFormClient() {
 
   const handleWhatsAppVIP = () => {
     const waMsg = `Hi SM NextGen Leadership, I would like to schedule a priority Growth Consultation with a Managing Principal.\n\nCompany: ${formData.company || "N/A"}\nRevenue: ${formData.revenue}`;
-    window.open(`https://wa.me/919179577717?text=${encodeURIComponent(waMsg)}`, "_blank");
+    window.open(`https://wa.me/917073538077?text=${encodeURIComponent(waMsg)}`, "_blank");
   };
 
   return (
@@ -114,32 +114,28 @@ export function ContactFormClient() {
             
             <div className="p-6 sm:p-8 rounded-2xl bg-[#F8FAFC] dark:bg-[#071A30]/80 border border-[#0B2545]/10 dark:border-white/10">
               <div className="flex items-center gap-4 mb-5">
-                <div className="relative w-16 h-16 rounded-xl overflow-hidden border-2 border-[#0097B2]/40 shrink-0 shadow-md bg-[#0B2545]">
-                  <img
-                    src="/images/sanjay.png"
-                    alt="Sanjay Malviya"
-                    className="w-full h-full object-cover object-top"
-                  />
+                <div className="w-14 h-14 rounded-2xl bg-[#0097B2]/15 border border-[#0097B2]/30 flex items-center justify-center text-[#0097B2] shadow-sm shrink-0">
+                  <ShieldCheck className="w-7 h-7" />
                 </div>
                 <div>
                   <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[10px] font-mono font-bold mb-0.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                    Managing Principal
+                    Advisory Desk Active
                   </div>
                   <div className="font-bold text-[#0B2545] dark:text-white text-base font-heading">
-                    Sanjay Malviya
+                    Growth Advisory Team
                   </div>
                   <div className="text-xs text-[#0097B2] font-semibold">
-                    Founder & Principal Strategist
+                    Direct Consultation & Technical Scoping
                   </div>
                 </div>
               </div>
 
               <h3 className="text-lg font-bold font-heading text-[#0B2545] dark:text-white mb-2">
-                Direct Principal Engagement
+                Work Directly With Growth Experts
               </h3>
               <p className="text-xs sm:text-sm text-[#0B2545]/75 dark:text-[#E6EEF2]/75 leading-relaxed mb-5 font-light">
-                Every consultation is led directly by an SM NextGen principal growth architect. You will never be assigned to a junior account rep or sales coordinator.
+                Every consultation connects you directly with experienced growth strategists and full-stack architects. No sales pressure, no junior reps.
               </p>
 
               <div className="space-y-3.5 border-t border-[#0B2545]/10 dark:border-white/10 pt-4">
@@ -153,7 +149,7 @@ export function ContactFormClient() {
                 </div>
                 <div className="flex items-center gap-3 text-xs sm:text-sm text-[#0B2545]/85 dark:text-[#E6EEF2]/85">
                   <CheckCircle2 className="w-4 h-4 text-[#0097B2] shrink-0" />
-                  <span>Objective Diagnostic Value • Zero Hard Selling</span>
+                  <span>Clear Actionable Roadmap • Zero Aggressive Selling</span>
                 </div>
               </div>
             </div>
@@ -165,22 +161,36 @@ export function ContactFormClient() {
                 <span>Priority WhatsApp Channel</span>
               </div>
               <p className="text-xs text-[#0B2545]/70 dark:text-[#E6EEF2]/70 mb-5 leading-relaxed">
-                Need urgent project consultation or direct principal feedback? Connect with our leadership team on WhatsApp.
+                Need urgent project consultation or direct advice? Connect with our growth desk directly on WhatsApp.
               </p>
               <button
                 type="button"
                 onClick={handleWhatsAppVIP}
                 className="w-full py-3.5 rounded-xl bg-[#0097B2] hover:bg-[#007a91] text-white font-semibold text-xs tracking-wider uppercase flex items-center justify-center gap-2 transition-all shadow-md shadow-[#0097B2]/20 cursor-pointer"
               >
-                <span>Connect via WhatsApp Directly</span>
+                <span>Connect on WhatsApp (+91 70735 38077)</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>
 
-            <div className="p-6 rounded-2xl bg-[#F8FAFC] dark:bg-[#071A30]/60 border border-[#0B2545]/10 dark:border-white/10 text-xs text-[#0B2545]/70 dark:text-[#E6EEF2]/70 space-y-2">
-              <div><strong>Corporate Operations:</strong> Indore, Madhya Pradesh, India</div>
-              <div><strong>Global Engagements:</strong> India, USA, UK, UAE, Singapore</div>
-              <div><strong>Direct Email:</strong> info@smnextgen.com</div>
+            {/* Direct Official Contact Channels Card */}
+            <div className="p-6 rounded-2xl bg-[#F8FAFC] dark:bg-[#071A30]/60 border border-[#0B2545]/10 dark:border-white/10 text-xs text-[#0B2545]/80 dark:text-[#E6EEF2]/80 space-y-3">
+              <div className="flex items-center justify-between pb-2 border-b border-[#0B2545]/10 dark:border-white/10 font-bold uppercase tracking-wider text-[11px] text-[#0097B2]">
+                <span>Official Contact Details</span>
+                <span className="text-emerald-500 font-mono">Verified</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="font-semibold text-[#0B2545]/70 dark:text-gray-400">Primary Phone:</span>
+                <a href="tel:+917073538077" className="font-bold text-[#0097B2] hover:underline">+91 70735 38077</a>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="font-semibold text-[#0B2545]/70 dark:text-gray-400">Email Support:</span>
+                <a href="mailto:info@smnextgen.com" className="font-bold text-[#0097B2] hover:underline">info@smnextgen.com</a>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="font-semibold text-[#0B2545]/70 dark:text-gray-400">Corporate Location:</span>
+                <span className="font-medium text-[#0B2545] dark:text-white">Indore, MP, India</span>
+              </div>
             </div>
 
           </div>
@@ -202,7 +212,7 @@ export function ContactFormClient() {
                         required
                         value={formData.name}
                         onChange={handleChange}
-                        placeholder="e.g. Sanjeev Malviya"
+                        placeholder="e.g. Rahul Sharma"
                         className="w-full px-4 py-3 rounded-xl border border-[#0B2545]/15 dark:border-white/15 bg-white dark:bg-[#0B2545]/50 text-[#0B2545] dark:text-white text-sm focus:outline-none focus:border-[#0097B2]"
                       />
                     </div>
@@ -233,7 +243,7 @@ export function ContactFormClient() {
                         required
                         value={formData.phone}
                         onChange={handleChange}
-                        placeholder="+91 91795 77717"
+                        placeholder="+91 70735 38077"
                         className="w-full px-4 py-3 rounded-xl border border-[#0B2545]/15 dark:border-white/15 bg-white dark:bg-[#0B2545]/50 text-[#0B2545] dark:text-white text-sm focus:outline-none focus:border-[#0097B2]"
                       />
                     </div>

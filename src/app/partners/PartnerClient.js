@@ -1,10 +1,10 @@
-// file: app/partner/PartnerClient.js
+﻿// file: app/partner/PartnerClient.js
 "use client";
 import { useState } from "react";
 import confetti from "canvas-confetti";
 import Link from "next/link";
 
-const WHATSAPP_NUMBER = "919179577717"; 
+const WHATSAPP_NUMBER = "917073538077"; 
 const getWhatsAppLink = (message) => `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
 export function PartnerClient() {

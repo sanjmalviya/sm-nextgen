@@ -13,10 +13,10 @@ export default function HeroGrowthPartner({ onStartConversation, onExploreHowWeG
   const [activeTab, setActiveTab] = useState(0);
 
   const metrics = [
-    { label: "Checkout CRO Lift", value: "+38%", detail: "Frictionless Funnel & CRO" },
-    { label: "CAC Optimization", value: "-24%", detail: "High-Intent Inbound Demand" },
-    { label: "Qualified Pipeline", value: "+48%", detail: "Sub-5 Min Inbound Routing" },
-    { label: "Attribution Match", value: "96.4%", detail: "Closed-Loop Bank Reconciliation" }
+    { label: "Checkout CRO Lift", value: "+38%", detail: "Conversion & Funnel CRO" },
+    { label: "CAC Optimization", value: "-24%", detail: "High-Intent Customer Acquisition" },
+    { label: "Qualified Pipeline", value: "+48%", detail: "Instant Inbound Lead Routing" },
+    { label: "Attribution Match", value: "96.4%", detail: "Accurate Revenue Tracking" }
   ];
 
   return (
@@ -48,7 +48,7 @@ export default function HeroGrowthPartner({ onStartConversation, onExploreHowWeG
 
             {/* Subtitle - Clean & Concise */}
             <p className="text-lg sm:text-xl text-[#0B2545]/75 dark:text-[#E6EEF2]/80 font-body leading-relaxed max-w-2xl mx-auto lg:mx-0 mb-8 font-light">
-              We help ambitious businesses build sustainable compounding growth by integrating strategy, high-performance web technology, AI automation, and demand generation into one unified engine.
+              We help growing companies build predictable revenue engines. From brand positioning and fast web platforms to AI automation and performance marketing — everything connects to bring you more qualified leads and sales.
             </p>
 
             {/* Dual Action CTAs */}
@@ -82,7 +82,7 @@ export default function HeroGrowthPartner({ onStartConversation, onExploreHowWeG
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-[#0097B2] shrink-0" />
-                <span>Direct Principal Engagement</span>
+                <span>Direct Growth Partners</span>
               </div>
             </div>
 
@@ -99,7 +99,7 @@ export default function HeroGrowthPartner({ onStartConversation, onExploreHowWeG
                     System Architecture
                   </div>
                   <h3 className="text-lg font-bold font-heading text-[#0B2545] dark:text-white">
-                    Compounding Growth Loop
+                    Integrated Growth Engine
                   </h3>
                 </div>
                 <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-semibold">
@@ -121,7 +121,7 @@ export default function HeroGrowthPartner({ onStartConversation, onExploreHowWeG
                   Live Attribution
                 </div>
                 <div className="absolute bottom-2.5 left-3 px-2.5 py-1 rounded-md bg-black/60 backdrop-blur-md text-[10px] font-mono font-bold text-white border border-white/20">
-                  Closed-Loop Growth Telemetry
+                  Real Revenue & Attribution
                 </div>
               </div>
 

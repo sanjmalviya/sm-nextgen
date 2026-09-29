@@ -49,12 +49,12 @@ export default function ExecutiveGrowthIntake({ prefillData }) {
       } else {
         // Fallback to WhatsApp
         const waMsg = `Hi SM NextGen Team, I would like to schedule an Executive Growth Consultation.\n\nName: ${formData.name}\nCompany: ${formData.company}\nRevenue: ${formData.revenue}\nChallenge: ${formData.challenge}\nPhone: ${formData.phone}`;
-        window.open(`https://wa.me/919179577717?text=${encodeURIComponent(waMsg)}`, "_blank");
+        window.open(`https://wa.me/917073538077?text=${encodeURIComponent(waMsg)}`, "_blank");
         setSubmitted(true);
       }
     } catch {
       const waMsg = `Hi SM NextGen Team, I would like to schedule an Executive Growth Consultation.\nName: ${formData.name}\nPhone: ${formData.phone}`;
-      window.open(`https://wa.me/919179577717?text=${encodeURIComponent(waMsg)}`, "_blank");
+      window.open(`https://wa.me/917073538077?text=${encodeURIComponent(waMsg)}`, "_blank");
       setSubmitted(true);
     } finally {
       setLoading(false);
@@ -63,7 +63,7 @@ export default function ExecutiveGrowthIntake({ prefillData }) {
 
   const handleWhatsAppPriority = () => {
     const waMsg = `Hi SM NextGen Team, I would like to schedule a priority Growth Consultation with a Managing Principal.\n\nCompany: ${formData.company || "N/A"}\nRevenue Bracket: ${formData.revenue}`;
-    window.open(`https://wa.me/919179577717?text=${encodeURIComponent(waMsg)}`, "_blank");
+    window.open(`https://wa.me/917073538077?text=${encodeURIComponent(waMsg)}`, "_blank");
   };
 
   return (
@@ -92,10 +92,10 @@ export default function ExecutiveGrowthIntake({ prefillData }) {
             
             <div className="p-7 rounded-2xl bg-[#F8FAFC] dark:bg-[#071A30]/80 border border-[#0B2545]/10 dark:border-white/10">
               <h3 className="text-xl font-bold font-heading text-[#0B2545] dark:text-white mb-3">
-                Direct Principal Engagement
+                Direct Growth Partnership
               </h3>
               <p className="text-sm text-[#0B2545]/75 dark:text-[#E6EEF2]/75 leading-relaxed mb-6">
-                You will never be handed off to a junior account rep or sales coordinator. Every growth consultation is led directly by an SM NextGen principal strategist and systems architect.
+                You will never be handed off to a junior account rep or sales coordinator. Every growth consultation is led directly by experienced growth strategists and full-stack architects.
               </p>
 
               <div className="space-y-3.5 border-t border-[#0B2545]/10 dark:border-white/10 pt-5">
@@ -121,20 +121,36 @@ export default function ExecutiveGrowthIntake({ prefillData }) {
                 <span>Priority WhatsApp Channel</span>
               </div>
               <p className="text-xs text-[#0B2545]/70 dark:text-[#E6EEF2]/70 mb-4">
-                Need immediate principal feedback or urgent project consultation? Chat directly with our leadership team on WhatsApp.
+                Need immediate feedback or urgent project consultation? Chat directly with our growth desk on WhatsApp.
               </p>
               <button
                 type="button"
                 onClick={handleWhatsAppPriority}
                 className="w-full py-3 rounded-xl bg-[#0097B2] hover:bg-[#007a91] text-white font-semibold text-xs tracking-wider uppercase flex items-center justify-center gap-2 transition-all shadow-md shadow-[#0097B2]/20 cursor-pointer"
               >
-                <span>Connect via WhatsApp Directly</span>
+                <span>Connect on WhatsApp (+91 70735 38077)</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>
 
-            <div className="text-xs text-[#0B2545]/60 dark:text-[#E6EEF2]/60 px-2">
-              Corporate Office: Indore, Madhya Pradesh, India • Global Operations
+            {/* Official Contact Channels Card */}
+            <div className="p-5 rounded-2xl bg-[#F8FAFC] dark:bg-[#071A30]/60 border border-[#0B2545]/10 dark:border-white/10 text-xs text-[#0B2545]/80 dark:text-[#E6EEF2]/80 space-y-2.5">
+              <div className="flex items-center justify-between pb-1.5 border-b border-[#0B2545]/10 dark:border-white/10 font-bold uppercase tracking-wider text-[11px] text-[#0097B2]">
+                <span>Direct Contact</span>
+                <span className="text-emerald-500 font-mono">Available Now</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="font-semibold text-[#0B2545]/70 dark:text-gray-400">Primary Phone:</span>
+                <a href="tel:+917073538077" className="font-bold text-[#0097B2] hover:underline">+91 70735 38077</a>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="font-semibold text-[#0B2545]/70 dark:text-gray-400">Email Support:</span>
+                <a href="mailto:info@smnextgen.com" className="font-bold text-[#0097B2] hover:underline">info@smnextgen.com</a>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="font-semibold text-[#0B2545]/70 dark:text-gray-400">Office:</span>
+                <span className="font-medium text-[#0B2545] dark:text-white">Indore, MP, India</span>
+              </div>
             </div>
 
           </div>
@@ -156,7 +172,7 @@ export default function ExecutiveGrowthIntake({ prefillData }) {
                         required
                         value={formData.name}
                         onChange={handleChange}
-                        placeholder="e.g. Sanjeev Malviya"
+                        placeholder="e.g. Rahul Sharma"
                         className="w-full px-4 py-3 rounded-xl border border-[#0B2545]/15 dark:border-white/15 bg-white dark:bg-[#0B2545]/50 text-[#0B2545] dark:text-white text-sm focus:outline-none focus:border-[#0097B2]"
                       />
                     </div>
@@ -187,7 +203,7 @@ export default function ExecutiveGrowthIntake({ prefillData }) {
                         required
                         value={formData.phone}
                         onChange={handleChange}
-                        placeholder="+91 91795 77717"
+                        placeholder="+91 70735 38077"
                         className="w-full px-4 py-3 rounded-xl border border-[#0B2545]/15 dark:border-white/15 bg-white dark:bg-[#0B2545]/50 text-[#0B2545] dark:text-white text-sm focus:outline-none focus:border-[#0097B2]"
                       />
                     </div>

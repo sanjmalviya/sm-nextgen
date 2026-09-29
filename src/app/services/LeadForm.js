@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState } from "react";
 
 export default function LeadForm({ serviceTitle }) {
@@ -14,7 +14,7 @@ export default function LeadForm({ serviceTitle }) {
     const leadMsg = `*New Strategic Growth Enquiry* 🎯\n\n*Service:* ${serviceTitle}\n*Name:* ${name}\n*Phone:* ${phone}\n*Est. Budget:* ${budget}\n\nPlease audit my requirements and connect.`;
     
     setTimeout(() => {
-      window.open(`https://wa.me/919179577717?text=${encodeURIComponent(leadMsg)}`, '_blank');
+      window.open(`https://wa.me/917073538077?text=${encodeURIComponent(leadMsg)}`, '_blank');
     }, 1500);
   };
 
@@ -57,7 +57,7 @@ export default function LeadForm({ serviceTitle }) {
         <div className="flex-grow border-t border-gray-200 dark:border-white/10"></div>
       </div>
 
-      <a href={`https://wa.me/919179577717?text=${encodeURIComponent(`Hi SM NextGen Team, I am interested in *${serviceTitle}* to scale my business.`)}`} target="_blank" rel="noreferrer"
+      <a href={`https://wa.me/917073538077?text=${encodeURIComponent(`Hi SM NextGen Team, I am interested in *${serviceTitle}* to scale my business.`)}`} target="_blank" rel="noreferrer"
         className="w-full flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold py-3 rounded-xl shadow-md transition">
         <i className="fab fa-whatsapp text-lg"></i> Chat on WhatsApp
       </a>

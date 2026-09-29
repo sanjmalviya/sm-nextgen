@@ -63,7 +63,7 @@ export default function BlogsClient({ initialBlogs = [] }) {
 
   const handleQuickLead = (e) => {
     e.preventDefault();
-    const phone = "919179577717";
+    const phone = "917073538077";
     const message = `Hi SM NextGen Team, I was reading your growth insights. Name: ${leadName} | Interested in: ${leadService}. Please connect with me.`;
     const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank');
@@ -131,7 +131,7 @@ export default function BlogsClient({ initialBlogs = [] }) {
                   ? new Date(post._createdAt || post.publishedAt).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })
                   : "Recently Published";
 
-                const fallbackAvatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(post.authorName || 'Sanjay Lohar')}&background=0097B2&color=fff&bold=true`;
+                const fallbackAvatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(post.authorName || 'SM NextGen')}&background=0097B2&color=fff&bold=true`;
                 const finalAuthorImage = post.authorImageUrl || post.authorImage?.asset?.url || fallbackAvatar;
 
                 return (
@@ -172,7 +172,7 @@ export default function BlogsClient({ initialBlogs = [] }) {
                       <div className="mt-auto pt-4 border-t border-gray-100 dark:border-white/5 flex items-center justify-between">
                         <div className="flex items-center gap-2">
                           <img src={finalAuthorImage} className="w-8 h-8 rounded-full object-cover border-2 border-gray-50 dark:border-white/10" alt="Author" />
-                          <span className="text-xs font-bold text-[#0B2545] dark:text-white">{post.authorName || "Sanjay Lohar"}</span>
+                          <span className="text-xs font-bold text-[#0B2545] dark:text-white">{post.authorName || "SM NextGen Growth Team"}</span>
                         </div>
                         <Link href={`/blogs/${post.slug}`} className="w-8 h-8 rounded-full bg-gray-50 dark:bg-white/5 flex items-center justify-center text-[#0097B2] group-hover:bg-[#0097B2] group-hover:text-white transition-colors">
                           <ArrowRight className="w-4 h-4" />

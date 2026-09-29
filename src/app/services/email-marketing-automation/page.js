@@ -1,9 +1,9 @@
-"use client";
+﻿"use client";
 import { useState } from "react";
 import Link from "next/link";
 
 // --- WHATSAPP SETUP ---
-const WHATSAPP_NUMBER = "919179577717"; 
+const WHATSAPP_NUMBER = "917073538077"; 
 
 export default function EmailMarketingAutomationPage() {
   const [activeFaq, setActiveFaq] = useState(null);

@@ -1,4 +1,4 @@
-// file: app/tools/ToolsClient.js
+﻿// file: app/tools/ToolsClient.js
 "use client";
 import { useState } from "react";
 import GrowthScoreWidget from "../components/growth_home/GrowthScoreWidget";
@@ -52,7 +52,7 @@ export default function ToolsClient() {
       
       // Redirect to WhatsApp
       const msg = `Hi SM NextGen Team, I requested a *7-Point Business Audit*.\n\n*Website:* ${auditUrl}\n*Phone:* ${auditPhone}\n\nPlease check.`;
-      window.open(`https://wa.me/919179577717?text=${encodeURIComponent(msg)}`, '_blank');
+      window.open(`https://wa.me/917073538077?text=${encodeURIComponent(msg)}`, '_blank');
       
       // Reset form after delay
       setTimeout(() => {

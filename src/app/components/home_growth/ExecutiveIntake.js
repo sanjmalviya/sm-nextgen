@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle2, MessageSquare, Sparkles, ShieldCheck } from "lucide-react";
@@ -43,7 +43,7 @@ export default function ExecutiveIntake({ simulationData }) {
       } else {
         // WhatsApp fallback
         window.open(
-          `https://wa.me/919179577717?text=${encodeURIComponent(
+          `https://wa.me/917073538077?text=${encodeURIComponent(
             `Hi SM NextGen, I want to discuss building a Compounding Growth Architecture.\n\nName: ${formData.name}\nRevenue: ${formData.revenue}\nWebsite: ${formData.website || "N/A"}`
           )}`,
           "_blank"
@@ -52,7 +52,7 @@ export default function ExecutiveIntake({ simulationData }) {
       }
     } catch {
       window.open(
-        `https://wa.me/919179577717?text=${encodeURIComponent(
+        `https://wa.me/917073538077?text=${encodeURIComponent(
           `Hi SM NextGen, I would like to schedule a Strategic Growth Consultation.\nName: ${formData.name}`
         )}`,
         "_blank"
@@ -68,7 +68,7 @@ export default function ExecutiveIntake({ simulationData }) {
       ? `Hi SM NextGen, I simulated a ${simulationData.growthMultiple} compounding expansion for my company (${simulationData.currentMonthlyRevenue}) on your website.\nTarget: ${simulationData.targetExpansion}\n\nI would like to discuss implementing this growth system.`
       : `Hi SM NextGen, I would like to discuss architecting a Compounding Business Growth Engine for my company.`;
 
-    window.open(`https://wa.me/919179577717?text=${encodeURIComponent(text)}`, "_blank");
+    window.open(`https://wa.me/917073538077?text=${encodeURIComponent(text)}`, "_blank");
   };
 
   return (

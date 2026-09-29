@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useState } from "react";
 import { Mail, Phone, MapPin, MessageSquare, ArrowRight, CheckCircle2 } from "lucide-react";
 import Card3DTilt from "../3d/Card3DTilt";
@@ -37,7 +37,7 @@ export default function CleanExecutiveCTA() {
         setSubmitted(true);
       } else {
         window.open(
-          `https://wa.me/919179577717?text=${encodeURIComponent(
+          `https://wa.me/917073538077?text=${encodeURIComponent(
             `Hi SM NextGen team, I want to schedule a consultation.\n\nName: ${formData.name}\nService: ${formData.service}\nWebsite: ${formData.website || "N/A"}`
           )}`,
           "_blank"
@@ -46,7 +46,7 @@ export default function CleanExecutiveCTA() {
       }
     } catch {
       window.open(
-        `https://wa.me/919179577717?text=${encodeURIComponent(
+        `https://wa.me/917073538077?text=${encodeURIComponent(
           `Hi SM NextGen, I would like to schedule a consultation.\nName: ${formData.name}`
         )}`,
         "_blank"
@@ -59,7 +59,7 @@ export default function CleanExecutiveCTA() {
 
   const handleWhatsAppDirect = () => {
     window.open(
-      `https://wa.me/919179577717?text=${encodeURIComponent(
+      `https://wa.me/917073538077?text=${encodeURIComponent(
         `Hi SM NextGen, I would like to schedule a consultation for my business.`
       )}`,
       "_blank"
@@ -134,8 +134,8 @@ export default function CleanExecutiveCTA() {
                       <div className="text-xs font-bold text-[#0B2545] dark:text-white font-heading">
                         Direct Phone / WhatsApp
                       </div>
-                      <a href="tel:+919179577717" className="text-xs text-[#0097B2] hover:underline mt-0.5 block">
-                        +91 91795 77717
+                      <a href="tel:+917073538077" className="text-xs text-[#0097B2] hover:underline mt-0.5 block">
+                        +91 70735 38077
                       </a>
                     </div>
                   </div>
@@ -216,7 +216,7 @@ export default function CleanExecutiveCTA() {
                       <input
                         type="tel"
                         required
-                        placeholder="+91 91795 77717"
+                        placeholder="+91 70735 38077"
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                         className="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-[#071A30] border border-[#0B2545]/15 dark:border-white/10 text-xs sm:text-sm text-[#0B2545] dark:text-white focus:outline-none focus:border-[#0097B2]"

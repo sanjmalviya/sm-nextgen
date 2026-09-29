@@ -1,4 +1,4 @@
-// file: app/services/ServicesClient.js
+﻿// file: app/services/ServicesClient.js
 "use client";
 import { useState } from "react";
 import Link from "next/link";
@@ -7,7 +7,7 @@ import Link from "next/link";
 const generateSlug = (text) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
 
 // --- WHATSAPP SETUP ---
-const WHATSAPP_NUMBER = "919179577717"; 
+const WHATSAPP_NUMBER = "917073538077"; 
 const getWhatsAppLink = (message) => `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
 // --- 1. CORE DATA SETS (32 Services Total) ---

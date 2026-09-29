@@ -1,4 +1,4 @@
-// file: src/components/Footer.js
+﻿// file: src/components/Footer.js
 "use client";
 import Link from "next/link";
 
@@ -28,13 +28,13 @@ export default function Footer() {
 
             {/* Contact Details Grid */}
             <div className="space-y-4">
-              <a href="tel:+919179577717" className="flex items-start gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors group w-max">
+              <a href="tel:+917073538077" className="flex items-start gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors group w-max">
                 <div className="w-10 h-10 rounded-full bg-[#0097B2]/20 text-[#0097B2] flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
                   <i className="fas fa-phone-alt -scale-x-100"></i>
                 </div>
                 <div>
                   <p className="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-0.5">Call Us</p>
-                  <p className="text-sm font-bold text-white">+91 91795 77717</p>
+                  <p className="text-sm font-bold text-white">+91 70735 38077</p>
                 </div>
               </a>
               
@@ -111,7 +111,7 @@ export default function Footer() {
               <li><Link href="/contact" className="hover:text-white hover:translate-x-1 inline-block transition-all">Contact Us</Link></li>
               <li><Link href="/partners" className="hover:text-white hover:translate-x-1 inline-block transition-all">Partner Program</Link></li>
               <li><Link href="/tools" className="hover:text-white hover:translate-x-1 inline-block transition-all">Free Growth Tools</Link></li>
-              <li><a href="https://wa.me/919179577717" target="_blank" className="hover:text-green-400 hover:translate-x-1 inline-block transition-all"><i className="fab fa-whatsapp mr-1"></i> Chat on WhatsApp</a></li>
+              <li><a href="https://wa.me/917073538077" target="_blank" className="hover:text-green-400 hover:translate-x-1 inline-block transition-all"><i className="fab fa-whatsapp mr-1"></i> Chat on WhatsApp</a></li>
             </ul>
           </div>
 
@@ -144,13 +144,13 @@ export default function Footer() {
       
       {/* FLOATING BUTTONS */}
       <div className="fixed bottom-6 right-6 flex flex-col gap-4 z-[99]">
-        <a href="https://wa.me/919179577717" target="_blank" 
+        <a href="https://wa.me/917073538077" target="_blank" 
            className="w-14 h-14 bg-[#25D366] text-white rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-110 hover:-translate-y-1 group relative border-2 border-[#0B2545]">
             <i className="fab fa-whatsapp text-3xl"></i>
             <span className="absolute right-16 bg-[#0B2545] text-white px-3 py-1.5 rounded-lg text-xs font-bold opacity-0 group-hover:opacity-100 transition-all shadow-lg whitespace-nowrap pointer-events-none border border-white/10">WhatsApp Us</span>
         </a>
 
-        <a href="tel:+919179577717" 
+        <a href="tel:+917073538077" 
            className="w-14 h-14 bg-[#0097B2] text-white rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-110 hover:-translate-y-1 group relative border-2 border-[#0B2545]">
             <i className="fas fa-phone-alt -scale-x-100 text-2xl"></i>
             <span className="absolute right-16 bg-[#0B2545] text-white px-3 py-1.5 rounded-lg text-xs font-bold opacity-0 group-hover:opacity-100 transition-all shadow-lg whitespace-nowrap pointer-events-none border border-white/10">Call Us Directly</span>

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle2, Phone, Mail, ShieldCheck, Sparkles, MessageSquare } from "lucide-react";
@@ -42,7 +42,7 @@ export default function ExecutiveCTA3D({ auditData, onOpenAudit }) {
       } else {
         // Fallback WhatsApp redirect
         window.open(
-          `https://wa.me/919179577717?text=${encodeURIComponent(
+          `https://wa.me/917073538077?text=${encodeURIComponent(
             `Hi SM NextGen team, I would like to schedule a Strategic Growth Consultation.\n\nName: ${formData.name}\nRevenue: ${formData.revenue}\nWebsite: ${formData.website || "N/A"}`
           )}`,
           "_blank"
@@ -51,7 +51,7 @@ export default function ExecutiveCTA3D({ auditData, onOpenAudit }) {
       }
     } catch {
       window.open(
-        `https://wa.me/919179577717?text=${encodeURIComponent(
+        `https://wa.me/917073538077?text=${encodeURIComponent(
           `Hi SM NextGen, I want to book a Strategic Growth Consultation.\nName: ${formData.name}`
         )}`,
         "_blank"
@@ -67,7 +67,7 @@ export default function ExecutiveCTA3D({ auditData, onOpenAudit }) {
       ? `Hi SM NextGen, I just completed your 3D Growth Diagnostic on your website.\n\nMy Growth Score: ${auditData.score}/100\nPrimary Bottleneck: ${auditData.bottleneck}\nRecommended Priority: ${auditData.priority}\n\nI would like to discuss implementing this growth roadmap.`
       : `Hi SM NextGen, I would like to discuss building a custom Business Growth Engine for my company.`;
 
-    window.open(`https://wa.me/919179577717?text=${encodeURIComponent(text)}`, "_blank");
+    window.open(`https://wa.me/917073538077?text=${encodeURIComponent(text)}`, "_blank");
   };
 
   return (

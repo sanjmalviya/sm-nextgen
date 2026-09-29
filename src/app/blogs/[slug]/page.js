@@ -133,7 +133,7 @@ export default async function SingleBlogPage({ params }) {
     "headline": blog.seo?.metaTitle || blog.title,
     "image": [blog.imageUrl],
     "datePublished": blog._createdAt,
-    "author": [{ "@type": "Person", "name": blog.authorName || "Sanjay Lohar" }]
+    "author": [{ "@type": "Person", "name": blog.authorName || "SM NextGen Team" }]
   };
 
   const faqSchema = faqs.length > 0 ? {
@@ -183,10 +183,10 @@ export default async function SingleBlogPage({ params }) {
           <div className="w-full max-w-5xl mx-auto h-[350px] md:h-[500px] rounded-[2rem] overflow-hidden shadow-xl relative mb-16 border border-gray-200 dark:border-white/10">
             <img src={blog.imageUrl} alt={blog.title} className="w-full h-full object-cover" />
             <div className="absolute bottom-6 left-6 z-20 flex items-center gap-4 bg-white/90 dark:bg-[#0B2545]/90 backdrop-blur-md px-5 py-3 rounded-full shadow-lg border border-white/20">
-              <img src={blog.authorImageUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(blog.authorName || 'Sanjay Lohar')}&background=0097B2&color=fff&bold=true`} className="w-10 h-10 rounded-full border border-gray-200" alt="Author" />
+              <img src={blog.authorImageUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(blog.authorName || 'SM NextGen')}&background=0097B2&color=fff&bold=true`} className="w-10 h-10 rounded-full border border-gray-200" alt="Author" />
               <div>
-                <p className="font-bold text-sm text-[#0B2545] dark:text-white leading-tight">{blog.authorName || "Sanjay Lohar"}</p>
-                <p className="text-[11px] text-gray-500 font-medium">{blog.authorRole || "Founder, SM NextGen"}</p>
+                <p className="font-bold text-sm text-[#0B2545] dark:text-white leading-tight">{blog.authorName || "SM NextGen Growth Team"}</p>
+                <p className="text-[11px] text-gray-500 font-medium">{blog.authorRole || "Growth Strategy & Engineering"}</p>
               </div>
             </div>
           </div>

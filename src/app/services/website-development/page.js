@@ -1,9 +1,9 @@
-"use client";
+﻿"use client";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 
 // --- WHATSAPP SETUP ---
-const WHATSAPP_NUMBER = "919179577717"; 
+const WHATSAPP_NUMBER = "917073538077"; 
 const getWhatsAppLink = (message) => `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
 export default function WebsiteDevelopmentPage() {

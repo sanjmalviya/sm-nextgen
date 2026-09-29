@@ -1,4 +1,4 @@
-import HomeClient from './HomeClient';
+﻿import HomeClient from './HomeClient';
 
 export const metadata = {
   title: 'SM NextGen | Business Growth Partner | Strategy, Marketing & Technology',
@@ -56,7 +56,7 @@ const jsonLd = {
       url: 'https://smnextgen.com',
       logo: 'https://smnextgen.com/icon.png',
       description: 'Your Complete Business Growth Partner. Combining strategy, marketing, technology, AI and automation.',
-      telephone: '+919179577717',
+      telephone: '+917073538077',
       address: {
         '@type': 'PostalAddress',
         addressLocality: 'Indore',

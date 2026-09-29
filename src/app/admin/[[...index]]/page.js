@@ -16,8 +16,8 @@ const blogSchema = {
     { name: 'readTime', title: 'Read Time (Minutes)', type: 'number' },
     { name: 'image', title: 'Feature Image', type: 'image', options: { hotspot: true } },
     
-    { name: 'authorName', title: 'Author Name', type: 'string', initialValue: 'Sanjay Lohar' },
-    { name: 'authorRole', title: 'Author Role', type: 'string', initialValue: 'Founder, SM NextGen' },
+    { name: 'authorName', title: 'Author Name', type: 'string', initialValue: 'SM NextGen Growth Team' },
+    { name: 'authorRole', title: 'Author Role', type: 'string', initialValue: 'Growth Strategy & Engineering' },
     { name: 'authorImage', title: 'Author Profile Image', type: 'image', options: { hotspot: true } },
     
     { name: 'whatYouWillLearn', title: "What You'll Learn (Bullets)", type: 'array', of: [{ type: 'string' }] },

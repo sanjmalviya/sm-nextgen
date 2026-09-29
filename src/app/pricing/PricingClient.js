@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useState } from "react";
 import Link from "next/link";
 import { 
@@ -115,7 +115,7 @@ export default function PricingClient() {
 
   const handleWhatsApp = (engagementName) => {
     const msg = `Hi SM NextGen Team, I would like to discuss the "${engagementName}" engagement model for my company.`;
-    window.open(`https://wa.me/919179577717?text=${encodeURIComponent(msg)}`, "_blank");
+    window.open(`https://wa.me/917073538077?text=${encodeURIComponent(msg)}`, "_blank");
   };
 
   const faqs = [

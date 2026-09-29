@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle2, Phone, Mail, ShieldCheck, Sparkles, MessageSquare } from "lucide-react";
@@ -51,14 +51,14 @@ export default function FinalGrowthCTA({ onOpenAudit, auditData }) {
       const waMsg = `*Strategic Growth Conversation Request* 🚀\n\n*Name:* ${formData.name}\n*Company:* ${formData.business}\n*Website:* ${formData.website || 'N/A'}\n*Phone:* ${formData.phone}\n*Primary Constraint:* ${formData.biggestChallenge}\n*Stage:* ${formData.growthStage}\n\nPlease review my business telemetry and schedule our discovery session.`;
       
       setTimeout(() => {
-        window.open(`https://wa.me/919179577717?text=${encodeURIComponent(waMsg)}`, "_blank");
+        window.open(`https://wa.me/917073538077?text=${encodeURIComponent(waMsg)}`, "_blank");
       }, 1200);
 
     } catch (err) {
       console.error("Submission error:", err);
       // Fallback directly to WhatsApp
       const fallbackMsg = `Hi SM NextGen, I would like to schedule a Strategic Growth Conversation for ${formData.business || 'my business'}. Name: ${formData.name} | Phone: ${formData.phone}`;
-      window.open(`https://wa.me/919179577717?text=${encodeURIComponent(fallbackMsg)}`, "_blank");
+      window.open(`https://wa.me/917073538077?text=${encodeURIComponent(fallbackMsg)}`, "_blank");
       setIsSubmitted(true);
     } finally {
       setIsSubmitting(false);

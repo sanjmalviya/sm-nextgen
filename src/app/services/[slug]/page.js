@@ -1,4 +1,4 @@
-// file: src/app/services/[slug]/page.js
+﻿// file: src/app/services/[slug]/page.js
 import Link from "next/link";
 import LeadForm from "./LeadForm";
 
@@ -181,7 +181,7 @@ export default async function ServiceDetail({ params }) {
             <Link href="/contact" className="px-10 py-5 bg-white text-navy font-extrabold rounded-2xl shadow-2xl hover:scale-105 transition-transform text-lg flex items-center gap-3">
               Request Growth Strategy <i className="fas fa-arrow-right"></i>
             </Link>
-            <a href="https://wa.me/919179577717" target="_blank" rel="noreferrer" className="px-10 py-5 bg-transparent border-2 border-white/20 text-white font-extrabold rounded-2xl hover:bg-white/10 transition-colors text-lg flex items-center gap-3">
+            <a href="https://wa.me/917073538077" target="_blank" rel="noreferrer" className="px-10 py-5 bg-transparent border-2 border-white/20 text-white font-extrabold rounded-2xl hover:bg-white/10 transition-colors text-lg flex items-center gap-3">
               <i className="fab fa-whatsapp text-xl"></i> WhatsApp Us
             </a>
           </div>

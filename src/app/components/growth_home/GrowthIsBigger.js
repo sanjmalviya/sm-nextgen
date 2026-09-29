@@ -11,32 +11,32 @@ const SYSTEM_PILLARS = [
   {
     icon: Megaphone,
     title: "Marketing",
-    role: "Creates Attention & Demand",
-    desc: "Captures high-intent buyers through precision organic search, paid acquisition, content systems, and category authority.",
+    role: "Generates Buyer Demand",
+    desc: "Brings high-intent customers to you through precision Google & Meta ads, organic search SEO, and high-trust content.",
     color: "#0097B2",
     image: "/images/services/digital-marketing.png"
   },
   {
     icon: Laptop,
     title: "Technology",
-    role: "Creates Seamless Experiences",
-    desc: "Engineers high-speed web apps, frictionless checkout funnels, and enterprise digital platforms that convert traffic into revenue.",
+    role: "Converts Traffic into Revenue",
+    desc: "Builds fast web platforms, frictionless sales funnels, and checkout systems that convert visitors into paying clients.",
     color: "#0B2545",
     image: "/images/services/website-development.png"
   },
   {
     icon: Bot,
     title: "AI & Automation",
-    role: "Creates Speed & Leverage",
-    desc: "Deploys autonomous lead qualification bots, instant CRM routing, automated customer retention, and lean operational workflows.",
+    role: "Speeds Up Sales & Operations",
+    desc: "Sets up instant WhatsApp replies, smart lead routing to your sales team, and automated customer follow-ups.",
     color: "#0097B2",
     image: "/images/services/ai-business-automation-systems.png"
   },
   {
     icon: BarChart3,
     title: "Data Intelligence",
-    role: "Creates Predictable Scale",
-    desc: "Tracks end-to-end attribution from initial ad impression to cash in the bank, optimizing unit economics and LTV/CAC ratios.",
+    role: "Clear Revenue Insights",
+    desc: "Clear dashboards showing exactly which channels drive genuine sales and profit, giving you confidence to scale.",
     color: "#0B2545",
     image: "/images/services/ai-data-analytics-business-intelligence.png"
   },
@@ -57,7 +57,7 @@ export default function GrowthIsBigger({ onExploreFramework }) {
             Growth Is Bigger Than Marketing.
           </h2>
           <p className="text-base sm:text-lg text-[#0B2545]/75 dark:text-[#E6EEF2]/75 font-body leading-relaxed">
-            Most businesses don't have a marketing problem — they have a disconnected growth system. Marketing creates attention, but technology, AI, and operations turn that attention into sustained cash flow.
+            Marketing brings the attention, but fast websites, smart automation, and great customer experience turn that attention into lasting revenue.
           </p>
         </div>
 

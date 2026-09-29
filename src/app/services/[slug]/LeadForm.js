@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState } from "react";
 
 export default function LeadForm({ serviceTitle }) {
@@ -15,7 +15,7 @@ export default function LeadForm({ serviceTitle }) {
     const leadMsg = `*New Enterprise Lead* 🚀\n\n*Service:* ${serviceTitle}\n*Name:* ${name}\n*Phone:* ${phone}\n*Business:* ${business}\n\nPlease schedule a discovery call with our team.`;
     
     setTimeout(() => {
-      window.open(`https://wa.me/919179577717?text=${encodeURIComponent(leadMsg)}`, '_blank');
+      window.open(`https://wa.me/917073538077?text=${encodeURIComponent(leadMsg)}`, '_blank');
     }, 1500);
   };
 
@@ -67,7 +67,7 @@ export default function LeadForm({ serviceTitle }) {
         <div className="flex-grow border-t border-gray-200 dark:border-white/10"></div>
       </div>
 
-      <a href={`https://wa.me/919179577717?text=${encodeURIComponent(directMsg)}`} target="_blank" rel="noreferrer"
+      <a href={`https://wa.me/917073538077?text=${encodeURIComponent(directMsg)}`} target="_blank" rel="noreferrer"
         className="w-full flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold py-4 rounded-xl shadow-lg transition-all hover:-translate-y-1">
         <i className="fab fa-whatsapp text-xl"></i> Message SM NextGen Team
       </a>

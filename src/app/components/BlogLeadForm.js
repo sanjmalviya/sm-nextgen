@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState } from "react";
 
 export default function BlogLeadForm({ heading, subtext, blogTitle }) {
@@ -7,7 +7,7 @@ export default function BlogLeadForm({ heading, subtext, blogTitle }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const targetPhone = "919179577717";
+    const targetPhone = "917073538077";
     const message = `Hi SM NextGen Team, I was reading "${blogTitle || "your article"}". Name: ${name} | Phone: ${phone}. Please connect with me.`;
     const url = `https://wa.me/${targetPhone}?text=${encodeURIComponent(message)}`;
     window.open(url, "_blank");

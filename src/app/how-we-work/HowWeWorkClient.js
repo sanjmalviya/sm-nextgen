@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useState } from "react";
 import Link from "next/link";
 import { 
@@ -111,7 +111,7 @@ export default function HowWeWorkClient() {
 
   const handleWhatsApp = () => {
     const msg = "Hi SM NextGen Team, I want to learn more about the 6-stage How We Grow methodology for my business.";
-    window.open(`https://wa.me/919179577717?text=${encodeURIComponent(msg)}`, "_blank");
+    window.open(`https://wa.me/917073538077?text=${encodeURIComponent(msg)}`, "_blank");
   };
 
   const faqs = [
