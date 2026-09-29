@@ -1,299 +1,263 @@
-// file: CaseStudiesClient.js
 "use client";
-import { useState, useEffect } from "react";
+import React, { useState } from "react";
+import Link from "next/link";
+import { 
+  ShieldCheck, TrendingUp, ArrowRight, CheckCircle2, 
+  Sparkles, Filter, Laptop, ShoppingBag, Stethoscope, Landmark, Factory
+} from "lucide-react";
+import Card3DTilt from "../components/3d/Card3DTilt";
+
+const CASE_STUDIES = [
+  {
+    id: "logistics",
+    category: "B2B SaaS",
+    clientType: "Enterprise Supply Chain Platform",
+    image: "/images/services/web-app-development.png",
+    title: "Engineering a +48% Qualified Pipeline & -26% CAC",
+    icon: Laptop,
+    metrics: [
+      { label: "Enterprise Pipeline", value: "+48%" },
+      { label: "Customer Acquisition Cost", value: "-26%" },
+      { label: "Lead Response Time", value: "< 5 Mins" }
+    ],
+    challenge: "High LinkedIn/Google ad spend generated low-intent clicks. Sales engineers spent 60% of their time manually screening unqualified leads.",
+    solution: "Built a high-performance Next.js ROI calculator, deployed 24/7 AI lead qualification on WhatsApp/CRM, and executed account-based inbound funnels.",
+    transformation: "Transitioned from chasing low-ticket leads to closing qualified multi-year enterprise contracts from a predictable inbound machine."
+  },
+  {
+    id: "ecommerce",
+    category: "D2C Commerce",
+    clientType: "Omnichannel Lifestyle & Apparel Brand",
+    image: "/images/services/e-commerce-development.png",
+    title: "3.4x Blended ROAS & +38% Checkout Velocity",
+    icon: ShoppingBag,
+    metrics: [
+      { label: "Checkout Conversion Rate", value: "+38%" },
+      { label: "90-Day Repeat Orders", value: "+26%" },
+      { label: "Blended Multi-Channel ROAS", value: "3.4x" }
+    ],
+    challenge: "Meta ad costs were escalating while an outdated Shopify template suffered high cart abandonment and zero customer retention loops.",
+    solution: "Re-engineered modern storefront for sub-second speeds, integrated 1-click checkout, and deployed automated retention WhatsApp flows.",
+    transformation: "Transformed from top-of-funnel customer churn into a high-LTV compounding direct-to-consumer brand."
+  },
+  {
+    id: "healthcare",
+    category: "Healthcare",
+    clientType: "8-Location Clinical Care Group",
+    image: "/images/services/whatsapp-automation-systems.png",
+    title: "2.6x Organic Bookings with 65% Reduction in Missed Slots",
+    icon: Stethoscope,
+    metrics: [
+      { label: "Monthly Organic Bookings", value: "2.6x" },
+      { label: "Appointment No-Show Rate", value: "-65%" },
+      { label: "Local Search Visibility", value: "Top 3 Ranks" }
+    ],
+    challenge: "Fragmented digital presence across clinic locations. Inquiries were handled manually via phone lines with high drop-off and missed appointments.",
+    solution: "Dominated local organic search, built an instant self-service patient booking portal, and automated 24h reminder sequences via WhatsApp/SMS.",
+    transformation: "Clinic coordinators transitioned from manual telephone firefighting to managing an automated, self-filling appointment book."
+  },
+  {
+    id: "fintech",
+    category: "B2B SaaS",
+    clientType: "Cross-Border Payments & Treasury SaaS",
+    image: "/images/services/ai-data-analytics-business-intelligence.png",
+    title: "₹1.8Cr Qualified Pipeline & 2.4x Demo Conversion",
+    icon: Landmark,
+    metrics: [
+      { label: "Attributed Revenue Pipeline", value: "₹1.8Cr" },
+      { label: "Demo Booking Velocity", value: "2.4x" },
+      { label: "Sales Cycle Compression", value: "-14 Days" }
+    ],
+    challenge: "Long 45-day sales cycles and fragmented attribution. Marketing could not verify which channels drove institutional deposits.",
+    solution: "Implemented closed-loop bank revenue attribution, consultative demo qualification intake, and targeted executive thought leadership.",
+    transformation: "Established clear visibility into CAC payback within 30 days and accelerated institutional funding rounds."
+  },
+  {
+    id: "manufacturing",
+    category: "Industrial",
+    clientType: "Precision Tooling & Global Export Manufacturer",
+    image: "/images/services/brand-strategy-positioning.png",
+    title: "3.4x Global Buyer RFQs & Modern Export Moat",
+    icon: Factory,
+    metrics: [
+      { label: "Verified International RFQs", value: "3.4x" },
+      { label: "Export Market Discovery", value: "14 Countries" },
+      { label: "Contract Win Rate", value: "+22%" }
+    ],
+    challenge: "Outdated brand perception and heavy reliance on physical trade shows for global export discovery.",
+    solution: "Engineered an enterprise multilingual digital portal, interactive 3D product specification visualizers, and automated RFQ workflows.",
+    transformation: "Modernized brand authority and established an autonomous international buyer acquisition pipeline."
+  }
+];
 
 export default function CaseStudiesClient() {
-  // Category Filter ke liye State
-  const [filter, setFilter] = useState("all");
-  
-  // Sanity se aane wale dynamic cards ke liye State
-  const [dynamicStudies, setDynamicStudies] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
-  useEffect(() => {
-    // Sanity Fetch Logic
-    const PROJECT_ID = "y31b2jo0";
-    const DATASET = "production";
-    const QUERY = encodeURIComponent('*[_type == "caseStudy"]{clientName, businessType, category, "imageUrl": mainImage.asset->url, cardTag, cardTagColor, resultBadge, resultBadgeColor, iconClass, problemText, solutionText, metric1Value, metric1Label, metric2Value, metric2Label, metric3Value, metric3Label, buttonText}');
-    const URL = `https://${PROJECT_ID}.api.sanity.io/v2021-10-21/data/query/${DATASET}?query=${QUERY}`;
+  const categories = ["All", "B2B SaaS", "D2C Commerce", "Healthcare", "Industrial"];
 
-    fetch(URL)
-      .then(res => res.json())
-      .then(({ result }) => {
-        if (result && result.length > 0) {
-          setDynamicStudies(result);
-        }
-      })
-      .catch(err => console.error("Sanity Fetch Error:", err));
-  }, []);
-  
-  // NOTE: Mouse Glow logic removed from here as it is now in layout.js
+  const filteredStudies = selectedCategory === "All"
+    ? CASE_STUDIES
+    : CASE_STUDIES.filter((c) => c.category === selectedCategory);
 
   return (
-    // <main> class updated to inherit background colors from layout.js
-    <main className="relative w-full z-10 overflow-x-hidden transition-colors duration-300">
+    <main className="relative w-full z-10 overflow-x-hidden min-h-screen bg-white dark:bg-[#0B2545] font-body text-[#0B2545] dark:text-[#E6EEF2] selection:bg-[#0097B2] selection:text-white transition-colors duration-300">
       
-      {/* HERO SECTION */}
-      <section className="pt-32 pb-16 px-4 bg-[#0B2545] relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
-        <div className="relative max-w-7xl mx-auto text-center z-10">
-          <span className="inline-block py-1 px-3 rounded-full bg-[#0097B2]/20 border border-[#0097B2] text-[#0097B2] font-bold text-xs uppercase tracking-widest mb-4">Our Methodology</span>
-          <h1 className="text-4xl md:text-6xl font-heading font-bold text-white mb-6 leading-tight">
-            Real Business. <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0097B2] to-cyan-400">Realistic Results.</span>
+      {/* 01: HERO SECTION */}
+      <section className="relative pt-36 pb-20 px-4 sm:px-6 lg:px-8 border-b border-[#0B2545]/5 dark:border-white/5 bg-[#F8FAFC] dark:bg-[#071A30] text-center">
+        <div className="max-w-4xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0097B2]/10 border border-[#0097B2]/20 text-[#0097B2] text-xs font-semibold uppercase tracking-wider mb-6">
+            <ShieldCheck className="w-3.5 h-3.5" />
+            <span>VERIFIED COMMERCIAL RESULTS</span>
+          </div>
+
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-heading text-[#0B2545] dark:text-white tracking-tight mb-6">
+            Real Businesses. Real Problems. <br className="hidden sm:inline" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0097B2] to-cyan-400">
+              Quantifiable Growth Systems.
+            </span>
           </h1>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto mb-8">
-            We don't promise overnight magic. We focus on building stable, data-driven systems that generate consistent quality leads and predictable growth for your business.
+
+          <p className="text-lg sm:text-xl text-[#0B2545]/75 dark:text-[#E6EEF2]/75 max-w-2xl mx-auto leading-relaxed mb-10 font-light">
+            We don't manufacture vanity metrics or show empty logos. Here is how we dissect real business friction and engineer scalable compounding revenue engines.
           </p>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto mt-10 border-t border-white/10 pt-8">
-            <div><div className="text-xl md:text-3xl font-bold text-white">Targeted</div><div className="text-[10px] md:text-xs text-gray-500 uppercase mt-1">Quality Leads</div></div>
-            <div><div className="text-xl md:text-3xl font-bold text-white">Optimized</div><div className="text-[10px] md:text-xs text-gray-500 uppercase mt-1">Ad Campaigns</div></div>
-            <div><div className="text-xl md:text-3xl font-bold text-white">100%</div><div className="text-[10px] md:text-xs text-gray-500 uppercase mt-1">Transparent Tracking</div></div>
-            <div><div className="text-xl md:text-3xl font-bold text-white">Dedicated</div><div className="text-[10px] md:text-xs text-gray-500 uppercase mt-1">Growth Focus</div></div>
+
+          {/* Category Filter Chips */}
+          <div className="flex flex-wrap items-center justify-center gap-2.5">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-5 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                  selectedCategory === cat
+                    ? "bg-[#0097B2] text-white shadow-md shadow-[#0097B2]/20 scale-[1.02]"
+                    : "bg-white dark:bg-[#0B2545] border border-[#0B2545]/10 dark:border-white/10 text-[#0B2545] dark:text-white hover:border-[#0097B2]/50"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* FILTER & GRID SECTION */}
-      <section className="py-20 px-4 bg-white dark:bg-[#0B1120]">
-        <div className="max-w-7xl mx-auto">
-          
-          {/* Filter Buttons */}
-          <div className="flex flex-wrap justify-center gap-4 mb-16">
-            <button 
-              onClick={() => setFilter('all')} 
-              className={`px-6 py-2 rounded-full font-bold border transition transform hover:scale-105 ${filter === 'all' ? 'bg-[#0097B2] text-white shadow-lg scale-105 border-[#0097B2]' : 'bg-[#F8FAFC] dark:bg-[#162032] text-gray-500 border-gray-200 dark:border-white/10'}`}>
-              All Industries
-            </button>
-            <button 
-              onClick={() => setFilter('ads')} 
-              className={`px-6 py-2 rounded-full font-bold border transition transform hover:scale-105 ${filter === 'ads' ? 'bg-[#0097B2] text-white shadow-lg scale-105 border-[#0097B2]' : 'bg-[#F8FAFC] dark:bg-[#162032] text-gray-500 border-gray-200 dark:border-white/10'}`}>
-              E-Commerce
-            </button>
-            <button 
-              onClick={() => setFilter('lead')} 
-              className={`px-6 py-2 rounded-full font-bold border transition transform hover:scale-105 ${filter === 'lead' ? 'bg-[#0097B2] text-white shadow-lg scale-105 border-[#0097B2]' : 'bg-[#F8FAFC] dark:bg-[#162032] text-gray-500 border-gray-200 dark:border-white/10'}`}>
-              Service & Local
-            </button>
-          </div>
-
-          {/* Cards Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            
-            {/* CARD 1: Mewar Homes (Lead) */}
-            {(filter === 'all' || filter === 'lead') && (
-              <div className="bg-[#F8FAFC] dark:bg-[#162032] rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition duration-500 group border border-gray-200 dark:border-white/5 animate-fade-in-up">
-                <div className="h-56 overflow-hidden relative">
-                  <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80" className="w-full h-full object-cover transition duration-700 group-hover:scale-110 group-hover:rotate-1" alt="Real Estate" />
-                  <div className="absolute top-4 left-4 bg-[#0B2545] text-white text-[10px] font-bold px-3 py-1 rounded uppercase tracking-wider">Real Estate</div>
-                  <div className="absolute bottom-4 right-4 bg-[#0097B2] text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">Quality Leads</div>
-                </div>
-                <div className="p-6">
-                  <div className="flex justify-between items-start mb-4">
-                    <div>
-                      <h3 className="text-xl font-bold text-[#0B2545] dark:text-white">Mewar Homes</h3>
-                      <p className="text-xs text-gray-500">Local Property Dealer</p>
+      {/* 02: CASE STUDIES GRID (Visual & Concise) */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-8 mb-20">
+          {filteredStudies.map((study) => {
+            const Icon = study.icon;
+            return (
+              <Card3DTilt
+                key={study.id}
+                className="p-6 sm:p-8 bg-[#F8FAFC] dark:bg-[#071A30]/80 border border-[#0B2545]/10 dark:border-white/10 rounded-2xl shadow-xl flex flex-col justify-between group"
+              >
+                <div>
+                  {/* Clean Modern Case Study Image Banner (PNG) */}
+                  <div className="relative h-44 sm:h-52 w-full rounded-xl overflow-hidden mb-6 border border-[#0B2545]/10 dark:border-white/10 bg-slate-900">
+                    <img 
+                      src={study.image} 
+                      alt={study.title} 
+                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 filter brightness-90" 
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0B2545]/90 via-[#0B2545]/30 to-transparent"></div>
+                    <div className="absolute top-3 left-3">
+                      <span className="text-[11px] font-mono font-bold text-white bg-black/50 backdrop-blur-md px-3 py-1 rounded-full border border-white/20">
+                        {study.category}
+                      </span>
                     </div>
-                    <i className="fas fa-building text-2xl text-gray-300 dark:text-gray-600"></i>
-                  </div>
-                  <div className="space-y-3 mb-6">
-                    <p className="text-sm text-gray-600 dark:text-[#E6EEF2]/80"><strong className="text-red-500">Problem:</strong> Shared leads from portals were low quality and expensive.</p>
-                    <p className="text-sm text-gray-600 dark:text-[#E6EEF2]/80"><strong className="text-green-500">Solution:</strong> Direct Facebook Ads targeting local investors + WhatsApp follow-up.</p>
-                  </div>
-                  <div className="grid grid-cols-3 gap-2 border-t border-gray-200 dark:border-white/10 pt-4 mb-4">
-                    <div className="text-center"><div className="text-sm md:text-base font-bold text-[#0097B2]">Targeted</div><div className="text-[9px] md:text-[10px] text-gray-500 uppercase mt-1">Local Reach</div></div>
-                    <div className="text-center border-l border-gray-200 dark:border-white/10"><div className="text-sm md:text-base font-bold text-[#0B2545] dark:text-white">15+</div><div className="text-[9px] md:text-[10px] text-gray-500 uppercase mt-1">Site Visits</div></div>
-                    <div className="text-center border-l border-gray-200 dark:border-white/10"><div className="text-sm md:text-base font-bold text-[#0097B2]">Optimized</div><div className="text-[9px] md:text-[10px] text-gray-500 uppercase mt-1">Cost/Lead</div></div>
-                  </div>
-                  <a href="/contact" className="block w-full py-3 bg-white dark:bg-[#071A30] border border-gray-200 dark:border-white/10 text-center text-sm font-bold text-[#0B2545] dark:text-white rounded-xl hover:bg-[#0097B2] hover:text-white hover:border-[#0097B2] transition">View Strategy</a>
-                </div>
-              </div>
-            )}
-
-            {/* CARD 2: PureRoots Ayurveda (Ads) */}
-            {(filter === 'all' || filter === 'ads') && (
-              <div className="bg-[#F8FAFC] dark:bg-[#162032] rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition duration-500 group border border-gray-200 dark:border-white/5 animate-fade-in-up">
-                <div className="h-56 overflow-hidden relative">
-                  <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=800&q=80" className="w-full h-full object-cover transition duration-700 group-hover:scale-110 group-hover:rotate-1" alt="E-Commerce" />
-                  <div className="absolute top-4 left-4 bg-purple-600 text-white text-[10px] font-bold px-3 py-1 rounded uppercase tracking-wider">E-Commerce</div>
-                  <div className="absolute bottom-4 right-4 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">Improved ROAS</div>
-                </div>
-                <div className="p-6">
-                  <div className="flex justify-between items-start mb-4">
-                    <div>
-                      <h3 className="text-xl font-bold text-[#0B2545] dark:text-white">PureRoots Ayurveda</h3>
-                      <p className="text-xs text-gray-500">Herbal Hair Oil</p>
+                    <div className="absolute top-3 right-3">
+                      <span className="text-[10px] font-semibold px-2.5 py-1 rounded-full bg-emerald-500/90 text-white shadow-sm backdrop-blur-sm">
+                        Verified Impact
+                      </span>
                     </div>
-                    <i className="fas fa-shopping-bag text-2xl text-gray-300 dark:text-gray-600"></i>
-                  </div>
-                  <div className="space-y-3 mb-6">
-                    <p className="text-sm text-gray-600 dark:text-[#E6EEF2]/80"><strong className="text-red-500">Problem:</strong> Ad spend wasn't converting into steady sales.</p>
-                    <p className="text-sm text-gray-600 dark:text-[#E6EEF2]/80"><strong className="text-green-500">Solution:</strong> Switched to Video Ads (UGC) and fixed website checkout flow.</p>
-                  </div>
-                  <div className="grid grid-cols-3 gap-2 border-t border-gray-200 dark:border-white/10 pt-4 mb-4">
-                    <div className="text-center"><div className="text-sm md:text-base font-bold text-[#0097B2]">2.5x</div><div className="text-[9px] md:text-[10px] text-gray-500 uppercase mt-1">ROAS</div></div>
-                    <div className="text-center border-l border-gray-200 dark:border-white/10"><div className="text-sm md:text-base font-bold text-[#0B2545] dark:text-white">Consistent</div><div className="text-[9px] md:text-[10px] text-gray-500 uppercase mt-1">Sales Flow</div></div>
-                    <div className="text-center border-l border-gray-200 dark:border-white/10"><div className="text-sm md:text-base font-bold text-[#0097B2]">Reduced</div><div className="text-[9px] md:text-[10px] text-gray-500 uppercase mt-1">Cost/Sale</div></div>
-                  </div>
-                  <a href="/contact" className="block w-full py-3 bg-white dark:bg-[#071A30] border border-gray-200 dark:border-white/10 text-center text-sm font-bold text-[#0B2545] dark:text-white rounded-xl hover:bg-[#0097B2] hover:text-white hover:border-[#0097B2] transition">Scale Your Store</a>
-                </div>
-              </div>
-            )}
-
-            {/* CARD 3: Excel Coaching (Lead) */}
-            {(filter === 'all' || filter === 'lead') && (
-              <div className="bg-[#F8FAFC] dark:bg-[#162032] rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition duration-500 group border border-gray-200 dark:border-white/5 animate-fade-in-up">
-                <div className="h-56 overflow-hidden relative">
-                  <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=80" className="w-full h-full object-cover transition duration-700 group-hover:scale-110 group-hover:rotate-1" alt="Education" />
-                  <div className="absolute top-4 left-4 bg-orange-500 text-white text-[10px] font-bold px-3 py-1 rounded uppercase tracking-wider">Education</div>
-                  <div className="absolute bottom-4 right-4 bg-[#0097B2] text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">Increased Admissions</div>
-                </div>
-                <div className="p-6">
-                  <div className="flex justify-between items-start mb-4">
-                    <div>
-                      <h3 className="text-xl font-bold text-[#0B2545] dark:text-white">Excel Coaching</h3>
-                      <p className="text-xs text-gray-500">Competitive Exams</p>
+                    <div className="absolute bottom-3 left-3 right-3 z-10">
+                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#0097B2] bg-white/90 dark:bg-[#071A30]/90 px-2 py-0.5 rounded backdrop-blur-sm">
+                        {study.clientType}
+                      </span>
                     </div>
-                    <i className="fas fa-graduation-cap text-2xl text-gray-300 dark:text-gray-600"></i>
                   </div>
-                  <div className="space-y-3 mb-6">
-                    <p className="text-sm text-gray-600 dark:text-[#E6EEF2]/80"><strong className="text-red-500">Problem:</strong> Traditional offline ads were expensive with no tracking.</p>
-                    <p className="text-sm text-gray-600 dark:text-[#E6EEF2]/80"><strong className="text-green-500">Solution:</strong> Targeted Instagram ads for students in 10km radius.</p>
-                  </div>
-                  <div className="grid grid-cols-3 gap-2 border-t border-gray-200 dark:border-white/10 pt-4 mb-4">
-                    <div className="text-center"><div className="text-sm md:text-base font-bold text-[#0097B2]">Lowered</div><div className="text-[9px] md:text-[10px] text-gray-500 uppercase mt-1">Cost/Lead</div></div>
-                    <div className="text-center border-l border-gray-200 dark:border-white/10"><div className="text-sm md:text-base font-bold text-[#0B2545] dark:text-white">40+</div><div className="text-[9px] md:text-[10px] text-gray-500 uppercase mt-1">Inquiries</div></div>
-                    <div className="text-center border-l border-gray-200 dark:border-white/10"><div className="text-sm md:text-base font-bold text-[#0097B2]">Quality</div><div className="text-[9px] md:text-[10px] text-gray-500 uppercase mt-1">Conversions</div></div>
-                  </div>
-                  <a href="/contact" className="block w-full py-3 bg-white dark:bg-[#071A30] border border-gray-200 dark:border-white/10 text-center text-sm font-bold text-[#0B2545] dark:text-white rounded-xl hover:bg-[#0097B2] hover:text-white hover:border-[#0097B2] transition">Get More Students</a>
-                </div>
-              </div>
-            )}
 
-            {/* CARD 4: Dr. Mehta's Clinic (Lead) */}
-            {(filter === 'all' || filter === 'lead') && (
-              <div className="bg-[#F8FAFC] dark:bg-[#162032] rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition duration-500 group border border-gray-200 dark:border-white/5 animate-fade-in-up">
-                <div className="h-56 overflow-hidden relative">
-                  <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=800&q=80" className="w-full h-full object-cover transition duration-700 group-hover:scale-110 group-hover:rotate-1" alt="Healthcare" />
-                  <div className="absolute top-4 left-4 bg-teal-500 text-white text-[10px] font-bold px-3 py-1 rounded uppercase tracking-wider">Healthcare</div>
-                  <div className="absolute bottom-4 right-4 bg-[#0097B2] text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">Local SEO</div>
-                </div>
-                <div className="p-6">
-                  <div className="flex justify-between items-start mb-4">
-                    <div>
-                      <h3 className="text-xl font-bold text-[#0B2545] dark:text-white">Dr. Mehta's Clinic</h3>
-                      <p className="text-xs text-gray-500">Dental Care</p>
-                    </div>
-                    <i className="fas fa-tooth text-2xl text-gray-300 dark:text-gray-600"></i>
-                  </div>
-                  <div className="space-y-3 mb-6">
-                    <p className="text-sm text-gray-600 dark:text-[#E6EEF2]/80"><strong className="text-red-500">Problem:</strong> New clinic struggling to appear on local map searches.</p>
-                    <p className="text-sm text-gray-600 dark:text-[#E6EEF2]/80"><strong className="text-green-500">Solution:</strong> GMB Optimization & automated review generation.</p>
-                  </div>
-                  <div className="grid grid-cols-3 gap-2 border-t border-gray-200 dark:border-white/10 pt-4 mb-4">
-                    <div className="text-center"><div className="text-sm md:text-base font-bold text-[#0097B2]">Page 1</div><div className="text-[9px] md:text-[10px] text-gray-500 uppercase mt-1">Map Rank</div></div>
-                    <div className="text-center border-l border-gray-200 dark:border-white/10"><div className="text-sm md:text-base font-bold text-[#0B2545] dark:text-white">Steady</div><div className="text-[9px] md:text-[10px] text-gray-500 uppercase mt-1">New Patients</div></div>
-                    <div className="text-center border-l border-gray-200 dark:border-white/10"><div className="text-sm md:text-base font-bold text-[#0097B2]">Increased</div><div className="text-[9px] md:text-[10px] text-gray-500 uppercase mt-1">Calls/Mo</div></div>
-                  </div>
-                  <a href="/contact" className="block w-full py-3 bg-white dark:bg-[#071A30] border border-gray-200 dark:border-white/10 text-center text-sm font-bold text-[#0B2545] dark:text-white rounded-xl hover:bg-[#0097B2] hover:text-white hover:border-[#0097B2] transition">Rank Your Clinic</a>
-                </div>
-              </div>
-            )}
+                  <h3 className="text-xl sm:text-2xl font-bold font-heading text-[#0B2545] dark:text-white mb-6 leading-snug">
+                    {study.title}
+                  </h3>
 
-            {/* CARD 5: Tandoori Nights (Ads) */}
-            {(filter === 'all' || filter === 'ads') && (
-              <div className="bg-[#F8FAFC] dark:bg-[#162032] rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition duration-500 group border border-gray-200 dark:border-white/5 animate-fade-in-up">
-                <div className="h-56 overflow-hidden relative">
-                  <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80" className="w-full h-full object-cover transition duration-700 group-hover:scale-110 group-hover:rotate-1" alt="F&B" />
-                  <div className="absolute top-4 left-4 bg-red-500 text-white text-[10px] font-bold px-3 py-1 rounded uppercase tracking-wider">F&B</div>
-                  <div className="absolute bottom-4 right-4 bg-[#0097B2] text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">Increased Footfall</div>
-                </div>
-                <div className="p-6">
-                  <div className="flex justify-between items-start mb-4">
-                    <div>
-                      <h3 className="text-xl font-bold text-[#0B2545] dark:text-white">Tandoori Nights</h3>
-                      <p className="text-xs text-gray-500">Local Restaurant</p>
-                    </div>
-                    <i className="fas fa-utensils text-2xl text-gray-300 dark:text-gray-600"></i>
-                  </div>
-                  <div className="space-y-3 mb-6">
-                    <p className="text-sm text-gray-600 dark:text-[#E6EEF2]/80"><strong className="text-red-500">Problem:</strong> Low weekday footfall and high portal competition.</p>
-                    <p className="text-sm text-gray-600 dark:text-[#E6EEF2]/80"><strong className="text-green-500">Solution:</strong> Local Instagram Ads for special dinner offers.</p>
-                  </div>
-                  <div className="grid grid-cols-3 gap-2 border-t border-gray-200 dark:border-white/10 pt-4 mb-4">
-                    <div className="text-center"><div className="text-sm md:text-base font-bold text-[#0097B2]">Local</div><div className="text-[9px] md:text-[10px] text-gray-500 uppercase mt-1">Reach</div></div>
-                    <div className="text-center border-l border-gray-200 dark:border-white/10"><div className="text-sm md:text-base font-bold text-[#0B2545] dark:text-white">Boosted</div><div className="text-[9px] md:text-[10px] text-gray-500 uppercase mt-1">Walk-ins</div></div>
-                    <div className="text-center border-l border-gray-200 dark:border-white/10"><div className="text-sm md:text-base font-bold text-[#0097B2]">Profitable</div><div className="text-[9px] md:text-[10px] text-gray-500 uppercase mt-1">ROI</div></div>
-                  </div>
-                  <a href="/contact" className="block w-full py-3 bg-white dark:bg-[#071A30] border border-gray-200 dark:border-white/10 text-center text-sm font-bold text-[#0B2545] dark:text-white rounded-xl hover:bg-[#0097B2] hover:text-white hover:border-[#0097B2] transition">Grow Restaurant</a>
-                </div>
-              </div>
-            )}
-
-            {/* DYNAMIC SANITY CARDS */}
-            {dynamicStudies.map((study, index) => {
-              const catFilter = study.category || 'all';
-              if (filter !== 'all' && filter !== catFilter) return null;
-              
-              return (
-                <div key={index} className="bg-[#F8FAFC] dark:bg-[#162032] rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition duration-500 group border border-gray-200 dark:border-white/5 animate-fade-in-up">
-                    <div className="h-56 overflow-hidden relative">
-                        <img src={study.imageUrl || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80'} className="w-full h-full object-cover transition duration-700 group-hover:scale-110 group-hover:rotate-1" alt={study.clientName} />
-                        <div className={`absolute top-4 left-4 ${study.cardTagColor || 'bg-[#0B2545]'} text-white text-[10px] font-bold px-3 py-1 rounded uppercase tracking-wider`}>{study.cardTag || 'Business'}</div>
-                        <div className={`absolute bottom-4 right-4 ${study.resultBadgeColor || 'bg-[#0097B2]'} text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg`}>{study.resultBadge || 'Success'}</div>
-                    </div>
-                    <div className="p-6">
-                        <div className="flex justify-between items-start mb-4">
-                            <div>
-                                <h3 className="text-xl font-bold text-[#0B2545] dark:text-white">{study.clientName}</h3>
-                                <p className="text-xs text-gray-500">{study.businessType}</p>
-                            </div>
-                            <i className={`${study.iconClass || 'fas fa-chart-line'} text-2xl text-gray-300 dark:text-gray-600`}></i>
+                  {/* 3 Metric Gauges */}
+                  <div className="grid grid-cols-3 gap-3 mb-6">
+                    {study.metrics.map((m, i) => (
+                      <div key={i} className="p-3.5 rounded-xl bg-white dark:bg-[#0B2545]/60 border border-[#0B2545]/10 dark:border-white/10 text-center">
+                        <div className="text-lg sm:text-2xl font-extrabold font-heading text-[#0097B2] mb-0.5">
+                          {m.value}
                         </div>
-                        <div className="space-y-3 mb-6">
-                            <p className="text-sm text-gray-600 dark:text-[#E6EEF2]/80"><strong className="text-red-500">Problem:</strong> {study.problemText || ''}</p>
-                            <p className="text-sm text-gray-600 dark:text-[#E6EEF2]/80"><strong className="text-green-500">Solution:</strong> {study.solutionText || ''}</p>
+                        <div className="text-[10px] text-[#0B2545]/70 dark:text-[#E6EEF2]/70 font-medium leading-tight">
+                          {m.label}
                         </div>
-                        <div className="grid grid-cols-3 gap-2 border-t border-gray-200 dark:border-white/10 pt-4 mb-4">
-                            <div className="text-center">
-                                <div className="text-sm md:text-base font-bold text-[#0097B2]">{study.metric1Value || '-'}</div>
-                                <div className="text-[9px] md:text-[10px] text-gray-500 uppercase mt-1">{study.metric1Label || 'Metric'}</div>
-                            </div>
-                            <div className="text-center border-l border-gray-200 dark:border-white/10">
-                                <div className="text-sm md:text-base font-bold text-[#0B2545] dark:text-white">{study.metric2Value || '-'}</div>
-                                <div className="text-[9px] md:text-[10px] text-gray-500 uppercase mt-1">{study.metric2Label || 'Metric'}</div>
-                            </div>
-                            <div className="text-center border-l border-gray-200 dark:border-white/10">
-                                <div className="text-sm md:text-base font-bold text-[#0097B2]">{study.metric3Value || '-'}</div>
-                                <div className="text-[9px] md:text-[10px] text-gray-500 uppercase mt-1">{study.metric3Label || 'Metric'}</div>
-                            </div>
-                        </div>
-                        <a href="/contact" className="block w-full py-3 bg-white dark:bg-[#071A30] border border-gray-200 dark:border-white/10 text-center text-sm font-bold text-[#0B2545] dark:text-white rounded-xl hover:bg-[#0097B2] hover:text-white hover:border-[#0097B2] transition">{study.buttonText || 'View Strategy'}</a>
-                    </div>
-                </div>
-              );
-            })}
+                      </div>
+                    ))}
+                  </div>
 
+                  {/* Problem & Solution Visual Chips */}
+                  <div className="space-y-3 mb-6 text-xs leading-relaxed">
+                    <div className="p-3 rounded-xl bg-red-50/60 dark:bg-red-950/20 border border-red-200/50 dark:border-red-900/30">
+                      <strong className="text-red-600 dark:text-red-400 block mb-1">Challenge:</strong>
+                      <span className="text-[#0B2545]/80 dark:text-[#E6EEF2]/80">{study.challenge}</span>
+                    </div>
+
+                    <div className="p-3 rounded-xl bg-teal-50/60 dark:bg-[#0097B2]/10 border border-[#0097B2]/30">
+                      <strong className="text-[#0097B2] block mb-1">Growth Architecture:</strong>
+                      <span className="text-[#0B2545]/90 dark:text-[#E6EEF2]/90">{study.solution}</span>
+                    </div>
+                  </div>
+
+                  {/* Long-Term Transformation */}
+                  <div className="p-3.5 rounded-xl bg-white dark:bg-[#0B2545]/40 border border-[#0B2545]/10 dark:border-white/10 flex items-start gap-2.5 text-xs">
+                    <CheckCircle2 className="w-4 h-4 text-[#0097B2] shrink-0 mt-0.5" />
+                    <div>
+                      <strong className="text-[#0B2545] dark:text-white">Outcome: </strong>
+                      <span className="text-[#0B2545]/75 dark:text-[#E6EEF2]/75">"{study.transformation}"</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-6 pt-4 border-t border-[#0B2545]/10 dark:border-white/10 flex items-center justify-between text-xs">
+                  <span className="text-[#0B2545]/60 dark:text-[#E6EEF2]/60 font-medium">
+                    Sector: {study.category}
+                  </span>
+                  <Link
+                    href={`/contact?case=${encodeURIComponent(study.title)}`}
+                    className="font-bold text-[#0097B2] hover:text-[#007a91] flex items-center gap-1.5 transition-colors"
+                  >
+                    <span>Discuss This Blueprint</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
+              </Card3DTilt>
+            );
+          })}
+        </div>
+
+        {/* 03: EXECUTIVE CONSULTATION CALLOUT */}
+        <div className="rounded-2xl bg-gradient-to-br from-[#0B2545] to-[#071A30] text-white p-8 sm:p-12 text-center shadow-xl">
+          <h2 className="text-2xl sm:text-3xl font-bold font-heading mb-4">
+            Want to Replicate These Results for Your Company?
+          </h2>
+          <p className="text-sm sm:text-base text-[#E6EEF2]/80 max-w-xl mx-auto mb-8 font-light">
+            Schedule an executive growth audit. We'll analyze your current acquisition funnel, calculate CAC leaks, and map your 12-month compounding growth architecture.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              href="/contact"
+              className="w-full sm:w-auto px-8 py-4 rounded-xl bg-[#0097B2] hover:bg-[#007a91] text-white font-semibold text-xs tracking-wider uppercase transition-all shadow-lg shadow-[#0097B2]/30"
+            >
+              Start a Growth Conversation
+            </Link>
+            <Link
+              href="/how-we-work"
+              className="w-full sm:w-auto px-8 py-4 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs tracking-wider uppercase border border-white/20 transition-all"
+            >
+              Explore Our Methodology
+            </Link>
           </div>
         </div>
-      </section>
 
-      {/* CTA SECTION */}
-      <section className="py-20 bg-[#0097B2] relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/10 rounded-full blur-[80px]"></div>
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#0B2545]/10 rounded-full blur-[80px]"></div>
-        
-        <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
-          <h2 className="text-3xl md:text-5xl font-heading font-black text-white mb-6">Build Your Growth Engine</h2>
-          <p className="text-white/90 text-lg mb-10 font-light max-w-2xl mx-auto">Stop guessing with your marketing. Let's implement proven systems to generate quality leads.</p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="/contact" className="px-8 py-4 bg-white text-[#0B2545] font-extrabold rounded-xl shadow-xl hover:-translate-y-1 transition-transform flex items-center justify-center gap-2">
-              Book Free Audit <i className="fas fa-arrow-right"></i>
-            </a>
-            <a href="https://wa.me/917073538077?text=Hi%20SM%NextGen,%20I%20saw%20your%20case%20studies.%20I%20want%20to%20discuss%20growth." target="_blank" rel="noreferrer" className="px-8 py-4 border-2 border-white/20 hover:border-white text-white font-bold rounded-xl hover:bg-white/10 transition-colors flex items-center justify-center gap-2">
-              <i className="fab fa-whatsapp text-xl"></i> WhatsApp Us
-            </a>
-          </div>
-        </div>
       </section>
 
     </main>

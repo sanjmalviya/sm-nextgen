@@ -1,20 +1,27 @@
-// page.js
 import AboutClient from './AboutClient';
 
 export const metadata = {
-  title: 'About Us | SM NextGen - Growth OS for Indian Businesses',
-  description: 'Learn how SM NextGen bridges the gap between traditional business values and modern technology. We build end-to-end growth systems including web, ads, and CRM.',
-  keywords: 'SM NextGen about, growth agency India, scale business, business modernization, Sanjay Lohar, marketing agency',
+  title: 'About Us | SM NextGen — Business Growth Partner',
+  description:
+    'We build more than an agency. SM NextGen is a business growth partner integrating strategy, modern technology, AI automation, and closed-loop revenue attribution.',
+  keywords:
+    'About SM NextGen, Business Growth Partner, Strategic Growth Company, Technology-Enabled Growth, Enterprise Growth Architecture',
+  metadataBase: new URL('https://smnextgen.com'),
+  alternates: {
+    canonical: 'https://smnextgen.com/about',
+  },
   openGraph: {
-    title: 'About Us | SM NextGen',
-    description: 'We build growth engines, not just ads. Discover our Growth OS designed to modernize and scale Indian businesses.',
-    url: 'https://www.smnextgen.com/about',
+    title: 'About Us | SM NextGen — Business Growth Partner',
+    description:
+      'We replace disconnected agency retainers with a unified compounding business growth engine.',
+    url: 'https://smnextgen.com/about',
     siteName: 'SM NextGen',
     images: [
       {
-        url: '/images/sanjay.png', // Replace with your actual OG image if different
+        url: '/icon.png',
         width: 1200,
         height: 630,
+        alt: 'About SM NextGen',
       },
     ],
     locale: 'en_IN',

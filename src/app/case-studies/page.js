@@ -1,22 +1,27 @@
-// file: page.js
 import CaseStudiesClient from './CaseStudiesClient'; 
 
 export const metadata = {
-  title: 'Our Work & Results | SM NextGen',
-  description: 'Explore our proven track record. See how SM NextGen helps businesses generate consistent leads, sales, and high ROI through data-driven systems.',
-  keywords: 'SM NextGen case studies, marketing portfolio, business growth results, ROAS, lead generation success stories',
-  metadataBase: new URL('https://smnextgen.com'), 
+  title: 'Case Studies & Commercial Outcomes | SM NextGen — Business Growth Partner',
+  description:
+    'Explore verified commercial case studies from SM NextGen. Discover how we engineer qualified enterprise pipelines, lower CAC, and accelerate revenue across B2B SaaS, D2C Commerce, and Healthcare.',
+  keywords:
+    'SM NextGen case studies, business growth results, B2B SaaS growth, D2C commerce scaling, healthcare patient acquisition, CAC reduction case studies',
+  metadataBase: new URL('https://smnextgen.com'),
+  alternates: {
+    canonical: 'https://smnextgen.com/case-studies',
+  },
   openGraph: {
-    title: 'Success Stories & Results | SM NextGen',
-    description: 'Real Business. Real Results. See How We Scale Brands.',
-    url: 'https://smnextgen.com/case-studies', // Apna actual page URL likhna yahan (e.g. /case-studies ya /work)
+    title: 'Case Studies & Results | SM NextGen — Business Growth Partner',
+    description:
+      'Real businesses. Real problems. Quantifiable growth systems. Discover how we scale enterprise market leaders.',
+    url: 'https://smnextgen.com/case-studies',
     siteName: 'SM NextGen',
     images: [
       {
-        url: '/images/og-work.png', // Jo image aapne pehle dikhayi thi
+        url: '/icon.png',
         width: 1200,
         height: 630,
-        alt: 'SM NextGen Work & Results',
+        alt: 'SM NextGen Case Studies',
       },
     ],
     locale: 'en_IN',

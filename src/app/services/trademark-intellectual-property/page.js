@@ -3,7 +3,7 @@ import { useState } from "react";
 import Link from "next/link";
 
 // --- WHATSAPP SETUP ---
-const WHATSAPP_NUMBER = "917073538077"; 
+const WHATSAPP_NUMBER = "919179577717"; 
 
 export default function TrademarkIPPage() {
   const [activeFaq, setActiveFaq] = useState(null);

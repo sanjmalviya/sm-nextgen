@@ -174,14 +174,14 @@ export default async function ServiceDetail({ params }) {
         <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-[800px] h-[800px] bg-[#0097B2]/30 rounded-full blur-[100px]"></div>
         
         <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-4xl md:text-6xl font-heading font-black text-white mb-8">Ready to build your empire?</h2>
-          <p className="text-xl text-white/80 mb-12 font-light">Stop wasting time on outdated tactics. Partner with SM NextGen and let's engineer your growth.</p>
+          <h2 className="text-4xl md:text-6xl font-heading font-black text-white mb-8">Ready to Scale With High Conviction?</h2>
+          <p className="text-xl text-white/80 mb-12 font-light">Partner with SM NextGen to engineer custom digital systems that accelerate your enterprise revenue.</p>
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
             <Link href="/contact" className="px-10 py-5 bg-white text-navy font-extrabold rounded-2xl shadow-2xl hover:scale-105 transition-transform text-lg flex items-center gap-3">
-              Contact Our Team <i className="fas fa-arrow-right"></i>
+              Request Growth Strategy <i className="fas fa-arrow-right"></i>
             </Link>
-            <a href="https://wa.me/917073538077" target="_blank" rel="noreferrer" className="px-10 py-5 bg-transparent border-2 border-white/20 text-white font-extrabold rounded-2xl hover:bg-white/10 transition-colors text-lg flex items-center gap-3">
+            <a href="https://wa.me/919179577717" target="_blank" rel="noreferrer" className="px-10 py-5 bg-transparent border-2 border-white/20 text-white font-extrabold rounded-2xl hover:bg-white/10 transition-colors text-lg flex items-center gap-3">
               <i className="fab fa-whatsapp text-xl"></i> WhatsApp Us
             </a>
           </div>

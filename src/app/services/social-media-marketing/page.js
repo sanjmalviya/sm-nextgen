@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 
 // --- WHATSAPP SETUP ---
-const WHATSAPP_NUMBER = "917073538077"; 
+const WHATSAPP_NUMBER = "919179577717"; 
 
 export default function SocialMediaMarketingPage() {
   const [scrollProgress, setScrollProgress] = useState(0);

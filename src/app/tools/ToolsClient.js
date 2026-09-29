@@ -1,6 +1,7 @@
 // file: app/tools/ToolsClient.js
 "use client";
 import { useState } from "react";
+import GrowthScoreWidget from "../components/growth_home/GrowthScoreWidget";
 
 export default function ToolsClient() {
   // 1. ROI Calculator States
@@ -51,7 +52,7 @@ export default function ToolsClient() {
       
       // Redirect to WhatsApp
       const msg = `Hi SM NextGen Team, I requested a *7-Point Business Audit*.\n\n*Website:* ${auditUrl}\n*Phone:* ${auditPhone}\n\nPlease check.`;
-      window.open(`https://wa.me/917073538077?text=${encodeURIComponent(msg)}`, '_blank');
+      window.open(`https://wa.me/919179577717?text=${encodeURIComponent(msg)}`, '_blank');
       
       // Reset form after delay
       setTimeout(() => {
@@ -81,7 +82,10 @@ export default function ToolsClient() {
 
       {/* TOOLS SECTION */}
       <section className="pb-24 px-4 relative z-10">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 gap-12">
+        <div className="max-w-7xl mx-auto space-y-16">
+
+          {/* 0. INTERACTIVE GROWTH READINESS SCORE WIDGET */}
+          <GrowthScoreWidget />
 
           {/* 1. ROI CALCULATOR */}
           <div className="bg-white dark:bg-[#162032] p-8 md:p-12 rounded-3xl shadow-2xl border border-gray-100 dark:border-white/5 relative overflow-hidden">

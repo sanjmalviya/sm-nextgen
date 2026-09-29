@@ -1,22 +1,20 @@
-// file: src/app/blogs/BlogsClient.js
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Search, ArrowRight, Phone, MessageSquare, Briefcase, Bot, Scale, Megaphone, Laptop } from "lucide-react";
 
 export default function BlogsClient({ initialBlogs = [] }) {
-  const [allBlogs, setAllBlogs] = useState(initialBlogs);
-  const [filteredBlogs, setFilteredBlogs] = useState(initialBlogs);
-  const [isLoading, setIsLoading] = useState(false); 
+  const [allBlogs] = useState(initialBlogs);
+  const [isLoading] = useState(false); 
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("all");
 
   const [leadName, setLeadName] = useState("");
   const [leadService, setLeadService] = useState("Growth Strategy");
 
-  useEffect(() => {
-    const filtered = allBlogs.filter(blog => {
+  const filteredBlogs = useMemo(() => {
+    return allBlogs.filter(blog => {
       let catMatch = true;
       if (activeCategory !== 'all') {
         const blogCat = (blog.category || 'growth').toLowerCase();
@@ -36,8 +34,6 @@ export default function BlogsClient({ initialBlogs = [] }) {
 
       return catMatch && searchMatch;
     });
-
-    setFilteredBlogs(filtered);
   }, [searchQuery, activeCategory, allBlogs]);
 
   const extractPlainText = (content) => {
@@ -67,8 +63,8 @@ export default function BlogsClient({ initialBlogs = [] }) {
 
   const handleQuickLead = (e) => {
     e.preventDefault();
-    const phone = "917073538077";
-    const message = `Hi, I was reading your insights. Name: ${leadName} | Interested in: ${leadService}. Please call me back.`;
+    const phone = "919179577717";
+    const message = `Hi SM NextGen Team, I was reading your growth insights. Name: ${leadName} | Interested in: ${leadService}. Please connect with me.`;
     const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank');
   };
@@ -82,14 +78,13 @@ export default function BlogsClient({ initialBlogs = [] }) {
 
         <div className="relative z-10 max-w-4xl mx-auto text-center">
           <span className="text-[#0097B2] font-bold text-xs uppercase tracking-widest bg-[#0097B2]/10 px-4 py-1.5 rounded-full border border-[#0097B2]/20 mb-6 inline-flex items-center gap-2">
-            <Bot className="w-4 h-4" /> The Growth Lab
+            <Bot className="w-4 h-4" /> Growth Intelligence & Engineering
           </span>
           <h1 className="text-4xl md:text-5xl lg:text-7xl font-heading font-extrabold text-[#0B2545] dark:text-white mb-6 tracking-tight">
-            Insights that drive <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0097B2] to-blue-600">Revenue.</span>
+            Insights that engineer <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0097B2] to-blue-600">Enterprise Growth.</span>
           </h1>
-          {/* 🔥 FIXED: New Hero Description text */}
           <p className="text-gray-600 dark:text-gray-300 text-lg max-w-2xl mx-auto leading-relaxed">
-            Actionable insights on marketing, automation, technology, and business growth for ambitious Indian founders.
+            Data-backed breakdowns on commercial strategy, full-funnel CRO, AI workflow deployment, and sustainable unit economics.
           </p>
 
           <div className="mt-10 max-w-xl mx-auto relative group">
@@ -126,19 +121,16 @@ export default function BlogsClient({ initialBlogs = [] }) {
             <div className="bg-white dark:bg-[#162032] p-16 rounded-[2rem] text-center border border-gray-100 dark:border-white/5 max-w-2xl mx-auto">
               <Search className="w-12 h-12 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
               <h3 className="text-2xl font-bold text-[#0B2545] dark:text-white mb-2">No Insights Found</h3>
-              <p className="text-gray-500">We couldn't find any articles matching your search or category filter. Try something else!</p>
+              <p className="text-gray-500">We couldn&apos;t find any articles matching your search or category filter. Try something else!</p>
               <button onClick={() => {setSearchQuery(''); setActiveCategory('all');}} className="mt-6 text-[#0097B2] font-bold hover:underline">Clear all filters</button>
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredBlogs.map((post, index) => {
-                
-                // 🔥 FIXED: Safe Date Check logic
                 const validDate = post._createdAt || post.publishedAt 
                   ? new Date(post._createdAt || post.publishedAt).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })
                   : "Recently Published";
 
-                // 🔥 FIXED: Premium UI Avatar fallback
                 const fallbackAvatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(post.authorName || 'Sanjay Lohar')}&background=0097B2&color=fff&bold=true`;
                 const finalAuthorImage = post.authorImageUrl || post.authorImage?.asset?.url || fallbackAvatar;
 

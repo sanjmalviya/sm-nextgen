@@ -1,27 +1,32 @@
 import ServicesClient from "./ServicesClient";
 
-// --- NEXT.JS APP ROUTER METADATA (Premium SEO) ---
 export const metadata = {
-  title: "Premium Growth Services | SM NextGen - Marketing, Tech & AI",
-  description: "Explore SM NextGen's complete business growth ecosystem. We offer Digital Marketing, Website & App Development, AI Automation, and Legal & Finance services.",
-  keywords: "Digital Marketing Agency, Web Development Services, Mobile App Development, AI Automation solutions, SEO Services, Performance Ads, Business Registration, Virtual CFO, SM NextGen Services",
-  metadataBase: new URL('https://smnextgen.com'), // Ye line WhatsApp preview ke liye bohot zaroori hai
+  title: "Strategic Growth Capabilities | SM NextGen — Business Growth Partner",
+  description:
+    "Explore SM NextGen's full-stack growth capabilities: Growth Strategy, Marketing & Demand, Conversion & Digital Experience, AI & Automation, Data Intelligence, and Operations Support.",
+  keywords:
+    "Growth Capabilities, Growth Strategy, Marketing & Demand, Conversion Rate Optimization, AI Business Automation, Enterprise Next.js Development, Revenue Intelligence, SM NextGen",
+  metadataBase: new URL('https://smnextgen.com'),
+  alternates: {
+    canonical: 'https://smnextgen.com/services',
+  },
   openGraph: {
-    title: "Complete Business Growth Ecosystem | SM NextGen",
-    description: "Scale your business with our end-to-end solutions: Marketing, Tech Development, AI Automation, and Legal & Finance.",
+    title: "Strategic Growth Capabilities | SM NextGen — Business Growth Partner",
+    description:
+      "Full-stack capabilities engineered to accelerate qualified pipeline, lower CAC, and compound enterprise revenue.",
     url: "https://smnextgen.com/services",
     siteName: "SM NextGen",
     images: [
       {
-        url: "/images/og-services.png", // Yahan aapki custom image laga di hai
+        url: "/icon.png",
         width: 1200,
         height: 630,
-        alt: "SM NextGen Services",
-      }
+        alt: "SM NextGen Growth Capabilities",
+      },
     ],
     locale: "en_IN",
     type: "website",
-  }
+  },
 };
 
 export default function ServicesPage() {

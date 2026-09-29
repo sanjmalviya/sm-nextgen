@@ -1,23 +1,28 @@
-// app/pricing/page.js
 import PricingClient from './PricingClient';
 
 export const metadata = {
-  title: 'Pricing & Packages | SM NextGen - Flexible Growth Plans',
-  description: 'Transparent pricing for your business growth. Explore our customized individual services priced 10% below industry average, or choose a scalable growth package.',
-  keywords: 'SM NextGen pricing, marketing agency packages, SEO pricing India, web development cost, flexible agency pricing, scalable growth plans',
+  title: 'Growth Engagements | SM NextGen — Business Growth Partner',
+  description:
+    'Explore SM NextGen growth engagement models. From executive growth audits and project sprints to full-stack growth partnerships designed for enterprise scale.',
+  keywords:
+    'SM NextGen growth engagements, business growth partner pricing, growth audit, growth sprint, executive growth advisory, AI automation architecture',
   metadataBase: new URL('https://smnextgen.com'),
+  alternates: {
+    canonical: 'https://smnextgen.com/pricing',
+  },
   openGraph: {
-    title: 'Pricing & Packages | SM NextGen',
-    description: 'Scale without surprises. View our transparent pricing for marketing, tech, AI automation, and finance services.',
-    url: 'https://www.smnextgen.com/pricing', // Replace with your actual URL
+    title: 'Growth Engagements | SM NextGen — Business Growth Partner',
+    description:
+      'High-conviction growth engagement models designed to compound enterprise value through strategy, technology, AI and marketing.',
+    url: 'https://smnextgen.com/pricing',
     siteName: 'SM NextGen',
     images: [
       {
-        url: "/images/og-pricing.png", // Yahan aapki custom image laga di hai
+        url: '/icon.png',
         width: 1200,
         height: 630,
-        alt: "SM NextGen Pricing",
-      }
+        alt: 'SM NextGen Growth Engagements',
+      },
     ],
     locale: 'en_IN',
     type: 'website',

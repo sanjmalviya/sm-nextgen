@@ -7,7 +7,7 @@ import Link from "next/link";
 const generateSlug = (text) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
 
 // --- WHATSAPP SETUP ---
-const WHATSAPP_NUMBER = "917073538077"; 
+const WHATSAPP_NUMBER = "919179577717"; 
 const getWhatsAppLink = (message) => `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
 // --- 1. CORE DATA SETS (32 Services Total) ---
@@ -174,20 +174,20 @@ export default function ServicesClient() {
 
         <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-gray-300 text-xs font-bold uppercase tracking-widest mb-6 backdrop-blur-sm">
-            <span className="w-2 h-2 rounded-full bg-[#0097B2] animate-pulse"></span> Everything Your Business Needs To Grow
+            <span className="w-2 h-2 rounded-full bg-[#0097B2] animate-pulse"></span> FULL-STACK GROWTH ARCHITECTURE
           </div>
-          <h1 className="text-5xl md:text-7xl font-heading font-extrabold text-white mb-6 leading-tight tracking-tight">
-            Marketing • Tech • AI • <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0097B2] to-cyan-400">Legal & Finance</span>
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-heading font-extrabold text-white mb-6 leading-tight tracking-tight">
+            Strategic Growth <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0097B2] to-cyan-400">Capabilities.</span>
           </h1>
-          <p className="text-xl text-gray-400 mb-10 leading-relaxed font-light max-w-3xl mx-auto">
-            We help modern businesses grow faster using advanced marketing, technical infrastructure, AI automation and strategic financial systems. The complete ecosystem under one roof.
+          <p className="text-lg sm:text-xl text-gray-400 mb-10 leading-relaxed font-light max-w-3xl mx-auto">
+            We combine high-level positioning strategy, enterprise web engineering, AI workflow automation, and closed-loop revenue attribution into one compounding growth engine.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a href="#overview" className="px-8 py-4 bg-[#0097B2] hover:bg-[#0097B2]/90 text-white font-bold rounded-xl shadow-lg transition-transform hover:-translate-y-1 text-lg w-full sm:w-auto">
-              Explore Services
+            <a href="#overview" className="px-8 py-4 bg-[#0097B2] hover:bg-[#007a91] text-white font-bold rounded-xl shadow-lg transition-transform hover:-translate-y-0.5 text-sm uppercase tracking-wider w-full sm:w-auto">
+              Explore Capabilities
             </a>
-            <a href={getWhatsAppLink("Hi SM NextGen Team, I am interested in exploring services for my business growth. Please connect. Niche: ")} target="_blank" rel="noreferrer" className="px-8 py-4 bg-white/5 hover:bg-white/10 text-white font-bold rounded-xl border border-white/10 transition-colors text-lg w-full sm:w-auto flex items-center justify-center gap-2">
-              <i className="fab fa-whatsapp text-xl text-green-500"></i> Book Strategy Call
+            <a href={getWhatsAppLink("Hi SM NextGen Team, I am interested in exploring strategic growth capabilities for my company. Please connect.")} target="_blank" rel="noreferrer" className="px-8 py-4 bg-white/5 hover:bg-white/10 text-white font-bold rounded-xl border border-white/10 transition-colors text-sm uppercase tracking-wider w-full sm:w-auto flex items-center justify-center gap-2">
+              <i className="fab fa-whatsapp text-lg text-emerald-400"></i> WhatsApp Principal
             </a>
           </div>
         </div>

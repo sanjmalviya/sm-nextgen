@@ -1,18 +1,17 @@
 import "./globals.css";
-// Yahan humne Header, Footer aur naya CursorGlow import kiya hai
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import CursorGlow from "./components/CursorGlow"; // Ye line add ki hai
+import SmoothScroll from "./components/SmoothScroll";
 
 export const metadata = {
-  title: "SM NextGen | Marketing, Branding, Automation & Finance",
-  description: "Lets grow your business the smart way with SM NextGen.",
+  title: "SM NextGen | Business Growth Partner | Strategy, Marketing & Technology",
+  description: "SM NextGen helps businesses build sustainable growth through strategy, marketing, technology, AI and automation.",
   metadataBase: new URL('https://smnextgen.com'),
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en">
       <head>
         {/* Google Fonts */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -21,17 +20,16 @@ export default function RootLayout({ children }) {
         {/* FontAwesome Icons */}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
       </head>
-      {/* Niche <body> tag mein humne global colors aur font set kar diye hain */}
       <body className="bg-[#F8FAFC] dark:bg-[#0B2545] font-body text-[#0B2545] dark:text-[#E6EEF2] selection:bg-[#0097B2] selection:text-white transition-colors duration-300 antialiased overflow-x-hidden">
         
-        {/* Global Cursor Light - Poori site par chalegi */}
-        <CursorGlow /> 
+        {/* Buttery Smooth Inertial Scroll Provider */}
+        <SmoothScroll>
+          <Header /> 
+          {children} 
+          <Footer /> 
+        </SmoothScroll>
 
-        <Header /> {/* Page ke upar Header */}
-        {children} {/* Ye aapka main content (page.js) hai */}
-        <Footer /> {/* Page ke neeche Footer */}
-      
-      {/* --- METRICOOL TRACKING PIXEL --- */}
+        {/* Metricool Tracking Pixel */}
         <img 
           src="https://tracker.metricool.com/c3po.jpg?hash=60d0bd7bcdaa5c5717c3be93f2864e9f" 
           alt="Metricool Tracking" 
