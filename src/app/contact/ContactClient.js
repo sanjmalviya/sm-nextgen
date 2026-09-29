@@ -189,7 +189,7 @@ export function ContactFormClient() {
               </div>
               <div className="flex items-center justify-between">
                 <span className="font-semibold text-[#0B2545]/70 dark:text-gray-400">Corporate Location:</span>
-                <span className="font-medium text-[#0B2545] dark:text-white">Indore, MP, India</span>
+                <span className="font-medium text-[#0B2545] dark:text-white">Udaipur, Rajasthan, India</span>
               </div>
             </div>
 

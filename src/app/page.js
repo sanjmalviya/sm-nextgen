@@ -1,4 +1,4 @@
-﻿import HomeClient from './HomeClient';
+import HomeClient from './HomeClient';
 
 export const metadata = {
   title: 'SM NextGen | Business Growth Partner | Strategy, Marketing & Technology',
@@ -59,8 +59,10 @@ const jsonLd = {
       telephone: '+917073538077',
       address: {
         '@type': 'PostalAddress',
-        addressLocality: 'Indore',
-        addressRegion: 'Madhya Pradesh',
+        streetAddress: 'HPPQ+Q5V, Sunderwas, Ganapati Nagar',
+        addressLocality: 'Udaipur',
+        addressRegion: 'Rajasthan',
+        postalCode: '313001',
         addressCountry: 'IN',
       },
       sameAs: [

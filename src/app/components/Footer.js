@@ -1,4 +1,4 @@
-﻿// file: src/components/Footer.js
+// file: src/components/Footer.js
 "use client";
 import Link from "next/link";
 
@@ -140,21 +140,6 @@ export default function Footer() {
              <span>All Systems Operational</span>
           </div>
         </div>
-      </div>
-      
-      {/* FLOATING BUTTONS */}
-      <div className="fixed bottom-6 right-6 flex flex-col gap-4 z-[99]">
-        <a href="https://wa.me/917073538077" target="_blank" 
-           className="w-14 h-14 bg-[#25D366] text-white rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-110 hover:-translate-y-1 group relative border-2 border-[#0B2545]">
-            <i className="fab fa-whatsapp text-3xl"></i>
-            <span className="absolute right-16 bg-[#0B2545] text-white px-3 py-1.5 rounded-lg text-xs font-bold opacity-0 group-hover:opacity-100 transition-all shadow-lg whitespace-nowrap pointer-events-none border border-white/10">WhatsApp Us</span>
-        </a>
-
-        <a href="tel:+917073538077" 
-           className="w-14 h-14 bg-[#0097B2] text-white rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-110 hover:-translate-y-1 group relative border-2 border-[#0B2545]">
-            <i className="fas fa-phone-alt -scale-x-100 text-2xl"></i>
-            <span className="absolute right-16 bg-[#0B2545] text-white px-3 py-1.5 rounded-lg text-xs font-bold opacity-0 group-hover:opacity-100 transition-all shadow-lg whitespace-nowrap pointer-events-none border border-white/10">Call Us Directly</span>
-        </a>
       </div>
     </footer>
   );

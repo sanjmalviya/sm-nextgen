@@ -9,7 +9,7 @@ import {
   Palette, Wrench, Settings, Crosshair, UserPlus, MessageSquare, 
   Phone, Sparkles, PieChart, Cpu, FileSignature, Receipt, 
   Landmark, Calculator, Users, ClipboardCheck, Copyright, 
-  LineChart, ChevronDown, Moon, Sun, Menu, X, ArrowRight 
+  LineChart, ChevronDown, Moon, Sun, Menu, X, ArrowRight, Zap 
 } from "lucide-react";
 
 export default function Header() {
@@ -55,7 +55,7 @@ export default function Header() {
   const navLinks = [
     { name: "How We Grow", href: "/how-we-work" },
     { name: "Case Studies", href: "/case-studies" },
-    { name: "Growth Tools", href: "/tools" },
+    { name: "Tools", href: "/tools" },
     { name: "About", href: "/about" },
   ];
 
@@ -161,7 +161,7 @@ export default function Header() {
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center space-x-6 xl:space-x-8">
+            <nav className="hidden lg:flex items-center space-x-5 xl:space-x-7 shrink-0">
               {/* Capabilities Mega Menu Trigger */}
               <div className="relative h-20 flex items-center">
                 <button 
@@ -262,21 +262,21 @@ export default function Header() {
                 <Link 
                   key={link.name} 
                   href={link.href} 
-                  className="nav-link text-sm font-semibold text-[#0B2545]/85 hover:text-[#0097B2] transition dark:text-gray-200"
+                  className="nav-link text-sm font-medium text-[#0B2545]/80 hover:text-[#0097B2] transition dark:text-gray-200"
                 >
                   {link.name}
                 </Link>
               ))}
             </nav>
 
-            {/* Header Right Actions */}
-            <div className="flex items-center gap-3 z-50">
+            {/* Header Right Actions - Clean, Spacious, Premium */}
+            <div className="flex items-center gap-2 sm:gap-3 shrink-0 z-50">
               
-              {/* Minimalist Theme Toggle Icon Button */}
+              {/* Minimalist Theme Toggle - Visible on sm and up; on mobile it is in the drawer */}
               <button 
                 onClick={toggleTheme} 
                 aria-label="Toggle interface theme"
-                className="w-9 h-9 rounded-xl flex items-center justify-center bg-slate-100 dark:bg-white/10 hover:bg-slate-200 dark:hover:bg-white/20 text-[#0B2545] dark:text-[#E6EEF2] border border-[#0B2545]/10 dark:border-white/10 transition-colors cursor-pointer shadow-sm"
+                className="hidden sm:flex w-9 h-9 rounded-xl items-center justify-center bg-slate-100 dark:bg-white/10 hover:bg-slate-200 dark:hover:bg-white/20 text-[#0B2545] dark:text-[#E6EEF2] border border-[#0B2545]/10 dark:border-white/10 transition-colors cursor-pointer shadow-sm shrink-0"
                 title={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
               >
                 {isDarkMode ? (
@@ -286,9 +286,22 @@ export default function Header() {
                 )}
               </button>
 
+              {/* Growth OS Direct App Launcher Button - Visible on md and up */}
+              <Link href="/growth-os" className="hidden md:inline-flex relative items-center gap-2 px-3 sm:px-3.5 py-2 rounded-xl text-xs font-semibold bg-[#0B2545] hover:bg-[#162032] dark:bg-white/10 dark:hover:bg-white/15 text-white border border-[#0B2545]/15 dark:border-white/15 shadow-sm transition-all hover:scale-[1.02] cursor-pointer shrink-0"
+                title="Launch SM NextGen Growth OS Platform">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+                </span>
+                <span className="font-extrabold tracking-tight text-[#0097B2] dark:text-cyan-300">Growth OS</span>
+                <span className="text-[10px] text-gray-400 font-mono font-bold bg-white/10 px-1.5 py-0.5 rounded">
+                  v1.0
+                </span>
+              </a>
+
               <Link 
                 href="/contact" 
-                className="hidden sm:inline-flex bg-[#0097B2] hover:bg-[#007a91] text-white px-4 sm:px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider shadow-md shadow-[#0097B2]/20 hover:scale-[1.02] active:scale-[0.98] transition-all items-center gap-2 cursor-pointer"
+                className="hidden lg:inline-flex bg-[#0097B2] hover:bg-[#007a91] text-white px-3.5 sm:px-4 py-2 rounded-xl font-bold text-xs uppercase tracking-wider shadow-sm transition-all hover:scale-[1.02] items-center gap-1.5 cursor-pointer shrink-0"
               >
                 <span>Start Conversation</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -297,7 +310,7 @@ export default function Header() {
               <button 
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} 
                 aria-label="Toggle menu"
-                className="lg:hidden text-[#0B2545] dark:text-white focus:outline-none w-10 h-10 flex items-center justify-center rounded-xl bg-gray-100 dark:bg-white/10 cursor-pointer"
+                className="lg:hidden text-[#0B2545] dark:text-white focus:outline-none w-10 h-10 flex items-center justify-center rounded-xl bg-gray-100 dark:bg-white/10 cursor-pointer shrink-0"
               >
                 {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
@@ -331,6 +344,38 @@ export default function Header() {
                 </>
               )}
             </button>
+          </div>
+
+          {/* Growth OS Mobile App Card Banner */}
+          <div className="p-4 rounded-2xl bg-gradient-to-br from-[#0B2545] to-[#071A30] border border-[#0097B2]/40 shadow-xl mb-4 text-white relative overflow-hidden">
+            <div className="flex items-center justify-between mb-2">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#0097B2]/20 border border-[#0097B2]/30 text-[#0097B2] text-[10px] font-mono font-bold uppercase tracking-wider">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                Live Application
+              </span>
+              <span className="text-[10px] text-gray-400 font-mono">v1.0 Live</span>
+            </div>
+            <h4 className="font-heading font-extrabold text-base text-white mb-1 flex items-center gap-2">
+              <Zap className="w-4 h-4 text-amber-400 fill-amber-400" />
+              SM NextGen Growth OS
+            </h4>
+            <p className="text-xs text-gray-300 leading-relaxed mb-3">
+              Google Business Profile AI Growth Platform • Reviews, Audits & Automations
+            </p>
+            <div className="flex items-center gap-2">
+              <Link href="/growth-os" onClick={closeAllMenus} className="flex-1 py-2.5 px-3 rounded-xl bg-gradient-to-r from-[#0097B2] to-[#0284c7] hover:bg-[#007a91] text-white text-xs font-bold text-center flex items-center justify-center gap-1.5 shadow-md shadow-[#0097B2]/30"
+              >
+                <span>Launch Mobile App</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </a>
+              <Link
+                href="/growth-os"
+                onClick={closeAllMenus}
+                className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-semibold text-center border border-white/10"
+              >
+                Overview
+              </Link>
+            </div>
           </div>
 
           <Link href="/" onClick={closeAllMenus} className="text-lg font-bold text-[#0B2545] dark:text-white border-b border-gray-100 dark:border-white/10 py-3.5 block font-heading">

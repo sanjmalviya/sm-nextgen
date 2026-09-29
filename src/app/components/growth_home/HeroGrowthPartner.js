@@ -31,10 +31,15 @@ export default function HeroGrowthPartner({ onStartConversation, onExploreHowWeG
           {/* Left Column: Bold, Confident Executive Copy */}
           <div className="lg:col-span-7 text-center lg:text-left">
             
-            {/* Positioning Pill */}
-            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#0097B2]/10 border border-[#0097B2]/20 text-[#0097B2] text-xs font-semibold uppercase tracking-wider mb-6 shadow-sm">
-              <span className="w-2 h-2 rounded-full bg-[#0097B2] animate-pulse" />
-              <span>SM NextGen — Business Growth Partner</span>
+            {/* Unified Modern Friendly Growth Pill - Single line on mobile */}
+            <div className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 rounded-full bg-[#0097B2]/10 border border-[#0097B2]/20 text-[11px] sm:text-xs text-[#0097B2] mb-6 shadow-sm max-w-full">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+              <span className="font-semibold text-[#0B2545] dark:text-white truncate">Business Growth Partner</span>
+              <span className="text-gray-300 dark:text-white/20 hidden sm:inline">|</span>
+              <Link href="/growth-os" className="hidden sm:inline-flex items-center gap-1 font-bold text-[#0097B2] hover:text-[#007a91] dark:hover:text-cyan-300 transition-colors">
+                <span>Explore Growth OS</span>
+                <ArrowUpRight className="w-3.5 h-3.5" />
+              </a>
             </div>
 
             {/* H1 Headline */}
@@ -46,41 +51,51 @@ export default function HeroGrowthPartner({ onStartConversation, onExploreHowWeG
               </span>
             </h1>
 
-            {/* Subtitle - Clean & Concise */}
-            <p className="text-lg sm:text-xl text-[#0B2545]/75 dark:text-[#E6EEF2]/80 font-body leading-relaxed max-w-2xl mx-auto lg:mx-0 mb-8 font-light">
-              We help growing companies build predictable revenue engines. From brand positioning and fast web platforms to AI automation and performance marketing — everything connects to bring you more qualified leads and sales.
+            {/* Subtitle - Crisp, concise, less texty */}
+            <p className="text-base sm:text-lg text-[#0B2545]/75 dark:text-[#E6EEF2]/80 font-body leading-relaxed max-w-2xl mx-auto lg:mx-0 mb-8 font-light">
+              We build predictable revenue engines for growing companies — combining growth strategy, AI automation, high-performance web platforms, and Google Business Profile scaling.
             </p>
 
-            {/* Dual Action CTAs */}
-            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-10">
+            {/* Modern Friendly CTAs */}
+            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4 mb-8 sm:mb-10">
               <button
                 onClick={onStartConversation}
-                className="w-full sm:w-auto px-8 py-4 rounded-xl bg-[#0097B2] hover:bg-[#007a91] text-white font-semibold text-sm tracking-wide flex items-center justify-center gap-2.5 transition-all shadow-lg shadow-[#0097B2]/25 hover:-translate-y-0.5 cursor-pointer"
+                className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-[#0097B2] hover:bg-[#007a91] text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-lg shadow-[#0097B2]/20 hover:-translate-y-0.5 transition-all cursor-pointer"
               >
-                <span>Start a Growth Conversation</span>
+                <span>Start Conversation</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
 
+              <Link href="/growth-os" className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-[#0B2545] hover:bg-[#162032] dark:bg-white/10 dark:hover:bg-white/15 text-white font-semibold text-sm flex items-center justify-center gap-2.5 border border-white/10 hover:-translate-y-0.5 transition-all cursor-pointer shadow-sm group"
+              >
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+                </span>
+                <span>Launch Growth OS</span>
+                <ArrowUpRight className="w-4 h-4 text-cyan-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </a>
+
               <Link
                 href="/how-we-work"
-                className="w-full sm:w-auto px-8 py-4 rounded-xl bg-[#F8FAFC] dark:bg-[#071A30]/80 hover:bg-slate-100 dark:hover:bg-[#071A30] text-[#0B2545] dark:text-[#E6EEF2] border border-[#0B2545]/15 dark:border-white/15 font-semibold text-sm flex items-center justify-center gap-2 transition-all hover:border-[#0097B2]/50 cursor-pointer"
+                className="w-full sm:w-auto px-4 py-3 rounded-xl text-xs font-semibold text-gray-600 dark:text-gray-300 hover:text-[#0097B2] dark:hover:text-cyan-400 flex items-center justify-center gap-1.5 transition-colors"
               >
-                <span>How We Grow</span>
-                <ArrowUpRight className="w-4 h-4 text-[#0097B2]" />
+                <span>How We Work</span>
+                <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
 
             {/* Credibility Micro-Points */}
-            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6 text-xs text-[#0B2545]/70 dark:text-[#E6EEF2]/70 font-medium">
-              <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-6 text-xs text-[#0B2545]/70 dark:text-[#E6EEF2]/70 font-medium pb-20 sm:pb-0">
+              <div className="flex items-center gap-1.5 sm:gap-2">
                 <CheckCircle2 className="w-4 h-4 text-[#0097B2] shrink-0" />
                 <span>Strategy + Tech + AI Execution</span>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5 sm:gap-2">
                 <CheckCircle2 className="w-4 h-4 text-[#0097B2] shrink-0" />
                 <span>Zero Vanity Metrics</span>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5 sm:gap-2">
                 <CheckCircle2 className="w-4 h-4 text-[#0097B2] shrink-0" />
                 <span>Direct Growth Partners</span>
               </div>

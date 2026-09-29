@@ -2,6 +2,7 @@ import "./globals.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import SmoothScroll from "./components/SmoothScroll";
+import GrowthOSFloatingLauncher from "./components/GrowthOSFloatingLauncher";
 
 export const metadata = {
   title: "SM NextGen | Business Growth Partner | Strategy, Marketing & Technology",
@@ -27,6 +28,7 @@ export default function RootLayout({ children }) {
           <Header /> 
           {children} 
           <Footer /> 
+          <GrowthOSFloatingLauncher />
         </SmoothScroll>
 
         {/* Metricool Tracking Pixel */}
