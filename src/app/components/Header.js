@@ -297,7 +297,7 @@ export default function Header() {
                 <span className="text-[10px] text-gray-400 font-mono font-bold bg-white/10 px-1.5 py-0.5 rounded">
                   v1.0
                 </span>
-              </a>
+              </Link>
 
               <Link 
                 href="/contact" 
@@ -367,7 +367,7 @@ export default function Header() {
               >
                 <span>Launch Mobile App</span>
                 <ArrowRight className="w-3.5 h-3.5" />
-              </a>
+              </Link>
               <Link
                 href="/growth-os"
                 onClick={closeAllMenus}

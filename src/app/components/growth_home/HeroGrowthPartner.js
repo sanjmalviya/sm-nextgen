@@ -39,7 +39,7 @@ export default function HeroGrowthPartner({ onStartConversation, onExploreHowWeG
               <Link href="/growth-os" className="hidden sm:inline-flex items-center gap-1 font-bold text-[#0097B2] hover:text-[#007a91] dark:hover:text-cyan-300 transition-colors">
                 <span>Explore Growth OS</span>
                 <ArrowUpRight className="w-3.5 h-3.5" />
-              </a>
+              </Link>
             </div>
 
             {/* H1 Headline */}
@@ -74,7 +74,7 @@ export default function HeroGrowthPartner({ onStartConversation, onExploreHowWeG
                 </span>
                 <span>Launch Growth OS</span>
                 <ArrowUpRight className="w-4 h-4 text-cyan-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-              </a>
+              </Link>
 
               <Link
                 href="/how-we-work"
