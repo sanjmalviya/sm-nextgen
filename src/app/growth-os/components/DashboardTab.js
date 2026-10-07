@@ -19,7 +19,8 @@ import {
   ShieldCheck,
   Check,
   ExternalLink,
-  ChevronRight
+  ChevronRight,
+  Bot
 } from "lucide-react";
 
 export default function DashboardTab({

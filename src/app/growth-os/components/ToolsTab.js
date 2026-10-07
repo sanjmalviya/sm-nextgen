@@ -41,9 +41,11 @@ export default function ToolsTab({ business }) {
   };
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(generatedDesc);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      navigator.clipboard.writeText(generatedDesc);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
   };
 
   return (

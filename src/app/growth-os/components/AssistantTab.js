@@ -43,20 +43,62 @@ export default function AssistantTab({ business, auditScore }) {
       let reply = "";
       const q = query.toLowerCase();
 
-      if (q.includes("3-pack") || q.includes("rank")) {
-        reply = "To secure the top 3-Pack position in Udaipur for " + (business?.name || "Apex Dental") + ":\\n1. Add secondary categories 'Cosmetic dentist' and 'Dental implants provider' (covers 2,400 monthly queries).\\n2. Reduce unanswered review delay from 4.2 days to under 24 hours.\\n3. Publish a weekly promotional Google Post with an explicit 'Call Now' CTA.";
-      } else if (q.includes("score") || q.includes("81")) {
-        reply = "Your current Growth Score is " + auditScore + "/100. Strongest areas: Profile Completeness (95%) and Rating (4.8★). What's holding you back: 12 unanswered customer reviews (-8 pts), last photo uploaded >60 days ago (-6 pts), and missing secondary categories (-7 pts). Fixing these brings you to 98/100!";
-      } else if (q.includes("photo") || q.includes("upload")) {
-        reply = "Top 4 photo ideas for " + (business?.name || "Apex Dental") + " this week:\\n1. Operatory Tech: Close-up of modern 3D diagnostic scanners with clinic staff.\\n2. Patient Comfort: The welcoming waiting lounge with clean hospitality touches.\\n3. Clinical Team: Dr. Sunita Mehra and specialists in sterile scrubs.\\n4. Day-light Street View: Clear view of storefront on Saheli Nagar road so new patients spot you easily.";
-      } else if (q.includes("vikram") || q.includes("1-star") || q.includes("negative")) {
-        reply = "Recommended strategy for Vikram Singh's 1-star wait time complaint:\\nDo NOT dispute or argue publicly. Use this sincere de-escalation response:\\n'Dear Vikram, please accept our sincere apologies for the unexpected delay. We hold ourselves to strict appointment scheduling and are reviewing our front-desk check-in protocol immediately. Our clinic director would appreciate the chance to make this right—please contact us directly at +91 70735 38077.'";
+      if (q.includes("3-pack") || q.includes("rank") || q.includes("first page") || q.includes("top")) {
+        reply = `To dominate the local Google 3-Pack for ${business?.name || "your business"} in ${business?.city || "Udaipur"}:
+1. Categories: Maintain high intent primary category "${business?.category || "Dental clinic"}" and add secondary categories (e.g. 'Cosmetic specialist', 'Emergency clinic').
+2. Review Velocity: Maintain 24-hr response rate across all 142 reviews. Fresh owner replies increase prominence by 34%.
+3. Geo-Signal Consistency: Ensure NAP (Name, Address, Phone) matches across Google Maps, Apple Maps, and local directories.
+4. Weekly Google Posts: Post high-resolution photos with explicit "Call Now" buttons every 7 days.`;
+      } else if (q.includes("score") || q.includes("81") || q.includes("audit") || q.includes("health")) {
+        reply = `Your proprietary Growth Score is ${auditScore}/100.
+• Strong Signals: Profile Completeness (92%), Star Rating (4.8★), Verified Phone & Address.
+• Roadblocks Limiting Rank:
+  1. 12 Unanswered Reviews (-8 pts): Needs immediate AI draft publishing.
+  2. Photo Freshness (-6 pts): Last photo uploaded >45 days ago. Upload 3 photos this week.
+  3. Missing Secondary Categories (-7 pts): Add target commercial intent categories.
+Resolving these three items in the 24-Point Audit tab will push your score above 95/100!`;
+      } else if (q.includes("photo") || q.includes("picture") || q.includes("upload") || q.includes("image")) {
+        reply = `High-converting photo strategy for ${business?.name || "your business"}:
+1. Exterior Daylight: Clear streetfront entrance so patients navigating Saheli Nagar road spot you instantly.
+2. Technology & Equipment: 3D diagnostic scanners, digital operatory chairs, and sterile procedure rooms.
+3. Hospitality & Comfort: Welcoming reception desk and hygienic waiting lounge.
+4. Lead Practitioner: Doctor in clinical attire consulting with a patient (builds trust before booking).
+Aim for 2–3 new photos uploaded every 14 days to keep Google's freshness algorithm active.`;
+      } else if (q.includes("vikram") || q.includes("negative") || q.includes("1-star") || q.includes("bad review") || q.includes("complaint")) {
+        reply = `De-escalation protocol for negative feedback:
+Never dispute or argue publicly on Google Maps. Potential patients evaluate how graciously you resolve complaints.
+Recommended Public Reply:
+"Dear Vikram, thank you for bringing this to our attention. We hold our practice to strict appointment timing and are deeply sorry for the delay you experienced. Our clinic director is reviewing our reception scheduling protocol immediately. Please connect directly with us at +91 70735 38077 so we can make this right for you."`;
+      } else if (q.includes("call") || q.includes("patient") || q.includes("customer") || q.includes("lead") || q.includes("more business")) {
+        reply = `Action plan to increase direct inbound calls by 30–50%:
+1. Enable Click-to-Call Primary Action: Ensure phone ${business?.phone || "+91 70735 38077"} is verified with local international code (+91 or US format).
+2. Weekly Google Posts with "Call Now": Posts with a direct call CTA have a 4.2x higher conversion rate than generic text updates.
+3. Rapid Review Response: 78% of local searchers choose the provider that actively responds to recent reviews within 24 hours.`;
+      } else if (q.includes("agency") || q.includes("smnextgen") || q.includes("done for you") || q.includes("service") || q.includes("hire") || q.includes("help")) {
+        reply = `SM NextGen offers full Done-For-You Google Business Profile Management & Growth:
+• Weekly SEO-optimized Google Posts & geotagged media uploads.
+• 24-Hour AI & human review response management.
+• Citation building and directory synchronization across 40+ platforms.
+• Guaranteed local 3-Pack ranking strategy.
+Headquarters: Plot 14, Saheli Nagar, Udaipur, Rajasthan 313001, India.
+Contact: Call/WhatsApp +91 70735 38077 or visit the Pricing tab to select a managed growth plan.`;
+      } else if (q.includes("price") || q.includes("cost") || q.includes("plan") || q.includes("subscription")) {
+        reply = `SM NextGen Growth OS pricing plans:
+• Free Diagnostic ($0 / ₹0): Instant 24-point audit & 0–100 Growth Score.
+• Growth Starter ($49/mo / ₹3,999/mo): AI Review Autopilot, weekly posts, 30-day performance telemetry.
+• AI Growth Pro ($99/mo / ₹7,999/mo): Full 24-point dynamic fixes, multi-tone AI engine, priority support.
+• Multi-Location ($199/mo / ₹15,999/mo): Agency multi-storefront dashboard, custom workflows, dedicated growth manager.`;
       } else {
-        reply = "Based on your profile data in " + (business?.city || "Udaipur") + ", your greatest immediate growth lever is review response velocity and weekly Google Posts. Would you like me to draft an SEO-optimized description or photo checklist for you?";
+        reply = `Great question regarding local growth for ${business?.name || "your business"} in ${business?.city || "Udaipur"}.
+Based on Google's 2026 local search algorithm:
+1. Proximity, Relevance & Prominence dictate 90% of Maps visibility.
+2. Complete your 24-point audit items in the Audit tab to immediately raise your score from ${auditScore} towards 100.
+3. Utilize the AI Tools tab to generate high-converting 750-character descriptions and scheduled photo ideas.
+Need personal guidance? Reach out to our Udaipur growth architects at +91 70735 38077.`;
       }
 
       setMessages((prev) => [...prev, { id: "a-" + Date.now(), sender: "ai", text: reply }]);
-    }, 800);
+    }, 600);
   };
 
   return (

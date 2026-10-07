@@ -28,6 +28,39 @@ import ToolsTab from "./components/ToolsTab";
 import SettingsTab from "./components/SettingsTab";
 import AdminTab from "./components/AdminTab";
 
+class TabErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+  componentDidCatch(error, errorInfo) {
+    console.error("Tab crash prevented by TabErrorBoundary:", error, errorInfo);
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="p-8 rounded-3xl bg-slate-900 border border-slate-800 text-center space-y-4 max-w-lg mx-auto my-12 text-slate-100">
+          <div className="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-400 flex items-center justify-center mx-auto">
+            <Sparkles className="w-6 h-6" />
+          </div>
+          <h3 className="font-heading font-extrabold text-lg text-white">Module Auto-Refreshing</h3>
+          <p className="text-xs text-slate-400">This module is refreshing its data state. Click below to reload.</p>
+          <button
+            onClick={() => this.setState({ hasError: false })}
+            className="px-5 py-2.5 rounded-xl bg-[#0097B2] hover:bg-[#007a91] text-white text-xs font-bold transition cursor-pointer"
+          >
+            Reload Module
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 export default function GrowthOSClient() {
   const [isClientReady, setIsClientReady] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
@@ -230,7 +263,8 @@ export default function GrowthOSClient() {
       />
 
       {/* Main Workspace Tabs Container */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <TabErrorBoundary>
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {activeTab === "dashboard" && (
           <DashboardTab
             business={business}
@@ -312,6 +346,7 @@ export default function GrowthOSClient() {
           />
         )}
       </main>
+      </TabErrorBoundary>
 
       {/* Mobile Sticky Bottom Navigation */}
       <GrowthOSMobileNav

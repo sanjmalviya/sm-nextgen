@@ -50,9 +50,14 @@ export default function ReviewsTab({
 
   const unansweredCount = reviews.filter((r) => r.status === "UNANSWERED").length;
 
+  const [copiedId, setCopiedId] = useState(null);
+
   const handleCopy = (text, id) => {
-    navigator.clipboard.writeText(text);
-    alert("Reply copied to clipboard!");
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      navigator.clipboard.writeText(text);
+      setCopiedId(id);
+      setTimeout(() => setCopiedId(null), 2000);
+    }
   };
 
   return (
@@ -259,7 +264,7 @@ export default function ReviewsTab({
                           className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer"
                         >
                           <Copy className="w-3.5 h-3.5" />
-                          <span>Copy</span>
+                          <span>{copiedId === r.id ? "Copied!" : "Copy"}</span>
                         </button>
 
                         <button
