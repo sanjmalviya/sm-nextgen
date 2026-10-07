@@ -177,14 +177,6 @@ export default function GrowthOSClient() {
 
   const unansweredReviewsCount = reviews.filter(r => r.status === "UNANSWERED").length;
 
-  if (!isClientReady) {
-    return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center text-slate-400 font-mono text-xs">
-        Loading SM NextGen Growth OS...
-      </div>
-    );
-  }
-
   // Toast Notification Component
   const ToastNotification = toast && (
     <div className="fixed top-24 left-1/2 -translate-x-1/2 z-50 bg-[#0097B2] text-white px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold shadow-2xl flex items-center gap-2 border border-white/20 animate-in fade-in slide-in-from-top-4">
