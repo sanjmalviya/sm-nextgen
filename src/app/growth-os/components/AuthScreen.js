@@ -121,18 +121,39 @@ export default function AuthScreen({ onLoginSuccess }) {
           state: "Rajasthan",
           country: "India",
           postalCode: "313001",
-          rating: 4.7,
-          totalReviews: 28,
-          score: 72,
+          rating: 0,
+          totalReviews: 0,
+          score: 0,
           plan: "AI Growth Pro",
           status: "Active",
           isDemo: false,
-          googleConnected: true,
-          lastSynced: "Just now",
+          googleConnected: false,
+          lastSynced: "Pending connection",
           description: `${bizName} is a top-rated ${bizCategory.toLowerCase()} in ${bizCity} dedicated to excellence and customer satisfaction.`
         };
         storageService.addWorkspace(newWorkspace);
         storageService.setActiveWorkspaceId(newBizId);
+
+        // Initialize zero dummy data state for new business
+        storageService.saveWorkspaceState(newBizId, {
+          kpi: {
+            rating: 0,
+            totalReviews: 0,
+            unansweredReviews: 0,
+            profileCompleteness: 45,
+            calls: 0,
+            callsChange: "+0%",
+            directionRequests: 0,
+            directionsChange: "+0%",
+            websiteClicks: 0,
+            websiteClicksChange: "+0%",
+            searchImpressions: 0
+          },
+          score: 0,
+          reviews: [],
+          tasks: [],
+          appliedFixes: {}
+        });
 
         // 2. Register user account
         const newUser = {

@@ -51,13 +51,22 @@ export const AUDIT_FACTORS = [
   { id: "af-24", category: "Local SEO & Trust", name: "Google Q&A Pre-population", standard: "Top 5 frequently asked patient questions answered by owner", current: "Zero answered Q&A entries", status: "FAIL", points: 5, fixed: false, fixAction: "Pre-populate top 5 patient FAQs with verified answers" }
 ];
 
-export default function AuditTab({ auditScore, appliedFixes, onApplyAuditFix }) {
+export default function AuditTab({ auditScore, appliedFixes, onApplyAuditFix, business }) {
   const [filter, setFilter] = useState("ALL"); // ALL, ATTENTION, PASS
   const [selectedCategory, setSelectedCategory] = useState("ALL");
 
+  const factors = AUDIT_FACTORS.map((f) => {
+    if (f.id === "af-1" && business?.name) return { ...f, current: business.name };
+    if (f.id === "af-2" && business?.category) return { ...f, current: business.category };
+    if (f.id === "af-4" && business?.phone) return { ...f, current: business.phone };
+    if (f.id === "af-5" && business?.address) return { ...f, current: `${business.address}, ${business.city || ""}` };
+    if (f.id === "af-21" && business?.website) return { ...f, current: business.website };
+    return f;
+  });
+
   const categories = ["ALL", "Business Information", "Reviews & Reputation", "Media & Photos", "Activity & Google Posts", "Local SEO & Trust"];
 
-  const filteredFactors = AUDIT_FACTORS.filter((f) => {
+  const filteredFactors = factors.filter((f) => {
     const isResolved = f.fixed || appliedFixes[f.id];
     if (filter === "ATTENTION" && isResolved) return false;
     if (filter === "PASS" && !isResolved) return false;
@@ -65,11 +74,20 @@ export default function AuditTab({ auditScore, appliedFixes, onApplyAuditFix }) 
     return true;
   });
 
-  const resolvedCount = AUDIT_FACTORS.filter(f => f.fixed || appliedFixes[f.id]).length;
-  const attentionCount = AUDIT_FACTORS.length - resolvedCount;
+  const resolvedCount = factors.filter(f => f.fixed || appliedFixes[f.id]).length;
+  const attentionCount = factors.length - resolvedCount;
 
   return (
     <div className="space-y-6 font-sans animate-in fade-in duration-200">
+      
+      {!business?.googleConnected && (
+        <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5">
+            <span className="font-mono font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-400">BASELINE PROFILE</span>
+            <span>Displaying initial diagnostic checklist. Link your Google Business Profile to verify actual ranking status on Google Maps.</span>
+          </div>
+        </div>
+      )}
       
       {/* Audit Header Banner */}
       <div className="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-800 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">

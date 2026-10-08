@@ -44,8 +44,17 @@ export default function PerformanceTab({ business, kpi }) {
     }
   };
 
-  const currentData = dataSets[timeRange];
-  const maxCall = Math.max(...currentData.calls);
+  const isConnected = business?.googleConnected;
+  const currentData = isConnected ? dataSets[timeRange] : {
+    calls: [0, 0, 0, 0],
+    labels: timeRange === "7D" ? ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] : ["Week 1", "Week 2", "Week 3", "Week 4"],
+    totalCalls: kpi?.calls || 0,
+    directions: kpi?.directionRequests || 0,
+    website: kpi?.websiteClicks || 0,
+    impressions: kpi?.searchImpressions ? String(kpi.searchImpressions) : "0"
+  };
+
+  const maxCall = Math.max(1, ...(currentData.calls || [1]));
 
   return (
     <div className="space-y-6 font-sans animate-in fade-in duration-200">
@@ -78,6 +87,15 @@ export default function PerformanceTab({ business, kpi }) {
           ))}
         </div>
       </div>
+
+      {!isConnected && (
+        <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5">
+            <span className="font-mono font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-400">TELEMETRY WAITING</span>
+            <span>Connect your Google Business Profile to stream live customer calls, direction requests, and Google Maps views.</span>
+          </div>
+        </div>
+      )}
 
       {business?.isDemo && (
         <div className="p-3 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs flex items-center justify-between gap-2">

@@ -20,19 +20,119 @@ import {
   Check,
   ExternalLink,
   ChevronRight,
-  Bot
+  Bot,
+  Zap,
+  Lock
 } from "lucide-react";
 
 export default function DashboardTab({
   business,
   kpi,
   auditScore,
-  auditCategories,
-  opportunities,
+  auditCategories = [],
+  opportunities = [],
   onApplyOpportunity,
   onNavigateTab,
-  unansweredReviewsCount
+  unansweredReviewsCount,
+  onOpenConnectGoogle,
+  onLoadBenchmarkData
 }) {
+  const isGoogleConnected = business?.googleConnected;
+
+  // 1. UNCONNECTED STATE: Prompt user to link their real Google Business Profile
+  if (!isGoogleConnected) {
+    return (
+      <div className="space-y-6 font-sans animate-in fade-in duration-200">
+        
+        {/* Main Connect Hero Card */}
+        <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-slate-900 via-slate-900 to-[#0B2545] border border-cyan-500/30 shadow-2xl relative overflow-hidden text-center space-y-6">
+          <div className="w-16 h-16 rounded-2xl bg-white flex items-center justify-center mx-auto shadow-xl shadow-cyan-500/10">
+            {/* Google Multi-Color G Icon */}
+            <svg className="w-8 h-8" viewBox="0 0 24 24">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+            </svg>
+          </div>
+
+          <div className="max-w-xl mx-auto space-y-2">
+            <span className="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider">
+              Step 1 of Setup: Profile Integration
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-heading font-extrabold text-white">
+              Connect Your Google Business Profile
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              To calculate your live 0–100 Growth Score, sync customer reviews, and monitor calls and direction requests on Google Maps, connect your verified business listing.
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+            <button
+              onClick={onOpenConnectGoogle}
+              className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-white hover:bg-slate-100 text-slate-900 font-extrabold text-xs tracking-wide flex items-center justify-center gap-2 shadow-xl transition active:scale-95 cursor-pointer"
+            >
+              <svg className="w-4 h-4" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+              </svg>
+              <span>Connect with Google Account</span>
+            </button>
+
+            {onLoadBenchmarkData && (
+              <button
+                onClick={onLoadBenchmarkData}
+                className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs flex items-center justify-center gap-2 border border-slate-700 transition cursor-pointer"
+                title="Preview real benchmark clinic data for testing"
+              >
+                <Sparkles className="w-4 h-4 text-[#0097B2]" />
+                <span>Load Real Benchmark Data (Demo Mode)</span>
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* 3 Step Integration Feature Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+            <div className="w-8 h-8 rounded-xl bg-[#0097B2]/15 text-[#0097B2] flex items-center justify-center font-bold text-xs">
+              01
+            </div>
+            <h3 className="font-heading font-extrabold text-sm text-white">Verified Google OAuth</h3>
+            <p className="text-xs text-slate-400 leading-relaxed">
+              Direct connection via official Google Business Profile API. We never see your password or personal credentials.
+            </p>
+          </div>
+
+          <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+            <div className="w-8 h-8 rounded-xl bg-amber-500/15 text-amber-400 flex items-center justify-center font-bold text-xs">
+              02
+            </div>
+            <h3 className="font-heading font-extrabold text-sm text-white">Telemetry & Review Sync</h3>
+            <p className="text-xs text-slate-400 leading-relaxed">
+              Automatically imports customer reviews, photo count, search impressions, and call volume directly from Maps.
+            </p>
+          </div>
+
+          <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+            <div className="w-8 h-8 rounded-xl bg-emerald-500/15 text-emerald-400 flex items-center justify-center font-bold text-xs">
+              03
+            </div>
+            <h3 className="font-heading font-extrabold text-sm text-white">Algorithmic 3-Pack Growth</h3>
+            <p className="text-xs text-slate-400 leading-relaxed">
+              Provides actionable daily recommendations to outrank local competitors and increase call volume by 30%+.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    );
+  }
+
+  // 2. CONNECTED STATE: Render Full Active Growth OS Dashboard
   return (
     <div className="space-y-6 font-sans animate-in fade-in duration-200">
       
@@ -54,7 +154,7 @@ export default function DashboardTab({
           </div>
 
           {/* Visual Circular Gauge / Score Card */}
-          <div className="flex items-center gap-4 bg-slate-950/60 p-4 rounded-2xl border border-slate-800">
+          <div className="flex items-center gap-4 bg-slate-950/60 p-4 rounded-2xl border border-slate-800 shrink-0">
             <div className="relative w-20 h-20 flex items-center justify-center">
               <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
                 <path
@@ -66,7 +166,7 @@ export default function DashboardTab({
                 />
                 <path
                   className="text-[#0097B2]"
-                  strokeDasharray={auditScore + ", 100"}
+                  strokeDasharray={(auditScore || 80) + ", 100"}
                   strokeWidth="3.5"
                   strokeLinecap="round"
                   stroke="currentColor"
@@ -75,7 +175,7 @@ export default function DashboardTab({
                 />
               </svg>
               <div className="absolute flex flex-col items-center">
-                <span className="text-2xl font-extrabold text-white">{auditScore}</span>
+                <span className="text-2xl font-extrabold text-white">{auditScore || 80}</span>
                 <span className="text-[9px] text-slate-400 font-mono">/100</span>
               </div>
             </div>
@@ -236,7 +336,7 @@ export default function DashboardTab({
 
               <div className="pt-2 flex items-center justify-between border-t border-slate-800">
                 <span className="text-[11px] text-[#0097B2] font-semibold">
-                  Action: {opp.recommendedAction.slice(0, 45)}...
+                  Action: {opp.recommendedAction?.slice(0, 45)}...
                 </span>
                 <button
                   onClick={() => onApplyOpportunity(opp)}
@@ -251,61 +351,14 @@ export default function DashboardTab({
         </div>
       </div>
 
-      {/* 4. Growth Services Quick Actions Grid */}
-      <div className="space-y-3">
-        <h3 className="font-heading font-extrabold text-base text-white">
-          Growth Operating System Modules
-        </h3>
-
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-          {[
-            { id: "audit", title: "24-Point Audit", desc: "Scan all 24 signals", badge: auditScore + "/100", icon: Activity, color: "text-rose-400", bg: "bg-rose-500/10" },
-            { id: "reviews", title: "Reviews AI", desc: unansweredReviewsCount + " awaiting reply", badge: unansweredReviewsCount + " Pending", icon: MessageSquare, color: "text-amber-400", bg: "bg-amber-500/10" },
-            { id: "optimization", title: "Optimization", desc: "Metadata & categories", badge: "5 Levers", icon: CheckCircle2, color: "text-cyan-400", bg: "bg-cyan-500/10" },
-            { id: "performance", title: "Telemetry ROI", desc: "Calls, clicks & visits", badge: "+24.8%", icon: TrendingUp, color: "text-blue-400", bg: "bg-blue-500/10" },
-            { id: "tasks", title: "Action Center", desc: "Prioritized checklist", badge: "Workflow", icon: Sliders, color: "text-emerald-400", bg: "bg-emerald-500/10" },
-            { id: "assistant", title: "Growth Assistant", desc: "AI strategy chat", badge: "AI Ready", icon: Bot, color: "text-purple-400", bg: "bg-purple-500/10" }
-          ].map((item) => {
-            const Icon = item.icon;
-            return (
-              <button
-                key={item.id}
-                onClick={() => onNavigateTab(item.id)}
-                className="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-left flex flex-col justify-between shadow-sm transition active:scale-95 cursor-pointer"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <div className={"w-8 h-8 rounded-xl flex items-center justify-center " + item.bg + " " + item.color}>
-                      <Icon className="w-4 h-4" />
-                    </div>
-                    <ArrowRight className="w-3 h-3 text-slate-500" />
-                  </div>
-                  <h4 className="font-heading font-bold text-xs text-white leading-tight">
-                    {item.title}
-                  </h4>
-                  <p className="text-[10px] text-slate-400 mt-0.5 line-clamp-1">
-                    {item.desc}
-                  </p>
-                </div>
-                <div className="mt-2 pt-2 border-t border-slate-800">
-                  <span className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-white/5 text-[#0097B2]">
-                    {item.badge}
-                  </span>
-                </div>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* 5. Done-For-You Agency Upsell Banner */}
+      {/* 4. Done-For-You Agency Upsell Banner */}
       <div className="p-5 sm:p-6 rounded-2xl bg-gradient-to-r from-[#0097B2]/15 via-blue-500/10 to-indigo-500/15 border border-[#0097B2]/30 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="space-y-1 text-center sm:text-left">
           <h4 className="font-heading font-extrabold text-sm sm:text-base text-white">
             Want SM NextGen to manage & guarantee your local 3-Pack ranking?
           </h4>
           <p className="text-xs text-slate-300">
-            Our expert growth team executes weekly Google posts, citation sync, photo geotagging, and review response systems.
+            Our Udaipur growth architects execute weekly Google posts, citation sync, photo geotagging, and review response systems.
           </p>
         </div>
 

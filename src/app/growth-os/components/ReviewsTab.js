@@ -63,7 +63,16 @@ export default function ReviewsTab({
   const unansweredCount = reviews.filter((r) => r.status === "UNANSWERED").length;
   const avgRating = reviews.length > 0 
     ? (reviews.reduce((acc, r) => acc + (r.rating || 5), 0) / reviews.length).toFixed(1)
-    : "5.0";
+    : "0.0";
+
+  const positiveCount = reviews.filter(r => (r.rating || 5) >= 4).length;
+  const neutralCount = reviews.filter(r => (r.rating || 5) === 3).length;
+  const criticalCount = reviews.filter(r => (r.rating || 5) <= 2).length;
+  const totalR = reviews.length;
+  const posPct = totalR > 0 ? Math.round((positiveCount / totalR) * 100) : 0;
+  const neuPct = totalR > 0 ? Math.round((neutralCount / totalR) * 100) : 0;
+  const critPct = totalR > 0 ? (100 - posPct - neuPct) : 0;
+  const detectedThemes = Array.from(new Set(reviews.map(r => r.theme).filter(Boolean)));
 
   const handleCopy = (text, id) => {
     if (typeof navigator !== "undefined" && navigator.clipboard) {
@@ -140,16 +149,22 @@ export default function ReviewsTab({
           <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider font-mono">
             Customer Sentiment Breakdown
           </h4>
-          <div className="flex items-center gap-2 pt-1">
-            <div className="flex-1 bg-emerald-500 h-2.5 rounded-full" title="Positive" style={{ width: "80%" }}></div>
-            <div className="w-8 bg-amber-500 h-2.5 rounded-full" title="Neutral" style={{ width: "12%" }}></div>
-            <div className="w-4 bg-rose-500 h-2.5 rounded-full" title="Negative" style={{ width: "8%" }}></div>
-          </div>
-          <div className="flex justify-between text-[11px] text-slate-400 pt-1">
-            <span className="text-emerald-400 font-bold">80% Positive</span>
-            <span className="text-amber-400 font-bold">12% Neutral</span>
-            <span className="text-rose-400 font-bold">8% Critical</span>
-          </div>
+          {totalR > 0 ? (
+            <>
+              <div className="flex items-center gap-2 pt-1">
+                <div className="bg-emerald-500 h-2.5 rounded-full" title="Positive" style={{ width: `${posPct}%` }}></div>
+                <div className="bg-amber-500 h-2.5 rounded-full" title="Neutral" style={{ width: `${neuPct}%` }}></div>
+                <div className="bg-rose-500 h-2.5 rounded-full" title="Negative" style={{ width: `${critPct}%` }}></div>
+              </div>
+              <div className="flex justify-between text-[11px] text-slate-400 pt-1">
+                <span className="text-emerald-400 font-bold">{posPct}% Positive</span>
+                <span className="text-amber-400 font-bold">{neuPct}% Neutral</span>
+                <span className="text-rose-400 font-bold">{critPct}% Critical</span>
+              </div>
+            </>
+          ) : (
+            <p className="text-xs text-slate-500 italic py-2">No reviews recorded yet to analyze customer sentiment.</p>
+          )}
         </div>
 
         {/* Top Keywords / Themes */}
@@ -157,20 +172,17 @@ export default function ReviewsTab({
           <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider font-mono">
             Top Customer Themes Detected
           </h4>
-          <div className="flex flex-wrap gap-1.5 pt-1">
-            <span className="px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 text-xs font-medium border border-emerald-500/20">
-              Gentle Treatment
-            </span>
-            <span className="px-2.5 py-1 rounded-lg bg-cyan-500/10 text-cyan-400 text-xs font-medium border border-cyan-500/20">
-              Staff Courtesy
-            </span>
-            <span className="px-2.5 py-1 rounded-lg bg-blue-500/10 text-blue-400 text-xs font-medium border border-blue-500/20">
-              Painless Procedure
-            </span>
-            <span className="px-2.5 py-1 rounded-lg bg-amber-500/10 text-amber-300 text-xs font-medium border border-amber-500/20">
-              Appointment Timing
-            </span>
-          </div>
+          {detectedThemes.length > 0 ? (
+            <div className="flex flex-wrap gap-1.5 pt-1">
+              {detectedThemes.map((th, i) => (
+                <span key={i} className="px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 text-xs font-medium border border-emerald-500/20">
+                  {th}
+                </span>
+              ))}
+            </div>
+          ) : (
+            <p className="text-xs text-slate-500 italic py-2">No review topics detected yet.</p>
+          )}
         </div>
       </div>
 

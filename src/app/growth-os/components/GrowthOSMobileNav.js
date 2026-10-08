@@ -11,7 +11,8 @@ import {
   Sliders,
   Sparkles,
   Bot,
-  Settings
+  Settings,
+  AlertTriangle
 } from "lucide-react";
 
 export default function GrowthOSMobileNav({
@@ -19,9 +20,13 @@ export default function GrowthOSMobileNav({
   setActiveTab,
   unansweredCount,
   onOpenAddReview,
-  onOpenAddBusiness
+  onOpenAddBusiness,
+  currentUser,
+  onOpenConnectGoogle,
+  isGoogleConnected
 }) {
   const [isQuickActionsOpen, setIsQuickActionsOpen] = useState(false);
+  const isMasterAdmin = currentUser?.role === "ADMIN";
 
   return (
     <>
@@ -45,13 +50,29 @@ export default function GrowthOSMobileNav({
             </div>
 
             <div className="grid grid-cols-2 gap-2.5">
+              {!isGoogleConnected && onOpenConnectGoogle && (
+                <button
+                  onClick={() => {
+                    setIsQuickActionsOpen(false);
+                    onOpenConnectGoogle();
+                  }}
+                  className="col-span-2 p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 hover:border-amber-400 text-left transition flex items-center gap-3 cursor-pointer"
+                >
+                  <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0" />
+                  <div>
+                    <div className="font-bold text-xs text-amber-300">Connect Google Business Profile</div>
+                    <div className="text-[10px] text-slate-400">Unlock live reviews & search telemetry</div>
+                  </div>
+                </button>
+              )}
+
               <button
                 onClick={() => {
                   setIsQuickActionsOpen(false);
                   setActiveTab("reviews");
                   if (onOpenAddReview) onOpenAddReview();
                 }}
-                className="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 hover:border-[#0097B2] text-left transition"
+                className="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 hover:border-[#0097B2] text-left transition cursor-pointer"
               >
                 <MessageSquare className="w-5 h-5 text-amber-400 mb-1.5" />
                 <div className="font-bold text-xs text-white">+ Add Review</div>
@@ -63,7 +84,7 @@ export default function GrowthOSMobileNav({
                   setIsQuickActionsOpen(false);
                   setActiveTab("audit");
                 }}
-                className="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 hover:border-[#0097B2] text-left transition"
+                className="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 hover:border-[#0097B2] text-left transition cursor-pointer"
               >
                 <Activity className="w-5 h-5 text-rose-400 mb-1.5" />
                 <div className="font-bold text-xs text-white">24-Point Audit</div>
@@ -75,25 +96,39 @@ export default function GrowthOSMobileNav({
                   setIsQuickActionsOpen(false);
                   setActiveTab("tasks");
                 }}
-                className="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 hover:border-[#0097B2] text-left transition"
+                className="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 hover:border-[#0097B2] text-left transition cursor-pointer"
               >
                 <Sliders className="w-5 h-5 text-emerald-400 mb-1.5" />
                 <div className="font-bold text-xs text-white">Action Center</div>
                 <div className="text-[10px] text-slate-400">Prioritized checklist</div>
               </button>
 
-              <button
-                onClick={() => {
-                  setIsQuickActionsOpen(false);
-                  setActiveTab("admin");
-                  if (onOpenAddBusiness) onOpenAddBusiness();
-                }}
-                className="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 hover:border-[#0097B2] text-left transition"
-              >
-                <Shield className="w-5 h-5 text-cyan-400 mb-1.5" />
-                <div className="font-bold text-xs text-white">Master Admin</div>
-                <div className="text-[10px] text-slate-400">Multi-biz & metrics</div>
-              </button>
+              {isMasterAdmin ? (
+                <button
+                  onClick={() => {
+                    setIsQuickActionsOpen(false);
+                    setActiveTab("admin");
+                    if (onOpenAddBusiness) onOpenAddBusiness();
+                  }}
+                  className="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 hover:border-[#0097B2] text-left transition cursor-pointer"
+                >
+                  <Shield className="w-5 h-5 text-cyan-400 mb-1.5" />
+                  <div className="font-bold text-xs text-white">Master Admin</div>
+                  <div className="text-[10px] text-slate-400">Multi-biz & metrics</div>
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    setIsQuickActionsOpen(false);
+                    setActiveTab("assistant");
+                  }}
+                  className="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 hover:border-[#0097B2] text-left transition cursor-pointer"
+                >
+                  <Bot className="w-5 h-5 text-cyan-400 mb-1.5" />
+                  <div className="font-bold text-xs text-white">AI Assistant</div>
+                  <div className="text-[10px] text-slate-400">Get growth tactics</div>
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -145,14 +180,24 @@ export default function GrowthOSMobileNav({
           <span className="text-[10px] mt-0.5">Audit</span>
         </button>
 
-        {/* 5. Master Admin */}
-        <button
-          onClick={() => setActiveTab("admin")}
-          className={"flex flex-col items-center justify-center p-1.5 rounded-xl transition cursor-pointer " + (activeTab === "admin" ? "text-[#0097B2] font-bold" : "text-slate-400 hover:text-white")}
-        >
-          <Shield className="w-5 h-5" />
-          <span className="text-[10px] mt-0.5">Admin</span>
-        </button>
+        {/* 5. Role-Aware 5th Tab: Admin for Sanjay, Assistant for Business Owner */}
+        {isMasterAdmin ? (
+          <button
+            onClick={() => setActiveTab("admin")}
+            className={"flex flex-col items-center justify-center p-1.5 rounded-xl transition cursor-pointer " + (activeTab === "admin" ? "text-[#0097B2] font-bold" : "text-slate-400 hover:text-white")}
+          >
+            <Shield className="w-5 h-5" />
+            <span className="text-[10px] mt-0.5">Admin</span>
+          </button>
+        ) : (
+          <button
+            onClick={() => setActiveTab("assistant")}
+            className={"flex flex-col items-center justify-center p-1.5 rounded-xl transition cursor-pointer " + (activeTab === "assistant" ? "text-[#0097B2] font-bold" : "text-slate-400 hover:text-white")}
+          >
+            <Bot className="w-5 h-5" />
+            <span className="text-[10px] mt-0.5">Assistant</span>
+          </button>
+        )}
 
       </nav>
     </>

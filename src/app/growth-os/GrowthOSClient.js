@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Sparkles, Building, Key } from "lucide-react";
+import { Sparkles, RefreshCw, LogOut } from "lucide-react";
 
 import {
   DEFAULT_BUSINESS,
@@ -14,8 +14,10 @@ import {
 import { storageService, SEED_WORKSPACES } from "./lib/supabaseClient";
 
 import AuthScreen from "./components/AuthScreen";
-import GrowthOSNavbar from "./components/GrowthOSNavbar";
+import GrowthOSSidebar from "./components/GrowthOSSidebar";
 import GrowthOSMobileNav from "./components/GrowthOSMobileNav";
+import ConnectGoogleModal from "./components/ConnectGoogleModal";
+
 import DashboardTab from "./components/DashboardTab";
 import AuditTab from "./components/AuditTab";
 import OptimizationTab from "./components/OptimizationTab";
@@ -73,6 +75,7 @@ export default function GrowthOSClient() {
   const [currency, setCurrency] = useState("USD");
   const [toast, setToast] = useState(null);
   const [isSyncing, setIsSyncing] = useState(false);
+  const [isConnectGoogleOpen, setIsConnectGoogleOpen] = useState(false);
 
   // Active Workspace Data State
   const [kpi, setKpi] = useState(DEFAULT_KPI);
@@ -98,9 +101,54 @@ export default function GrowthOSClient() {
       // If user is tied to a specific business
       if (session.businessId && storedWorkspaces.some(w => w.id === session.businessId)) {
         setActiveWorkspaceId(session.businessId);
+        loadWorkspaceData(session.businessId, storedWorkspaces);
+      } else {
+        loadWorkspaceData(storedActiveId, storedWorkspaces);
       }
+    } else {
+      loadWorkspaceData(storedActiveId, storedWorkspaces);
     }
   }, []);
+
+  const loadWorkspaceData = (wsId, allWorkspaces) => {
+    const savedState = storageService.getWorkspaceState(wsId);
+    const currentW = (allWorkspaces || workspaces).find(w => w.id === wsId);
+
+    if (savedState) {
+      if (savedState.kpi) setKpi(savedState.kpi);
+      if (savedState.score !== undefined) setAuditScore(savedState.score);
+      if (savedState.reviews) setReviews(savedState.reviews);
+      if (savedState.tasks) setTasks(savedState.tasks);
+      if (savedState.appliedFixes) setAppliedFixes(savedState.appliedFixes);
+    } else if (currentW && !currentW.googleConnected) {
+      // Clean zero state for un-connected business
+      setAuditScore(0);
+      setKpi({
+        rating: 0,
+        totalReviews: 0,
+        unansweredReviews: 0,
+        profileCompleteness: 40,
+        calls: 0,
+        callsChange: "+0%",
+        directionRequests: 0,
+        directionsChange: "+0%",
+        websiteClicks: 0,
+        websiteClicksChange: "+0%",
+        searchImpressions: 0
+      });
+      setReviews([]);
+      setTasks([]);
+      setAppliedFixes({});
+    } else if (currentW) {
+      // Default benchmark
+      setAuditScore(currentW.score || 80);
+      setKpi(prev => ({
+        ...prev,
+        rating: currentW.rating || 4.8,
+        totalReviews: currentW.totalReviews || 142
+      }));
+    }
+  };
 
   // Compute current business based on activeWorkspaceId
   const currentBusiness = workspaces.find(w => w.id === activeWorkspaceId) || workspaces[0] || DEFAULT_BUSINESS;
@@ -117,6 +165,7 @@ export default function GrowthOSClient() {
     setWorkspaces(storedWorkspaces);
     if (user.businessId) {
       setActiveWorkspaceId(user.businessId);
+      loadWorkspaceData(user.businessId, storedWorkspaces);
     }
     showToast(msg || "Signed in successfully!");
   };
@@ -132,28 +181,7 @@ export default function GrowthOSClient() {
   const handleSwitchWorkspace = (newId) => {
     setActiveWorkspaceId(newId);
     storageService.setActiveWorkspaceId(newId);
-    
-    // Check if custom state exists for this workspace
-    const savedState = storageService.getWorkspaceState(newId);
-    if (savedState) {
-      if (savedState.kpi) setKpi(savedState.kpi);
-      if (savedState.score) setAuditScore(savedState.score);
-      if (savedState.reviews) setReviews(savedState.reviews);
-      if (savedState.tasks) setTasks(savedState.tasks);
-      if (savedState.appliedFixes) setAppliedFixes(savedState.appliedFixes);
-    } else {
-      // Benchmark defaults
-      const targetBiz = workspaces.find(w => w.id === newId);
-      if (targetBiz) {
-        setAuditScore(targetBiz.score || 80);
-        setKpi(prev => ({
-          ...prev,
-          rating: targetBiz.rating || 4.8,
-          totalReviews: targetBiz.totalReviews || 142
-        }));
-      }
-    }
-
+    loadWorkspaceData(newId, workspaces);
     const switchedBiz = workspaces.find(w => w.id === newId);
     showToast(`Switched workspace to: ${switchedBiz?.name || "New Business"}`);
   };
@@ -180,12 +208,62 @@ export default function GrowthOSClient() {
     }
   };
 
+  // Google Connection Handlers
+  const handleConnectGoogleSuccess = (googleData) => {
+    const updatedBiz = {
+      ...currentBusiness,
+      googleConnected: true,
+      placeId: googleData.placeId || "ChIJN1t_tDeuEmsRUsoyG83frY4",
+      lastSynced: "Just now",
+      gbpVerified: true
+    };
+    handleUpdateWorkspace(currentBusiness.id, updatedBiz);
+    
+    // Populate real initial metrics if currently zero
+    if (kpi.totalReviews === 0) {
+      setKpi(DEFAULT_KPI);
+      setAuditScore(81);
+      setReviews(DEFAULT_REVIEWS);
+      setTasks(DEFAULT_TASKS);
+      storageService.saveWorkspaceState(currentBusiness.id, {
+        kpi: DEFAULT_KPI,
+        score: 81,
+        reviews: DEFAULT_REVIEWS,
+        tasks: DEFAULT_TASKS,
+        appliedFixes: {}
+      });
+    }
+
+    showToast("Google Business Profile connected & live data synced!");
+  };
+
+  const handleLoadBenchmarkData = () => {
+    const updatedBiz = {
+      ...currentBusiness,
+      googleConnected: true,
+      lastSynced: "Just now"
+    };
+    handleUpdateWorkspace(currentBusiness.id, updatedBiz);
+    setKpi(DEFAULT_KPI);
+    setAuditScore(81);
+    setReviews(DEFAULT_REVIEWS);
+    setTasks(DEFAULT_TASKS);
+    storageService.saveWorkspaceState(currentBusiness.id, {
+      kpi: DEFAULT_KPI,
+      score: 81,
+      reviews: DEFAULT_REVIEWS,
+      tasks: DEFAULT_TASKS,
+      appliedFixes: {}
+    });
+    showToast(`Loaded benchmark live data for ${currentBusiness.name}`);
+  };
+
   // Live Sync Simulation
   const handleSync = () => {
     setIsSyncing(true);
     setTimeout(() => {
       setIsSyncing(false);
-      showToast("Google Business Profile Synced with Google Maps API!");
+      showToast("Google Business Profile synced with Google Maps API!");
     }, 1100);
   };
 
@@ -207,7 +285,6 @@ export default function GrowthOSClient() {
     setAppliedFixes(nextFixes);
     setAuditScore(nextScore);
     
-    // Persist state
     storageService.saveWorkspaceState(activeWorkspaceId, {
       appliedFixes: nextFixes,
       score: nextScore,
@@ -224,7 +301,6 @@ export default function GrowthOSClient() {
     const updatedReviews = [newRev, ...reviews];
     setReviews(updatedReviews);
 
-    // Recalculate average rating
     const newAvg = (updatedReviews.reduce((acc, r) => acc + (r.rating || 5), 0) / updatedReviews.length).toFixed(1);
     const updatedKpi = {
       ...kpi,
@@ -234,7 +310,6 @@ export default function GrowthOSClient() {
     };
     setKpi(updatedKpi);
 
-    // Save state
     storageService.saveWorkspaceState(activeWorkspaceId, {
       reviews: updatedReviews,
       kpi: updatedKpi,
@@ -268,7 +343,6 @@ export default function GrowthOSClient() {
     setReviews(updatedReviews);
     setAuditScore(nextScore);
 
-    // Save state
     storageService.saveWorkspaceState(activeWorkspaceId, {
       reviews: updatedReviews,
       score: nextScore,
@@ -304,7 +378,7 @@ export default function GrowthOSClient() {
 
   // Toast Notification Component
   const ToastNotification = toast && (
-    <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-[#0097B2] text-white px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold shadow-2xl flex items-center gap-2 border border-white/20 animate-in fade-in slide-in-from-top-4">
+    <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 bg-[#0097B2] text-white px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold shadow-2xl flex items-center gap-2 border border-white/20 animate-in fade-in slide-in-from-top-4">
       <Sparkles className="w-4 h-4 fill-white" />
       <span>{toast}</span>
     </div>
@@ -320,154 +394,235 @@ export default function GrowthOSClient() {
     );
   }
 
-  // 2. AUTHENTICATED WORKSPACE: Render Unlocked Standalone Growth OS Software
+  // 2. AUTHENTICATED WORKSPACE: Render Modern SaaS Desktop Sidebar + Native Mobile App Layout
   return (
-    <div className="min-h-screen w-full bg-slate-950 text-slate-100 font-sans selection:bg-[#0097B2] selection:text-white pb-24 md:pb-12 flex flex-col">
+    <div className="min-h-screen w-full bg-slate-950 text-slate-100 font-sans selection:bg-[#0097B2] selection:text-white flex overflow-hidden">
       {ToastNotification}
 
-      {/* Top Application Navbar with Interactive Workspace Switcher */}
-      <GrowthOSNavbar
-        currentUser={currentUser}
+      {/* Vertical Left Sidebar on Desktop (PC View) */}
+      <GrowthOSSidebar
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
         business={currentBusiness}
         workspaces={workspaces}
         activeWorkspaceId={activeWorkspaceId}
         onSwitchWorkspace={handleSwitchWorkspace}
         onOpenAddBusiness={() => setActiveTab("admin")}
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
+        currentUser={currentUser}
         onSignOut={handleSignOut}
-        onSync={handleSync}
-        isSyncing={isSyncing}
-        currency={currency}
-        setCurrency={setCurrency}
-        unansweredCount={unansweredReviewsCount}
+        onOpenConnectGoogle={() => setIsConnectGoogleOpen(true)}
         auditScore={auditScore}
+        unansweredReviewsCount={unansweredReviewsCount}
       />
 
-      {/* Main Workspace Tabs Container */}
-      <TabErrorBoundary>
-        <main className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-5 flex-1">
-          {activeTab === "dashboard" && (
-            <DashboardTab
-              business={currentBusiness}
-              kpi={kpi}
-              auditScore={auditScore}
-              auditCategories={auditCategories}
-              opportunities={opportunities}
-              onApplyOpportunity={handleApplyOpportunity}
-              onNavigateTab={setActiveTab}
-              unansweredReviewsCount={unansweredReviewsCount}
-            />
-          )}
+      {/* Main Workspace Scrollable Viewport */}
+      <div className="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto">
+        
+        {/* Top App Header */}
+        <header className="sticky top-0 z-20 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-4 sm:px-6 py-3 flex items-center justify-between">
+          
+          {/* Mobile Identity / Desktop Breadcrumbs */}
+          <div className="flex items-center gap-3">
+            <div className="md:hidden flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#0097B2] to-cyan-400 flex items-center justify-center text-white font-extrabold text-xs shadow-md shadow-[#0097B2]/20">
+                OS
+              </div>
+              <div className="max-w-[160px]">
+                <h1 className="text-xs font-bold text-white truncate">{currentBusiness?.name}</h1>
+                <p className="text-[10px] text-slate-400 truncate">{currentBusiness?.city}</p>
+              </div>
+            </div>
 
-          {activeTab === "audit" && (
-            <AuditTab
-              auditScore={auditScore}
-              appliedFixes={appliedFixes}
-              onApplyAuditFix={handleApplyAuditFix}
-            />
-          )}
+            <div className="hidden md:flex items-center gap-2 text-xs font-medium">
+              <span className="text-slate-400">Workspace</span>
+              <span className="text-slate-600">/</span>
+              <span className="text-white font-bold">{currentBusiness?.name}</span>
+              <span className="text-slate-600">/</span>
+              <span className="text-[#0097B2] font-semibold capitalize">{activeTab}</span>
+            </div>
+          </div>
 
-          {activeTab === "optimization" && (
-            <OptimizationTab
-              onApplyFix={(optId, points, title) => {
-                handleApplyAuditFix(optId, points, title);
-              }}
-              appliedFixes={appliedFixes}
-            />
-          )}
+          {/* Right Header Controls */}
+          <div className="flex items-center gap-2.5">
+            {currentBusiness?.googleConnected ? (
+              <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-[11px] font-semibold">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span>Google Maps Connected</span>
+              </span>
+            ) : (
+              <button
+                onClick={() => setIsConnectGoogleOpen(true)}
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r from-amber-500/15 to-orange-500/15 hover:from-amber-500/25 hover:to-orange-500/25 border border-amber-500/30 text-amber-300 text-[11px] font-bold cursor-pointer transition active:scale-95 shadow-sm"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                <span>Connect Google</span>
+              </button>
+            )}
 
-          {activeTab === "reviews" && (
-            <ReviewsTab
-              reviews={reviews}
-              onPublishReply={handlePublishReply}
-              onAddReview={handleAddReview}
-              onDeleteReview={handleDeleteReview}
-              business={currentBusiness}
-            />
-          )}
+            <button
+              onClick={handleSync}
+              disabled={isSyncing}
+              className="px-2.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium flex items-center gap-1.5 border border-slate-700/60 transition cursor-pointer"
+              title="Sync live telemetry from Google Maps"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 ${isSyncing ? "animate-spin text-[#0097B2]" : "text-slate-400"}`} />
+              <span className="hidden sm:inline">Sync</span>
+            </button>
 
-          {activeTab === "performance" && (
-            <PerformanceTab
-              business={currentBusiness}
-              kpi={kpi}
-            />
-          )}
+            <div className="hidden sm:flex text-xs bg-slate-800/80 px-2 py-1 rounded-lg border border-slate-700 text-slate-300 font-mono">
+              {currency}
+            </div>
 
-          {activeTab === "tasks" && (
-            <TasksTab
-              tasks={tasks}
-              onToggleTask={handleToggleTask}
-              onAddTask={handleAddTask}
-            />
-          )}
+            {/* Mobile Sign Out */}
+            <button
+              onClick={handleSignOut}
+              className="md:hidden p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition cursor-pointer"
+              title="Sign Out"
+            >
+              <LogOut className="w-4 h-4" />
+            </button>
+          </div>
+        </header>
 
-          {activeTab === "assistant" && (
-            <AssistantTab
-              business={currentBusiness}
-              auditScore={auditScore}
-            />
-          )}
+        {/* Tab Modules Container */}
+        <TabErrorBoundary>
+          <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto pb-24 md:pb-8">
+            {activeTab === "dashboard" && (
+              <DashboardTab
+                business={currentBusiness}
+                kpi={kpi}
+                auditScore={auditScore}
+                auditCategories={auditCategories}
+                opportunities={opportunities}
+                onApplyOpportunity={handleApplyOpportunity}
+                onNavigateTab={setActiveTab}
+                unansweredReviewsCount={unansweredReviewsCount}
+                onOpenConnectGoogle={() => setIsConnectGoogleOpen(true)}
+                onLoadBenchmarkData={handleLoadBenchmarkData}
+              />
+            )}
 
-          {activeTab === "tools" && (
-            <ToolsTab
-              business={currentBusiness}
-            />
-          )}
+            {activeTab === "audit" && (
+              <AuditTab
+                auditScore={auditScore}
+                appliedFixes={appliedFixes}
+                onApplyAuditFix={handleApplyAuditFix}
+                business={currentBusiness}
+              />
+            )}
 
-          {activeTab === "settings" && (
-            <SettingsTab
-              business={currentBusiness}
-              currentUser={currentUser}
-              onSignOut={handleSignOut}
-              currency={currency}
-              setCurrency={setCurrency}
-              onResetDemo={() => {
-                setKpi(DEFAULT_KPI);
-                setAuditScore(81);
-                setAppliedFixes({});
-                setOpportunities(DEFAULT_OPPORTUNITIES);
-                setReviews(DEFAULT_REVIEWS);
-                setTasks(DEFAULT_TASKS);
-                showToast("Demo data reset to initial benchmark state.");
-              }}
-            />
-          )}
+            {activeTab === "optimization" && (
+              <OptimizationTab
+                onApplyFix={(optId, points, title) => {
+                  handleApplyAuditFix(optId, points, title);
+                }}
+                appliedFixes={appliedFixes}
+              />
+            )}
 
-          {activeTab === "admin" && (
-            <AdminTab
-              workspaces={workspaces}
-              activeWorkspaceId={activeWorkspaceId}
-              onSwitchWorkspace={handleSwitchWorkspace}
-              onAddWorkspace={handleAddWorkspace}
-              onUpdateWorkspace={handleUpdateWorkspace}
-              onDeleteWorkspace={handleDeleteWorkspace}
-              currentUser={currentUser}
-              currentBusiness={currentBusiness}
-              kpi={kpi}
-              onUpdateKpi={(newKpis) => {
-                setKpi(prev => ({ ...prev, ...newKpis }));
-                showToast("KPIs updated!");
-              }}
-              auditScore={auditScore}
-              onUpdateScore={(newScore) => {
-                setAuditScore(parseInt(newScore));
-                showToast(`Growth score updated to ${newScore}/100!`);
-              }}
-              onAddReview={handleAddReview}
-              showToast={showToast}
-            />
-          )}
-        </main>
-      </TabErrorBoundary>
+            {activeTab === "reviews" && (
+              <ReviewsTab
+                reviews={reviews}
+                onPublishReply={handlePublishReply}
+                onAddReview={handleAddReview}
+                onDeleteReview={handleDeleteReview}
+                business={currentBusiness}
+              />
+            )}
 
-      {/* Mobile Sticky Bottom App Dock */}
-      <GrowthOSMobileNav
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        unansweredCount={unansweredReviewsCount}
-        onOpenAddReview={() => setActiveTab("reviews")}
-        onOpenAddBusiness={() => setActiveTab("admin")}
+            {activeTab === "performance" && (
+              <PerformanceTab
+                business={currentBusiness}
+                kpi={kpi}
+              />
+            )}
+
+            {activeTab === "tasks" && (
+              <TasksTab
+                tasks={tasks}
+                onToggleTask={handleToggleTask}
+                onAddTask={handleAddTask}
+              />
+            )}
+
+            {activeTab === "assistant" && (
+              <AssistantTab
+                business={currentBusiness}
+                auditScore={auditScore}
+              />
+            )}
+
+            {activeTab === "tools" && (
+              <ToolsTab
+                business={currentBusiness}
+              />
+            )}
+
+            {activeTab === "settings" && (
+              <SettingsTab
+                business={currentBusiness}
+                currentUser={currentUser}
+                onSignOut={handleSignOut}
+                currency={currency}
+                setCurrency={setCurrency}
+                onResetDemo={() => {
+                  setKpi(DEFAULT_KPI);
+                  setAuditScore(81);
+                  setAppliedFixes({});
+                  setOpportunities(DEFAULT_OPPORTUNITIES);
+                  setReviews(DEFAULT_REVIEWS);
+                  setTasks(DEFAULT_TASKS);
+                  showToast("Demo data reset to initial benchmark state.");
+                }}
+              />
+            )}
+
+            {activeTab === "admin" && (
+              <AdminTab
+                workspaces={workspaces}
+                activeWorkspaceId={activeWorkspaceId}
+                onSwitchWorkspace={handleSwitchWorkspace}
+                onAddWorkspace={handleAddWorkspace}
+                onUpdateWorkspace={handleUpdateWorkspace}
+                onDeleteWorkspace={handleDeleteWorkspace}
+                currentUser={currentUser}
+                currentBusiness={currentBusiness}
+                kpi={kpi}
+                onUpdateKpi={(newKpis) => {
+                  setKpi(prev => ({ ...prev, ...newKpis }));
+                  showToast("KPIs updated!");
+                }}
+                auditScore={auditScore}
+                onUpdateScore={(newScore) => {
+                  setAuditScore(parseInt(newScore));
+                  showToast(`Growth score updated to ${newScore}/100!`);
+                }}
+                onAddReview={handleAddReview}
+                showToast={showToast}
+              />
+            )}
+          </main>
+        </TabErrorBoundary>
+
+        {/* Mobile Sticky Bottom App Dock */}
+        <GrowthOSMobileNav
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          unansweredCount={unansweredReviewsCount}
+          onOpenAddReview={() => setActiveTab("reviews")}
+          onOpenAddBusiness={() => setActiveTab("admin")}
+          currentUser={currentUser}
+          onOpenConnectGoogle={() => setIsConnectGoogleOpen(true)}
+          isGoogleConnected={currentBusiness?.googleConnected}
+        />
+      </div>
+
+      {/* Connect Google Business Profile Modal */}
+      <ConnectGoogleModal
+        isOpen={isConnectGoogleOpen}
+        onClose={() => setIsConnectGoogleOpen(false)}
+        business={currentBusiness}
+        onConnectSuccess={handleConnectGoogleSuccess}
       />
     </div>
   );
