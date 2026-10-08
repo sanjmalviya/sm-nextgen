@@ -1,9 +1,15 @@
 "use client";
 import React, { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 
 export default function SmoothScroll({ children }) {
+  const pathname = usePathname();
+  const isApp = pathname?.startsWith("/growth-os");
+
   useEffect(() => {
+    if (isApp) return;
+
     // Only initialize smooth scroll on client if user has not requested reduced motion
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReducedMotion) return;

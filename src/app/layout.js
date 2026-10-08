@@ -1,8 +1,6 @@
 import "./globals.css";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
 import SmoothScroll from "./components/SmoothScroll";
-import GrowthOSFloatingLauncher from "./components/GrowthOSFloatingLauncher";
+import AppLayoutWrapper from "./components/AppLayoutWrapper";
 
 export const metadata = {
   title: "SM NextGen | Business Growth Partner | Strategy, Marketing & Technology",
@@ -25,10 +23,9 @@ export default function RootLayout({ children }) {
         
         {/* Buttery Smooth Inertial Scroll Provider */}
         <SmoothScroll>
-          <Header /> 
-          {children} 
-          <Footer /> 
-          <GrowthOSFloatingLauncher />
+          <AppLayoutWrapper>
+            {children}
+          </AppLayoutWrapper>
         </SmoothScroll>
 
         {/* Metricool Tracking Pixel */}

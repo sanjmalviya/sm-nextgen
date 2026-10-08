@@ -15,19 +15,31 @@ import {
   ThumbsUp,
   Clock,
   ShieldCheck,
-  Bot
+  Bot,
+  Plus,
+  Trash2,
+  X
 } from "lucide-react";
 
 export default function ReviewsTab({
-  reviews,
-  onGenerateAiReply,
+  reviews = [],
   onPublishReply,
+  onAddReview,
+  onDeleteReview,
   business
 }) {
   const [filter, setFilter] = useState("ALL"); // ALL, UNANSWERED, 5STAR, CRITICAL, NEUTRAL
   const [search, setSearch] = useState("");
-  const [selectedTone, setSelectedTone] = useState("professional"); // professional, friendly, warm, apologetic, premium
+  const [selectedTone, setSelectedTone] = useState("professional");
   const [editingReply, setEditingReply] = useState({});
+  const [copiedId, setCopiedId] = useState(null);
+
+  // Add Review Modal State
+  const [isAddOpen, setIsAddOpen] = useState(false);
+  const [authorName, setAuthorName] = useState("");
+  const [starCount, setStarCount] = useState(5);
+  const [reviewContent, setReviewContent] = useState("");
+  const [reviewThemeTag, setReviewThemeTag] = useState("Patient Care");
 
   const tones = [
     { id: "professional", label: "Professional & Warm" },
@@ -49,8 +61,9 @@ export default function ReviewsTab({
   });
 
   const unansweredCount = reviews.filter((r) => r.status === "UNANSWERED").length;
-
-  const [copiedId, setCopiedId] = useState(null);
+  const avgRating = reviews.length > 0 
+    ? (reviews.reduce((acc, r) => acc + (r.rating || 5), 0) / reviews.length).toFixed(1)
+    : "5.0";
 
   const handleCopy = (text, id) => {
     if (typeof navigator !== "undefined" && navigator.clipboard) {
@@ -58,6 +71,35 @@ export default function ReviewsTab({
       setCopiedId(id);
       setTimeout(() => setCopiedId(null), 2000);
     }
+  };
+
+  const handleCreateReview = (e) => {
+    e.preventDefault();
+    if (!authorName.trim() || !reviewContent.trim()) return;
+
+    const newRev = {
+      id: `rev-${Date.now()}`,
+      author: authorName.trim(),
+      avatar: authorName.charAt(0).toUpperCase(),
+      rating: parseInt(starCount),
+      date: "Just now",
+      sentiment: starCount >= 4 ? "POSITIVE" : starCount === 3 ? "NEUTRAL" : "NEGATIVE",
+      theme: reviewThemeTag,
+      text: reviewContent.trim(),
+      status: "UNANSWERED",
+      response: null,
+      aiDrafts: {
+        professional: `Dear ${authorName}, thank you for choosing ${business?.name || "our clinic"}. We are honored by your review and look forward to continuing to provide top-notch care.`,
+        friendly: `Hey ${authorName}! Thank you so much for the feedback! The team loved having you and we can't wait to see you again.`,
+        apologetic: `Dear ${authorName}, we sincerely apologize for the experience you had. Patient satisfaction is our highest priority—please reach out to us at ${business?.phone || "+91 70735 38077"} so we can make this right.`,
+        premium: `Dear ${authorName}, we hold our clinical standards to the highest international benchmark. Thank you for taking the time to share your valued feedback.`
+      }
+    };
+
+    if (onAddReview) onAddReview(newRev);
+    setIsAddOpen(false);
+    setAuthorName("");
+    setReviewContent("");
   };
 
   return (
@@ -85,8 +127,8 @@ export default function ReviewsTab({
           </div>
           <div className="h-10 w-px bg-slate-800"></div>
           <div>
-            <div className="text-xs text-emerald-400 font-bold">4.8 Avg Rating</div>
-            <div className="text-xs text-slate-400">142 Total Reviews</div>
+            <div className="text-xs text-emerald-400 font-bold">{avgRating} Avg Rating</div>
+            <div className="text-xs text-slate-400">{reviews.length} Total Reviews</div>
           </div>
         </div>
       </div>
@@ -99,14 +141,14 @@ export default function ReviewsTab({
             Customer Sentiment Breakdown
           </h4>
           <div className="flex items-center gap-2 pt-1">
-            <div className="flex-1 bg-emerald-500 h-2.5 rounded-full" title="84% Positive" style={{ width: "84%" }}></div>
-            <div className="w-8 bg-amber-500 h-2.5 rounded-full" title="11% Neutral" style={{ width: "11%" }}></div>
-            <div className="w-4 bg-rose-500 h-2.5 rounded-full" title="5% Negative" style={{ width: "5%" }}></div>
+            <div className="flex-1 bg-emerald-500 h-2.5 rounded-full" title="Positive" style={{ width: "80%" }}></div>
+            <div className="w-8 bg-amber-500 h-2.5 rounded-full" title="Neutral" style={{ width: "12%" }}></div>
+            <div className="w-4 bg-rose-500 h-2.5 rounded-full" title="Negative" style={{ width: "8%" }}></div>
           </div>
           <div className="flex justify-between text-[11px] text-slate-400 pt-1">
-            <span className="text-emerald-400 font-bold">84% Positive (119)</span>
-            <span className="text-amber-400 font-bold">11% Neutral (15)</span>
-            <span className="text-rose-400 font-bold">5% Critical (8)</span>
+            <span className="text-emerald-400 font-bold">80% Positive</span>
+            <span className="text-amber-400 font-bold">12% Neutral</span>
+            <span className="text-rose-400 font-bold">8% Critical</span>
           </div>
         </div>
 
@@ -117,27 +159,27 @@ export default function ReviewsTab({
           </h4>
           <div className="flex flex-wrap gap-1.5 pt-1">
             <span className="px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 text-xs font-medium border border-emerald-500/20">
-              Gentle Treatment (64)
+              Gentle Treatment
             </span>
             <span className="px-2.5 py-1 rounded-lg bg-cyan-500/10 text-cyan-400 text-xs font-medium border border-cyan-500/20">
-              Staff Courtesy (52)
+              Staff Courtesy
             </span>
             <span className="px-2.5 py-1 rounded-lg bg-blue-500/10 text-blue-400 text-xs font-medium border border-blue-500/20">
-              Painless Root Canal (38)
+              Painless Procedure
             </span>
             <span className="px-2.5 py-1 rounded-lg bg-amber-500/10 text-amber-300 text-xs font-medium border border-amber-500/20">
-              Wait Time (6)
+              Appointment Timing
             </span>
           </div>
         </div>
       </div>
 
-      {/* Filter and Search Bar */}
+      {/* Filter, Search & Add Review Button Bar */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
         <div className="flex items-center bg-slate-900 p-1 rounded-xl border border-slate-800 text-xs w-full sm:w-auto overflow-x-auto">
           {[
             { id: "ALL", label: "All Reviews" },
-            { id: "UNANSWERED", label: "Unanswered (" + unansweredCount + ")" },
+            { id: "UNANSWERED", label: `Unanswered (${unansweredCount})` },
             { id: "5STAR", label: "5-Star" },
             { id: "CRITICAL", label: "Critical (1-2★)" },
             { id: "NEUTRAL", label: "Neutral (3★)" }
@@ -152,23 +194,40 @@ export default function ReviewsTab({
           ))}
         </div>
 
-        <div className="relative w-full sm:w-64">
-          <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
-          <input
-            type="text"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search reviews..."
-            className="w-full pl-9 pr-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#0097B2]"
-          />
+        <div className="flex items-center gap-2 w-full sm:w-auto">
+          <div className="relative flex-1 sm:w-60">
+            <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search reviews..."
+              className="w-full pl-9 pr-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#0097B2]"
+            />
+          </div>
+
+          <button
+            onClick={() => setIsAddOpen(true)}
+            className="px-3.5 py-2 rounded-xl bg-[#0097B2] hover:bg-[#007a91] text-white font-bold text-xs flex items-center gap-1.5 transition active:scale-95 cursor-pointer shrink-0 shadow-md"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            <span>Add Review</span>
+          </button>
         </div>
       </div>
 
       {/* Reviews List */}
       <div className="space-y-4">
         {filteredReviews.length === 0 ? (
-          <div className="p-12 text-center text-slate-400 bg-slate-900 rounded-3xl border border-slate-800">
-            No reviews match this filter.
+          <div className="p-12 text-center text-slate-400 bg-slate-900 rounded-3xl border border-slate-800 space-y-3">
+            <p>No reviews match this filter.</p>
+            <button
+              onClick={() => setIsAddOpen(true)}
+              className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold transition inline-flex items-center gap-1.5"
+            >
+              <Plus className="w-3.5 h-3.5 text-[#0097B2]" />
+              <span>Add a New Customer Review</span>
+            </button>
           </div>
         ) : (
           filteredReviews.map((r) => {
@@ -206,9 +265,20 @@ export default function ReviewsTab({
                     </div>
                   </div>
 
-                  <span className={"text-[10px] font-mono font-bold px-2.5 py-1 rounded-full " + (isUnanswered ? "bg-amber-500/20 text-amber-300 border border-amber-500/30" : "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30")}>
-                    {isUnanswered ? "Needs Response" : "Answered"}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className={"text-[10px] font-mono font-bold px-2.5 py-1 rounded-full " + (isUnanswered ? "bg-amber-500/20 text-amber-300 border border-amber-500/30" : "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30")}>
+                      {isUnanswered ? "Needs Response" : "Answered"}
+                    </span>
+                    {onDeleteReview && (
+                      <button
+                        onClick={() => onDeleteReview(r.id)}
+                        className="p-1 rounded-lg text-slate-500 hover:text-rose-400 transition"
+                        title="Delete review"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    )}
+                  </div>
                 </div>
 
                 {/* Review Text */}
@@ -293,6 +363,90 @@ export default function ReviewsTab({
           })
         )}
       </div>
+
+      {/* MODAL: ADD CUSTOM REVIEW */}
+      {isAddOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-in fade-in">
+          <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl p-6 text-slate-100 font-sans space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+              <h3 className="font-heading font-extrabold text-base text-white">Add Customer Review</h3>
+              <button onClick={() => setIsAddOpen(false)} className="text-slate-400 hover:text-white">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleCreateReview} className="space-y-3">
+              <div>
+                <label className="text-xs font-mono font-bold text-slate-300 block mb-1">Reviewer Name *</label>
+                <input
+                  type="text"
+                  required
+                  value={authorName}
+                  onChange={(e) => setAuthorName(e.target.value)}
+                  placeholder="e.g. Ananya Mehra"
+                  className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:ring-2 focus:ring-[#0097B2]"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <label className="text-xs font-mono font-bold text-slate-300 block mb-1">Star Rating</label>
+                  <select
+                    value={starCount}
+                    onChange={(e) => setStarCount(e.target.value)}
+                    className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:ring-2 focus:ring-[#0097B2]"
+                  >
+                    <option value="5">5 Stars (Excellent)</option>
+                    <option value="4">4 Stars (Good)</option>
+                    <option value="3">3 Stars (Neutral)</option>
+                    <option value="2">2 Stars (Poor)</option>
+                    <option value="1">1 Star (Critical)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="text-xs font-mono font-bold text-slate-300 block mb-1">Theme Tag</label>
+                  <input
+                    type="text"
+                    value={reviewThemeTag}
+                    onChange={(e) => setReviewThemeTag(e.target.value)}
+                    placeholder="e.g. Hospitality"
+                    className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:ring-2 focus:ring-[#0097B2]"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="text-xs font-mono font-bold text-slate-300 block mb-1">Review Text *</label>
+                <textarea
+                  rows={3}
+                  required
+                  value={reviewContent}
+                  onChange={(e) => setReviewContent(e.target.value)}
+                  placeholder="Enter customer's review feedback..."
+                  className="w-full p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:ring-2 focus:ring-[#0097B2]"
+                />
+              </div>
+
+              <div className="pt-2 flex justify-end gap-2">
+                <button
+                  type="button"
+                  onClick={() => setIsAddOpen(false)}
+                  className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-xs font-bold cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2 rounded-xl bg-[#0097B2] hover:bg-[#007a91] text-white text-xs font-extrabold cursor-pointer"
+                >
+                  Publish to Inbox
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
     </div>
   );
