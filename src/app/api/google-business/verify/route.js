@@ -35,6 +35,11 @@ function parseGoogleMapsPlace(urlStr) {
     const placeMatch = urlStr.match(/\/place\/([^/@]+)/);
     if (placeMatch) {
       name = decodeURIComponent(placeMatch[1].replace(/\+/g, " "));
+    } else {
+      const qMatch = urlStr.match(/[?&]q=([^&]+)/);
+      if (qMatch) {
+        name = decodeURIComponent(qMatch[1].replace(/\+/g, " "));
+      }
     }
     const coordsMatch = urlStr.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
     if (coordsMatch) {
