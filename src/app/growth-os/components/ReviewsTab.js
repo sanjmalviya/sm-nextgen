@@ -39,7 +39,7 @@ export default function ReviewsTab({
   const [authorName, setAuthorName] = useState("");
   const [starCount, setStarCount] = useState(5);
   const [reviewContent, setReviewContent] = useState("");
-  const [reviewThemeTag, setReviewThemeTag] = useState("Patient Care");
+  const [reviewThemeTag, setReviewThemeTag] = useState("Customer Service");
 
   const tones = [
     { id: "professional", label: "Professional & Warm" },

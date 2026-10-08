@@ -23,9 +23,9 @@ export default function SettingsTab({
   onDisconnectGoogle,
   onOpenConnectGoogle
 }) {
-  const [bizName, setBizName] = useState(business?.name || "Apex Dental Care & Implant Center");
+  const [bizName, setBizName] = useState(business?.name || "SM NextGen");
   const [bizPhone, setBizPhone] = useState(business?.phone || "+91 70735 38077");
-  const [bizAddress, setBizAddress] = useState(business?.address || "Plot 14, Saheli Nagar, Udaipur, Rajasthan");
+  const [bizAddress, setBizAddress] = useState(business?.address || "HPPQ+Q5V, Sunderwas, Ganapati Nagar, Udaipur, Rajasthan");
   const [bizGoal, setBizGoal] = useState(business?.primaryGoal || "Get more calls");
   const [aiTone, setAiTone] = useState("Professional & Warm");
   const [savedMsg, setSavedMsg] = useState("");

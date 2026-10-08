@@ -29,7 +29,7 @@ export default function AuthScreen({ onLoginSuccess }) {
   // Sign up form state
   const [fullName, setFullName] = useState("");
   const [bizName, setBizName] = useState("");
-  const [bizCategory, setBizCategory] = useState("Dental Clinic");
+  const [bizCategory, setBizCategory] = useState("Digital Marketing & Tech");
   const [bizCity, setBizCity] = useState("Udaipur, Rajasthan");
   const [bizPhone, setBizPhone] = useState("+91 70735 38077");
   const [signupEmail, setSignupEmail] = useState("");
@@ -367,7 +367,7 @@ export default function AuthScreen({ onLoginSuccess }) {
                       onChange={(e) => setBizCategory(e.target.value)}
                       className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:ring-2 focus:ring-[#0097B2]"
                     >
-                      <option value="Dental Clinic">Dental Clinic</option>
+                      <option value="Digital Marketing & Tech">Digital Marketing & Tech</option>
                       <option value="Healthcare & Specialty Clinic">Healthcare & Specialty Clinic</option>
                       <option value="Legal & Law Firm">Legal & Law Firm</option>
                       <option value="Real Estate Agency">Real Estate Agency</option>

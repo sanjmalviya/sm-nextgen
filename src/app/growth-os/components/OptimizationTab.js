@@ -28,9 +28,9 @@ export const OPTIMIZATION_ITEMS = [
   {
     id: "opt-2",
     category: "Categories",
-    title: "Add 'Dental Implants Provider' Category",
+    title: "Add High-Intent Secondary Categories",
     issue: "High commercial-intent category missing from Google catalog.",
-    whyItMatters: "Implant searches represent highest revenue dental queries with 4x average patient lifetime value.",
+    whyItMatters: "Secondary categories capture up to 3x more local search queries across your service areas.",
     action: "Add secondary category to backend GBP profile taxonomy.",
     points: 7,
     status: "PENDING"
@@ -38,17 +38,17 @@ export const OPTIMIZATION_ITEMS = [
   {
     id: "opt-3",
     category: "Photos",
-    title: "Upload High-Resolution Sterilization Lab Photos",
-    issue: "No public photos showing European autoclaves and sanitization protocols.",
-    whyItMatters: "Patient trust regarding hygiene is top conversion driver for elective medical care.",
-    action: "Upload 3 verified sterile lab environment photos.",
+    title: "Upload High-Resolution Storefront & Office Photos",
+    issue: "No verified photos showing team workspace and storefront entrance.",
+    whyItMatters: "Storefront photos increase map navigation requests by over 42% according to Google telemetry.",
+    action: "Upload 3 verified storefront & office photos.",
     points: 4,
     status: "PENDING"
   },
   {
     id: "opt-4",
     category: "Content",
-    title: "Publish Weekly Smile Makeover Google Post",
+    title: "Publish Weekly Promotional Google Post",
     issue: "Zero active promotional posts in the last 14 days.",
     whyItMatters: "Google posts expire after 7 days; active posts increase profile click-through rate by 22%.",
     action: "Generate and schedule promotional post with click-to-call CTA.",

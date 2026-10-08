@@ -77,7 +77,7 @@ export default function GrowthOSNavbar({
               <div className="max-w-[150px] sm:max-w-[220px]">
                 <div className="flex items-center gap-1.5">
                   <h1 className="font-heading font-extrabold text-xs sm:text-sm text-white truncate">
-                    {business?.name || "Apex Dental Care"}
+                    {business?.name || "SM NextGen"}
                   </h1>
                   <ChevronDown className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                 </div>

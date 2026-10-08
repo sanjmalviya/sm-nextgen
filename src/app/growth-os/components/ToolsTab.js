@@ -15,11 +15,11 @@ export default function ToolsTab({ business }) {
   const [activeTool, setActiveTool] = useState("description"); // description, photos
 
   // Description Generator State
-  const [bizName, setBizName] = useState(business?.name || "Apex Dental Care & Implant Center");
+  const [bizName, setBizName] = useState(business?.name || "SM NextGen");
   const [city, setCity] = useState(business?.city || "Udaipur, Rajasthan");
-  const [services, setServices] = useState("Dental implants, painless root canal, cosmetic smile makeovers, teeth whitening");
+  const [services, setServices] = useState("Digital Marketing, SEO, AI Automation Systems, Web & App Development");
   const [generatedDesc, setGeneratedDesc] = useState(
-    "Apex Dental Care & Implant Center is Udaipur's premier multi-specialty dental clinic located near Saheliyon Ki Bari, Saheli Nagar. Led by experienced dental surgeons, we specialize in modern dental implants, painless root canal therapy, digital smile design, and pediatric dental care. Equipped with advanced 3D low-radiation diagnostic scanners and European sterilization systems, we ensure a comfortable, painless patient experience. Serving Udaipur, Sukher, and nearby Rajasthan regions. Call +91 70735 38077 to book your smile consultation today."
+    "SM NextGen is Udaipur's premier business growth & AI automation firm located in Ganapati Nagar. We engineer high-converting web systems, top Google 3-Pack rankings, performance advertising campaigns, and custom AI WhatsApp workflows. Dedicated to measurable ROI for ambitious local businesses and enterprises across Rajasthan. Contact +91 70735 38077 to scale your business growth today."
   );
   const [copied, setCopied] = useState(false);
 
@@ -28,15 +28,15 @@ export default function ToolsTab({ business }) {
 
   const photoIdeas = [
     { id: "p-1", category: "Storefront & Exterior", title: "Daylight Street Entrance & Signboard", why: "Ensures first-time patients instantly spot clinic from Saheli Nagar main road." },
-    { id: "p-2", category: "High-Tech Operatory", title: "3D Digital Imaging & Dental Chair Suite", why: "Demonstrates clinical precision and hygienic medical standards." },
-    { id: "p-3", category: "Team & Specialists", title: "Lead Dentist in Consultation with Patient", why: "Builds human trust and doctor-patient rapport before booking." },
-    { id: "p-4", category: "Patient Hospitality", title: "Spotless Reception & Waiting Lounge", why: "Alleviates dental anxiety and establishes premium clinic care." },
-    { id: "p-5", category: "Sterilization Protocols", title: "Class-B Autoclave & Sealed Instrument Trays", why: "Addresses #1 patient fear regarding hygiene and infection control." }
+    { id: "p-2", category: "High-Tech Operatory", title: "Modern Office & Workspace Suites", why: "Demonstrates established commercial headquarters and operational excellence." },
+    { id: "p-3", category: "Team & Specialists", title: "Strategy Team in Consultation with Client", why: "Builds human trust and doctor-patient rapport before booking." },
+    { id: "p-4", category: "Patient Hospitality", title: "Spotless Reception & Waiting Lounge", why: "Welcomes visiting business clients and establishes corporate trust." },
+    { id: "p-5", category: "Sterilization Protocols", title: "Technology Infrastructure & Meeting Rooms", why: "Highlights cutting-edge technological infrastructure and modern client facilities." }
   ];
 
   const handleGenerate = () => {
     setGeneratedDesc(
-      bizName + " is " + city + "'s trusted center for advanced dental excellence. Specializing in " + services + ", our team combines gentle, patient-first care with modern 3D diagnostic technology. Conveniently situated in " + city + ", we prioritize hygiene, punctuality, and lasting smiles. Call +91 70735 38077 to reserve your appointment."
+      bizName + " is " + city + "'s trusted partner for business acceleration and growth. Specializing in " + services + ", our team combines strategic expertise with modern AI technology. Conveniently situated in " + city + ", we prioritize measurable client revenue and market authority. Call +91 70735 38077 to schedule your growth strategy session."
     );
   };
 

@@ -101,7 +101,7 @@ export default function PerformanceTab({ business, kpi }) {
         <div className="p-3 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
             <span className="font-mono font-bold px-2 py-0.5 rounded bg-amber-500/20">DEMO TELEMETRY</span>
-            <span>Displaying benchmark Google Maps telemetry for Lakeview / Apex Dental Studio Udaipur.</span>
+            <span>Displaying benchmark Google Maps telemetry for Google Maps Storefront.</span>
           </div>
           <span className="text-[11px] text-amber-400/80">Google API Status: Seeded</span>
         </div>

@@ -47,7 +47,7 @@ export default function AuthPortal({ isOpen, onClose, initialMode = "login", onL
       const userSession = {
         name: loginEmail.toLowerCase().includes("admin") ? "Sanjay Malviya (Growth Architect)" : "Dr. Sunita Mehra",
         email: loginEmail,
-        businessName: "Apex Dental Care & Implant Center",
+        businessName: "SM NextGen",
         role: "Workspace Administrator",
         location: "Plot 14, Saheli Nagar, Udaipur, Rajasthan",
         loginTime: new Date().toLocaleTimeString(),
@@ -67,7 +67,7 @@ export default function AuthPortal({ isOpen, onClose, initialMode = "login", onL
       const demoUser = {
         name: "Dr. Sunita Mehra (Clinic Director)",
         email: "demo@smnextgen.com",
-        businessName: "Apex Dental Care & Implant Center",
+        businessName: "SM NextGen",
         role: "Workspace Owner",
         location: "Plot 14, Saheli Nagar, Udaipur, Rajasthan",
         loginTime: new Date().toLocaleTimeString(),
@@ -140,7 +140,7 @@ export default function AuthPortal({ isOpen, onClose, initialMode = "login", onL
             <span>Instant 1-Click Platform Access</span>
           </div>
           <p className="text-[11px] text-slate-300 leading-tight">
-            Explore live workspace with pre-loaded Udaipur dental clinic reviews and 24-point audit data.
+            Explore live workspace with pre-loaded SM NextGen Business reviews and 24-point audit data.
           </p>
           <button
             onClick={handleInstantDemoLogin}
@@ -242,7 +242,7 @@ export default function AuthPortal({ isOpen, onClose, initialMode = "login", onL
                   required
                   value={signUpBusiness}
                   onChange={e => setSignUpBusiness(e.target.value)}
-                  placeholder="e.g. City Health Dental"
+                  placeholder="e.g. SM NextGen"
                   className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:ring-2 focus:ring-[#0097B2]"
                 />
               </div>

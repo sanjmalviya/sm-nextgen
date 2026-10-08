@@ -32,7 +32,7 @@ import { storageService } from "../lib/supabaseClient";
 export default function PublicLanding({ onOpenAuth, onLaunchDemo }) {
   const [bizName, setBizName] = useState("");
   const [bizCity, setBizCity] = useState("");
-  const [bizCategory, setBizCategory] = useState("Dental Clinic");
+  const [bizCategory, setBizCategory] = useState("Digital Marketing & Tech Agency");
   const [bizPhone, setBizPhone] = useState("");
   const [isAuditing, setIsAuditing] = useState(false);
   const [auditResult, setAuditResult] = useState(null);
@@ -198,7 +198,7 @@ export default function PublicLanding({ onOpenAuth, onLaunchDemo }) {
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Apex Dental & Aesthetic Center"
+                  placeholder="e.g. SM NextGen"
                   value={bizName}
                   onChange={(e) => setBizName(e.target.value)}
                   className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#0097B2]"
@@ -225,7 +225,7 @@ export default function PublicLanding({ onOpenAuth, onLaunchDemo }) {
                   onChange={(e) => setBizCategory(e.target.value)}
                   className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white focus:outline-none focus:ring-2 focus:ring-[#0097B2]"
                 >
-                  <option value="Dental Clinic">Dental Clinic</option>
+                  <option value="Digital Marketing & Tech Agency">Digital Marketing & Tech Agency</option>
                   <option value="Healthcare / Clinic">Healthcare / Clinic</option>
                   <option value="Legal & Law Firm">Legal & Law Firm</option>
                   <option value="Real Estate Agency">Real Estate Agency</option>

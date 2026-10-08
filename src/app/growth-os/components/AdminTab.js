@@ -47,7 +47,7 @@ export default function AdminTab({
   const [isAddBizModalOpen, setIsAddBizModalOpen] = useState(false);
   const [newBizName, setNewBizName] = useState("");
   const [newBizCity, setNewBizCity] = useState("Udaipur, Rajasthan");
-  const [newBizCategory, setNewBizCategory] = useState("Dental clinic");
+  const [newBizCategory, setNewBizCategory] = useState("Digital Marketing Agency");
   const [newBizPhone, setNewBizPhone] = useState("+91 70735 38077");
   const [newBizRating, setNewBizRating] = useState("4.8");
   const [newBizScore, setNewBizScore] = useState("80");
@@ -554,7 +554,7 @@ export default function AdminTab({
                     type="text"
                     value={newBizCategory}
                     onChange={(e) => setNewBizCategory(e.target.value)}
-                    placeholder="Dental clinic"
+                    placeholder="Digital Marketing Agency"
                     className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:ring-2 focus:ring-[#0097B2]"
                   />
                 </div>

@@ -106,7 +106,7 @@ export default function AssistantTab({ business, auditScore, onNavigateTab }) {
 
       if (q.includes("3-pack") || q.includes("rank") || q.includes("top 3") || q.includes("first page")) {
         reply = `To rank in the Google Maps Local 3-Pack for ${business?.name || "your business"} in ${business?.city || "Udaipur"}:
-1. Primary Category: Set high intent primary category "${business?.category || "Digital Agency / Dental / Clinic"}".
+1. Primary Category: Set high intent primary category "${business?.category || "Digital Marketing & AI Automation Agency"}".
 2. Review Velocity: Maintain a 24-hour response rate across all customer reviews. Owner replies signal an active business to Google's ranking algorithm.
 3. Geo-Consistency: Ensure Name, Address, and Phone (NAP) match across your website, Google Maps, and directory citations.
 4. Weekly Posts: Publish Google Posts every 7 days with a clear "Call Now" or "Book" action button.`;

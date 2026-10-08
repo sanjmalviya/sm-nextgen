@@ -31,6 +31,11 @@ export default async function BlogsPage() {
     "imageUrl": image.asset->url, authorName, 
     "authorImageUrl": authorImage.asset->url, _createdAt, content
   }`;
-  const blogs = await client.fetch(query);
+  let blogs = [];
+  try {
+    blogs = await client.fetch(query);
+  } catch (err) {
+    console.warn("Sanity fetch skipped during static generation:", err.message);
+  }
   return <BlogsClient initialBlogs={blogs || []} />;
 }
