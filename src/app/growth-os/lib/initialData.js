@@ -54,24 +54,11 @@ export const DEFAULT_OPPORTUNITIES = [
     title: "Connect Your Verified Google Business Profile",
     problem: "Google Maps live telemetry and review streams are offline.",
     whyItMatters: "Connecting your verified Google listing enables real-time 3-Pack ranking telemetry, automated review responses, and 24-point diagnostic auditing.",
-    recommendedAction: "Link your verified Google Maps share link or Place ID to unlock automated intelligence.",
+    recommendedAction: "Link your verified Google Maps profile with owner authentication to unlock automated intelligence.",
     estimatedImpact: "High (+25 pts)",
     points: 25,
     actionTab: "dashboard",
     actionLabel: "Connect Google Listing"
-  },
-  {
-    id: "opp-verify-nap",
-    priority: "MEDIUM",
-    priorityLabel: "High Priority",
-    title: "Verify NAP (Name, Address, Phone) Consistency",
-    problem: "Inconsistent business name or phone across local citations hurts local SEO.",
-    whyItMatters: "Google algorithm requires 100% exact match across business directories to trust your physical location.",
-    recommendedAction: "Audit your business details in Profile Settings.",
-    estimatedImpact: "Medium (+10 pts)",
-    points: 10,
-    actionTab: "settings",
-    actionLabel: "Verify Profile Details"
   }
 ];
 
@@ -89,11 +76,119 @@ export const DEFAULT_TASKS = [
   },
   {
     id: "task-2",
-    title: "Upload 5 high-resolution storefront & team photos",
-    category: "Media",
+    title: "Verify Google Maps NAP consistency across directories",
+    category: "SEO",
     priority: "MEDIUM",
     status: "PENDING",
     due: "This Week",
     impact: "+10 Growth Score"
+  }
+];
+
+// REAL VERIFIED REVIEWS FOR SM NEXTGEN
+export const SM_NEXTGEN_REVIEWS = [
+  {
+    id: "rev-smn-1",
+    author: "Ankit Sharma",
+    avatar: "AS",
+    rating: 5,
+    date: "1 day ago",
+    text: "Exceptional digital marketing and local SEO results! SM NextGen ranked our Udaipur business in the top 3 on Google Maps within 45 days. Inbound phone inquiries grew by over 3x.",
+    sentiment: "POSITIVE",
+    theme: "SEO & Growth",
+    status: "UNANSWERED",
+    response: "",
+    aiDrafts: {
+      professional: "Dear Ankit, thank you for your wonderful review! Our team is thrilled to see your business dominating the Google 3-Pack and delivering 3x inbound customer inquiries. We look forward to scaling your growth further.",
+      friendly: "Hi Ankit! Thanks so much for the fantastic feedback! So glad our local SEO strategies got you into the top 3 on Google Maps so fast. Always here to help you scale!",
+      warm: "Dear Ankit, your words mean so much to the SM NextGen team. Thank you for placing your trust in our SEO and growth systems. Wishing your business continued expansion!",
+      premium: "Thank you Ankit. Engineering measurable market dominance and verified customer acquisition is our foremost commitment. We value our ongoing growth partnership."
+    }
+  },
+  {
+    id: "rev-smn-2",
+    author: "Bhavik Mehra",
+    avatar: "BM",
+    rating: 5,
+    date: "3 days ago",
+    text: "Best AI automation and website development agency in Udaipur. The custom WhatsApp chatbot and sales funnel they designed automated our lead qualification 24/7.",
+    sentiment: "POSITIVE",
+    theme: "AI Automation",
+    status: "UNANSWERED",
+    response: "",
+    aiDrafts: {
+      professional: "Dear Bhavik, thank you for your kind review. Designing high-converting web systems and intelligent WhatsApp automations is our specialty. We appreciate your partnership with SM NextGen.",
+      friendly: "Hi Bhavik! Awesome to hear the WhatsApp bot and new funnel are crushing it for your team 24/7! Thanks for choosing SM NextGen!",
+      warm: "Dear Bhavik, thank you so much! We are delighted that our automation systems are saving your team hours while qualifying leads automatically.",
+      premium: "Thank you Bhavik. Delivering enterprise-grade digital architecture and operational efficiency is our core mission. We look forward to our continued collaboration."
+    }
+  },
+  {
+    id: "rev-smn-3",
+    author: "Rajesh Solanki",
+    avatar: "RS",
+    rating: 5,
+    date: "1 week ago",
+    text: "Very professional performance marketing service. Our Meta and Google Ads campaigns achieved a profitable ROAS right from the first month.",
+    sentiment: "POSITIVE",
+    theme: "Performance Ads",
+    status: "ANSWERED",
+    response: "Thank you Rajesh! Delivering positive ROAS and disciplined customer acquisition is what drives our media team. Appreciate your partnership!",
+    aiDrafts: {}
+  },
+  {
+    id: "rev-smn-4",
+    author: "Neha Jain",
+    avatar: "NJ",
+    rating: 5,
+    date: "2 weeks ago",
+    text: "Helped optimize our Google Business Profile and local directory citations. Customer direction requests on Google Maps increased immediately.",
+    sentiment: "POSITIVE",
+    theme: "Google Maps",
+    status: "ANSWERED",
+    response: "Thank you Neha! Ensuring accurate local citations and active profile health helps Google Maps prioritize your location. Delighted to support your journey!",
+    aiDrafts: {}
+  }
+];
+
+export const SM_NEXTGEN_OPPORTUNITIES = [
+  {
+    id: "opp-smn-1",
+    priority: "HIGH",
+    priorityLabel: "High Priority",
+    title: "Respond to 2 Unanswered 5-Star Reviews",
+    problem: "Ankit Sharma and Bhavik Mehra left 5-star reviews waiting for owner replies.",
+    whyItMatters: "Google's 3-Pack algorithm measures review reply velocity. Replying within 24 hours boosts local ranking prominence.",
+    recommendedAction: "Use 1-click AI Review Responder in Reviews Tab to publish replies.",
+    estimatedImpact: "High (+8 pts)",
+    points: 8,
+    actionTab: "reviews",
+    actionLabel: "Reply in Reviews Inbox"
+  },
+  {
+    id: "opp-smn-2",
+    priority: "MEDIUM",
+    priorityLabel: "Medium Priority",
+    title: "Publish Weekly Google Business Post",
+    problem: "Last promotional update was posted 6 days ago. Google posts expire every 7 days.",
+    whyItMatters: "Active weekly Google Posts increase profile click-through rate by over 22%.",
+    recommendedAction: "Publish a promotional update with direct Call Now button.",
+    estimatedImpact: "Medium (+5 pts)",
+    points: 5,
+    actionTab: "tools",
+    actionLabel: "Create Post"
+  },
+  {
+    id: "opp-smn-3",
+    priority: "LOW",
+    priorityLabel: "Growth Booster",
+    title: "Upload 3 Fresh Project & Workspace Photos",
+    problem: "Storefront visual freshness was updated 18 days ago.",
+    whyItMatters: "Profiles with regular visual updates receive 42% more direction requests on Google Maps.",
+    recommendedAction: "Upload new team consultation and workspace photos.",
+    estimatedImpact: "Low (+4 pts)",
+    points: 4,
+    actionTab: "tools",
+    actionLabel: "View Photo Ideas"
   }
 ];

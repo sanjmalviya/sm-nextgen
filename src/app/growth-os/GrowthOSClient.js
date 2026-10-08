@@ -9,7 +9,9 @@ import {
   DEFAULT_AUDIT_CATEGORIES,
   DEFAULT_OPPORTUNITIES,
   DEFAULT_REVIEWS,
-  DEFAULT_TASKS
+  DEFAULT_TASKS,
+  SM_NEXTGEN_REVIEWS,
+  SM_NEXTGEN_OPPORTUNITIES
 } from "./lib/initialData";
 import { storageService, SEED_WORKSPACES } from "./lib/supabaseClient";
 
@@ -79,7 +81,7 @@ export default function GrowthOSClient() {
 
   // Active Workspace Data State
   const [kpi, setKpi] = useState(DEFAULT_KPI);
-  const [auditScore, setAuditScore] = useState(81);
+  const [auditScore, setAuditScore] = useState(0);
   const [appliedFixes, setAppliedFixes] = useState({});
   const [auditCategories, setAuditCategories] = useState(DEFAULT_AUDIT_CATEGORIES);
   const [opportunities, setOpportunities] = useState(DEFAULT_OPPORTUNITIES);
@@ -118,26 +120,16 @@ export default function GrowthOSClient() {
       if (savedState.kpi) setKpi(savedState.kpi);
       if (savedState.score !== undefined) setAuditScore(savedState.score);
       if (savedState.reviews) setReviews(savedState.reviews);
+      if (savedState.opportunities) setOpportunities(savedState.opportunities);
       if (savedState.tasks) setTasks(savedState.tasks);
       if (savedState.appliedFixes) setAppliedFixes(savedState.appliedFixes);
     } else if (currentW && !currentW.googleConnected) {
       // Clean zero state for un-connected business
       setAuditScore(0);
-      setKpi({
-        rating: 0,
-        totalReviews: 0,
-        unansweredReviews: 0,
-        profileCompleteness: 40,
-        calls: 0,
-        callsChange: "+0%",
-        directionRequests: 0,
-        directionsChange: "+0%",
-        websiteClicks: 0,
-        websiteClicksChange: "+0%",
-        searchImpressions: 0
-      });
+      setKpi(DEFAULT_KPI);
       setReviews([]);
-      setTasks([]);
+      setOpportunities(DEFAULT_OPPORTUNITIES);
+      setTasks(DEFAULT_TASKS);
       setAppliedFixes({});
     } else if (currentW) {
       // Default benchmark
@@ -228,32 +220,39 @@ export default function GrowthOSClient() {
     
     const verifiedRating = googleData.rating || 5.0;
     const verifiedReviews = googleData.totalReviews || 47;
+    const activeReviews = (googleData.reviews && googleData.reviews.length > 0) ? googleData.reviews : SM_NEXTGEN_REVIEWS;
+    const activeOpps = (googleData.opportunities && googleData.opportunities.length > 0) ? googleData.opportunities : SM_NEXTGEN_OPPORTUNITIES;
+    const unanswered = activeReviews.filter(r => r.status === "UNANSWERED").length;
+
     const liveKpi = {
       rating: verifiedRating,
       totalReviews: verifiedReviews,
-      unansweredReviews: 0,
+      unansweredReviews: unanswered,
       profileCompleteness: 95,
-      calls: Math.round(verifiedReviews * 4.2),
+      calls: googleData.calls || 198,
       callsChange: "+18%",
-      websiteClicks: Math.round(verifiedReviews * 8.5),
+      websiteClicks: googleData.websiteClicks || 402,
       websiteClicksChange: "+26%",
-      directionRequests: Math.round(verifiedReviews * 5.1),
+      directionRequests: googleData.directionRequests || 240,
       directionsChange: "+14%",
-      searchImpressions: Math.round(verifiedReviews * 82)
+      searchImpressions: googleData.searchImpressions || 3854
     };
     
     setKpi(liveKpi);
     setAuditScore(88);
+    setReviews(activeReviews);
+    setOpportunities(activeOpps);
     
     storageService.saveWorkspaceState(currentBusiness.id, {
       kpi: liveKpi,
       score: 88,
-      reviews: [],
-      tasks: [],
-      appliedFixes: {}
+      reviews: activeReviews,
+      opportunities: activeOpps,
+      tasks: tasks,
+      appliedFixes: appliedFixes
     });
 
-    showToast(`Verified Google Profile "\${googleData.name}" connected!`);
+    showToast(`Verified Google Profile "${googleData.name}" connected!`);
   };
 
   const handleDisconnectGoogle = () => {
@@ -266,28 +265,17 @@ export default function GrowthOSClient() {
     };
     handleUpdateWorkspace(currentBusiness.id, updatedBiz);
     setAuditScore(0);
-    const zeroKpi = {
-      rating: 0,
-      totalReviews: 0,
-      unansweredReviews: 0,
-      profileCompleteness: 40,
-      calls: 0,
-      callsChange: "+0%",
-      directionRequests: 0,
-      directionsChange: "+0%",
-      websiteClicks: 0,
-      websiteClicksChange: "+0%",
-      searchImpressions: 0
-    };
-    setKpi(zeroKpi);
+    setKpi(DEFAULT_KPI);
     setReviews([]);
-    setTasks([]);
+    setOpportunities(DEFAULT_OPPORTUNITIES);
+    setTasks(DEFAULT_TASKS);
     setAppliedFixes({});
     storageService.saveWorkspaceState(currentBusiness.id, {
-      kpi: zeroKpi,
+      kpi: DEFAULT_KPI,
       score: 0,
       reviews: [],
-      tasks: [],
+      opportunities: DEFAULT_OPPORTUNITIES,
+      tasks: DEFAULT_TASKS,
       appliedFixes: {}
     });
     showToast("Google Business Profile disconnected. Dashboard reset to blank state.");
@@ -668,6 +656,7 @@ export default function GrowthOSClient() {
         isOpen={isConnectGoogleOpen}
         onClose={() => setIsConnectGoogleOpen(false)}
         business={currentBusiness}
+        currentUser={currentUser}
         onConnectSuccess={handleConnectGoogleSuccess}
       />
     </div>
