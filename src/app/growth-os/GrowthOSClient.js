@@ -258,6 +258,43 @@ export default function GrowthOSClient() {
     showToast(`Loaded benchmark live data for ${currentBusiness.name}`);
   };
 
+  const handleDisconnectGoogle = () => {
+    const updatedBiz = {
+      ...currentBusiness,
+      googleConnected: false,
+      placeId: "",
+      lastSynced: "Not synced",
+      gbpVerified: false
+    };
+    handleUpdateWorkspace(currentBusiness.id, updatedBiz);
+    setAuditScore(0);
+    const zeroKpi = {
+      rating: 0,
+      totalReviews: 0,
+      unansweredReviews: 0,
+      profileCompleteness: 40,
+      calls: 0,
+      callsChange: "+0%",
+      directionRequests: 0,
+      directionsChange: "+0%",
+      websiteClicks: 0,
+      websiteClicksChange: "+0%",
+      searchImpressions: 0
+    };
+    setKpi(zeroKpi);
+    setReviews([]);
+    setTasks([]);
+    setAppliedFixes({});
+    storageService.saveWorkspaceState(currentBusiness.id, {
+      kpi: zeroKpi,
+      score: 0,
+      reviews: [],
+      tasks: [],
+      appliedFixes: {}
+    });
+    showToast("Google Business Profile disconnected. Dashboard reset to blank state.");
+  };
+
   // Live Sync Simulation
   const handleSync = () => {
     setIsSyncing(true);
@@ -445,10 +482,19 @@ export default function GrowthOSClient() {
           {/* Right Header Controls */}
           <div className="flex items-center gap-2.5">
             {currentBusiness?.googleConnected ? (
-              <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-[11px] font-semibold">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                <span>Google Maps Connected</span>
-              </span>
+              <div className="flex items-center gap-1.5">
+                <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-[11px] font-semibold">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  <span>Google Maps Connected</span>
+                </span>
+                <button
+                  onClick={handleDisconnectGoogle}
+                  className="text-[10px] text-slate-400 hover:text-rose-400 px-2 py-0.5 rounded border border-slate-700/60 hover:border-rose-500/40 transition cursor-pointer"
+                  title="Disconnect Google Business Profile"
+                >
+                  Disconnect
+                </button>
+              </div>
             ) : (
               <button
                 onClick={() => setIsConnectGoogleOpen(true)}
@@ -549,6 +595,7 @@ export default function GrowthOSClient() {
               <AssistantTab
                 business={currentBusiness}
                 auditScore={auditScore}
+                onNavigateTab={setActiveTab}
               />
             )}
 
@@ -565,6 +612,8 @@ export default function GrowthOSClient() {
                 onSignOut={handleSignOut}
                 currency={currency}
                 setCurrency={setCurrency}
+                onDisconnectGoogle={handleDisconnectGoogle}
+                onOpenConnectGoogle={() => setIsConnectGoogleOpen(true)}
                 onResetDemo={() => {
                   setKpi(DEFAULT_KPI);
                   setAuditScore(81);

@@ -20,31 +20,31 @@ export const supabase = (supabaseUrl && supabaseAnonKey)
     })
   : null;
 
-// Initial Seed Workspaces for Multi-Tenant SaaS
+// Initial Seed Workspaces for Multi-Tenant SaaS (Clean zero-state until user connects Google)
 export const SEED_WORKSPACES = [
   {
     id: "biz-1",
-    name: "Apex Dental Care & Implant Center",
-    category: "Dental clinic",
-    secondaryCategories: ["Dentist", "Cosmetic dentist", "Dental implants provider"],
+    name: "SM NextGen Growth Workspace",
+    category: "Digital Agency & Marketing",
+    secondaryCategories: ["SEO Agency", "Local Marketing Consultant", "AI Automation Provider"],
     primaryGoal: "Get more calls",
-    website: "https://apexdentaludaipur.com",
+    website: "https://smnextgen.com",
     phone: "+91 70735 38077",
     email: "info@smnextgen.com",
-    address: "Plot 14, Saheli Nagar, Near Saheliyon Ki Bari",
+    address: "HPPQ+Q5V, Sunderwas, Ganapati Nagar",
     city: "Udaipur",
     state: "Rajasthan",
     country: "India",
     postalCode: "313001",
-    rating: 4.8,
-    totalReviews: 142,
-    score: 81,
-    plan: "AI Growth Pro",
+    rating: 0,
+    totalReviews: 0,
+    score: 0,
+    plan: "Enterprise Master Admin",
     status: "Active",
     isDemo: false,
-    googleConnected: true,
-    lastSynced: "Just now",
-    description: "Premier multi-specialty dental and implant center in Udaipur offering painless root canals, cosmetic smile makeovers, dental implants, and pediatric dentistry with modern 3D digital imaging."
+    googleConnected: false,
+    lastSynced: "Not connected",
+    description: "SM NextGen Headquarters & Growth Lab in Udaipur, Rajasthan."
   },
   {
     id: "biz-2",
@@ -60,39 +60,15 @@ export const SEED_WORKSPACES = [
     state: "Rajasthan",
     country: "India",
     postalCode: "313001",
-    rating: 4.6,
-    totalReviews: 98,
-    score: 76,
+    rating: 0,
+    totalReviews: 0,
+    score: 0,
     plan: "Growth Starter",
     status: "Active",
-    isDemo: false,
-    googleConnected: true,
-    lastSynced: "2 hours ago",
-    description: "Luxury lake-facing heritage palace resort in Udaipur featuring royal suites, royal Rajasthani dining, and world-class lake views."
-  },
-  {
-    id: "biz-3",
-    name: "Horizon Orthopedic & Spine Center",
-    category: "Specialty Clinic",
-    secondaryCategories: ["Physical Therapy", "Sports Medicine", "Joint Replacement"],
-    primaryGoal: "Get more directions",
-    website: "https://horizonspinecenter.com",
-    phone: "+91 70735 38077",
-    email: "contact@horizonspine.com",
-    address: "C-Scheme, Ashok Nagar",
-    city: "Jaipur",
-    state: "Rajasthan",
-    country: "India",
-    postalCode: "302001",
-    rating: 4.9,
-    totalReviews: 215,
-    score: 89,
-    plan: "Multi-Location Enterprise",
-    status: "Active",
-    isDemo: false,
-    googleConnected: true,
-    lastSynced: "Today at 08:30 AM",
-    description: "Leading orthopedic and spine surgery center specializing in robotic joint replacement, minimally invasive spine surgery, and sports injury rehabilitation."
+    isDemo: true,
+    googleConnected: false,
+    lastSynced: "Not connected",
+    description: "Luxury lake-facing heritage palace resort in Udaipur featuring royal suites and lake views."
   }
 ];
 
@@ -105,7 +81,7 @@ export const SEED_USERS = [
     password: "GrowthOS2026!",
     role: "ADMIN",
     businessId: "biz-1",
-    businessName: "Apex Dental Care & Implant Center",
+    businessName: "SM NextGen Growth Workspace",
     city: "Udaipur, Rajasthan",
     createdAt: "2026-09-01T00:00:00.000Z"
   }
@@ -117,7 +93,12 @@ export const storageService = {
     if (typeof window === "undefined") return null;
     try {
       const data = localStorage.getItem("sm_growth_os_session");
-      return data ? JSON.parse(data) : null;
+      if (!data) return null;
+      const parsed = JSON.parse(data);
+      if (parsed.email === "admin@smnextgen.com" && parsed.businessName?.includes("Apex Dental")) {
+        parsed.businessName = "SM NextGen Growth Workspace";
+      }
+      return parsed;
     } catch (e) {
       return null;
     }
@@ -177,7 +158,24 @@ export const storageService = {
         localStorage.setItem("sm_growth_os_workspaces", JSON.stringify(SEED_WORKSPACES));
         return SEED_WORKSPACES;
       }
-      return JSON.parse(data);
+      const list = JSON.parse(data);
+      // Sanitize legacy Apex Dental pre-connected dummy data
+      const cleaned = list.map(w => {
+        if (w.id === "biz-1" && (!w.placeId || w.name?.includes("Apex Dental"))) {
+          return {
+            ...w,
+            name: "SM NextGen Growth Workspace",
+            category: "Digital Agency & Marketing",
+            rating: 0,
+            totalReviews: 0,
+            score: 0,
+            googleConnected: false,
+            lastSynced: "Not connected"
+          };
+        }
+        return w;
+      });
+      return cleaned;
     } catch (e) {
       return SEED_WORKSPACES;
     }
@@ -241,6 +239,31 @@ export const storageService = {
   getWorkspaceState: (workspaceId) => {
     if (typeof window === "undefined") return null;
     try {
+      // Check if current workspace is connected
+      const workspaces = storageService.getWorkspaces();
+      const current = workspaces.find(w => w.id === workspaceId);
+      if (current && !current.googleConnected) {
+        return {
+          kpi: {
+            rating: 0,
+            totalReviews: 0,
+            unansweredReviews: 0,
+            profileCompleteness: 0,
+            calls: 0,
+            callsChange: "+0%",
+            directionRequests: 0,
+            directionsChange: "+0%",
+            websiteClicks: 0,
+            websiteClicksChange: "+0%",
+            searchImpressions: 0
+          },
+          score: 0,
+          reviews: [],
+          tasks: [],
+          appliedFixes: {}
+        };
+      }
+
       const data = localStorage.getItem(`sm_growth_os_state_${workspaceId}`);
       return data ? JSON.parse(data) : null;
     } catch (e) {

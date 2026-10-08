@@ -434,30 +434,86 @@ export default function AdminTab({
 
       {/* 4. USER ACCOUNTS TAB */}
       {activeSubTab === "users" && (
-        <div className="p-6 rounded-3xl bg-slate-900 border border-slate-800 space-y-4">
-          <h3 className="font-heading font-extrabold text-base text-white">Registered User Accounts</h3>
+        <div className="p-6 rounded-3xl bg-slate-900 border border-slate-800 space-y-5">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
+            <div>
+              <h3 className="font-heading font-extrabold text-base text-white">Registered User Accounts & Client Registry</h3>
+              <p className="text-xs text-slate-400">All registered business owners and admins stored in the Growth OS account database.</p>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="px-3 py-1.5 rounded-xl bg-slate-950 border border-slate-800 text-xs font-mono font-bold text-[#0097B2]">
+                {registeredUsers.length} Total Users
+              </span>
+              <button
+                onClick={() => {
+                  if (typeof navigator !== "undefined" && navigator.clipboard) {
+                    const emails = registeredUsers.map(u => u.email).join(", ");
+                    navigator.clipboard.writeText(emails);
+                    showToast("Copied all registered user emails to clipboard!");
+                  }
+                }}
+                className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold transition cursor-pointer"
+              >
+                Copy Emails
+              </button>
+            </div>
+          </div>
+
+          {/* Quick Metrics */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <div className="p-3.5 rounded-2xl bg-slate-950 border border-slate-800">
+              <div className="text-[10px] text-slate-400 uppercase font-mono">Total Clients</div>
+              <div className="text-xl font-extrabold text-white">{registeredUsers.filter(u => u.role !== "ADMIN").length}</div>
+            </div>
+            <div className="p-3.5 rounded-2xl bg-slate-950 border border-slate-800">
+              <div className="text-[10px] text-slate-400 uppercase font-mono">Master Admins</div>
+              <div className="text-xl font-extrabold text-cyan-400">{registeredUsers.filter(u => u.role === "ADMIN").length}</div>
+            </div>
+            <div className="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 col-span-2 sm:col-span-1">
+              <div className="text-[10px] text-slate-400 uppercase font-mono">Database Status</div>
+              <div className="text-xs font-bold text-emerald-400 flex items-center gap-1.5 mt-1">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span>Local & Cloud Synced</span>
+              </div>
+            </div>
+          </div>
+
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
+            <table className="w-full text-left text-xs min-w-[600px]">
               <thead>
                 <tr className="border-b border-slate-800 text-slate-400 font-mono">
-                  <th className="pb-3">Name</th>
-                  <th className="pb-3">Email</th>
-                  <th className="pb-3">Business</th>
+                  <th className="pb-3">User Name</th>
+                  <th className="pb-3">Email Address</th>
+                  <th className="pb-3">Business Workspace</th>
                   <th className="pb-3">City</th>
                   <th className="pb-3">Role</th>
+                  <th className="pb-3 text-right">Action</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-800/60 text-slate-300">
                 {registeredUsers.map((u) => (
-                  <tr key={u.id}>
+                  <tr key={u.id} className="hover:bg-slate-950/40 transition">
                     <td className="py-3 font-bold text-white">{u.name}</td>
-                    <td className="py-3 font-mono">{u.email}</td>
-                    <td className="py-3">{u.businessName || "Apex Dental"}</td>
-                    <td className="py-3">{u.city || "Udaipur"}</td>
+                    <td className="py-3 font-mono text-slate-300">{u.email}</td>
+                    <td className="py-3 text-slate-200">{u.businessName || "SM NextGen"}</td>
+                    <td className="py-3 text-slate-400">{u.city || "Udaipur"}</td>
                     <td className="py-3">
-                      <span className={"px-2 py-0.5 rounded text-[10px] font-bold " + (u.role === "ADMIN" ? "bg-cyan-500/20 text-cyan-400 border border-cyan-500/30" : "bg-emerald-500/20 text-emerald-400")}>
+                      <span className={"px-2.5 py-0.5 rounded-full text-[10px] font-bold " + (u.role === "ADMIN" ? "bg-cyan-500/20 text-cyan-400 border border-cyan-500/30" : "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30")}>
                         {u.role}
                       </span>
+                    </td>
+                    <td className="py-3 text-right">
+                      {u.businessId && (
+                        <button
+                          onClick={() => {
+                            onSwitchWorkspace(u.businessId);
+                            showToast(`Switched to ${u.name}'s workspace!`);
+                          }}
+                          className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-[#0097B2] text-slate-200 hover:text-white text-[11px] font-semibold transition cursor-pointer"
+                        >
+                          View Workspace
+                        </button>
+                      )}
                     </td>
                   </tr>
                 ))}

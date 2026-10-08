@@ -19,7 +19,9 @@ export default function SettingsTab({
   onSignOut,
   currency,
   setCurrency,
-  onResetDemo
+  onResetDemo,
+  onDisconnectGoogle,
+  onOpenConnectGoogle
 }) {
   const [bizName, setBizName] = useState(business?.name || "Apex Dental Care & Implant Center");
   const [bizPhone, setBizPhone] = useState(business?.phone || "+91 70735 38077");
@@ -139,24 +141,65 @@ export default function SettingsTab({
       {/* Google Business Profile Connection Manager */}
       <div className="p-6 rounded-3xl bg-slate-900 border border-slate-800 space-y-4">
         <h3 className="font-heading font-extrabold text-base text-white">
-          Google Business Profile Connection
+          Google Business Profile Integration
         </h3>
 
-        <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
-              <ShieldCheck className="w-5 h-5" />
+        {business?.googleConnected ? (
+          <div className="p-4 rounded-2xl bg-slate-950 border border-emerald-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-500/20">
+                <ShieldCheck className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="font-bold text-xs sm:text-sm text-white flex items-center gap-2">
+                  <span>Google Maps Connected</span>
+                  <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400">
+                    Live Active
+                  </span>
+                </div>
+                <div className="text-[11px] text-slate-400 mt-0.5">
+                  Storefront: {business?.name} • Place ID: {business?.placeId || "ChIJN1t_tDeuEms..."}
+                </div>
+              </div>
             </div>
-            <div>
-              <div className="font-bold text-xs sm:text-sm text-white">Google Profile Connected</div>
-              <div className="text-[11px] text-slate-400">OAuth ID: gbp_live_apex_udaipur</div>
+
+            <div className="flex items-center gap-2">
+              {onDisconnectGoogle && (
+                <button
+                  type="button"
+                  onClick={onDisconnectGoogle}
+                  className="px-3.5 py-1.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-rose-400 text-xs font-bold transition cursor-pointer"
+                >
+                  Disconnect Profile
+                </button>
+              )}
             </div>
           </div>
+        ) : (
+          <div className="p-4 rounded-2xl bg-slate-950 border border-amber-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center shrink-0 border border-amber-500/20">
+                <RefreshCw className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="font-bold text-xs sm:text-sm text-white">No Google Profile Connected</div>
+                <div className="text-[11px] text-slate-400 mt-0.5">
+                  Connect your Google Business Profile to stream reviews and ranking telemetry.
+                </div>
+              </div>
+            </div>
 
-          <span className="text-xs font-bold text-emerald-400 px-3 py-1 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
-            Active Sync
-          </span>
-        </div>
+            {onOpenConnectGoogle && (
+              <button
+                type="button"
+                onClick={onOpenConnectGoogle}
+                className="px-4 py-2 rounded-xl bg-[#0097B2] hover:bg-[#007a91] text-white text-xs font-bold transition cursor-pointer shrink-0"
+              >
+                Connect Google Profile
+              </button>
+            )}
+          </div>
+        )}
       </div>
 
       {/* System Actions */}
