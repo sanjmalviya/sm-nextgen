@@ -53,9 +53,10 @@ export default function Header() {
   }, [pathname]);
 
   const navLinks = [
-    { name: "How We Grow", href: "/how-we-work" },
+    { name: "Services", href: "/services" },
+    { name: "Solutions", href: "/how-we-work" },
+    { name: "Growth OS", href: "/growth-os", isProduct: true },
     { name: "Case Studies", href: "/case-studies" },
-    { name: "Tools", href: "/tools" },
     { name: "About", href: "/about" },
   ];
 
@@ -258,15 +259,29 @@ export default function Header() {
                 </div>
               </div>
 
-              {navLinks.map((link) => (
-                <Link 
-                  key={link.name} 
-                  href={link.href} 
-                  className="nav-link text-sm font-medium text-[#0B2545]/80 hover:text-[#0097B2] transition dark:text-gray-200"
-                >
-                  {link.name}
-                </Link>
-              ))}
+              {navLinks.map((link) => {
+                if (link.isProduct) {
+                  return (
+                    <Link
+                      key={link.name}
+                      href={link.href}
+                      className="nav-link text-sm font-bold flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#0097B2]/10 hover:bg-[#0097B2]/20 border border-[#0097B2]/30 text-[#0097B2] dark:text-cyan-300 transition shrink-0"
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      <span>{link.name}</span>
+                    </Link>
+                  );
+                }
+                return (
+                  <Link 
+                    key={link.name} 
+                    href={link.href} 
+                    className="nav-link text-sm font-medium text-[#0B2545]/80 hover:text-[#0097B2] transition dark:text-gray-200"
+                  >
+                    {link.name}
+                  </Link>
+                );
+              })}
             </nav>
 
             {/* Header Right Actions - Clean, Spacious, Premium */}
@@ -303,7 +318,7 @@ export default function Header() {
                 href="/contact" 
                 className="hidden lg:inline-flex bg-[#0097B2] hover:bg-[#007a91] text-white px-3.5 sm:px-4 py-2 rounded-xl font-bold text-xs uppercase tracking-wider shadow-sm transition-all hover:scale-[1.02] items-center gap-1.5 cursor-pointer shrink-0"
               >
-                <span>Start Conversation</span>
+                <span>Schedule Consultation</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
               

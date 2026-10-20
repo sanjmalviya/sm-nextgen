@@ -214,27 +214,31 @@ export default function AboutClient() {
             {/* Senior Growth Leadership Pod Visual (5 cols) */}
             <div className="lg:col-span-5 flex flex-col items-center sm:items-start w-full">
               <div className="w-full rounded-2xl bg-white/5 border border-white/15 p-6 backdrop-blur-md shadow-2xl relative overflow-hidden group">
-                <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-5">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-[#0097B2]/20 border border-[#0097B2]/40 flex items-center justify-center text-[#0097B2]">
-                      <ShieldCheck className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <div className="text-sm font-bold font-heading text-white">
-                        Growth Leadership Team
-                      </div>
-                      <div className="text-[11px] text-[#0097B2] font-semibold">
-                        Direct Strategic Governance
-                      </div>
-                    </div>
+                
+                {/* Founder Photo & Title */}
+                <div className="flex items-center gap-4 pb-4 border-b border-white/10 mb-5">
+                  <div className="w-16 h-16 rounded-2xl overflow-hidden border-2 border-[#0097B2] shrink-0 bg-slate-900 shadow-md">
+                    <img 
+                      src="/images/sanjay.png" 
+                      alt="Sanjay Malviya - Founder of SM NextGen" 
+                      className="w-full h-full object-cover object-top"
+                    />
                   </div>
-                  <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-mono font-bold">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    Active Pod
+                  <div>
+                    <div className="text-base font-bold font-heading text-white">
+                      Sanjay Malviya
+                    </div>
+                    <div className="text-xs text-[#0097B2] font-semibold">
+                      Founder & Managing Principal
+                    </div>
+                    <div className="inline-flex items-center gap-1 mt-1 px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-mono font-bold">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      Direct Governance
+                    </div>
                   </div>
                 </div>
 
-                <div className="space-y-3 mb-6">
+                <div className="space-y-2.5 mb-5">
                   <div className="p-3 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between">
                     <span className="text-xs text-[#E6EEF2]/90 font-medium">Growth Strategy & Economics</span>
                     <span className="text-[11px] font-mono text-[#0097B2] font-bold">Principal Level</span>
@@ -244,7 +248,7 @@ export default function AboutClient() {
                     <span className="text-[11px] font-mono text-[#0097B2] font-bold">Lead Architect</span>
                   </div>
                   <div className="p-3 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between">
-                    <span className="text-xs text-[#E6EEF2]/90 font-medium">Performance Media & Conversion</span>
+                    <span className="text-xs text-[#E6EEF2]/90 font-medium">Google Maps 3-Pack & SEO</span>
                     <span className="text-[11px] font-mono text-[#0097B2] font-bold">Senior Specialist</span>
                   </div>
                 </div>

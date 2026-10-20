@@ -96,8 +96,9 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-bold mb-6 text-[#0097B2] uppercase text-xs tracking-widest">Company</h4>
+            <h4 className="font-bold mb-6 text-[#0097B2] uppercase text-xs tracking-widest">Company & Products</h4>
             <ul className="space-y-3 text-sm text-[#E6EEF2]/70 font-medium">
+              <li><Link href="/growth-os" className="text-cyan-400 font-bold hover:text-white hover:translate-x-1 inline-flex items-center gap-1.5 transition-all"><span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> Growth OS Platform</Link></li>
               <li><Link href="/about" className="hover:text-white hover:translate-x-1 inline-block transition-all">About SM NextGen</Link></li>
               <li><Link href="/pricing" className="hover:text-white hover:translate-x-1 inline-block transition-all">Pricing Plans</Link></li>
               <li><Link href="/case-studies" className="hover:text-white hover:translate-x-1 inline-block transition-all">Our Work & Results</Link></li>
