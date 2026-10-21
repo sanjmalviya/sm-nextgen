@@ -1,75 +1,99 @@
-// file: src/components/Footer.js
 "use client";
+
+import React from "react";
 import Link from "next/link";
+import { Phone, Mail, MapPin, MessageSquare, ArrowUpRight, Zap } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#071A30] text-white pt-20 pb-10 border-t border-white/5 mt-auto font-body relative overflow-hidden">
+    <footer className="bg-[#071A30] text-white pt-16 pb-10 border-t border-white/10 mt-auto font-body relative overflow-hidden">
       
-      {/* Background Subtle Glows */}
-      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-[#0097B2]/10 rounded-full blur-[120px] pointer-events-none"></div>
-      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-purple-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+      {/* Subtle Atmospheric Lighting */}
+      <div className="absolute top-0 left-0 w-96 h-96 bg-[#0097B2]/10 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* TOP ROW: BRAND & MAP */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 mb-16 border-b border-white/10 pb-16">
+        {/* Top Grid: Brand & Map */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 mb-14 pb-14 border-b border-white/10">
           
-          {/* Left: Brand & Contact Info */}
-          <div className="lg:col-span-5 flex flex-col justify-between">
+          {/* Left Column (5 Cols): Brand & Direct Details */}
+          <div className="lg:col-span-5 flex flex-col justify-between space-y-6">
             <div>
-              <div className="flex items-center gap-2 mb-6">
-                <span className="font-heading font-extrabold text-3xl text-white tracking-tight">SM NextGen</span>
+              {/* Logo Lockup */}
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-full overflow-hidden shrink-0 flex items-center justify-center bg-[#0097B2]/10 border border-[#0097B2]/30">
+                  <img 
+                    src="/images/logo.png" 
+                    alt="SM NextGen" 
+                    className="w-full h-full object-cover" 
+                    width={40}
+                    height={40}
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <span className="font-heading font-extrabold text-xl text-white tracking-tight leading-tight">
+                    SM NextGen
+                  </span>
+                  <span className="text-[10px] font-mono font-bold text-[#0097B2] uppercase tracking-wider leading-none mt-0.5">
+                    Business Growth Partner
+                  </span>
+                </div>
               </div>
-              <p className="text-[#E6EEF2]/70 text-sm mb-8 leading-relaxed max-w-sm">
-                Your Complete Business Growth Partner. Accelerating revenue, technology, AI automation, and scalable operations for ambitious enterprises worldwide.
+
+              <p className="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-sm font-light">
+                Your Complete Business Growth Partner. Combining strategy, marketing, technology, AI automation, and closed-loop revenue attribution.
               </p>
             </div>
 
-            {/* Contact Details Grid */}
-            <div className="space-y-4">
-              <a href="tel:+917073538077" className="flex items-start gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors group w-max">
-                <div className="w-10 h-10 rounded-full bg-[#0097B2]/20 text-[#0097B2] flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
-                  <i className="fas fa-phone-alt -scale-x-100"></i>
+            {/* Direct Contact Links */}
+            <div className="space-y-3 text-xs">
+              <a 
+                href="tel:+917073538077" 
+                className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/5 transition-colors group w-max"
+              >
+                <div className="w-8 h-8 rounded-lg bg-[#0097B2]/20 text-[#0097B2] flex items-center justify-center shrink-0">
+                  <Phone className="w-3.5 h-3.5" />
                 </div>
                 <div>
-                  <p className="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-0.5">Call Us</p>
-                  <p className="text-sm font-bold text-white">+91 70735 38077</p>
-                </div>
-              </a>
-              
-              <a href="mailto:info@smnextgen.com" className="flex items-start gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors group w-max">
-                <div className="w-10 h-10 rounded-full bg-[#0097B2]/20 text-[#0097B2] flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
-                  <i className="fas fa-envelope"></i>
-                </div>
-                <div>
-                  <p className="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-0.5">Email Support</p>
-                  <p className="text-sm font-bold text-white">info@smnextgen.com</p>
+                  <span className="text-[10px] text-slate-400 uppercase font-mono block">Direct Phone</span>
+                  <span className="font-bold text-white group-hover:text-[#0097B2] transition-colors">+91 70735 38077</span>
                 </div>
               </a>
 
-              <div className="flex items-start gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors group max-w-sm">
-                <div className="w-10 h-10 rounded-full bg-[#0097B2]/20 text-[#0097B2] flex items-center justify-center group-hover:scale-110 transition-transform shrink-0 mt-1">
-                  <i className="fas fa-map-marker-alt"></i>
+              <a 
+                href="mailto:info@smnextgen.com" 
+                className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/5 transition-colors group w-max"
+              >
+                <div className="w-8 h-8 rounded-lg bg-[#0097B2]/20 text-[#0097B2] flex items-center justify-center shrink-0">
+                  <Mail className="w-3.5 h-3.5" />
                 </div>
                 <div>
-                  <p className="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-0.5">Headquarters</p>
-                  <p className="text-sm text-[#E6EEF2]/90 leading-relaxed font-medium">
+                  <span className="text-[10px] text-slate-400 uppercase font-mono block">Email Inquiries</span>
+                  <span className="font-bold text-white group-hover:text-[#0097B2] transition-colors">info@smnextgen.com</span>
+                </div>
+              </a>
+
+              <div className="flex items-start gap-3 p-2.5 rounded-xl max-w-sm">
+                <div className="w-8 h-8 rounded-lg bg-[#0097B2]/20 text-[#0097B2] flex items-center justify-center shrink-0 mt-0.5">
+                  <MapPin className="w-3.5 h-3.5" />
+                </div>
+                <div>
+                  <span className="text-[10px] text-slate-400 uppercase font-mono block">Headquarters</span>
+                  <span className="text-slate-300 leading-relaxed font-light text-xs">
                     HPPQ+Q5V, Sunderwas, Ganapati Nagar, <br />
                     Udaipur, Rajasthan 313001, India
-                  </p>
+                  </span>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Right: Google Map Embed */}
-          <div className="lg:col-span-7 bg-[#0B2545] rounded-3xl p-2 border border-white/10 shadow-2xl relative overflow-hidden h-[300px] lg:h-auto">
-            {/* Location Tag - Moved to Bottom Center to avoid overlapping Map Text */}
-            <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 bg-[#0B2545]/90 backdrop-blur-md text-white px-4 py-2 rounded-full text-xs font-bold shadow-[0_5px_15px_rgba(0,0,0,0.5)] z-10 flex items-center gap-2 border border-white/10">
-              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span> Visit Our Office
+          {/* Right Column (7 Cols): Google Maps Embed */}
+          <div className="lg:col-span-7 bg-[#0B2545] rounded-3xl p-2 border border-white/10 shadow-xl relative overflow-hidden h-[260px] lg:h-auto">
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-[#071A30]/90 backdrop-blur-md text-white px-3.5 py-1.5 rounded-full text-xs font-bold z-10 flex items-center gap-2 border border-white/10 shadow-md">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span>SM NextGen Headquarters</span>
             </div>
-            {/* Embed Map (Using general query for the provided address) */}
             <iframe 
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2607.6717454320324!2d73.73794160000001!3d24.5869516!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4452fc3201be4139%3A0xcc236a7cdf4cc286!2sSM%20NextGen!5e1!3m2!1sen!2sin!4v1775137416720!5m2!1sen!2sin"
               width="100%" 
@@ -78,73 +102,114 @@ export default function Footer() {
               allowFullScreen="" 
               loading="lazy" 
               referrerPolicy="no-referrer-when-downgrade"
-            ></iframe>
+            />
           </div>
+
         </div>
 
-        {/* MIDDLE ROW: LINKS */}
+        {/* Navigation Columns */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
           
           <div>
-            <h4 className="font-bold mb-6 text-[#0097B2] uppercase text-xs tracking-widest">Growth Services</h4>
-            <ul className="space-y-3 text-sm text-[#E6EEF2]/70 font-medium">
-              <li><Link href="/services" className="hover:text-white hover:translate-x-1 inline-block transition-all">Marketing & Branding</Link></li>
-              <li><Link href="/services" className="hover:text-white hover:translate-x-1 inline-block transition-all">Tech & App Development</Link></li>
-              <li><Link href="/services" className="hover:text-white hover:translate-x-1 inline-block transition-all">AI & Business Automation</Link></li>
-              <li><Link href="/services" className="hover:text-white hover:translate-x-1 inline-block transition-all">Legal & Finance Solutions</Link></li>
+            <h4 className="font-bold mb-4 text-[#0097B2] uppercase text-xs tracking-wider font-mono">
+              Growth Capabilities
+            </h4>
+            <ul className="space-y-2.5 text-xs text-slate-300 font-medium">
+              <li><Link href="/services/brand-strategy-positioning" className="hover:text-white transition-colors">Growth Strategy</Link></li>
+              <li><Link href="/services/search-engine-optimization-seo" className="hover:text-white transition-colors">Marketing & Demand</Link></li>
+              <li><Link href="/services/website-development" className="hover:text-white transition-colors">Conversion & Web Tech</Link></li>
+              <li><Link href="/services/ai-business-automation-systems" className="hover:text-white transition-colors">AI & Automations</Link></li>
+              <li><Link href="/services/ai-data-analytics-business-intelligence" className="hover:text-white transition-colors">Data & Attribution</Link></li>
+              <li><Link href="/services/business-compliance-management" className="hover:text-white transition-colors">Operations Support</Link></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="font-bold mb-6 text-[#0097B2] uppercase text-xs tracking-widest">Growth Systems</h4>
-            <ul className="space-y-3 text-sm text-[#E6EEF2]/70 font-medium">
-              <li><Link href="/growth-os" className="text-cyan-400 font-bold hover:text-white hover:translate-x-1 inline-flex items-center gap-1.5 transition-all"><span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> Growth OS Platform</Link></li>
-              <li><Link href="/how-we-work" className="hover:text-white hover:translate-x-1 inline-block transition-all">How We Grow</Link></li>
-              <li><Link href="/industries" className="hover:text-white hover:translate-x-1 inline-block transition-all">Industry Blueprints</Link></li>
-              <li><Link href="/services" className="hover:text-white hover:translate-x-1 inline-block transition-all">Capabilities Overview</Link></li>
-              <li><Link href="/pricing" className="hover:text-white hover:translate-x-1 inline-block transition-all">Growth Engagements</Link></li>
-              <li><Link href="/case-studies" className="hover:text-white hover:translate-x-1 inline-block transition-all">Case Studies</Link></li>
+            <h4 className="font-bold mb-4 text-[#0097B2] uppercase text-xs tracking-wider font-mono">
+              Systems & Products
+            </h4>
+            <ul className="space-y-2.5 text-xs text-slate-300 font-medium">
+              <li>
+                <Link href="/growth-os" className="text-cyan-300 font-bold hover:text-white inline-flex items-center gap-1.5 transition-colors">
+                  <Zap className="w-3.5 h-3.5 text-cyan-300" />
+                  <span>Growth OS Platform</span>
+                </Link>
+              </li>
+              <li><Link href="/how-we-work" className="hover:text-white transition-colors">How We Grow (Methodology)</Link></li>
+              <li><Link href="/industries" className="hover:text-white transition-colors">Industry Blueprints</Link></li>
+              <li><Link href="/case-studies" className="hover:text-white transition-colors">Documented Results</Link></li>
+              <li><Link href="/tools" className="hover:text-white transition-colors">Growth Tools & Calculators</Link></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="font-bold mb-6 text-[#0097B2] uppercase text-xs tracking-widest">Connect & Tools</h4>
-            <ul className="space-y-3 text-sm text-[#E6EEF2]/70 font-medium">
-              <li><Link href="/contact" className="hover:text-white hover:translate-x-1 inline-block transition-all">Contact Us</Link></li>
-              <li><Link href="/tools" className="hover:text-white hover:translate-x-1 inline-block transition-all">Growth Tools & Calculators</Link></li>
-              <li><Link href="/about" className="hover:text-white hover:translate-x-1 inline-block transition-all">About & Leadership</Link></li>
-              <li><Link href="/partners" className="hover:text-white hover:translate-x-1 inline-block transition-all">Partner Program</Link></li>
-              <li><a href="https://wa.me/917073538077" target="_blank" rel="noopener noreferrer" className="hover:text-green-400 hover:translate-x-1 inline-block transition-all"><i className="fab fa-whatsapp mr-1"></i> WhatsApp: +91 70735 38077</a></li>
+            <h4 className="font-bold mb-4 text-[#0097B2] uppercase text-xs tracking-wider font-mono">
+              Company
+            </h4>
+            <ul className="space-y-2.5 text-xs text-slate-300 font-medium">
+              <li><Link href="/about" className="hover:text-white transition-colors">About & Leadership</Link></li>
+              <li><Link href="/contact" className="hover:text-white transition-colors">Contact Us</Link></li>
+              <li><Link href="/pricing" className="hover:text-white transition-colors">Engagement Tiers</Link></li>
+              <li>
+                <a 
+                  href="https://wa.me/917073538077" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="hover:text-emerald-400 transition-colors inline-flex items-center gap-1.5"
+                >
+                  <MessageSquare className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>WhatsApp: +91 70735 38077</span>
+                </a>
+              </li>
             </ul>
           </div>
 
           <div>
-            <h4 className="font-bold mb-6 text-[#0097B2] uppercase text-xs tracking-widest">Legal & Privacy</h4>
-            <ul className="space-y-2.5 text-xs text-[#E6EEF2]/70 font-medium">
-              <li><Link href="/privacy-policy" className="hover:text-white hover:translate-x-1 inline-block transition-all">Privacy Policy</Link></li>
-              <li><Link href="/terms-and-conditions" className="hover:text-white hover:translate-x-1 inline-block transition-all">Terms of Service</Link></li>
-              <li><Link href="/refund-policy" className="hover:text-white hover:translate-x-1 inline-block transition-all">Refund Policy</Link></li>
-              <li><Link href="/cookie-policy" className="hover:text-white hover:translate-x-1 inline-block transition-all">Cookie Policy</Link></li>
-              <li><Link href="/data-deletion" className="hover:text-rose-400 hover:translate-x-1 inline-block transition-all">User Data Deletion</Link></li>
+            <h4 className="font-bold mb-4 text-[#0097B2] uppercase text-xs tracking-wider font-mono">
+              Legal & Compliance
+            </h4>
+            <ul className="space-y-2 text-xs text-slate-400 font-medium">
+              <li><Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
+              <li><Link href="/terms-and-conditions" className="hover:text-white transition-colors">Terms of Service</Link></li>
+              <li><Link href="/refund-policy" className="hover:text-white transition-colors">Refund Policy</Link></li>
+              <li><Link href="/cookie-policy" className="hover:text-white transition-colors">Cookie Policy</Link></li>
+              <li><Link href="/data-deletion" className="hover:text-rose-400 transition-colors">User Data Deletion</Link></li>
             </ul>
             
-            {/* Social Icons */}
-            <div className="mt-6 flex space-x-3 items-center">
-              <a href="https://www.instagram.com/smnextgen/" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-pink-500 hover:text-white transition-all"><i className="fab fa-instagram text-sm"></i></a>
-              <a href="https://www.linkedin.com/company/109211431" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-blue-600 hover:text-white transition-all"><i className="fab fa-linkedin text-sm"></i></a>
+            {/* Social Links */}
+            <div className="mt-5 flex items-center space-x-3">
+              <a 
+                href="https://www.instagram.com/smnextgen/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                aria-label="SM NextGen on Instagram"
+                className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:bg-pink-600 transition-colors"
+              >
+                <span className="text-xs font-bold font-mono">IG</span>
+              </a>
+              <a 
+                href="https://www.linkedin.com/company/109211431" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                aria-label="SM NextGen on LinkedIn"
+                className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:bg-blue-600 transition-colors"
+              >
+                <span className="text-xs font-bold font-mono">IN</span>
+              </a>
             </div>
           </div>
 
         </div>
-        
-        {/* BOTTOM BAR */}
-        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 font-bold tracking-wide">
-          <p>© {new Date().getFullYear()} SM NextGen. Built for Growth.</p>
-          <div className="mt-4 md:mt-0 flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/5">
-             <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_10px_rgba(34,197,94,0.8)]"></span>
-             <span>All Systems Operational</span>
+
+        {/* Bottom Bar */}
+        <div className="border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center text-xs text-slate-500 font-mono">
+          <p>© {new Date().getFullYear()} SM NextGen. All Rights Reserved. Built for Business Growth.</p>
+          <div className="mt-3 md:mt-0 flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span>Systems Live & Operational</span>
           </div>
         </div>
+
       </div>
     </footer>
   );

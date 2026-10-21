@@ -315,7 +315,7 @@ export default function PublicLanding({ onOpenAuth, onLaunchDemo }) {
               <div className="p-5 rounded-xl bg-gradient-to-r from-[#0097B2]/20 to-blue-500/20 border border-[#0097B2]/40 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div>
                   <h4 className="font-heading font-extrabold text-sm text-white">
-                    Want SM NextGen to fix these issues & guarantee your 3-Pack rank?
+                    Want SM NextGen to fix these issues and optimize your 3-Pack prominence?
                   </h4>
                   <p className="text-xs text-slate-300 mt-0.5">
                     Our local SEO architects manage reviews, weekly media, and citation consistency for you.

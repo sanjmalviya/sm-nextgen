@@ -1,181 +1,118 @@
 "use client";
+
 import React from "react";
 import { 
-  AlertTriangle, Unplug, Clock, EyeOff, Layers, 
-  TrendingDown, CheckCircle2, ArrowRight, XCircle, 
-  Zap, HelpCircle, ShieldAlert
+  Unplug, Clock, EyeOff, Layers, 
+  ArrowRight, Check, X, ShieldAlert
 } from "lucide-react";
 
-const CHALLENGES = [
-  {
-    id: "disconnected",
-    num: "01",
-    icon: Unplug,
-    badge: "Channel Disconnect",
-    title: "Disconnected Marketing Channels & Wasted Ad Spend",
-    description: "Paid ads bring clicks, but slow landing pages, generic messaging, and broken tracking burn up to 40% of media budgets before a visitor even considers buying.",
-    impact: "High CAC & Empty Pipelines",
-    uiCard: {
-      type: "metric",
-      metric: "42%",
-      label: "Media budget wasted on unoptimized funnels",
-      sub: "Industry average across disconnected agencies"
-    }
-  },
-  {
-    id: "followup",
-    num: "02",
-    icon: Clock,
-    badge: "Speed to Lead",
-    title: "Inconsistent Lead Follow-Up & Revenue Leaks",
-    description: "Inquiries arrive via forms or WhatsApp, but manual responses take 2 to 6 hours. By the time your sales rep calls back, the buyer has already signed with a faster competitor.",
-    impact: "68% Drop-off Before First Touch",
-    uiCard: {
-      type: "timeline",
-      time: "4.2 Hours",
-      status: "Competitor Won the Deal",
-      note: "Target with SM NextGen AI: < 4 Mins"
-    }
-  },
-  {
-    id: "attribution",
-    num: "03",
-    icon: EyeOff,
-    badge: "Blind Attribution",
-    title: "Vanity Reporting with Zero Bank-Level Visibility",
-    description: "Agencies celebrate 'impressions', 'reach', and 'click-through rates' on monthly slide decks, while business owners have no idea which campaigns actually generate deposited revenue.",
-    impact: "Blind Capital Allocation",
-    uiCard: {
-      type: "comparison",
-      agencySays: "1.2M Impressions",
-      realityIs: "Unknown Revenue ROI"
-    }
-  },
-  {
-    id: "bloat",
-    num: "04",
-    icon: Layers,
-    badge: "Tool Bloat",
-    title: "Software Sprawl & Fragile Manual Integrations",
-    description: "Businesses pay for 7 to 10 disconnected tools (CRM, landing page builder, WhatsApp tool, email software, analytics) held together by fragile zaps that constantly break.",
-    impact: "Software Clutter & Team Frustration",
-    uiCard: {
-      type: "tools",
-      count: "8+ SaaS Subscriptions",
-      result: "Zero Unified Data Flow"
-    }
-  }
-];
-
 export default function BusinessChallenges({ onExploreSystem }) {
+  const frictionPoints = [
+    {
+      icon: <Unplug className="w-5 h-5 text-[#0097B2]" />,
+      title: "Siloed Acquisition Channels",
+      desc: "Paid ad traffic drives clicks, but disconnected landing pages and generic messaging cause high bounce rates before value is established."
+    },
+    {
+      icon: <Clock className="w-5 h-5 text-[#0097B2]" />,
+      title: "The Speed-to-Lead Leak",
+      desc: "Inquiries sit unanswered for hours in inboxes while buyers quickly move to the next competitor who responds within minutes."
+    },
+    {
+      icon: <EyeOff className="w-5 h-5 text-[#0097B2]" />,
+      title: "Attribution Blind Spots",
+      desc: "Agencies report vanity impressions and clicks, leaving leadership without clear data on which channels generate profitable customer revenue."
+    },
+    {
+      icon: <Layers className="w-5 h-5 text-[#0097B2]" />,
+      title: "Fragmented Tool Subscriptions",
+      desc: "Multiple disjointed SaaS tools held together by fragile automations create operational drag instead of compounding leverage."
+    }
+  ];
+
   return (
-    <section className="relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-white dark:bg-[#071A30] text-[#0B2545] dark:text-[#E6EEF2] border-t border-slate-200/80 dark:border-white/5 transition-colors duration-300 font-body">
-      
+    <section className="relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-white dark:bg-[#071A30] text-[#0B2545] dark:text-[#E6EEF2] border-t border-slate-200/80 dark:border-white/5 transition-colors duration-200 font-body">
       <div className="max-w-7xl mx-auto">
         
-        {/* Section Header */}
-        <div className="max-w-3xl mx-auto text-center mb-16 sm:mb-20">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 text-xs font-semibold uppercase tracking-wider mb-4">
-            <ShieldAlert className="w-3.5 h-3.5" />
-            <span>THE REALITY GAP</span>
-          </div>
-
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-heading text-[#0B2545] dark:text-white tracking-tight mb-5 leading-tight">
-            Why Traditional Marketing Retainers <br className="hidden sm:inline" />
-            Fail Ambitious Businesses.
-          </h2>
-
-          <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 font-light leading-relaxed">
-            When marketing is treated as disconnected silos instead of a unified operating system, customer acquisition costs spiral while revenue leaks through every gap.
-          </p>
+        {/* Section Tag */}
+        <div className="flex items-center gap-2 mb-3">
+          <span className="text-xs font-mono font-bold text-[#0097B2] uppercase tracking-wider">
+            The Growth Problem
+          </span>
         </div>
 
-        {/* 4 Core Challenges Grid */}
-        <div className="grid md:grid-cols-2 gap-6 lg:gap-8 mb-16">
-          {CHALLENGES.map((item) => {
-            const Icon = item.icon;
-            return (
+        {/* 2-Column Editorial Breakdown */}
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-14 items-start mb-16">
+          
+          {/* Left Column: Clear Core Problem Statement */}
+          <div className="lg:col-span-6 space-y-6">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-heading text-[#0B2545] dark:text-white tracking-tight leading-[1.15]">
+              When Marketing, Technology & Operations Operate Separately, <br className="hidden sm:inline" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0097B2] to-cyan-500">
+                Growth Leaks.
+              </span>
+            </h2>
+
+            <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 font-light leading-relaxed">
+              Most businesses do not suffer from a lack of effort. They suffer from disconnected execution. Traditional marketing retainers treat ads, website design, SEO, and sales follow-up as isolated tasks. 
+            </p>
+
+            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 font-light leading-relaxed">
+              When channels operate in silos, ad spend is wasted on low-converting pages, high-intent leads slip away, and leadership is left guessing what actually drives bank deposits.
+            </p>
+
+            {/* Contrast Comparison Pill Box */}
+            <div className="p-5 rounded-2xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 space-y-3">
+              <div className="flex items-start gap-3">
+                <div className="w-5 h-5 rounded-full bg-rose-500/10 text-rose-500 flex items-center justify-center shrink-0 mt-0.5">
+                  <X className="w-3.5 h-3.5" />
+                </div>
+                <span className="text-xs text-slate-600 dark:text-slate-300">
+                  <strong className="text-slate-900 dark:text-white">Fragmented Agencies:</strong> Disjointed vendors, vanity metrics, slow communication, and zero shared accountability.
+                </span>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-5 h-5 rounded-full bg-emerald-500/10 text-emerald-500 flex items-center justify-center shrink-0 mt-0.5">
+                  <Check className="w-3.5 h-3.5" />
+                </div>
+                <span className="text-xs text-slate-600 dark:text-slate-300">
+                  <strong className="text-slate-900 dark:text-white">SM NextGen System:</strong> One growth partner unifying strategy, demand, web tech, automation, and unit economics.
+                </span>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={onExploreSystem}
+              className="inline-flex items-center gap-2 text-xs font-bold text-[#0097B2] dark:text-cyan-400 hover:underline uppercase tracking-wider pt-2 cursor-pointer"
+            >
+              <span>See How the Connected System Works</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
+
+          {/* Right Column: 4 Clean Friction Points */}
+          <div className="lg:col-span-6 space-y-4">
+            {frictionPoints.map((item, index) => (
               <div
-                key={item.id}
-                className="group p-7 sm:p-9 rounded-3xl bg-slate-50/80 dark:bg-[#0B2545]/40 border border-slate-200/80 dark:border-white/10 hover:border-[#0097B2]/40 transition-all duration-300 flex flex-col justify-between shadow-sm hover:shadow-xl relative overflow-hidden"
+                key={index}
+                className="p-5 sm:p-6 rounded-2xl bg-slate-50/80 dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10 hover:border-[#0097B2]/30 transition-all flex items-start gap-4"
               >
-                {/* Subtle Hover Gradient Accent */}
-                <div className="absolute top-0 right-0 w-48 h-48 bg-[#0097B2]/5 rounded-full blur-2xl group-hover:bg-[#0097B2]/10 transition-colors pointer-events-none" />
-
+                <div className="w-10 h-10 rounded-xl bg-white dark:bg-white/10 border border-slate-200 dark:border-white/10 flex items-center justify-center shrink-0 shadow-xs">
+                  {item.icon}
+                </div>
                 <div>
-                  {/* Top Bar: Icon & Badge */}
-                  <div className="flex items-center justify-between mb-5">
-                    <div className="w-12 h-12 rounded-2xl bg-white dark:bg-white/10 border border-slate-200 dark:border-white/10 flex items-center justify-center text-rose-500 dark:text-rose-400 shadow-sm">
-                      <Icon className="w-6 h-6" />
-                    </div>
-                    <span className="text-xs font-mono font-bold text-slate-400 dark:text-slate-500">
-                      PROBLEM {item.num}
-                    </span>
-                  </div>
-
-                  <div className="inline-block px-2.5 py-0.5 rounded-full bg-slate-200/70 dark:bg-white/10 text-slate-700 dark:text-slate-300 text-[11px] font-bold uppercase tracking-wider mb-2.5">
-                    {item.badge}
-                  </div>
-
-                  <h3 className="text-xl sm:text-2xl font-bold font-heading text-[#0B2545] dark:text-white mb-3 leading-snug">
+                  <h3 className="text-base font-bold text-[#0B2545] dark:text-white font-heading">
                     {item.title}
                   </h3>
-
-                  <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-light mb-6">
-                    {item.description}
+                  <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-light mt-1">
+                    {item.desc}
                   </p>
                 </div>
-
-                {/* Bottom UI Snapshot Card inside Problem Card */}
-                <div className="p-4 rounded-2xl bg-white dark:bg-[#030D1A] border border-slate-200/80 dark:border-white/10 flex items-center justify-between text-xs shadow-inner">
-                  <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
-                    <div>
-                      <div className="text-[10px] uppercase font-bold text-slate-400">Bottleneck Impact</div>
-                      <div className="text-sm font-extrabold text-[#0B2545] dark:text-white font-heading">
-                        {item.impact}
-                      </div>
-                    </div>
-                  </div>
-                  <span className="text-[11px] font-mono text-rose-500 font-bold bg-rose-500/10 px-2 py-1 rounded-md">
-                    Leak Detected
-                  </span>
-                </div>
-
               </div>
-            );
-          })}
-        </div>
-
-        {/* The Solution Transition Banner */}
-        <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-r from-[#0B2545] via-[#071A30] to-[#040e1b] border border-cyan-500/30 text-white shadow-2xl relative overflow-hidden">
-          <div className="grid lg:grid-cols-12 gap-8 items-center relative z-10">
-            <div className="lg:col-span-8">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0097B2]/20 border border-[#0097B2]/40 text-cyan-300 text-xs font-mono font-bold uppercase tracking-wider mb-3">
-                <Zap className="w-3.5 h-3.5 text-cyan-300" />
-                <span>THE SM NEXTGEN SOLUTION</span>
-              </div>
-              <h3 className="text-2xl sm:text-3xl font-extrabold font-heading text-white mb-2 leading-tight">
-                One Partner. One Connected Operating System.
-              </h3>
-              <p className="text-sm sm:text-base text-slate-300 font-light leading-relaxed max-w-2xl">
-                We eliminate finger-pointing by taking full-stack ownership: high-conviction growth strategy, sub-second web platforms, autonomous WhatsApp & AI qualification, and closed-loop bank revenue attribution.
-              </p>
-            </div>
-
-            <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col items-start lg:items-end justify-center gap-3">
-              <button
-                onClick={onExploreSystem}
-                className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-[#0097B2] hover:bg-[#007a91] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-[#0097B2]/30 transition cursor-pointer"
-              >
-                <span>Explore The System</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-              <span className="text-xs text-slate-400">
-                100% In-House Strategic Governance
-              </span>
-            </div>
+            ))}
           </div>
+
         </div>
 
       </div>

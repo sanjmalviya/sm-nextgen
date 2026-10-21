@@ -1,440 +1,233 @@
-﻿// file: app/services/ServicesClient.js
 "use client";
-import { useState } from "react";
+
+import React, { useState } from "react";
 import Link from "next/link";
+import { 
+  Compass, TrendingUp, Laptop, Bot, BarChart3, Scale, 
+  ArrowRight, Check, MessageSquare, Phone, ChevronRight,
+  ShieldCheck, Sparkles
+} from "lucide-react";
 
-// --- URL SLUG GENERATOR ---
-const generateSlug = (text) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
-
-// --- WHATSAPP SETUP ---
-const WHATSAPP_NUMBER = "917073538077"; 
-const getWhatsAppLink = (message) => `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-
-// --- 1. CORE DATA SETS (32 Services Total) ---
-const OVERVIEW_CATEGORIES = [
+const STRATEGIC_PILLARS = [
   {
-    title: "Marketing",
-    sectionId: "marketing",
-    icon: "fas fa-bullhorn",
-    colorStyles: {
-      iconBg: "bg-pink-100 dark:bg-pink-500/20 text-pink-500",
-      checkText: "text-pink-500",
-      btnClass: "bg-white dark:bg-[#071A30] border border-gray-200 dark:border-white/10 text-[#0B2545] dark:text-white hover:bg-[#0097B2] hover:border-[#0097B2] hover:text-white dark:hover:bg-[#0097B2] dark:hover:text-white shadow-sm"
-    },
-    desc: "Data-driven strategies to acquire customers and dominate attention.",
+    id: "strategy",
+    num: "01",
+    title: "Growth Strategy & Positioning",
+    desc: "Market positioning, competitive moats, and offer economics engineered to drive high-margin customer acquisition.",
+    icon: Compass,
     services: [
-      "Brand Strategy & Positioning", "Search Engine Optimization (SEO)", 
-      "Performance Advertising", "Social Media Marketing", 
-      "Content Marketing", "Lead Generation Systems", 
-      "Sales Funnel & Conversion", "Email & Marketing Automation"
+      { name: "Brand Strategy & Positioning", href: "/services/brand-strategy-positioning", desc: "Category leadership and messaging differentiation" },
+      { name: "Sales Funnel & Conversion Strategy", href: "/services/sales-funnel-conversion", desc: "Full-funnel mapping and conversion rate architecture" },
+      { name: "Financial Consulting & Advisory", href: "/services/financial-consulting-advisory", desc: "Unit economics, gross margin and CAC modeling" }
     ]
   },
   {
-    title: "Tech Development",
-    sectionId: "tech",
-    icon: "fas fa-code",
-    colorStyles: {
-      iconBg: "bg-blue-100 dark:bg-blue-500/20 text-blue-500",
-      checkText: "text-blue-500",
-      btnClass: "bg-white dark:bg-[#071A30] border border-gray-200 dark:border-white/10 text-[#0B2545] dark:text-white hover:bg-[#0097B2] hover:border-[#0097B2] hover:text-white dark:hover:bg-[#0097B2] dark:hover:text-white shadow-sm"
-    },
-    desc: "Robust, high-performance websites, apps, and digital infrastructure.",
+    id: "marketing",
+    num: "02",
+    title: "Marketing & Demand Generation",
+    desc: "Targeted customer acquisition through Google Maps 3-Pack local SEO, disciplined performance media, and authority content.",
+    icon: TrendingUp,
     services: [
-      "Website Development", "E-Commerce Development", 
-      "Funnel & Landing Pages", "Web App Development", 
-      "Mobile App Development", "Automation & Integrations", 
-      "UI/UX & Product Design", "Website Maintenance & Support"
+      { name: "Search Engine Optimization (SEO)", href: "/services/search-engine-optimization-seo", desc: "Local 3-Pack prominence and organic commercial keywords" },
+      { name: "Performance Advertising", href: "/services/performance-advertising", desc: "Meta, Google Search & YouTube ads with disciplined CAC" },
+      { name: "Lead Generation Systems", href: "/services/lead-generation-systems", desc: "Predictable B2B inbound buyer acquisition pipelines" },
+      { name: "Content Marketing", href: "/services/content-marketing", desc: "High-trust educational content and category thought leadership" },
+      { name: "Email Marketing & Lifecycle Automation", href: "/services/email-marketing-automation", desc: "Customer retention drip loops and lifetime value expansion" },
+      { name: "Social Media Marketing", href: "/services/social-media-marketing", desc: "Organic attention capture and brand credibility flywheel" }
     ]
   },
   {
-    title: "AI Automation",
-    sectionId: "ai",
-    icon: "fas fa-robot",
-    colorStyles: {
-      iconBg: "bg-purple-100 dark:bg-purple-500/20 text-purple-500",
-      checkText: "text-purple-500",
-      btnClass: "bg-white dark:bg-[#071A30] border border-gray-200 dark:border-white/10 text-[#0B2545] dark:text-white hover:bg-[#0097B2] hover:border-[#0097B2] hover:text-white dark:hover:bg-[#0097B2] dark:hover:text-white shadow-sm"
-    },
-    desc: "Intelligent systems to scale operations without scaling headcount.",
+    id: "technology",
+    num: "03",
+    title: "Conversion & Digital Experience",
+    desc: "Sub-second Next.js web applications, custom software portals, and high-velocity conversion funnels engineered for modern businesses.",
+    icon: Laptop,
     services: [
-      "AI Business Automation", "AI Marketing Automation", 
-      "AI Lead Generation", "AI Chatbots & Conversational AI", 
-      "WhatsApp Automation", "AI Content Creation Systems", 
-      "AI Data Analytics & BI", "Custom AI Tools & Integrations"
+      { name: "Website Development", href: "/services/website-development", desc: "Next.js platforms with sub-second LCP speed" },
+      { name: "Funnel & Landing Page Development", href: "/services/funnel-landing-page-development", desc: "High-converting single-purpose commercial funnels" },
+      { name: "E-Commerce Development", href: "/services/e-commerce-development", desc: "Modern storefronts with frictionless 1-click checkout" },
+      { name: "Web App Development", href: "/services/web-app-development", desc: "Scalable client portals, internal dashboards and SaaS" },
+      { name: "Mobile App Development", href: "/services/mobile-app-development", desc: "Cross-platform iOS and Android growth apps" },
+      { name: "UI/UX & Product Design", href: "/services/ui-ux-product-design", desc: "Frictionless digital user journeys and visual design systems" },
+      { name: "Website Maintenance & Support", href: "/services/website-maintenance-support", desc: "Continuous security updates, speed audits and SLA support" }
     ]
   },
   {
-    title: "Legal & Finance",
-    sectionId: "legal",
-    icon: "fas fa-balance-scale",
-    colorStyles: {
-      iconBg: "bg-green-100 dark:bg-green-500/20 text-green-500",
-      checkText: "text-green-500",
-      btnClass: "bg-white dark:bg-[#071A30] border border-gray-200 dark:border-white/10 text-[#0B2545] dark:text-white hover:bg-[#0097B2] hover:border-[#0097B2] hover:text-white dark:hover:bg-[#0097B2] dark:hover:text-white shadow-sm"
-    },
-    desc: "Bulletproof compliance and financial architecture for your business.",
+    id: "automation",
+    num: "04",
+    title: "AI & Business Automation Systems",
+    desc: "Autonomous conversational AI bots, WhatsApp Cloud API workflows, and CRM pipeline automation that remove manual friction.",
+    icon: Bot,
     services: [
-      "Business Registration", "GST Services & Filing", 
-      "Income Tax Services", "Accounting & Bookkeeping", 
-      "Payroll & Compliance", "Business Compliance Mgt.", 
-      "Trademark & IP Protection", "Financial Consulting & Advisory"
+      { name: "AI Business Automation Systems", href: "/services/ai-business-automation-systems", desc: "Autonomous operational workflows and task orchestration" },
+      { name: "WhatsApp Automation Systems", href: "/services/whatsapp-automation-systems", desc: "Official WhatsApp Cloud API lead capture and routing" },
+      { name: "AI Chatbots & Conversational AI", href: "/services/ai-chatbots-conversational-ai", desc: "24/7 lead qualification and customer appointment booking" },
+      { name: "AI Marketing Automation", href: "/services/ai-marketing-automation", desc: "Trigger-based lead nurture and lifecycle re-engagement" },
+      { name: "AI Lead Generation Systems", href: "/services/ai-lead-generation-systems", desc: "Algorithmic ICP research and intent-based outreach" },
+      { name: "Custom AI Tools & Integrations", href: "/services/custom-ai-tools-integrations", desc: "Bespoke internal AI tools and multi-platform APIs" },
+      { name: "Automation & Integration", href: "/services/automation-integration", desc: "CRM, ERP, and payment gateway synchronized data flows" }
+    ]
+  },
+  {
+    id: "data",
+    num: "05",
+    title: "Data, Intelligence & Attribution",
+    desc: "Closed-loop attribution that connects every marketing rupee and inbound inquiry directly to deposited revenue in your bank account.",
+    icon: BarChart3,
+    services: [
+      { name: "AI Data Analytics & BI", href: "/services/ai-data-analytics-business-intelligence", desc: "Real-time executive dashboards and closed-loop multi-touch tracking" },
+      { name: "Content Creation Systems", href: "/services/ai-content-creation-systems", desc: "Data-informed editorial workflows and asset production" }
+    ]
+  },
+  {
+    id: "operations",
+    num: "06",
+    title: "Business Operations & Compliance",
+    desc: "Essential corporate compliance, trademark protection, and advisory services that establish institutional credibility for growing companies.",
+    icon: Scale,
+    services: [
+      { name: "Business Compliance Management", href: "/services/business-compliance-management", desc: "Corporate governance and regulatory filings oversight" },
+      { name: "Business Registration Services", href: "/services/business-registration-services", desc: "Entity incorporation, private limited, and startup registration" },
+      { name: "GST Services & Advisory", href: "/services/gst-services", desc: "GST registration, monthly compliance, and input credit optimization" },
+      { name: "Income Tax Services", href: "/services/income-tax-services", desc: "Corporate tax planning, return filing, and financial reporting" },
+      { name: "Accounting & Bookkeeping", href: "/services/accounting-bookkeeping", desc: "Cloud bookkeeping, P&L management, and financial reconciliation" },
+      { name: "Payroll & Employee Compliance", href: "/services/payroll-employee-compliance", desc: "PF, ESI, payroll structuring, and labour law compliance" },
+      { name: "Trademark & Intellectual Property", href: "/services/trademark-intellectual-property", desc: "Brand trademark filing, IP defense, and portfolio protection" }
     ]
   }
 ];
 
-const SERVICES_DATA = {
-  MARKETING: [
-    { title: "Brand Strategy & Positioning", slug: "brand-strategy-and-positioning", desc: "Build a strong brand identity and unique market positioning.", img: "/images/services/brand-strategy-positioning.png", icon: "fas fa-chess" },
-    { title: "Search Engine Optimization (SEO)", desc: "Increase organic traffic through technical and on-page SEO.", img: "/images/services/search-engine-optimization-seo.png", icon: "fas fa-search-plus" },
-    { title: "Performance Advertising", desc: "Scale revenue with ROI-focused Meta, Google & YouTube Ads.", img: "/images/services/performance-advertising.png", icon: "fab fa-meta" },
-    { title: "Social Media Marketing", desc: "Grow engaged audiences and build community presence.", img: "/images/services/social-media-marketing.png", icon: "fas fa-hashtag" },
-    { title: "Content Marketing", desc: "Attract audiences through blogs, videos, and strategic content.", img: "/images/services/content-marketing.png", icon: "fas fa-pen-nib" }, 
-    { title: "Lead Generation Systems", desc: "Automate B2B/B2C lead pipelines and cold outreach.", img: "/images/services/lead-generation-systems.png", icon: "fas fa-magnet" },
-    { title: "Sales Funnel & Conversion", desc: "Optimize landing pages to maximize conversion rates.", img: "/images/services/sales-funnel-conversion.png", icon: "fas fa-filter" },
-    { title: "Email & Marketing Automation", desc: "Retain customers through automated email drip campaigns.", img: "/images/services/email-marketing-automation.png", icon: "fas fa-envelope-open-text" }
-  ],
-  TECH_DEVELOPMENT: [
-    { title: "Website Development", desc: "Business websites, landing pages, and SEO-ready UI/UX development.", img: "/images/services/website-development.png", icon: "fas fa-globe" },
-    { title: "E-Commerce Development", desc: "Shopify, WooCommerce, payment gateways, and custom stores.", img: "/images/services/e-commerce-development.png", icon: "fas fa-shopping-cart" },
-    { title: "Funnel & Landing Page Development", desc: "High-converting funnels, lead capture, and A/B testing setups.", img: "/images/services/funnel-landing-page-development.png", icon: "fas fa-filter" },
-    { title: "Web App Development", desc: "Custom web applications, SaaS platforms, and CRM dashboards.", img: "/images/services/web-app-development.png", icon: "fas fa-laptop-code" },
-    { title: "Mobile App Development", desc: "Android, iOS, cross-platform apps, and Play/App Store deployment.", img: "/images/services/mobile-app-development.png", icon: "fas fa-mobile-alt" },
-    { title: "Automation & Integration", desc: "API integrations, Zapier/Make setups, and workflow systems.", img: "/images/services/automation-integration.png", icon: "fas fa-project-diagram" },
-    { title: "UI/UX & Product Design", desc: "User journey mapping, wireframing, and Figma prototype design.", img: "/images/services/ui-ux-product-design.png", icon: "fas fa-paint-brush" },
-    { title: "Website Maintenance & Support", desc: "Bug fixing, security monitoring, server support, and optimization.", img: "/images/services/website-maintenance-support.png", icon: "fas fa-tools" }
-  ],
-  AI_AUTOMATION: [
-    { title: "AI Business Automation Systems", desc: "Streamline operations with smart workflow automations.", img: "/images/services/ai-business-automation-systems.png", icon: "fas fa-cogs" },
-    { title: "AI Marketing Automation", desc: "Automate ad optimizations and marketing workflows.", img: "/images/services/ai-marketing-automation.png", icon: "fas fa-chart-network" },
-    { title: "AI Lead Generation Systems", desc: "Deploy AI scrapers and automated qualification bots.", img: "/images/services/ai-lead-generation-systems.png", icon: "fas fa-satellite-dish" },
-    { title: "AI Chatbots & Conversational AI", desc: "24/7 AI-powered website support and sales bots.", img: "/images/services/ai-chatbots-conversational-ai.png", icon: "fas fa-robot" },
-    { title: "WhatsApp Automation Systems", desc: "Automated WhatsApp marketing and customer support.", img: "/images/services/whatsapp-automation-systems.png", icon: "fab fa-whatsapp" },
-    { title: "AI Content Creation Systems", desc: "Scale production with AI copywriting and video generation.", img: "/images/services/ai-content-creation-systems.png", icon: "fas fa-brain" },
-    { title: "AI Data Analytics & Business Intelligence", desc: "Predictive dashboards providing real-time business insights.", img: "/images/services/ai-data-analytics-business-intelligence.png", icon: "fas fa-chart-pie" },
-    { title: "Custom AI Tools & Integrations", desc: "Bespoke AI APIs and custom software development.", img: "/images/services/custom-ai-tools-integrations.png", icon: "fas fa-code" }
-  ],
-  LEGAL_FINANCE: [
-    { title: "Business Registration Services", desc: "Company, LLP, and Startup India registration.", img: "/images/services/business-registration-services.png", icon: "fas fa-building" },
-    { title: "GST Services", desc: "Complete GST registration, filing, and compliance.", img: "/images/services/gst-services.png", icon: "fas fa-file-invoice" },
-    { title: "Income Tax Services", desc: "Corporate tax filing, planning, and advisory.", img: "/images/services/income-tax-services.png", icon: "fas fa-file-invoice-dollar" },
-    { title: "Accounting & Bookkeeping", desc: "Accurate financial records and statement preparation.", img: "/images/services/accounting-bookkeeping.png", icon: "fas fa-book" },
-    { title: "Payroll & Employee Compliance", desc: "Automated salary processing and HR compliance.", img: "/images/services/payroll-employee-compliance.png", icon: "fas fa-users" },
-    { title: "Business Compliance Management", desc: "ROC filings and ongoing legal documentation.", img: "/images/services/business-compliance-management.png", icon: "fas fa-balance-scale" },
-    { title: "Trademark & Intellectual Property", desc: "Protect your brand with trademark and copyright filing.", img: "/images/services/trademark-intellectual-property.png", icon: "fas fa-copyright" },
-    { title: "Financial Consulting & Advisory", desc: "Strategic financial planning and business scaling advice.", img: "/images/services/financial-consulting-advisory.png", icon: "fas fa-chart-line" }
-  ]
-};
-
-const FAQS = [
-  { q: "What services does SM NextGen offer?", a: "We provide an end-to-end business growth ecosystem. This includes comprehensive Marketing, Tech Development (Web & Apps), AI Automation (Chatbots, Workflows), and Legal & Finance (Registration, Tax, Payroll)." },
-  { q: "Do you provide App and Web development?", a: "Yes, our Tech Development team builds high-converting e-commerce stores, custom web applications, SaaS platforms, and mobile apps (iOS & Android)." },
-  { q: "Can startups work with SM NextGen?", a: "Absolutely. We are built for modern startups and SMEs. We handle everything from your initial Company Registration and Branding to scaling your first Performance Ad campaigns." },
-  { q: "How long does it take to see results?", a: "Results vary by service. Performance Ads and AI Chatbot deployments can yield ROI within weeks. Long-term strategies like SEO, App Development, and Content Marketing typically take 3 to 6 months to build an undeniable market moat." },
-  { q: "Can I combine multiple services?", a: "Yes! Our most successful partners use our services synergistically. For example, using our Marketing to generate leads, our Tech & AI to automate the funnels, and our Finance team to handle the resulting revenue." }
-];
-
 export default function ServicesClient() {
-  const [activeFaq, setActiveFaq] = useState(null);
-
-  // 🚀 REUSABLE PREMIUM CARD
-  const PremiumCard = ({ item, themeColor }) => (
-    <Link href={`/services/${generateSlug(item.title)}`} className="group flex flex-col bg-white dark:bg-[#162032] rounded-3xl shadow-lg border border-gray-100 dark:border-white/5 hover:border-[#0097B2] hover:shadow-[0_10px_30px_rgba(0,151,178,0.15)] transition-all duration-500 hover:-translate-y-2 overflow-hidden isolate transform-gpu relative z-10">
-      <div className="relative h-56 w-full overflow-hidden shrink-0">
-        <img src={item.img} alt={item.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0B2545] via-[#0B2545]/40 to-transparent"></div>
-        <div className={`absolute top-4 right-4 w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 shadow-lg group-hover:bg-${themeColor}-500 transition-colors z-10`}>
-          <i className={item.icon}></i>
-        </div>
-      </div>
-      <div className="p-6 bg-white dark:bg-[#162032] flex-grow flex flex-col justify-between">
-        <div>
-          <h3 className="text-xl font-bold text-[#0B2545] dark:text-white mb-2 group-hover:text-[#0097B2] transition-colors leading-snug">{item.title}</h3>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mb-6 line-clamp-2">{item.desc}</p>
-        </div>
-        <div className={`inline-flex items-center text-sm font-bold text-${themeColor}-500 mt-auto`}>
-          Explore Service <i className="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
-        </div>
-      </div>
-    </Link>
-  );
+  const [activeTab, setActiveTab] = useState("all");
 
   return (
-    // <main> class updated to remove hardcoded background colors, inheriting from layout.js
-    <main className="relative w-full z-10 overflow-x-hidden transition-colors duration-300">
+    <main className="relative w-full z-10 overflow-x-hidden min-h-screen bg-white dark:bg-[#030D1A] font-body text-[#0B2545] dark:text-[#E6EEF2] selection:bg-[#0097B2] selection:text-white transition-colors duration-200">
       
-      {/* 1️⃣ HERO SECTION */}
-      <section className="relative pt-40 pb-28 bg-[#071A30] overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img src="/images/services/hero-bg.png" 
-               alt="Business Analytics Dashboard" 
-               className="w-full h-full object-cover opacity-10 filter grayscale blur-[2px]" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#071A30] to-[#071A30]/80"></div>
-        </div>
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#0097B2]/20 rounded-full blur-[150px] animate-pulse pointer-events-none"></div>
-
-        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-gray-300 text-xs font-bold uppercase tracking-widest mb-6 backdrop-blur-sm">
-            <span className="w-2 h-2 rounded-full bg-[#0097B2] animate-pulse"></span> FULL-STACK GROWTH ARCHITECTURE
-          </div>
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-heading font-extrabold text-white mb-6 leading-tight tracking-tight">
-            Strategic Growth <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0097B2] to-cyan-400">Capabilities.</span>
+      {/* Hero Section */}
+      <section className="relative pt-36 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#F8FAFC] to-white dark:from-[#071A30] dark:to-[#030D1A] border-b border-slate-200/80 dark:border-white/5">
+        <div className="max-w-7xl mx-auto text-center max-w-3xl">
+          <span className="text-xs font-mono font-bold text-[#0097B2] uppercase tracking-wider block mb-3">
+            Integrated Growth Disciplines
+          </span>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-heading text-[#0B2545] dark:text-white tracking-tight leading-tight mb-6">
+            Strategic Capabilities. <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0097B2] via-cyan-500 to-[#007a91]">
+              Delivered as One System.
+            </span>
           </h1>
-          <p className="text-lg sm:text-xl text-gray-400 mb-10 leading-relaxed font-light max-w-3xl mx-auto">
-            We combine high-level positioning strategy, enterprise web engineering, AI workflow automation, and closed-loop revenue attribution into one compounding growth engine.
+          <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 font-light leading-relaxed mb-8">
+            We reject the fragmented agency model where separate vendors pass the buck. Explore the 6 integrated capability pillars we deploy to help ambitious businesses acquire customers, streamline operations, and compound revenue.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a href="#overview" className="px-8 py-4 bg-[#0097B2] hover:bg-[#007a91] text-white font-bold rounded-xl shadow-lg transition-transform hover:-translate-y-0.5 text-sm uppercase tracking-wider w-full sm:w-auto">
-              Explore Capabilities
-            </a>
-            <a href={getWhatsAppLink("Hi SM NextGen Team, I am interested in exploring strategic growth capabilities for my company. Please connect.")} target="_blank" rel="noreferrer" className="px-8 py-4 bg-white/5 hover:bg-white/10 text-white font-bold rounded-xl border border-white/10 transition-colors text-sm uppercase tracking-wider w-full sm:w-auto flex items-center justify-center gap-2">
-              <i className="fab fa-whatsapp text-lg text-emerald-400"></i> WhatsApp Principal
-            </a>
+
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <Link
+              href="/contact"
+              className="px-6 py-3 rounded-xl bg-[#0097B2] hover:bg-[#007a91] text-white font-bold text-xs uppercase tracking-wider transition shadow-sm"
+            >
+              Start a Strategy Discussion
+            </Link>
+            <Link
+              href="/industries"
+              className="px-6 py-3 rounded-xl bg-white dark:bg-white/10 border border-slate-200 dark:border-white/10 text-slate-800 dark:text-white font-bold text-xs uppercase tracking-wider hover:border-[#0097B2] transition"
+            >
+              View Industry Blueprints
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* 2️⃣ CATEGORY OVERVIEW (4 PILLARS) */}
-      <section id="overview" className="py-24 bg-white dark:bg-[#0B1120] relative -mt-10 rounded-t-[3rem] z-20 shadow-2xl">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-heading font-extrabold text-[#0B2545] dark:text-white mb-4">Our Ecosystem</h2>
-            <p className="text-gray-500 text-lg">Four pillars to build an unstoppable business.</p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {OVERVIEW_CATEGORIES.map((cat, idx) => (
-              <div key={idx} className="bg-[#F8FAFC] dark:bg-[#162032] p-8 rounded-[2rem] border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-[0_15px_40px_-10px_rgba(0,0,0,0.1)] dark:hover:shadow-[0_15px_40px_-10px_rgba(0,151,178,0.15)] transition-all duration-300 flex flex-col relative isolate hover:-translate-y-2 group">
-                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-md ${cat.colorStyles.iconBg} transform group-hover:scale-110 transition-transform duration-300`}>
-                  <i className={cat.icon}></i>
-                </div>
-                <h3 className="text-2xl font-bold text-[#0B2545] dark:text-white mb-3">{cat.title}</h3>
-                <p className="text-sm text-gray-500 dark:text-[#E6EEF2]/70 mb-8">{cat.desc}</p>
-                <ul className="space-y-3 mb-8 flex-grow">
-                  {cat.services.slice(0, 5).map((item, i) => (
-                    <li key={i} className="flex items-start gap-3 text-[13px] md:text-sm text-[#0B2545] dark:text-[#E6EEF2] font-medium">
-                      <i className={`fas fa-check mt-1 ${cat.colorStyles.checkText}`}></i> <span className="leading-snug">{item}</span>
-                    </li>
-                  ))}
-                  <li className="text-[12px] text-gray-400 italic pt-2 border-t border-gray-200 dark:border-white/10">+ {cat.services.length - 5} more specialized services</li>
-                </ul>
-                <button onClick={() => document.getElementById(cat.sectionId).scrollIntoView({behavior:'smooth'})} className={`w-full py-3.5 text-center font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 text-sm ${cat.colorStyles.btnClass}`}>
-                  Explore Services <i className="fas fa-chevron-down text-xs"></i>
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 3️⃣ MARKETING SERVICES GRID */}
-      <section id="marketing" className="py-24 bg-[#F8FAFC] dark:bg-[#071A30] border-t border-gray-200 dark:border-white/5">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-4 mb-12">
-            <div className="w-14 h-14 rounded-2xl bg-pink-500 text-white flex items-center justify-center text-2xl shadow-lg shadow-pink-500/30"><i className="fas fa-bullhorn"></i></div>
-            <div>
-              <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-[#0B2545] dark:text-white">Marketing Services</h2>
-              <p className="text-gray-500 dark:text-gray-400 mt-1">Dominate attention and acquire customers profitably.</p>
-            </div>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {SERVICES_DATA.MARKETING.map((item, idx) => <PremiumCard key={idx} item={item} themeColor="pink" />)}
-          </div>
-        </div>
-      </section>
-
-      {/* 3.5️⃣ TECH DEVELOPMENT SERVICES GRID */}
-      <section id="tech" className="py-24 bg-white dark:bg-[#0B1120]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-4 mb-12">
-            <div className="w-14 h-14 rounded-2xl bg-blue-500 text-white flex items-center justify-center text-2xl shadow-lg shadow-blue-500/30"><i className="fas fa-code"></i></div>
-            <div>
-              <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-[#0B2545] dark:text-white">Tech Development Services</h2>
-              <p className="text-gray-500 dark:text-gray-400 mt-1">Robust, high-performance websites, apps, and digital infrastructure.</p>
-            </div>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {SERVICES_DATA.TECH_DEVELOPMENT.map((item, idx) => <PremiumCard key={idx} item={item} themeColor="blue" />)}
-          </div>
-        </div>
-      </section>
-
-      {/* 4️⃣ AI AUTOMATION SERVICES GRID */}
-      <section id="ai" className="py-24 bg-[#F8FAFC] dark:bg-[#071A30] border-t border-gray-200 dark:border-white/5">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-4 mb-12">
-            <div className="w-14 h-14 rounded-2xl bg-purple-500 text-white flex items-center justify-center text-2xl shadow-lg shadow-purple-500/30"><i className="fas fa-robot"></i></div>
-            <div>
-              <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-[#0B2545] dark:text-white">AI Automation Services</h2>
-              <p className="text-gray-500 dark:text-gray-400 mt-1">Scale your operations without scaling your headcount.</p>
-            </div>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {SERVICES_DATA.AI_AUTOMATION.map((item, idx) => <PremiumCard key={idx} item={item} themeColor="purple" />)}
-          </div>
-        </div>
-      </section>
-
-      {/* 5️⃣ LEGAL & FINANCE SERVICES GRID */}
-      <section id="legal" className="py-24 bg-white dark:bg-[#0B1120]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-4 mb-12">
-            <div className="w-14 h-14 rounded-2xl bg-green-500 text-white flex items-center justify-center text-2xl shadow-lg shadow-green-500/30"><i className="fas fa-balance-scale"></i></div>
-            <div>
-              <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-[#0B2545] dark:text-white">Legal & Finance Services</h2>
-              <p className="text-gray-500 dark:text-gray-400 mt-1">Bulletproof compliance and financial architecture.</p>
-            </div>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {SERVICES_DATA.LEGAL_FINANCE.map((item, idx) => <PremiumCard key={idx} item={item} themeColor="green" />)}
-          </div>
-        </div>
-      </section>
-
-      {/* 6️⃣ WHY CHOOSE SM NEXTGEN */}
-      <section className="py-24 bg-[#F8FAFC] dark:bg-[#071A30] border-t border-gray-200 dark:border-white/5">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-5xl font-heading font-extrabold text-[#0B2545] dark:text-white mb-16">Why Choose SM NextGen</h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="p-8 bg-white dark:bg-[#162032] rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm hover:-translate-y-2 transition-transform duration-300">
-              <i className="fas fa-brain text-5xl text-[#0097B2] mb-6"></i>
-              <h3 className="text-xl font-bold text-[#0B2545] dark:text-white mb-2">AI Powered Growth</h3>
-              <p className="text-sm text-gray-500 dark:text-[#E6EEF2]/70">We leverage the latest AI models to execute faster and smarter.</p>
-            </div>
-            <div className="p-8 bg-white dark:bg-[#162032] rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm hover:-translate-y-2 transition-transform duration-300">
-              <i className="fas fa-chart-pie text-5xl text-[#0097B2] mb-6"></i>
-              <h3 className="text-xl font-bold text-[#0B2545] dark:text-white mb-2">Data Driven Strategy</h3>
-              <p className="text-sm text-gray-500 dark:text-[#E6EEF2]/70">No guesswork. Every campaign is backed by hard analytics.</p>
-            </div>
-            <div className="p-8 bg-white dark:bg-[#162032] rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm hover:-translate-y-2 transition-transform duration-300">
-              <i className="fas fa-cubes text-5xl text-[#0097B2] mb-6"></i>
-              <h3 className="text-xl font-bold text-[#0B2545] dark:text-white mb-2">Complete Systems</h3>
-              <p className="text-sm text-gray-500 dark:text-[#E6EEF2]/70">From registration to scaling revenue, we handle the entire stack.</p>
-            </div>
-            <div className="p-8 bg-white dark:bg-[#162032] rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm hover:-translate-y-2 transition-transform duration-300">
-              <i className="fas fa-globe text-5xl text-[#0097B2] mb-6"></i>
-              <h3 className="text-xl font-bold text-[#0B2545] dark:text-white mb-2">Global Scalability</h3>
-              <p className="text-sm text-gray-500 dark:text-[#E6EEF2]/70">Building infrastructures capable of scaling beyond borders.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 7️⃣ OUR PROCESS */}
-      <section className="py-24 bg-[#0B2545] text-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-heading font-extrabold mb-4">Our Deployment Process</h2>
-            <p className="text-[#E6EEF2]/70 text-lg max-w-2xl mx-auto">A clear, straightforward path to architecting and scaling your operations.</p>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-8 relative">
-            <div className="hidden md:block absolute top-[4.5rem] left-[15%] right-[15%] h-0.5 bg-gradient-to-r from-transparent via-[#0097B2]/50 to-transparent z-0"></div>
-
-            <div className="relative z-10 bg-white/5 border border-white/10 p-8 rounded-3xl backdrop-blur-md text-center hover:bg-white/10 transition-colors duration-300">
-              <div className="w-20 h-20 rounded-full bg-[#0097B2] text-white flex items-center justify-center text-3xl font-black mx-auto mb-6 shadow-lg shadow-[#0097B2]/30 border-4 border-[#0B2545]">1</div>
-              <h3 className="text-xl font-bold mb-3 text-white">Client Acquisition</h3>
-              <p className="text-sm text-[#E6EEF2]/80 leading-relaxed">Referral and Growth partners leverage their networks to bring high-value clients into the SM NextGen ecosystem.</p>
-            </div>
-
-            <div className="relative z-10 bg-white/5 border border-white/10 p-8 rounded-3xl backdrop-blur-md text-center hover:bg-white/10 transition-colors duration-300">
-              <div className="w-20 h-20 rounded-full bg-[#0097B2] text-white flex items-center justify-center text-3xl font-black mx-auto mb-6 shadow-lg shadow-purple-500/30 border-4 border-[#0B2545]">2</div>
-              <h3 className="text-xl font-bold mb-3 text-white">Strategy & Delegation</h3>
-              <p className="text-sm text-[#E6EEF2]/80 leading-relaxed">Our core team and Growth partners define the roadmap and divide the execution tasks across our vetted talent pool.</p>
-            </div>
-
-            <div className="relative z-10 bg-[#0097B2] border border-[#0097B2] p-8 rounded-3xl shadow-[0_20px_40px_rgba(0,151,178,0.2)] text-center transform md:-translate-y-4">
-              <div className="w-20 h-20 rounded-full bg-white text-[#0B2545] flex items-center justify-center text-3xl font-black mx-auto mb-6 shadow-inner border-4 border-[#0097B2]">3</div>
-              <h3 className="text-xl font-bold mb-3 text-white">Execution & Payouts</h3>
-              <p className="text-sm text-white/90 leading-relaxed">Execution partners deliver top-tier work. Clients get results, and all partners receive their revenue share securely.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 8️⃣ GENUINE IMPACT */}
-      <section className="py-24 bg-white dark:bg-[#0B1120] border-b border-gray-200 dark:border-white/5">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-heading font-extrabold text-[#0B2545] dark:text-white mb-4">Genuine Impact</h2>
-            <p className="text-gray-500 dark:text-[#E6EEF2]/70 text-lg">We measure success in sustainable growth, not just vanity metrics.</p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-[#F8FAFC] dark:bg-[#162032] p-10 rounded-[2rem] shadow-sm border-t-[6px] border-[#0097B2] text-center hover:-translate-y-2 transition-transform duration-300">
-              <div className="text-5xl md:text-6xl font-black text-[#0097B2] mb-4">3.2x</div>
-              <h3 className="text-xl font-bold text-[#0B2545] dark:text-white mb-2">Average ROI</h3>
-              <p className="text-sm text-gray-500 dark:text-[#E6EEF2]/70">Consistent return on ad spend (ROAS) across e-commerce and performance campaigns.</p>
-            </div>
-            <div className="bg-[#F8FAFC] dark:bg-[#162032] p-10 rounded-[2rem] shadow-sm border-t-[6px] border-[#0097B2] text-center hover:-translate-y-2 transition-transform duration-300">
-              <div className="text-5xl md:text-6xl font-black text-[#0097B2] mb-4">40%</div>
-              <h3 className="text-xl font-bold text-[#0B2545] dark:text-white mb-2">Lower CPL</h3>
-              <p className="text-sm text-gray-500 dark:text-[#E6EEF2]/70">Achieved by implementing AI-driven qualification bots and conversion-optimized funnels.</p>
-            </div>
-            <div className="bg-[#F8FAFC] dark:bg-[#162032] p-10 rounded-[2rem] shadow-sm border-t-[6px] border-[#0097B2] text-center hover:-translate-y-2 transition-transform duration-300">
-              <div className="text-5xl md:text-6xl font-black text-[#0097B2] mb-4">98%</div>
-              <h3 className="text-xl font-bold text-[#0B2545] dark:text-white mb-2">Client Retention</h3>
-              <p className="text-sm text-gray-500 dark:text-[#E6EEF2]/70">We partner for the long term, focusing on sustainable business scaling over quick wins.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 9️⃣ INDUSTRIES WE SERVE */}
-      <section className="py-24 bg-[#F8FAFC] dark:bg-[#071A30]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-5xl font-heading font-extrabold text-[#0B2545] dark:text-white mb-12">Industries We Serve</h2>
-          <div className="flex flex-wrap justify-center gap-4 md:gap-6">
-            {['Ecommerce', 'Startups', 'Real Estate', 'Local Businesses', 'Healthcare', 'Education', 'SaaS', 'Personal Brands'].map((ind, i) => (
-              <span key={i} className="px-6 py-4 bg-white dark:bg-[#162032] border border-gray-200 dark:border-white/10 rounded-2xl font-bold text-[#0B2545] dark:text-white hover:border-[#0097B2] hover:text-[#0097B2] dark:hover:text-[#0097B2] transition-colors cursor-default shadow-sm text-lg">
-                {ind}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 🔟 FAQ SECTION */}
-      <section className="py-24 bg-white dark:bg-[#0B1120] border-t border-gray-200 dark:border-white/5">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-heading font-extrabold text-[#0B2545] dark:text-white mb-6">Frequently Asked Questions</h2>
-          </div>
-          <div className="space-y-4">
-            {FAQS.map((faq, index) => (
-              <div key={index} className="bg-[#F8FAFC] dark:bg-[#162032] border border-gray-200 dark:border-white/5 rounded-2xl overflow-hidden shadow-sm hover:border-[#0097B2]/50 transition-all duration-300">
-                <button 
-                  onClick={() => setActiveFaq(activeFaq === index ? null : index)}
-                  className="w-full px-8 py-6 text-left font-bold text-[#0B2545] dark:text-white flex justify-between items-center focus:outline-none text-lg"
-                >
-                  {faq.q}
-                  <div className={`w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center transition-all duration-300 ${activeFaq === index ? 'bg-[#0097B2] text-white rotate-180 shadow-md' : 'bg-white dark:bg-[#071A30] text-[#0097B2] border border-gray-200 dark:border-white/10'}`}>
-                    <i className="fas fa-chevron-down"></i>
+      {/* 6 Strategic Pillars In-Depth Section */}
+      <section className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto space-y-16">
+          {STRATEGIC_PILLARS.map((pillar) => {
+            const Icon = pillar.icon;
+            return (
+              <div
+                key={pillar.id}
+                className="p-8 sm:p-10 rounded-3xl bg-slate-50/80 dark:bg-[#071A30]/60 border border-slate-200/80 dark:border-white/10 shadow-xs"
+              >
+                {/* Pillar Header */}
+                <div className="flex flex-col md:flex-row md:items-center justify-between pb-6 mb-8 border-b border-slate-200 dark:border-white/10 gap-4">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-2xl bg-[#0097B2]/10 dark:bg-[#0097B2]/20 flex items-center justify-center text-[#0097B2] shrink-0">
+                      <Icon className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-mono font-bold text-[#0097B2]">
+                          PILLAR {pillar.num}
+                        </span>
+                      </div>
+                      <h2 className="text-2xl sm:text-3xl font-extrabold font-heading text-[#0B2545] dark:text-white">
+                        {pillar.title}
+                      </h2>
+                    </div>
                   </div>
-                </button>
-                <div className={`px-8 pb-6 text-gray-600 dark:text-[#E6EEF2]/80 text-base leading-relaxed ${activeFaq === index ? 'block' : 'hidden'}`}>
-                  {faq.a}
+
+                  <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-md font-light leading-relaxed">
+                    {pillar.desc}
+                  </p>
+                </div>
+
+                {/* Sub-services Grid */}
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {pillar.services.map((service, idx) => (
+                    <Link
+                      key={idx}
+                      href={service.href}
+                      className="p-5 rounded-2xl bg-white dark:bg-[#0B2545]/40 border border-slate-200/60 dark:border-white/5 hover:border-[#0097B2]/40 transition-all flex flex-col justify-between group shadow-xs hover:shadow-md"
+                    >
+                      <div>
+                        <h3 className="text-sm font-bold text-[#0B2545] dark:text-white font-heading group-hover:text-[#0097B2] dark:group-hover:text-cyan-400 transition-colors mb-1.5 flex items-center justify-between">
+                          <span>{service.name}</span>
+                          <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all text-[#0097B2]" />
+                        </h3>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 font-light leading-relaxed">
+                          {service.desc}
+                        </p>
+                      </div>
+                      <span className="text-[11px] font-semibold text-[#0097B2] dark:text-cyan-400 mt-4 block">
+                        Explore Capability →
+                      </span>
+                    </Link>
+                  ))}
                 </div>
               </div>
-            ))}
-          </div>
+            );
+          })}
         </div>
       </section>
 
-      {/* 11️⃣ FINAL MASSIVE CTA */}
-      <section className="relative py-32 bg-[#0097B2] overflow-hidden">
-        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-white/10 rounded-full blur-[100px]"></div>
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#0B2545]/10 rounded-full blur-[100px]"></div>
-        
-        <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-5xl md:text-7xl font-heading font-black text-white mb-6 leading-tight">Ready To Scale Your Business?</h2>
-          <p className="text-xl text-white/90 mb-12 font-light max-w-2xl mx-auto">Let SM NextGen build your marketing, tech, automation, and financial systems for sustainable, long-term predictable growth.</p>
-          
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-            <a href={getWhatsAppLink("Hi SM NextGen Team, I am ready to scale my business using your integrated systems. Please schedule a strategy call. Niche: ")} target="_blank" rel="noreferrer" className="px-10 py-5 bg-white text-[#0B2545] font-extrabold rounded-2xl shadow-2xl hover:scale-105 transition-transform text-lg flex items-center justify-center gap-3">
-               <i className="fas fa-arrow-right"></i> Book Strategy Call
-            </a>
-            <a href={getWhatsAppLink("Hi SM NextGen Team, I have some questions about your growth ecosystem. Please connect. ")} target="_blank" rel="noreferrer" className="px-10 py-5 bg-transparent border-2 border-white/20 hover:border-white text-white font-extrabold rounded-2xl hover:bg-white/10 transition-colors text-lg flex items-center justify-center gap-3">
-              <i className="fab fa-whatsapp text-xl text-white"></i> Contact on WhatsApp
+      {/* Done-For-You Partner CTA */}
+      <section className="pb-24 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto p-8 sm:p-12 rounded-3xl bg-gradient-to-r from-[#0B2545] via-[#071A30] to-[#040e1b] text-white border border-[#0097B2]/30 flex flex-col lg:flex-row items-center justify-between gap-8 shadow-xl">
+          <div className="space-y-3 text-center lg:text-left">
+            <span className="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider">
+              Need a Connected Engagement?
+            </span>
+            <h3 className="text-2xl sm:text-3xl font-extrabold font-heading text-white">
+              Let's Map the Right Capability Mix for Your Business.
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-300 max-w-2xl font-light leading-relaxed">
+              We begin every partnership with an intensive growth diagnostic to identify your true revenue bottlenecks before recommending specific services.
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
+            <Link
+              href="/contact"
+              className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-[#0097B2] hover:bg-[#007a91] text-white font-bold text-xs uppercase tracking-wider transition shadow-md"
+            >
+              Schedule Consultation
+            </Link>
+            <a
+              href="https://wa.me/917073538077?text=Hi%20SM%20NextGen%20Team%2C%20I%20would%20like%20to%20discuss%20your%20Growth%20Capabilities."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition"
+            >
+              <MessageSquare className="w-4 h-4 text-emerald-400" />
+              <span>WhatsApp Inquiry</span>
             </a>
           </div>
         </div>

@@ -1,324 +1,247 @@
 "use client";
+
 import React from "react";
 import Link from "next/link";
 import { 
   Compass, Laptop, Bot, BarChart3, ShieldCheck, 
   ArrowRight, CheckCircle2, MessageSquare, Sparkles, 
-  Clock, Award, Users 
+  MapPin, Clock, Award, Users 
 } from "lucide-react";
-import Card3DTilt from "../components/3d/Card3DTilt";
 
 const PILLARS = [
   {
     step: "01",
-    title: "Business-First Architecture",
+    title: "Strategy Before Tactics",
     icon: Compass,
-    tagline: "Strategy before tactics",
-    desc: "We analyze your P&L, unit economics, gross margins, and CAC payback periods before deploying capital or writing code."
+    desc: "We analyze unit economics, customer lifetime value, and competitive positioning before recommending ad channels or writing code."
   },
   {
     step: "02",
-    title: "Full-Stack Software Moats",
+    title: "Full-Stack Software Engineering",
     icon: Laptop,
-    tagline: "Production-grade infrastructure",
-    desc: "We build sub-second Next.js web applications, headless commerce platforms, and scalable cloud architectures."
+    desc: "We build production-grade Next.js web applications, client portals, and CRO funnels engineered for sub-second load times and high conversion."
   },
   {
     step: "03",
-    title: "Autonomous AI Leverage",
+    title: "Autonomous AI & Workflow Leverage",
     icon: Bot,
-    tagline: "Speed & operational efficiency",
-    desc: "We deploy conversational lead qualification bots, instant CRM routing, and automated retention loops."
+    desc: "We implement official WhatsApp Cloud API workflows, 24/7 lead qualification bots, and automated pipeline hand-offs to eliminate manual delays."
   },
   {
     step: "04",
-    title: "Closed-Loop Attribution",
+    title: "Closed-Loop Revenue Attribution",
     icon: BarChart3,
-    tagline: "Real financial truth",
-    desc: "We track end-to-end performance from first impression to cash deposited in your bank account. Zero vanity fluff."
+    desc: "We measure marketing performance against real deposited bank revenue rather than vanity ad clicks or slide-deck impressions."
   }
 ];
 
-const METRICS = [
-  { value: "10+", label: "Years Enterprise Experience", sub: "Strategic & technical execution" },
-  { value: "340+", label: "Growth Systems Deployed", sub: "For B2B, D2C, and Healthcare" },
-  { value: "99.4%", label: "On-Time SLA Delivery", sub: "Rigorous milestone governance" },
-  { value: "4-Hour", label: "Principal Response SLA", sub: "Direct leadership access always" },
+const WORKING_PRINCIPLES = [
+  {
+    title: "Direct Founder Engagement",
+    desc: "Every partnership is directed personally by our founder, Sanjay Malviya. We do not pitch with senior executives and hand execution off to junior interns."
+  },
+  {
+    title: "100% In-House Execution",
+    desc: "Our engineering, media buying, SEO, and AI workflow teams work together in-house. We maintain complete quality control across every deliverable."
+  },
+  {
+    title: "Commercial Confidentiality",
+    desc: "We operate under strict mutual non-disclosure agreements to protect your commercial strategies, customer lists, and proprietary pricing."
+  },
+  {
+    title: "Responsive Communication SLA",
+    desc: "Active growth partners have direct WhatsApp and Slack channels with our leadership team, backed by an under-4-hour response commitment during business hours."
+  }
 ];
 
 export default function AboutClient() {
   const handleWhatsApp = () => {
-    const msg = "Hi SM NextGen Leadership, I would like to explore a strategic growth partnership for my business.";
+    const msg = "Hi Sanjay, I would like to explore a strategic growth partnership with SM NextGen.";
     window.open(`https://wa.me/917073538077?text=${encodeURIComponent(msg)}`, "_blank");
   };
 
   return (
-    <main className="relative w-full z-10 overflow-x-hidden min-h-screen bg-white dark:bg-[#0B2545] font-body text-[#0B2545] dark:text-[#E6EEF2] selection:bg-[#0097B2] selection:text-white transition-colors duration-300">
+    <main className="relative w-full z-10 overflow-x-hidden min-h-screen bg-white dark:bg-[#030D1A] font-body text-[#0B2545] dark:text-[#E6EEF2] selection:bg-[#0097B2] selection:text-white transition-colors duration-200">
       
       {/* 01: HERO SECTION */}
-      <section className="relative pt-36 pb-20 px-4 sm:px-6 lg:px-8 border-b border-[#0B2545]/5 dark:border-white/5 bg-[#F8FAFC] dark:bg-[#071A30]">
+      <section className="relative pt-36 pb-20 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80 dark:border-white/5 bg-gradient-to-b from-[#F8FAFC] to-white dark:from-[#071A30] dark:to-[#030D1A]">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-12 gap-12 items-center">
             
-            {/* Left 7 cols: Punchy, Authoritative Copy */}
             <div className="lg:col-span-7 text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0097B2]/10 border border-[#0097B2]/20 text-[#0097B2] text-xs font-semibold uppercase tracking-wider mb-6">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>OUR STRATEGIC POSITIONING</span>
-              </div>
+              <span className="text-xs font-mono font-bold text-[#0097B2] uppercase tracking-wider block mb-4">
+                About SM NextGen
+              </span>
 
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-heading text-[#0B2545] dark:text-white tracking-tight mb-6 leading-tight">
                 We're Building <br className="hidden sm:inline" />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0097B2] via-cyan-500 to-[#007a91]">
-                  More Than An Agency.
+                  A Different Kind of Growth Partner.
                 </span>
               </h1>
 
-              <p className="text-lg sm:text-xl text-[#0B2545]/75 dark:text-[#E6EEF2]/75 font-body leading-relaxed max-w-2xl mx-auto lg:mx-0 mb-8 font-light">
-                SM NextGen is a high-conviction <strong>Business Growth Partner</strong>. We replace fragmented agency retainers with a unified system combining growth strategy, modern software engineering, AI automation, and closed-loop revenue attribution.
+              <p className="text-lg sm:text-xl text-slate-600 dark:text-slate-300 font-light leading-relaxed max-w-2xl mx-auto lg:mx-0 mb-8">
+                SM NextGen was founded to solve the core frustration business leaders face with traditional agencies: fragmented services, vanity metrics, and a total disconnect between marketing spend and bank deposits.
               </p>
 
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-8">
                 <Link
                   href="/contact"
-                  className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-[#0097B2] hover:bg-[#007a91] text-white font-semibold text-xs tracking-wider uppercase flex items-center justify-center gap-2 transition-all shadow-lg shadow-[#0097B2]/25"
+                  className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-[#0097B2] hover:bg-[#007a91] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition shadow-sm"
                 >
                   <span>Start a Growth Conversation</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  <ArrowRight className="w-4 h-4" />
                 </Link>
                 <button
+                  type="button"
                   onClick={handleWhatsApp}
-                  className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-white dark:bg-[#0B2545] text-[#0B2545] dark:text-white font-semibold text-xs tracking-wider uppercase border border-[#0B2545]/15 dark:border-white/15 hover:border-[#0097B2] transition-all cursor-pointer"
+                  className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-white dark:bg-white/10 text-slate-800 dark:text-white font-bold text-xs uppercase tracking-wider border border-slate-200 dark:border-white/15 hover:border-[#0097B2] transition cursor-pointer"
                 >
-                  Direct WhatsApp to Principal
+                  WhatsApp Leadership
                 </button>
               </div>
 
-              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6 text-xs text-[#0B2545]/70 dark:text-[#E6EEF2]/70 font-medium">
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6 text-xs text-slate-600 dark:text-slate-400 font-medium">
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-[#0097B2]" />
-                  <span>Zero Freelancer Outsourcing</span>
+                  <span>Headquartered in Udaipur, Rajasthan</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-[#0097B2]" />
-                  <span>Direct Principal Access</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-[#0097B2]" />
-                  <span>Strict NDA Protection</span>
+                  <span>Serving Clients Across India, US & UK</span>
                 </div>
               </div>
             </div>
 
-            {/* Right 5 cols: Strategic Visual Centerpiece */}
+            {/* Founder Portrait Card */}
             <div className="lg:col-span-5 flex justify-center">
-              <Card3DTilt className="p-6 sm:p-8 bg-white dark:bg-[#0B2545]/80 border border-[#0B2545]/10 dark:border-white/10 rounded-2xl shadow-xl w-full max-w-md">
-                <div className="relative h-60 w-full rounded-xl overflow-hidden mb-4 bg-[#0B2545] border border-[#0B2545]/10 dark:border-white/10 flex items-center justify-center group">
+              <div className="w-full max-w-sm rounded-3xl bg-slate-50 dark:bg-[#071A30] border border-slate-200/80 dark:border-white/10 p-6 shadow-xl text-center">
+                <div className="relative h-72 w-full rounded-2xl overflow-hidden bg-slate-900 mb-5 shadow-inner">
                   <img
-                    src="/images/services/brand-strategy-positioning.png"
-                    alt="Strategic Positioning Architecture"
-                    className="w-full h-full object-cover opacity-90 transition-opacity duration-300"
+                    src="/images/sanjay.png"
+                    alt="Sanjay Malviya - Founder of SM NextGen"
+                    className="w-full h-full object-cover object-top"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#071A30] via-[#071A30]/30 to-transparent" />
-                  <div className="absolute bottom-3 left-3 px-2.5 py-1 rounded bg-black/60 backdrop-blur-md text-[10px] font-mono font-bold text-white border border-white/20">
-                    Unified Growth Architecture
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#040e1b] via-transparent to-transparent opacity-75" />
+                  <div className="absolute bottom-3 left-3 right-3 text-left">
+                    <span className="text-[10px] font-mono text-cyan-300 font-bold bg-[#0097B2]/30 px-2 py-0.5 rounded backdrop-blur-sm">
+                      Founder & Managing Principal
+                    </span>
                   </div>
                 </div>
-                <div className="text-center">
-                  <div className="text-xs font-mono font-bold uppercase text-[#0097B2] mb-1">
-                    Compounding Growth Model
-                  </div>
-                  <p className="text-xs text-[#0B2545]/70 dark:text-[#E6EEF2]/70">
-                    Strategy ➔ Code ➔ AI Automation ➔ Attribution ➔ Revenue
-                  </p>
+
+                <h3 className="text-xl font-bold font-heading text-[#0B2545] dark:text-white">
+                  Sanjay Malviya
+                </h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                  Growth Strategist & Software Architect
+                </p>
+                <div className="pt-4 mt-4 border-t border-slate-200 dark:border-white/10 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+                  <span className="flex items-center gap-1">
+                    <MapPin className="w-3.5 h-3.5 text-[#0097B2]" /> Udaipur, India
+                  </span>
+                  <a href="tel:+917073538077" className="font-bold text-[#0097B2] hover:underline">
+                    +91 70735 38077
+                  </a>
                 </div>
-              </Card3DTilt>
+              </div>
             </div>
 
           </div>
         </div>
       </section>
 
-      {/* 02: 4 CORE SYSTEMIC PILLARS (Visual Grid) */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <h2 className="text-3xl sm:text-4xl font-extrabold font-heading text-[#0B2545] dark:text-white mb-4">
-            How We Are Built Differently
-          </h2>
-          <p className="text-base text-[#0B2545]/70 dark:text-[#E6EEF2]/70">
-            Four foundational pillars that guarantee aligned commercial incentives and sustained enterprise execution.
-          </p>
-        </div>
+      {/* 02: THE 4 ARCHITECTURAL PILLARS */}
+      <section className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80 dark:border-white/5">
+        <div className="max-w-7xl mx-auto">
+          <div className="max-w-3xl mb-14">
+            <span className="text-xs font-mono font-bold text-[#0097B2] uppercase tracking-wider block mb-3">
+              How We Think
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold font-heading text-[#0B2545] dark:text-white tracking-tight">
+              Four Non-Negotiable Tenets of Our Growth Architecture.
+            </h2>
+          </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
-          {PILLARS.map((p) => {
-            const Icon = p.icon;
-            return (
-              <Card3DTilt
-                key={p.title}
-                className="p-7 bg-[#F8FAFC] dark:bg-[#071A30]/80 border border-[#0B2545]/10 dark:border-white/10 rounded-2xl flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="w-12 h-12 rounded-xl bg-[#0097B2]/10 flex items-center justify-center text-[#0097B2]">
-                      <Icon className="w-6 h-6" />
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {PILLARS.map((p) => {
+              const Icon = p.icon;
+              return (
+                <div
+                  key={p.step}
+                  className="p-6 rounded-2xl bg-slate-50 dark:bg-[#071A30] border border-slate-200/80 dark:border-white/10 flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="w-10 h-10 rounded-xl bg-[#0097B2]/10 dark:bg-[#0097B2]/20 text-[#0097B2] flex items-center justify-center mb-4">
+                      <Icon className="w-5 h-5" />
                     </div>
-                    <span className="text-xs font-mono font-bold text-[#0097B2]">
-                      {p.step}
+                    <span className="text-xs font-mono font-bold text-slate-400 block mb-1">
+                      TENET {p.step}
                     </span>
+                    <h3 className="text-lg font-bold font-heading text-[#0B2545] dark:text-white mb-2">
+                      {p.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-light leading-relaxed">
+                      {p.desc}
+                    </p>
                   </div>
-
-                  <div className="text-[11px] font-bold uppercase tracking-wider text-[#0097B2] mb-1">
-                    {p.tagline}
-                  </div>
-                  <h3 className="text-xl font-bold font-heading text-[#0B2545] dark:text-white mb-3">
-                    {p.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-[#0B2545]/70 dark:text-[#E6EEF2]/70 leading-relaxed">
-                    {p.desc}
-                  </p>
                 </div>
-
-                <div className="mt-6 pt-4 border-t border-[#0B2545]/10 dark:border-white/10 text-xs font-semibold text-[#0097B2]">
-                  System Standard
-                </div>
-              </Card3DTilt>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
+      </section>
 
-        {/* 03: COMMERCIAL PERFORMANCE METRIC STRIP */}
-        <div className="p-8 sm:p-12 rounded-2xl bg-[#F8FAFC] dark:bg-[#071A30]/80 border border-[#0B2545]/10 dark:border-white/10 mb-20">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 divide-y sm:divide-y-0 sm:divide-x divide-[#0B2545]/10 dark:divide-white/10">
-            {METRICS.map((m, idx) => (
-              <div key={idx} className={`pt-4 sm:pt-0 ${idx > 0 ? "sm:pl-6" : ""} text-left`}>
-                <div className="text-3xl sm:text-4xl font-extrabold font-heading text-[#0097B2] mb-1">
-                  {m.value}
+      {/* 03: WORKING COMMITMENTS */}
+      <section className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8 bg-[#F8FAFC] dark:bg-[#071A30]/50 border-b border-slate-200/80 dark:border-white/5">
+        <div className="max-w-7xl mx-auto">
+          <div className="max-w-3xl mb-14">
+            <span className="text-xs font-mono font-bold text-[#0097B2] uppercase tracking-wider block mb-3">
+              Client Relationship
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold font-heading text-[#0B2545] dark:text-white tracking-tight">
+              Our Commitments to Every Client Partner.
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {WORKING_PRINCIPLES.map((principle, idx) => (
+              <div
+                key={idx}
+                className="p-6 sm:p-7 rounded-2xl bg-white dark:bg-[#0B2545]/40 border border-slate-200/80 dark:border-white/10"
+              >
+                <div className="flex items-center gap-2.5 font-bold font-heading text-base text-[#0B2545] dark:text-white mb-2">
+                  <CheckCircle2 className="w-4 h-4 text-[#0097B2] shrink-0" />
+                  <span>{principle.title}</span>
                 </div>
-                <div className="text-xs font-bold text-[#0B2545] dark:text-white mb-0.5">
-                  {m.label}
-                </div>
-                <div className="text-[11px] text-[#0B2545]/60 dark:text-[#E6EEF2]/60">
-                  {m.sub}
-                </div>
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-light leading-relaxed pl-6.5">
+                  {principle.desc}
+                </p>
               </div>
             ))}
           </div>
         </div>
+      </section>
 
-        {/* 04: DIRECT PRINCIPAL ACCESS GUARANTEE (Executive Feature Box) */}
-        <div className="rounded-3xl bg-gradient-to-br from-[#0B2545] via-[#071A30] to-[#040e1b] text-white p-8 sm:p-12 shadow-2xl border border-white/10 overflow-hidden relative">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-[#0097B2]/15 rounded-full blur-3xl pointer-events-none" />
-          
-          <div className="grid lg:grid-cols-12 gap-10 items-center relative z-10">
-            {/* Senior Growth Leadership Pod Visual (5 cols) */}
-            <div className="lg:col-span-5 flex flex-col items-center sm:items-start w-full">
-              <div className="w-full rounded-2xl bg-white/5 border border-white/15 p-6 backdrop-blur-md shadow-2xl relative overflow-hidden group">
-                
-                {/* Founder Photo & Title */}
-                <div className="flex items-center gap-4 pb-4 border-b border-white/10 mb-5">
-                  <div className="w-16 h-16 rounded-2xl overflow-hidden border-2 border-[#0097B2] shrink-0 bg-slate-900 shadow-md">
-                    <img 
-                      src="/images/sanjay.png" 
-                      alt="Sanjay Malviya - Founder of SM NextGen" 
-                      className="w-full h-full object-cover object-top"
-                    />
-                  </div>
-                  <div>
-                    <div className="text-base font-bold font-heading text-white">
-                      Sanjay Malviya
-                    </div>
-                    <div className="text-xs text-[#0097B2] font-semibold">
-                      Founder & Managing Principal
-                    </div>
-                    <div className="inline-flex items-center gap-1 mt-1 px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-mono font-bold">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                      Direct Governance
-                    </div>
-                  </div>
-                </div>
-
-                <div className="space-y-2.5 mb-5">
-                  <div className="p-3 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between">
-                    <span className="text-xs text-[#E6EEF2]/90 font-medium">Growth Strategy & Economics</span>
-                    <span className="text-[11px] font-mono text-[#0097B2] font-bold">Principal Level</span>
-                  </div>
-                  <div className="p-3 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between">
-                    <span className="text-xs text-[#E6EEF2]/90 font-medium">Next.js & Software Engineering</span>
-                    <span className="text-[11px] font-mono text-[#0097B2] font-bold">Lead Architect</span>
-                  </div>
-                  <div className="p-3 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between">
-                    <span className="text-xs text-[#E6EEF2]/90 font-medium">Google Maps 3-Pack & SEO</span>
-                    <span className="text-[11px] font-mono text-[#0097B2] font-bold">Senior Specialist</span>
-                  </div>
-                </div>
-
-                <div className="pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs">
-                  <span className="text-[#E6EEF2]/70">Direct Call: <strong className="text-white">+91 70735 38077</strong></span>
-                  <span className="text-[#E6EEF2]/70">Support: <strong className="text-[#0097B2]">info@smnextgen.com</strong></span>
-                </div>
-              </div>
-            </div>
-
-            {/* Strategic Value Proposition & CTAs (7 cols) */}
-            <div className="lg:col-span-7">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0097B2]/20 border border-[#0097B2]/30 text-[#0097B2] text-xs font-mono font-bold uppercase tracking-wider mb-4">
-                <ShieldCheck className="w-3.5 h-3.5" />
-                <span>DIRECT PARTNER COMMITMENT</span>
-              </div>
-
-              <h3 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold font-heading mb-4 leading-tight">
-                Direct Senior Leadership. <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0097B2] to-cyan-400">
-                  Zero Middlemen or Handoffs.
-                </span>
-              </h3>
-
-              <p className="text-sm sm:text-base text-[#E6EEF2]/80 leading-relaxed font-light mb-6">
-                When you partner with SM NextGen, your growth roadmap, digital platforms, and customer acquisition campaigns are directed and executed by senior specialists. You never get passed down to junior account reps or outsourced interns.
-              </p>
-
-              <div className="grid sm:grid-cols-2 gap-3 mb-8 text-xs font-medium text-[#E6EEF2]/90">
-                <div className="flex items-center gap-2.5 p-3 rounded-xl bg-white/5 border border-white/10">
-                  <CheckCircle2 className="w-4 h-4 text-[#0097B2] shrink-0" />
-                  <span>4-Hour Guaranteed Response Time</span>
-                </div>
-                <div className="flex items-center gap-2.5 p-3 rounded-xl bg-white/5 border border-white/10">
-                  <CheckCircle2 className="w-4 h-4 text-[#0097B2] shrink-0" />
-                  <span>End-to-End Technical & Growth Ownership</span>
-                </div>
-                <div className="flex items-center gap-2.5 p-3 rounded-xl bg-white/5 border border-white/10">
-                  <CheckCircle2 className="w-4 h-4 text-[#0097B2] shrink-0" />
-                  <span>Weekly Strategy & Performance Reviews</span>
-                </div>
-                <div className="flex items-center gap-2.5 p-3 rounded-xl bg-white/5 border border-white/10">
-                  <CheckCircle2 className="w-4 h-4 text-[#0097B2] shrink-0" />
-                  <span>Strict Commercial NDA Protection</span>
-                </div>
-              </div>
-
-              <div className="flex flex-col sm:flex-row items-center gap-4">
-                <Link
-                  href="/contact"
-                  className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-[#0097B2] hover:bg-[#007a91] text-white font-semibold text-xs tracking-wider uppercase text-center transition-all shadow-lg shadow-[#0097B2]/30 flex items-center justify-center gap-2"
-                >
-                  <span>Schedule Strategic Consultation</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-                <button
-                  type="button"
-                  onClick={handleWhatsApp}
-                  className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs tracking-wider uppercase text-center border border-white/20 transition-all cursor-pointer flex items-center justify-center gap-2"
-                >
-                  <MessageSquare className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>WhatsApp Directly (+91 70735 38077)</span>
-                </button>
-              </div>
-            </div>
-
+      {/* 04: CLOSING INTAKE CTA */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 text-center">
+        <div className="max-w-3xl mx-auto space-y-6">
+          <h2 className="text-3xl sm:text-4xl font-extrabold font-heading text-[#0B2545] dark:text-white tracking-tight">
+            Ready for a Growth Partner That Takes Full Ownership?
+          </h2>
+          <p className="text-base text-slate-600 dark:text-slate-300 font-light leading-relaxed">
+            Schedule an introductory consultation directly with Sanjay Malviya. We will review your current systems and discuss how a connected approach can scale your business.
+          </p>
+          <div className="pt-2">
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[#0097B2] hover:bg-[#007a91] text-white font-bold text-xs uppercase tracking-wider transition shadow-md"
+            >
+              <span>Schedule Strategic Consultation</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
-
       </section>
 
     </main>
