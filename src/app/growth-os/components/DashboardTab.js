@@ -176,7 +176,7 @@ export default function DashboardTab({
               Google Business Profile Health & Growth Potential
             </h2>
             <p className="text-xs text-slate-400 max-w-xl">
-              Calculated across 24 algorithmic ranking factors (completeness, review velocity, photo freshness, and customer engagement).
+              SM NextGen proprietary 0–100 diagnostic benchmark calculated across 24 local factors (completeness, review velocity, and NAP accuracy). Independent analysis; not an official Google rating or ranking guarantee.
             </p>
           </div>
 

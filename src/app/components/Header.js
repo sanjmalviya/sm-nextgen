@@ -53,11 +53,12 @@ export default function Header() {
   }, [pathname]);
 
   const navLinks = [
-    { name: "Services", href: "/services" },
-    { name: "Solutions", href: "/how-we-work" },
-    { name: "Growth OS", href: "/growth-os", isProduct: true },
+    { name: "How We Grow", href: "/how-we-work" },
+    { name: "Industries", href: "/industries" },
     { name: "Case Studies", href: "/case-studies" },
+    { name: "Growth Tools", href: "/tools" },
     { name: "About", href: "/about" },
+    { name: "Contact", href: "/contact" },
   ];
 
   // 6 STRATEGIC GROWTH CAPABILITY CATEGORIES
@@ -318,7 +319,7 @@ export default function Header() {
                 href="/contact" 
                 className="hidden lg:inline-flex bg-[#0097B2] hover:bg-[#007a91] text-white px-3.5 sm:px-4 py-2 rounded-xl font-bold text-xs uppercase tracking-wider shadow-sm transition-all hover:scale-[1.02] items-center gap-1.5 cursor-pointer shrink-0"
               >
-                <span>Schedule Consultation</span>
+                <span>Start a Growth Conversation</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
               

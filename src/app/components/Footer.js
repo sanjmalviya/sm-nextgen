@@ -96,38 +96,42 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-bold mb-6 text-[#0097B2] uppercase text-xs tracking-widest">Company & Products</h4>
+            <h4 className="font-bold mb-6 text-[#0097B2] uppercase text-xs tracking-widest">Growth Systems</h4>
             <ul className="space-y-3 text-sm text-[#E6EEF2]/70 font-medium">
               <li><Link href="/growth-os" className="text-cyan-400 font-bold hover:text-white hover:translate-x-1 inline-flex items-center gap-1.5 transition-all"><span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> Growth OS Platform</Link></li>
-              <li><Link href="/about" className="hover:text-white hover:translate-x-1 inline-block transition-all">About SM NextGen</Link></li>
-              <li><Link href="/pricing" className="hover:text-white hover:translate-x-1 inline-block transition-all">Pricing Plans</Link></li>
-              <li><Link href="/case-studies" className="hover:text-white hover:translate-x-1 inline-block transition-all">Our Work & Results</Link></li>
-              <li><Link href="/blogs" className="hover:text-white hover:translate-x-1 inline-block transition-all">Resources / Blogs</Link></li>
+              <li><Link href="/how-we-work" className="hover:text-white hover:translate-x-1 inline-block transition-all">How We Grow</Link></li>
+              <li><Link href="/industries" className="hover:text-white hover:translate-x-1 inline-block transition-all">Industry Blueprints</Link></li>
+              <li><Link href="/services" className="hover:text-white hover:translate-x-1 inline-block transition-all">Capabilities Overview</Link></li>
+              <li><Link href="/pricing" className="hover:text-white hover:translate-x-1 inline-block transition-all">Growth Engagements</Link></li>
+              <li><Link href="/case-studies" className="hover:text-white hover:translate-x-1 inline-block transition-all">Case Studies</Link></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="font-bold mb-6 text-[#0097B2] uppercase text-xs tracking-widest">Connect</h4>
+            <h4 className="font-bold mb-6 text-[#0097B2] uppercase text-xs tracking-widest">Connect & Tools</h4>
             <ul className="space-y-3 text-sm text-[#E6EEF2]/70 font-medium">
               <li><Link href="/contact" className="hover:text-white hover:translate-x-1 inline-block transition-all">Contact Us</Link></li>
+              <li><Link href="/tools" className="hover:text-white hover:translate-x-1 inline-block transition-all">Growth Tools & Calculators</Link></li>
+              <li><Link href="/about" className="hover:text-white hover:translate-x-1 inline-block transition-all">About & Leadership</Link></li>
               <li><Link href="/partners" className="hover:text-white hover:translate-x-1 inline-block transition-all">Partner Program</Link></li>
-              <li><Link href="/tools" className="hover:text-white hover:translate-x-1 inline-block transition-all">Free Growth Tools</Link></li>
-              <li><a href="https://wa.me/917073538077" target="_blank" className="hover:text-green-400 hover:translate-x-1 inline-block transition-all"><i className="fab fa-whatsapp mr-1"></i> Chat on WhatsApp</a></li>
+              <li><a href="https://wa.me/917073538077" target="_blank" rel="noopener noreferrer" className="hover:text-green-400 hover:translate-x-1 inline-block transition-all"><i className="fab fa-whatsapp mr-1"></i> WhatsApp: +91 70735 38077</a></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="font-bold mb-6 text-[#0097B2] uppercase text-xs tracking-widest">Legal</h4>
-            <ul className="space-y-3 text-sm text-[#E6EEF2]/70 font-medium">
-              <li><Link href="/legal" className="hover:text-white hover:translate-x-1 inline-block transition-all">Privacy Policy</Link></li>
-              <li><Link href="/legal" className="hover:text-white hover:translate-x-1 inline-block transition-all">Terms of Service</Link></li>
-              <li><Link href="/legal" className="hover:text-white hover:translate-x-1 inline-block transition-all">Refund Policy</Link></li>
+            <h4 className="font-bold mb-6 text-[#0097B2] uppercase text-xs tracking-widest">Legal & Privacy</h4>
+            <ul className="space-y-2.5 text-xs text-[#E6EEF2]/70 font-medium">
+              <li><Link href="/privacy-policy" className="hover:text-white hover:translate-x-1 inline-block transition-all">Privacy Policy</Link></li>
+              <li><Link href="/terms-and-conditions" className="hover:text-white hover:translate-x-1 inline-block transition-all">Terms of Service</Link></li>
+              <li><Link href="/refund-policy" className="hover:text-white hover:translate-x-1 inline-block transition-all">Refund Policy</Link></li>
+              <li><Link href="/cookie-policy" className="hover:text-white hover:translate-x-1 inline-block transition-all">Cookie Policy</Link></li>
+              <li><Link href="/data-deletion" className="hover:text-rose-400 hover:translate-x-1 inline-block transition-all">User Data Deletion</Link></li>
             </ul>
             
-            {/* Social Icons inside Legal Column to save space */}
-            <div className="mt-8 flex space-x-4 items-center">
-              <a href="https://www.instagram.com/smnextgen/" target="_blank" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-pink-500 hover:text-white transition-all"><i className="fab fa-instagram text-lg"></i></a>
-              <a href="https://www.linkedin.com/company/109211431" target="_blank" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-blue-600 hover:text-white transition-all"><i className="fab fa-linkedin text-lg"></i></a>
+            {/* Social Icons */}
+            <div className="mt-6 flex space-x-3 items-center">
+              <a href="https://www.instagram.com/smnextgen/" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-pink-500 hover:text-white transition-all"><i className="fab fa-instagram text-sm"></i></a>
+              <a href="https://www.linkedin.com/company/109211431" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-blue-600 hover:text-white transition-all"><i className="fab fa-linkedin text-sm"></i></a>
             </div>
           </div>
 

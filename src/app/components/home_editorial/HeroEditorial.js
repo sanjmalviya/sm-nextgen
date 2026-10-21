@@ -47,18 +47,39 @@ export default function HeroEditorial({ onStartConversation }) {
             </div>
 
             {/* Confident Headline */}
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[64px] font-extrabold tracking-tight font-heading leading-[1.08] text-[#0B2545] dark:text-white mb-6">
-              Build a Connected <br className="hidden sm:inline" />
-              Growth System. <br />
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[62px] font-extrabold tracking-tight font-heading leading-[1.08] text-[#0B2545] dark:text-white mb-6">
+              Your Business Deserves <br className="hidden sm:inline" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0097B2] via-cyan-500 to-[#007a91]">
-                Not Disconnected Marketing.
+                More Than Marketing.
               </span>
             </h1>
 
             {/* Concise Supporting Copy */}
             <p className="text-base sm:text-lg lg:text-xl text-slate-600 dark:text-slate-300 font-light leading-relaxed max-w-2xl mx-auto lg:mx-0 mb-8">
-              We replace fragmented agency retainers with a unified growth engine — combining high-conviction business strategy, high-speed Next.js web applications, AI automation, and closed-loop revenue attribution.
+              SM NextGen helps businesses build sustainable growth through strategy, marketing, technology, AI, and automation. We replace fragmented agency retainers with a connected compounding growth system.
             </p>
+
+            {/* Visual Growth-System Diagram: Strategy → Demand → Leads → Conversion → Sales → Revenue → Scale */}
+            <div className="mb-8 p-3 rounded-2xl bg-white/70 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 shadow-sm max-w-2xl">
+              <div className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#0097B2] mb-2 text-center lg:text-left">
+                The SM NextGen Growth System Flow
+              </div>
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-1.5 sm:gap-2 text-[11px] sm:text-xs font-bold text-[#0B2545] dark:text-slate-200">
+                <span className="px-2.5 py-1 rounded-lg bg-[#0097B2]/10 border border-[#0097B2]/25 text-[#0097B2]">Strategy</span>
+                <span className="text-slate-400">→</span>
+                <span className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10">Demand</span>
+                <span className="text-slate-400">→</span>
+                <span className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10">Leads</span>
+                <span className="text-slate-400">→</span>
+                <span className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10">Conversion</span>
+                <span className="text-slate-400">→</span>
+                <span className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10">Sales</span>
+                <span className="text-slate-400">→</span>
+                <span className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10">Revenue</span>
+                <span className="text-slate-400">→</span>
+                <span className="px-2.5 py-1 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400">Scale</span>
+              </div>
+            </div>
 
             {/* Primary & Secondary Action CTAs */}
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3.5 mb-10">
@@ -66,25 +87,25 @@ export default function HeroEditorial({ onStartConversation }) {
                 onClick={onStartConversation}
                 className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-[#0097B2] hover:bg-[#007a91] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-[#0097B2]/25 hover:-translate-y-0.5 active:translate-y-0 transition-all cursor-pointer"
               >
-                <span>Schedule Consultation</span>
+                <span>Start a Growth Conversation</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
 
               <Link
-                href="/growth-os"
-                className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-white dark:bg-white/10 hover:bg-slate-50 dark:hover:bg-white/15 text-[#0B2545] dark:text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2.5 border border-slate-200 dark:border-white/15 shadow-sm hover:-translate-y-0.5 active:translate-y-0 transition-all cursor-pointer group"
+                href="/tools"
+                className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-white dark:bg-white/10 hover:bg-slate-50 dark:hover:bg-white/15 text-[#0B2545] dark:text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 border border-slate-200 dark:border-white/15 shadow-sm hover:-translate-y-0.5 active:translate-y-0 transition-all cursor-pointer"
               >
-                <Zap className="w-3.5 h-3.5 text-[#0097B2] dark:text-cyan-300" />
-                <span>Explore Growth OS</span>
-                <ArrowUpRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#0097B2] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+                <Sparkles className="w-3.5 h-3.5 text-[#0097B2]" />
+                <span>Get Your Growth Score</span>
               </Link>
 
               <Link
-                href="/how-we-work"
-                className="w-full sm:w-auto px-4 py-3 rounded-xl text-xs font-semibold text-slate-500 hover:text-[#0097B2] dark:text-slate-400 dark:hover:text-cyan-300 flex items-center justify-center gap-1.5 transition-colors"
+                href="/growth-os"
+                className="w-full sm:w-auto px-5 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider text-slate-600 hover:text-[#0097B2] dark:text-slate-300 dark:hover:text-cyan-300 flex items-center justify-center gap-1.5 transition-colors border border-transparent hover:border-slate-200 dark:hover:border-white/10"
               >
-                <span>Our Methodology</span>
-                <ArrowRight className="w-3 h-3" />
+                <Zap className="w-3.5 h-3.5 text-[#0097B2]" />
+                <span>Growth OS</span>
+                <ArrowUpRight className="w-3.5 h-3.5" />
               </Link>
             </div>
 

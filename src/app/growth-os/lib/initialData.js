@@ -192,3 +192,77 @@ export const SM_NEXTGEN_OPPORTUNITIES = [
     actionLabel: "View Photo Ideas"
   }
 ];
+
+export const DEFAULT_PLANS = [
+  {
+    id: "starter",
+    name: "Starter Diagnostic",
+    description: "Essential baseline audit & manual health tracking for local business owners.",
+    priceUSD: "$0",
+    priceINR: "₹0",
+    period: "forever free",
+    popular: false,
+    features: [
+      "Instant 24-Point Google Maps Audit",
+      "Proprietary Growth Score Benchmark (0-100)",
+      "Review velocity status check",
+      "Manual checklist of action items",
+      "1 Google Business Profile connection"
+    ],
+    cta: "Run Free Diagnostic"
+  },
+  {
+    id: "growth",
+    name: "Local Growth Autopilot",
+    description: "Full AI automation, review generation, and 3-pack rank tracking for single-location businesses.",
+    priceUSD: "$49",
+    priceINR: "₹3,999",
+    period: "month",
+    popular: true,
+    features: [
+      "Real-time Google Maps 3-Pack Telemetry",
+      "AI Review Responder (4 tones & auto-drafting)",
+      "Automated Weekly Google Post Generator",
+      "QR Code & Direct Review Generation Link",
+      "Competitor Distance & Citation Tracker",
+      "Weekly Performance Health Reports"
+    ],
+    cta: "Start 14-Day Free Trial"
+  },
+  {
+    id: "pro",
+    name: "Growth Pro & Multi-Keyword",
+    description: "Aggressive local dominance with multi-grid geo-ranking tracking and automated posting.",
+    priceUSD: "$129",
+    priceINR: "₹9,999",
+    period: "month",
+    popular: false,
+    features: [
+      "Everything in Local Growth, plus:",
+      "5x5 Geo-Grid Local Ranking Heatmaps",
+      "Automated Schedule & Auto-Publish for Posts",
+      "Customer Sentiment & Keyword Trend Analysis",
+      "Negative Review Escalation & SMS Alerts",
+      "Priority WhatsApp & Email Support"
+    ],
+    cta: "Upgrade to Growth Pro"
+  },
+  {
+    id: "enterprise",
+    name: "Multi-Location & Franchise",
+    description: "Centralized command center for chains, franchises, and regional agency partners.",
+    priceUSD: "$299",
+    priceINR: "₹24,999",
+    period: "month",
+    popular: false,
+    features: [
+      "Everything in Growth Pro, plus:",
+      "Up to 10 Business Locations Included",
+      "Centralized Review Inbox & Mass Responses",
+      "Franchise-Wide Benchmark Aggregation",
+      "Custom White-Label Client Reports (PDF)",
+      "Dedicated SM NextGen Growth Architect"
+    ],
+    cta: "Contact Enterprise Sales"
+  }
+];

@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Sparkles, RefreshCw, LogOut } from "lucide-react";
+import Link from "next/link";
+import { Sparkles, RefreshCw, LogOut, AlertTriangle, ArrowLeft, ArrowRight, Lock } from "lucide-react";
 
 import {
   DEFAULT_BUSINESS,
@@ -15,6 +16,7 @@ import {
 } from "./lib/initialData";
 import { storageService, SEED_WORKSPACES } from "./lib/supabaseClient";
 
+import PublicLanding from "./components/PublicLanding";
 import AuthScreen from "./components/AuthScreen";
 import GrowthOSSidebar from "./components/GrowthOSSidebar";
 import GrowthOSMobileNav from "./components/GrowthOSMobileNav";
@@ -66,6 +68,7 @@ class TabErrorBoundary extends React.Component {
 
 export default function GrowthOSClient() {
   const [currentUser, setCurrentUser] = useState(null);
+  const [viewMode, setViewMode] = useState("landing"); // "landing" | "auth" | "app"
   const [isClientLoaded, setIsClientLoaded] = useState(false);
 
   // Multi-Tenant Workspaces State
@@ -98,8 +101,12 @@ export default function GrowthOSClient() {
     setWorkspaces(storedWorkspaces);
     setActiveWorkspaceId(storedActiveId);
 
+    const urlParams = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : null;
+    const directAction = urlParams?.get("app") || urlParams?.get("login") || urlParams?.get("auth");
+
     if (session) {
       setCurrentUser(session);
+      setViewMode("app");
       // If user is tied to a specific business
       if (session.businessId && storedWorkspaces.some(w => w.id === session.businessId)) {
         setActiveWorkspaceId(session.businessId);
@@ -107,7 +114,11 @@ export default function GrowthOSClient() {
       } else {
         loadWorkspaceData(storedActiveId, storedWorkspaces);
       }
+    } else if (directAction) {
+      setViewMode("auth");
+      loadWorkspaceData(storedActiveId, storedWorkspaces);
     } else {
+      setViewMode("landing");
       loadWorkspaceData(storedActiveId, storedWorkspaces);
     }
   }, []);
@@ -153,6 +164,7 @@ export default function GrowthOSClient() {
   // Auth Handlers
   const handleLoginSuccess = (user, msg) => {
     setCurrentUser(user);
+    setViewMode("app");
     const storedWorkspaces = storageService.getWorkspaces();
     setWorkspaces(storedWorkspaces);
     if (user.businessId) {
@@ -162,9 +174,29 @@ export default function GrowthOSClient() {
     showToast(msg || "Signed in successfully!");
   };
 
+  const handleLaunchDemo = () => {
+    const demoUser = {
+      id: "user-demo",
+      name: "Demo Explorer",
+      email: "demo@smnextgen.com",
+      role: "DEMO",
+      isDemo: true,
+      businessId: "biz-2",
+      businessName: "Lakeview Heritage Palace Resort",
+      city: "Udaipur, Rajasthan",
+      createdAt: new Date().toISOString()
+    };
+    setCurrentUser(demoUser);
+    setViewMode("app");
+    setActiveWorkspaceId("biz-2");
+    loadWorkspaceData("biz-2", workspaces);
+    showToast("Loaded 1-Click Interactive Demo Mode!");
+  };
+
   const handleSignOut = () => {
     storageService.clearSession();
     setCurrentUser(null);
+    setViewMode("landing");
     setActiveTab("dashboard");
     showToast("Signed out safely.");
   };
@@ -407,12 +439,55 @@ export default function GrowthOSClient() {
     </div>
   );
 
-  // 1. STRICT AUTHENTICATION GATE: If not logged in, render SaaS AuthScreen
+  // 1. UNAUTHENTICATED EXPERIENCE (Product Layer B Landing vs Auth Screen)
   if (!currentUser) {
+    if (viewMode === "auth") {
+      return (
+        <div className="min-h-screen w-full bg-slate-950 text-slate-100 font-sans">
+          {ToastNotification}
+          <AuthScreen 
+            onLoginSuccess={handleLoginSuccess} 
+            onBackToLanding={() => setViewMode("landing")} 
+          />
+        </div>
+      );
+    }
+
+    // Default: Public Product Overview & Interactive Free Audit (Product Layer B)
     return (
-      <div className="min-h-screen w-full bg-slate-950 text-slate-100 font-sans">
+      <div className="min-h-screen w-full bg-slate-950 text-slate-100 font-sans selection:bg-[#0097B2] selection:text-white">
         {ToastNotification}
-        <AuthScreen onLoginSuccess={handleLoginSuccess} />
+        
+        {/* Top Product Bar */}
+        <header className="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-4 sm:px-8 py-3 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2 text-xs font-semibold text-slate-300 hover:text-white transition">
+            <ArrowLeft className="w-3.5 h-3.5 text-[#0097B2]" />
+            <span>Return to SM NextGen Corporate</span>
+          </Link>
+
+          <div className="flex items-center gap-3">
+            <button
+              onClick={handleLaunchDemo}
+              className="px-3.5 py-1.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-300 text-xs font-bold transition flex items-center gap-1.5 cursor-pointer hover:scale-105 active:scale-95"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+              <span>1-Click Live Demo</span>
+            </button>
+
+            <button
+              onClick={() => setViewMode("auth")}
+              className="px-4 py-1.5 rounded-xl bg-[#0097B2] hover:bg-[#007a91] text-white text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow-md hover:scale-105 active:scale-95"
+            >
+              <Lock className="w-3.5 h-3.5" />
+              <span>Sign In / Launch App</span>
+            </button>
+          </div>
+        </header>
+
+        <PublicLanding
+          onOpenAuth={() => setViewMode("auth")}
+          onLaunchDemo={handleLaunchDemo}
+        />
       </div>
     );
   }
@@ -441,6 +516,20 @@ export default function GrowthOSClient() {
       {/* Main Workspace Scrollable Viewport */}
       <div className="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto">
         
+        {/* Persistent High-Contrast Demo Mode Banner */}
+        {(currentBusiness?.isDemo || currentUser?.isDemo) && (
+          <div className="bg-gradient-to-r from-amber-500/20 via-orange-500/20 to-amber-500/20 border-b border-amber-500/30 px-4 py-2 text-center text-xs text-amber-300 font-medium flex flex-wrap items-center justify-center gap-2 z-30 shrink-0">
+            <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />
+            <span><strong>Demo Data Mode Active:</strong> You are exploring sample benchmark data. Never mistake demo metrics for real Google data.</span>
+            <button
+              onClick={() => setIsConnectGoogleOpen(true)}
+              className="px-2.5 py-0.5 rounded bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-[11px] transition cursor-pointer ml-1"
+            >
+              Connect Real Business Profile
+            </button>
+          </div>
+        )}
+
         {/* Top App Header */}
         <header className="sticky top-0 z-20 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-4 sm:px-6 py-3 flex items-center justify-between">
           

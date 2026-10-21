@@ -82,7 +82,7 @@ export default function LegalClient() {
           </div>
 
           <div className="text-center mt-12 text-xs text-gray-400">
-            <p>Last Updated: January 2026 | Contact: smnextgen.in@gmail.com</p>
+            <p>Last Updated: October 2026 | Contact: info@smnextgen.com | Udaipur, Rajasthan, India</p>
           </div>
 
         </div>

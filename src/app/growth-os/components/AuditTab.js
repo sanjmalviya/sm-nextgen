@@ -100,7 +100,7 @@ export default function AuditTab({ auditScore, appliedFixes, onApplyAuditFix, bu
             Comprehensive Google Profile Audit
           </h2>
           <p className="text-xs text-slate-400 max-w-xl mt-1">
-            Every factor is weighted by its direct impact on Google Maps local 3-Pack placement. Click "Fix Now" on any warning to increase your Growth Score.
+            SM NextGen proprietary 24-point audit framework. Evaluates local SEO factors (relevance, prominence, and completeness). Not an official Google rating or ranking guarantee.
           </p>
         </div>
 

@@ -4,9 +4,10 @@ import HeroEditorial from "./components/home_editorial/HeroEditorial";
 import BusinessChallenges from "./components/home_editorial/BusinessChallenges";
 import GrowthSystemDark from "./components/home_editorial/GrowthSystemDark";
 import ServicesEditorial from "./components/home_editorial/ServicesEditorial";
-import GrowthOSShowcase from "./components/home_editorial/GrowthOSShowcase";
-import CaseStudiesProof from "./components/home_editorial/CaseStudiesProof";
 import HowWeWorkProcess from "./components/home_editorial/HowWeWorkProcess";
+import CaseStudiesProof from "./components/home_editorial/CaseStudiesProof";
+import HomeGrowthTools from "./components/home_editorial/HomeGrowthTools";
+import GrowthOSShowcase from "./components/home_editorial/GrowthOSShowcase";
 import AboutLeadership from "./components/home_editorial/AboutLeadership";
 import FinalConsultationCTA from "./components/home_editorial/FinalConsultationCTA";
 
@@ -30,45 +31,50 @@ export default function HomeClient() {
   return (
     <main className="relative w-full z-10 overflow-x-hidden min-h-screen bg-white dark:bg-[#030D1A] font-body text-[#0B2545] dark:text-[#E6EEF2] selection:bg-[#0097B2] selection:text-white transition-colors duration-300">
       
-      {/* 01: HERO SECTION — EDITORIAL POSITIONING & INTERACTIVE GROWTH OS DASHBOARD */}
+      {/* SECTION 1 — HERO: POSITIONING, VALUE PROP, 7-STEP FLOW & TELEMETRY MOCKUP */}
       <HeroEditorial
         onStartConversation={scrollToConsultation}
       />
 
-      {/* 02: BUSINESS CHALLENGES — THE 5 CORE DISCONNECTS OF TRADITIONAL MARKETING */}
+      {/* SECTION 2 — THE BUSINESS PROBLEM: 4-5 CORE DISCONNECTS OF TRADITIONAL MARKETING */}
       <BusinessChallenges
         onExploreSystem={scrollToSystem}
       />
 
-      {/* 03: THE SM NEXTGEN GROWTH SYSTEM (DISTINCTIVE DARK SECTION) */}
+      {/* SECTION 3 — THE SM NEXTGEN GROWTH SYSTEM (DISTINCTIVE DARK SECTION) */}
       <div id="growth-system">
         <GrowthSystemDark
           onStartConversation={scrollToConsultation}
         />
       </div>
 
-      {/* 04: SERVICES GRID — 8 REFINED STRATEGIC GROWTH DISCIPLINES */}
+      {/* SECTION 4 — CAPABILITIES: 8 CONNECTED GROWTH LEVERS */}
       <ServicesEditorial />
 
-      {/* 05: GROWTH OS SPOTLIGHT — EMERGING SAAS SOFTWARE ECOSYSTEM */}
-      <GrowthOSShowcase />
-
-      {/* 06: CASE STUDIES & VERIFIABLE BLUEPRINTS */}
-      <CaseStudiesProof
-        onExploreCase={scrollToConsultation}
-      />
-
-      {/* 07: HOW WE WORK — 6-STAGE VISUAL METHODOLOGY */}
+      {/* SECTION 5 — HOW WE GROW: 6-STAGE VISUAL METHODOLOGY (DISCOVER -> SCALE) */}
       <HowWeWorkProcess
         onStartConversation={scrollToConsultation}
       />
 
-      {/* 08: ABOUT & LEADERSHIP — FOUNDER DIRECT ENGAGEMENT & PRINCIPLES */}
+      {/* SECTION 6 — EVIDENCE AND CASE STUDIES: AUTHENTIC BLUEPRINTS & LIFTS */}
+      <CaseStudiesProof
+        onExploreCase={scrollToConsultation}
+      />
+
+      {/* SECTION 7 — GROWTH TOOLS: INTERACTIVE CALCULATORS & GROWTH AUDITS */}
+      <HomeGrowthTools
+        onStartConversation={scrollToConsultation}
+      />
+
+      {/* SECTION 8 — GROWTH OS: SOFTWARE ECOSYSTEM SPOTLIGHT (GBP LIVE V1.0) */}
+      <GrowthOSShowcase />
+
+      {/* SECTION 9 — WHY SM NEXTGEN: LEADERSHIP, FOUNDER MANIFESTO & 4-HR SLA */}
       <AboutLeadership
         onStartConversation={scrollToConsultation}
       />
 
-      {/* 09: FINAL CONSULTATION INTAKE & DIRECT WHATSAPP */}
+      {/* SECTION 10 — FINAL CTA: "LET'S FIND YOUR NEXT GROWTH OPPORTUNITY" */}
       <FinalConsultationCTA />
 
     </main>

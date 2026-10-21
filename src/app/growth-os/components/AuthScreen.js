@@ -15,11 +15,12 @@ import {
   Phone,
   MapPin,
   Briefcase,
-  Key
+  Key,
+  ArrowLeft
 } from "lucide-react";
 import { storageService, SEED_USERS } from "../lib/supabaseClient";
 
-export default function AuthScreen({ onLoginSuccess }) {
+export default function AuthScreen({ onLoginSuccess, onBackToLanding }) {
   const [authMode, setAuthMode] = useState("login"); // "login" | "signup"
   
   // Login form state
@@ -205,6 +206,15 @@ export default function AuthScreen({ onLoginSuccess }) {
         </div>
 
         <div className="flex items-center gap-3">
+          {onBackToLanding && (
+            <button
+              onClick={onBackToLanding}
+              className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition flex items-center gap-1.5 cursor-pointer border border-slate-700/60"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Product Overview</span>
+            </button>
+          )}
           <div className="hidden sm:flex items-center gap-1.5 text-xs text-slate-400">
             <ShieldCheck className="w-4 h-4 text-emerald-400" />
             <span>Encrypted Multi-Tenant Storage</span>
