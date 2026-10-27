@@ -42,6 +42,18 @@ export default function AdminTab({
   showToast
 }) {
   const [activeSubTab, setActiveSubTab] = useState("workspaces"); // "workspaces" | "kpis" | "reviews" | "users"
+
+  if (currentUser?.role !== "ADMIN") {
+    return (
+      <div className="p-8 rounded-3xl bg-slate-900 border border-rose-500/30 text-center space-y-4 max-w-lg mx-auto my-12 text-slate-100 font-sans">
+        <div className="w-12 h-12 rounded-2xl bg-rose-500/10 text-rose-400 flex items-center justify-center mx-auto">
+          <Shield className="w-6 h-6" />
+        </div>
+        <h3 className="font-heading font-extrabold text-lg text-white">Access Denied</h3>
+        <p className="text-xs text-slate-400">Master Administrator privileges are required to access platform administration controls.</p>
+      </div>
+    );
+  }
   
   // Modal State: Add Business
   const [isAddBizModalOpen, setIsAddBizModalOpen] = useState(false);

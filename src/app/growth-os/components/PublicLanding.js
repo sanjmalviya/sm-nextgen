@@ -85,14 +85,14 @@ export default function PublicLanding({ onOpenAuth, onLaunchDemo }) {
           <span>SM NextGen Growth OS • Google Business Profile Growth Platform</span>
         </div>
 
-        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold font-heading tracking-tight text-[#0B2545] dark:text-white leading-[1.08]">
+        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold font-heading tracking-tight text-white leading-[1.08]">
           Turn Your Google Business Profile Into a{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0097B2] via-cyan-500 to-[#0284c7]">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0097B2] via-cyan-400 to-[#0284c7]">
             Predictable Growth Engine.
           </span>
         </h1>
 
-        <p className="text-base sm:text-lg text-[#0B2545]/75 dark:text-gray-300 max-w-2xl mx-auto font-light leading-relaxed">
+        <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto font-normal leading-relaxed">
           The all-in-one operating system that audits your profile health, calculates your 0–100 Growth Score, automates AI review responses, and provides an actionable roadmap to dominate local search.
         </p>
 
@@ -108,7 +108,7 @@ export default function PublicLanding({ onOpenAuth, onLaunchDemo }) {
 
           <button
             onClick={onLaunchDemo}
-            className="w-full sm:w-auto px-7 py-4 rounded-xl bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 text-[#0B2545] dark:text-white font-bold text-sm hover:border-[#0097B2] transition flex items-center justify-center gap-2 shadow-sm cursor-pointer"
+            className="w-full sm:w-auto px-7 py-4 rounded-xl bg-slate-900 border border-slate-800 text-white font-bold text-sm hover:border-[#0097B2] transition flex items-center justify-center gap-2 shadow-sm cursor-pointer"
           >
             <Sparkles className="w-4 h-4 text-[#0097B2]" />
             <span>1-Click Live Demo (No Signup)</span>
@@ -116,7 +116,7 @@ export default function PublicLanding({ onOpenAuth, onLaunchDemo }) {
 
           <button
             onClick={() => onOpenAuth("login")}
-            className="w-full sm:w-auto px-6 py-4 rounded-xl bg-transparent text-slate-600 dark:text-slate-300 font-bold text-sm hover:text-[#0097B2] transition flex items-center justify-center gap-1 cursor-pointer"
+            className="w-full sm:w-auto px-6 py-4 rounded-xl bg-transparent text-slate-300 font-bold text-sm hover:text-[#0097B2] transition flex items-center justify-center gap-1 cursor-pointer"
           >
             <Lock className="w-4 h-4 text-slate-400" />
             <span>Sign In</span>
@@ -143,7 +143,7 @@ export default function PublicLanding({ onOpenAuth, onLaunchDemo }) {
           <span className="text-xs font-mono font-bold text-[#0097B2] uppercase tracking-wider">
             Proven Growth Methodology
           </span>
-          <h2 className="text-2xl sm:text-3xl font-heading font-extrabold text-[#0B2545] dark:text-white mt-1">
+          <h2 className="text-2xl sm:text-3xl font-heading font-extrabold text-white mt-1">
             The Continuous Growth OS Loop
           </h2>
           <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-2">
@@ -368,7 +368,7 @@ export default function PublicLanding({ onOpenAuth, onLaunchDemo }) {
               </button>
             </div>
           </div>
-          <h2 className="text-3xl font-heading font-extrabold text-[#0B2545] dark:text-white">
+          <h2 className="text-3xl font-heading font-extrabold text-white">
             Choose the Right Plan for Your Business
           </h2>
           <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
@@ -429,7 +429,7 @@ export default function PublicLanding({ onOpenAuth, onLaunchDemo }) {
           <span className="text-xs font-mono font-bold text-[#0097B2] uppercase tracking-wider">
             SM NextGen Done-For-You Growth Partner
           </span>
-          <h3 className="text-2xl sm:text-3xl font-heading font-extrabold text-[#0B2545] dark:text-white">
+          <h3 className="text-2xl sm:text-3xl font-heading font-extrabold text-white">
             Need Expert Local SEO Architects to Handle Everything?
           </h3>
           <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 max-w-2xl leading-relaxed">

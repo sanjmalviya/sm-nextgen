@@ -82,6 +82,31 @@ export default function ReviewsTab({
     }
   };
 
+  const [generatingAiId, setGeneratingAiId] = useState(null);
+
+  const handleGenerateAIReply = async (r, tone = selectedTone) => {
+    setGeneratingAiId(r.id);
+    try {
+      const res = await fetch("/api/growth-os/ai", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "reply_review",
+          review: { author: r.author, rating: r.rating, text: r.text },
+          tone: tone
+        })
+      });
+      const data = await res.json();
+      if (res.ok && data.success && data.result) {
+        setEditingReply(prev => ({ ...prev, [r.id]: data.result }));
+      }
+    } catch (e) {
+      console.warn("Could not generate AI reply:", e);
+    } finally {
+      setGeneratingAiId(null);
+    }
+  };
+
   const handleCreateReview = (e) => {
     e.preventDefault();
     if (!authorName.trim() || !reviewContent.trim()) return;
@@ -98,10 +123,10 @@ export default function ReviewsTab({
       status: "UNANSWERED",
       response: null,
       aiDrafts: {
-        professional: `Dear ${authorName}, thank you for choosing ${business?.name || "our clinic"}. We are honored by your review and look forward to continuing to provide top-notch care.`,
-        friendly: `Hey ${authorName}! Thank you so much for the feedback! The team loved having you and we can't wait to see you again.`,
-        apologetic: `Dear ${authorName}, we sincerely apologize for the experience you had. Patient satisfaction is our highest priority—please reach out to us at ${business?.phone || "+91 70735 38077"} so we can make this right.`,
-        premium: `Dear ${authorName}, we hold our clinical standards to the highest international benchmark. Thank you for taking the time to share your valued feedback.`
+        professional: `Dear ${authorName}, thank you for choosing ${business?.name || "us"}. We appreciate your valued feedback and look forward to serving you again.`,
+        friendly: `Hey ${authorName}! Thank you so much for the feedback! Our team loved working with you and we can't wait to see you again.`,
+        apologetic: `Dear ${authorName}, we sincerely apologize for the experience you had. Customer satisfaction is our highest priority—please reach out to us at ${business?.phone || "+91 70735 38077"} so we can make this right immediately.`,
+        premium: `Dear ${authorName}, we hold our standards to the highest professional benchmark. Thank you for taking the time to share your valued feedback.`
       }
     };
 
@@ -307,22 +332,37 @@ export default function ReviewsTab({
                         <span>AI Response Generator</span>
                       </div>
 
-                      {/* Tone Selector */}
-                      <div className="flex items-center gap-1 bg-slate-900 p-1 rounded-lg border border-slate-800 text-[10px]">
-                        {tones.map((t) => (
-                          <button
-                            key={t.id}
-                            onClick={() => {
-                              setSelectedTone(t.id);
-                              if (r.aiDrafts && r.aiDrafts[t.id]) {
-                                setEditingReply(prev => ({ ...prev, [r.id]: r.aiDrafts[t.id] }));
-                              }
-                            }}
-                            className={"px-2 py-0.5 rounded font-bold transition cursor-pointer " + (selectedTone === t.id ? "bg-[#0097B2] text-white" : "text-slate-400 hover:text-white")}
-                          >
-                            {t.label}
-                          </button>
-                        ))}
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => handleGenerateAIReply(r, selectedTone)}
+                          disabled={generatingAiId === r.id}
+                          className="px-2.5 py-1 rounded-lg bg-[#0097B2]/20 hover:bg-[#0097B2]/30 border border-[#0097B2]/40 text-[#0097B2] font-bold text-[10px] flex items-center gap-1 transition cursor-pointer"
+                          title="Generate fresh response draft using Gemini AI"
+                        >
+                          <Sparkles className={`w-3 h-3 ${generatingAiId === r.id ? "animate-spin" : ""}`} />
+                          <span>{generatingAiId === r.id ? "Drafting..." : "Generate with AI"}</span>
+                        </button>
+
+                        {/* Tone Selector */}
+                        <div className="flex items-center gap-1 bg-slate-900 p-1 rounded-lg border border-slate-800 text-[10px]">
+                          {tones.map((t) => (
+                            <button
+                              key={t.id}
+                              onClick={() => {
+                                setSelectedTone(t.id);
+                                if (r.aiDrafts && r.aiDrafts[t.id]) {
+                                  setEditingReply(prev => ({ ...prev, [r.id]: r.aiDrafts[t.id] }));
+                                } else {
+                                  handleGenerateAIReply(r, t.id);
+                                }
+                              }}
+                              className={"px-2 py-0.5 rounded font-bold transition cursor-pointer " + (selectedTone === t.id ? "bg-[#0097B2] text-white" : "text-slate-400 hover:text-white")}
+                            >
+                              {t.label}
+                            </button>
+                          ))}
+                        </div>
                       </div>
                     </div>
 

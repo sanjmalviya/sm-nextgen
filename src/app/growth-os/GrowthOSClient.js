@@ -18,6 +18,7 @@ import { storageService, SEED_WORKSPACES } from "./lib/supabaseClient";
 
 import PublicLanding from "./components/PublicLanding";
 import AuthScreen from "./components/AuthScreen";
+import OnboardingFlow from "./components/OnboardingFlow";
 import GrowthOSSidebar from "./components/GrowthOSSidebar";
 import GrowthOSMobileNav from "./components/GrowthOSMobileNav";
 import ConnectGoogleModal from "./components/ConnectGoogleModal";
@@ -69,7 +70,9 @@ class TabErrorBoundary extends React.Component {
 export default function GrowthOSClient() {
   const [currentUser, setCurrentUser] = useState(null);
   const [viewMode, setViewMode] = useState("landing"); // "landing" | "auth" | "app"
+  const [hasCompletedProfile, setHasCompletedProfile] = useState(false);
   const [isClientLoaded, setIsClientLoaded] = useState(false);
+  const [isLoadingData, setIsLoadingData] = useState(false);
 
   // Multi-Tenant Workspaces State
   const [workspaces, setWorkspaces] = useState(SEED_WORKSPACES);
@@ -91,36 +94,144 @@ export default function GrowthOSClient() {
   const [reviews, setReviews] = useState(DEFAULT_REVIEWS);
   const [tasks, setTasks] = useState(DEFAULT_TASKS);
 
-  // Check saved session on mount
+  // Refresh all workspace telemetry & tools from server database
+  const refreshAllData = async () => {
+    setIsLoadingData(true);
+    try {
+      // 1. Fetch Business Profile
+      const bizRes = await fetch("/api/growth-os/business");
+      if (bizRes.ok) {
+        const bizData = await bizRes.json();
+        if (bizData.business) {
+          setWorkspaces(prev => {
+            const exists = prev.some(w => w.id === bizData.business.id);
+            return exists 
+              ? prev.map(w => w.id === bizData.business.id ? bizData.business : w) 
+              : [bizData.business, ...prev];
+          });
+          setActiveWorkspaceId(bizData.business.id);
+        }
+      }
+
+      // 2. Fetch Deterministic Audit
+      const auditRes = await fetch("/api/growth-os/audit");
+      if (auditRes.ok) {
+        const auditData = await auditRes.json();
+        if (auditData.audit) {
+          setAuditScore(auditData.audit.overallScore || 0);
+          if (auditData.audit.breakdown) {
+            const cats = Object.entries(auditData.audit.breakdown).map(([k, v]) => ({
+              id: k,
+              name: k.charAt(0).toUpperCase() + k.slice(1).replace(/([A-Z])/g, " $1"),
+              score: v.score || 0,
+              maxScore: v.max || 25,
+              status: v.score >= (v.max * 0.8) ? "OPTIMIZED" : v.score >= (v.max * 0.5) ? "ATTENTION" : "CRITICAL"
+            }));
+            setAuditCategories(cats);
+          }
+          if (auditData.audit.recommendations) {
+            setOpportunities(auditData.audit.recommendations.map(r => ({
+              id: r.id,
+              title: r.title,
+              impact: r.impact,
+              points: r.potentialScoreGain || 5,
+              actionTab: r.category === "reviews" ? "reviews" : "audit",
+              description: r.fixAction
+            })));
+          }
+        }
+      }
+
+      // 3. Fetch Tasks
+      const tasksRes = await fetch("/api/growth-os/tasks");
+      if (tasksRes.ok) {
+        const tasksData = await tasksRes.json();
+        if (tasksData.tasks) {
+          setTasks(tasksData.tasks);
+        }
+      }
+
+      // 4. Fetch Reviews
+      const revRes = await fetch("/api/growth-os/reviews");
+      if (revRes.ok) {
+        const revData = await revRes.json();
+        if (revData.reviews) {
+          setReviews(revData.reviews);
+          if (revData.kpi) {
+            setKpi(prev => ({
+              ...prev,
+              rating: revData.kpi.averageRating || prev.rating,
+              totalReviews: revData.kpi.totalReviews || prev.totalReviews,
+              unansweredReviews: revData.kpi.unansweredReviews || 0
+            }));
+          }
+        }
+      }
+    } catch (e) {
+      console.warn("Could not fetch remote Growth OS state:", e);
+    } finally {
+      setIsLoadingData(false);
+    }
+  };
+
+  // Check saved session on mount via real /api/growth-os/auth/me
   useEffect(() => {
     setIsClientLoaded(true);
-    const session = storageService.getSession();
-    const storedWorkspaces = storageService.getWorkspaces();
-    const storedActiveId = storageService.getActiveWorkspaceId();
 
-    setWorkspaces(storedWorkspaces);
-    setActiveWorkspaceId(storedActiveId);
+    async function verifyServerSession() {
+      try {
+        const res = await fetch("/api/growth-os/auth/me");
+        if (res.ok) {
+          const data = await res.json();
+          if (data.authenticated && data.user) {
+            setCurrentUser(data.user);
+            setHasCompletedProfile(Boolean(data.hasCompletedProfile));
+            setViewMode("app");
+            if (data.businesses && data.businesses.length > 0) {
+              setWorkspaces(data.businesses);
+              setActiveWorkspaceId(data.user.businessId || data.businesses[0].id);
+            }
+            if (data.hasCompletedProfile) {
+              await refreshAllData();
+            }
+            return;
+          }
+        }
+      } catch (err) {
+        console.error("Auth verification failed:", err);
+      }
 
-    const urlParams = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : null;
-    const directAction = urlParams?.get("app") || urlParams?.get("login") || urlParams?.get("auth");
+      // Fallback to local storage or query params
+      const session = storageService.getSession();
+      const storedWorkspaces = storageService.getWorkspaces();
+      const storedActiveId = storageService.getActiveWorkspaceId();
 
-    if (session) {
-      setCurrentUser(session);
-      setViewMode("app");
-      // If user is tied to a specific business
-      if (session.businessId && storedWorkspaces.some(w => w.id === session.businessId)) {
-        setActiveWorkspaceId(session.businessId);
-        loadWorkspaceData(session.businessId, storedWorkspaces);
+      setWorkspaces(storedWorkspaces);
+      setActiveWorkspaceId(storedActiveId);
+
+      const urlParams = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : null;
+      const directAction = urlParams?.get("app") || urlParams?.get("login") || urlParams?.get("auth");
+
+      if (session) {
+        setCurrentUser(session);
+        setHasCompletedProfile(true);
+        setViewMode("app");
+        if (session.businessId && storedWorkspaces.some(w => w.id === session.businessId)) {
+          setActiveWorkspaceId(session.businessId);
+          loadWorkspaceData(session.businessId, storedWorkspaces);
+        } else {
+          loadWorkspaceData(storedActiveId, storedWorkspaces);
+        }
+      } else if (directAction) {
+        setViewMode("auth");
+        loadWorkspaceData(storedActiveId, storedWorkspaces);
       } else {
+        setViewMode("landing");
         loadWorkspaceData(storedActiveId, storedWorkspaces);
       }
-    } else if (directAction) {
-      setViewMode("auth");
-      loadWorkspaceData(storedActiveId, storedWorkspaces);
-    } else {
-      setViewMode("landing");
-      loadWorkspaceData(storedActiveId, storedWorkspaces);
     }
+
+    verifyServerSession();
   }, []);
 
   const loadWorkspaceData = (wsId, allWorkspaces) => {
@@ -162,16 +273,31 @@ export default function GrowthOSClient() {
   };
 
   // Auth Handlers
-  const handleLoginSuccess = (user, msg) => {
+  const handleLoginSuccess = (user, workspace, profileComplete, msg) => {
     setCurrentUser(user);
+    setHasCompletedProfile(Boolean(profileComplete));
     setViewMode("app");
-    const storedWorkspaces = storageService.getWorkspaces();
-    setWorkspaces(storedWorkspaces);
-    if (user.businessId) {
-      setActiveWorkspaceId(user.businessId);
-      loadWorkspaceData(user.businessId, storedWorkspaces);
+    if (workspace) {
+      setWorkspaces([workspace]);
+      setActiveWorkspaceId(workspace.id);
+    }
+    if (profileComplete) {
+      refreshAllData();
     }
     showToast(msg || "Signed in successfully!");
+  };
+
+  const handleProfileComplete = (savedBiz) => {
+    setHasCompletedProfile(true);
+    if (savedBiz) {
+      setWorkspaces(prev => {
+        const others = prev.filter(w => w.id !== savedBiz.id);
+        return [savedBiz, ...others];
+      });
+      setActiveWorkspaceId(savedBiz.id);
+    }
+    refreshAllData();
+    showToast(`Profile created for ${savedBiz?.name || "your business"}! Growth OS unlocked.`);
   };
 
   const handleLaunchDemo = () => {
@@ -187,15 +313,20 @@ export default function GrowthOSClient() {
       createdAt: new Date().toISOString()
     };
     setCurrentUser(demoUser);
+    setHasCompletedProfile(true);
     setViewMode("app");
     setActiveWorkspaceId("biz-2");
     loadWorkspaceData("biz-2", workspaces);
     showToast("Loaded 1-Click Interactive Demo Mode!");
   };
 
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
+    try {
+      await fetch("/api/growth-os/auth/logout", { method: "POST" });
+    } catch (e) {}
     storageService.clearSession();
     setCurrentUser(null);
+    setHasCompletedProfile(false);
     setViewMode("landing");
     setActiveTab("dashboard");
     showToast("Signed out safely.");
@@ -351,8 +482,8 @@ export default function GrowthOSClient() {
     showToast("Optimized '" + label + "'! +" + points + " Growth Score added.");
   };
 
-  // Reviews AI Handlers
-  const handleAddReview = (newRev) => {
+  // Reviews AI Handlers (Database & Real API Persistence)
+  const handleAddReview = async (newRev) => {
     const updatedReviews = [newRev, ...reviews];
     setReviews(updatedReviews);
 
@@ -364,25 +495,33 @@ export default function GrowthOSClient() {
       unansweredReviews: updatedReviews.filter(r => r.status === "UNANSWERED").length
     };
     setKpi(updatedKpi);
-
-    storageService.saveWorkspaceState(activeWorkspaceId, {
-      reviews: updatedReviews,
-      kpi: updatedKpi,
-      score: auditScore,
-      appliedFixes,
-      tasks
-    });
-
     showToast(`Added review from ${newRev.author} (${newRev.rating}★)!`);
+
+    try {
+      const res = await fetch("/api/growth-os/reviews", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newRev)
+      });
+      const data = await res.json();
+      if (res.ok && data.review) {
+        setReviews(prev => prev.map(r => r.id === newRev.id ? data.review : r));
+      }
+    } catch (e) {}
   };
 
-  const handleDeleteReview = (reviewId) => {
-    const updatedReviews = reviews.filter(r => r.id !== reviewId);
-    setReviews(updatedReviews);
+  const handleDeleteReview = async (reviewId) => {
+    setReviews(prev => prev.filter(r => r.id !== reviewId));
     showToast("Review deleted.");
+
+    try {
+      await fetch(`/api/growth-os/reviews?id=${encodeURIComponent(reviewId)}`, {
+        method: "DELETE"
+      });
+    } catch (e) {}
   };
 
-  const handlePublishReply = (reviewId, replyText) => {
+  const handlePublishReply = async (reviewId, replyText) => {
     const updatedReviews = reviews.map(r => {
       if (r.id === reviewId) {
         return {
@@ -397,23 +536,24 @@ export default function GrowthOSClient() {
     const nextScore = Math.min(100, auditScore + 2);
     setReviews(updatedReviews);
     setAuditScore(nextScore);
+    showToast("Response approved & saved! (+2 pts)");
 
-    storageService.saveWorkspaceState(activeWorkspaceId, {
-      reviews: updatedReviews,
-      score: nextScore,
-      kpi,
-      appliedFixes,
-      tasks
-    });
-
-    showToast("Response approved & published live to Google Maps! (+2 pts)");
+    try {
+      await fetch("/api/growth-os/reviews", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: reviewId, response: replyText })
+      });
+    } catch (e) {}
   };
 
-  // Tasks Handlers
-  const handleToggleTask = (taskId) => {
+  // Tasks Handlers (Database & Real API Persistence)
+  const handleToggleTask = async (taskId) => {
+    const target = tasks.find(t => t.id === taskId);
+    const nextStatus = target?.status === "COMPLETED" ? "PENDING" : "COMPLETED";
+
     setTasks(prev => prev.map(t => {
       if (t.id === taskId) {
-        const nextStatus = t.status === "COMPLETED" ? "PENDING" : "COMPLETED";
         if (nextStatus === "COMPLETED") {
           setAuditScore(score => Math.min(100, score + 3));
           showToast("Task completed! +3 Growth Score added.");
@@ -422,11 +562,31 @@ export default function GrowthOSClient() {
       }
       return t;
     }));
+
+    try {
+      await fetch("/api/growth-os/tasks", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: taskId, status: nextStatus })
+      });
+    } catch (e) {}
   };
 
-  const handleAddTask = (newTask) => {
+  const handleAddTask = async (newTask) => {
     setTasks(prev => [newTask, ...prev]);
     showToast("New growth task added to Action Center!");
+
+    try {
+      const res = await fetch("/api/growth-os/tasks", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newTask)
+      });
+      const data = await res.json();
+      if (res.ok && data.task) {
+        setTasks(prev => prev.map(t => t.id === newTask.id ? data.task : t));
+      }
+    } catch (e) {}
   };
 
   const unansweredReviewsCount = reviews.filter(r => r.status === "UNANSWERED").length;
@@ -443,7 +603,7 @@ export default function GrowthOSClient() {
   if (!currentUser) {
     if (viewMode === "auth") {
       return (
-        <div className="min-h-screen w-full bg-slate-950 text-slate-100 font-sans">
+        <div className="dark min-h-screen w-full bg-slate-950 text-slate-100 font-sans">
           {ToastNotification}
           <AuthScreen 
             onLoginSuccess={handleLoginSuccess} 
@@ -455,7 +615,7 @@ export default function GrowthOSClient() {
 
     // Default: Public Product Overview & Interactive Free Audit (Product Layer B)
     return (
-      <div className="min-h-screen w-full bg-slate-950 text-slate-100 font-sans selection:bg-[#0097B2] selection:text-white">
+      <div className="dark min-h-screen w-full bg-slate-950 text-slate-100 font-sans selection:bg-[#0097B2] selection:text-white">
         {ToastNotification}
         
         {/* Top Product Bar */}
@@ -492,9 +652,22 @@ export default function GrowthOSClient() {
     );
   }
 
-  // 2. AUTHENTICATED WORKSPACE: Render Modern SaaS Desktop Sidebar + Native Mobile App Layout
+  // 2. MANDATORY PROFILE ONBOARDING GATE: Business Profile first, SaaS tools second
+  if (currentUser && !hasCompletedProfile && !currentUser.isDemo) {
+    return (
+      <div className="dark min-h-screen w-full bg-slate-950 text-slate-100 font-sans">
+        {ToastNotification}
+        <OnboardingFlow 
+          currentUser={currentUser} 
+          onComplete={handleProfileComplete} 
+        />
+      </div>
+    );
+  }
+
+  // 3. AUTHENTICATED WORKSPACE: Render Modern SaaS Desktop Sidebar + Native Mobile App Layout
   return (
-    <div className="min-h-screen w-full bg-slate-950 text-slate-100 font-sans selection:bg-[#0097B2] selection:text-white flex overflow-hidden">
+    <div className="dark min-h-screen w-full bg-slate-950 text-slate-100 font-sans selection:bg-[#0097B2] selection:text-white flex overflow-hidden">
       {ToastNotification}
 
       {/* Vertical Left Sidebar on Desktop (PC View) */}
@@ -688,6 +861,10 @@ export default function GrowthOSClient() {
                 setCurrency={setCurrency}
                 onDisconnectGoogle={handleDisconnectGoogle}
                 onOpenConnectGoogle={() => setIsConnectGoogleOpen(true)}
+                onUpdateBusiness={(updatedBiz) => {
+                  handleUpdateWorkspace(updatedBiz.id, updatedBiz);
+                  showToast("Business profile updated!");
+                }}
                 onResetDemo={() => {
                   setKpi(DEFAULT_KPI);
                   setAuditScore(81);
@@ -700,7 +877,7 @@ export default function GrowthOSClient() {
               />
             )}
 
-            {activeTab === "admin" && (
+            {activeTab === "admin" && currentUser?.role === "ADMIN" && (
               <AdminTab
                 workspaces={workspaces}
                 activeWorkspaceId={activeWorkspaceId}

@@ -64,7 +64,42 @@ export default function AssistantTab({ business, auditScore, onNavigateTab }) {
     setInput("");
     setIsTyping(true);
 
-    // 1. Try real Next.js API /api/ai-copilot first
+    // 1. Try real Growth OS AI endpoint (/api/growth-os/ai) first
+    try {
+      const res = await fetch("/api/growth-os/ai", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "copilot_chat",
+          message: query,
+          business: business?.name,
+          category: business?.category,
+          city: business?.city,
+          score: auditScore
+        })
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data && (data.reply || data.result)) {
+          setIsTyping(false);
+          setMessages((prev) => [
+            ...prev,
+            {
+              id: "a-" + Date.now(),
+              sender: "ai",
+              text: data.reply || data.result,
+              actions: data.actions || []
+            }
+          ]);
+          return;
+        }
+      }
+    } catch (e) {
+      // Fall through to next check
+    }
+
+    // 2. Try legacy /api/ai-copilot if available
     try {
       const res = await fetch("/api/ai-copilot", {
         method: "POST",
@@ -95,7 +130,7 @@ export default function AssistantTab({ business, auditScore, onNavigateTab }) {
         }
       }
     } catch (e) {
-      // API fallback
+      // Fallback
     }
 
     // 2. Intelligent Grounded Local Engine

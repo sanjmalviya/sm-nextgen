@@ -17,41 +17,41 @@ import {
 
 export const AUDIT_FACTORS = [
   // 1. Business Info
-  { id: "af-1", category: "Business Information", name: "Exact Business Name Consistency", standard: "Matches official registered signage without keyword stuffing", current: "SM NextGen", status: "PASS", points: 4, fixed: true },
-  { id: "af-2", category: "Business Information", name: "Primary Category Accuracy", standard: "High intent primary category configured", current: "Agency / Business", status: "PASS", points: 4, fixed: true },
-  { id: "af-3", category: "Business Information", name: "Secondary Commercial Categories", standard: "At least 3 secondary categories (Software Company, Consulting, Advertising)", current: "Configured secondary categories", status: "WARN", points: 6, fixed: false, fixAction: "Add high-intent secondary categories" },
+  { id: "af-1", category: "Business Information", name: "Exact Business Name Consistency", standard: "Matches official registered signage without keyword stuffing", current: "Registered Business Name", status: "PASS", points: 4, fixed: true },
+  { id: "af-2", category: "Business Information", name: "Primary Category Accuracy", standard: "High intent primary category configured", current: "Core Industry Category", status: "PASS", points: 4, fixed: true },
+  { id: "af-3", category: "Business Information", name: "Secondary Commercial Categories", standard: "At least 3 secondary categories configured", current: "Configured secondary categories", status: "WARN", points: 6, fixed: false, fixAction: "Add high-intent secondary categories" },
   { id: "af-4", category: "Business Information", name: "Direct Local Phone Number", standard: "Direct phone with international format (+91 or US +1)", current: "+91 70735 38077", status: "PASS", points: 3, fixed: true },
-  { id: "af-5", category: "Business Information", name: "Storefront Physical Address", standard: "Precise street address with pincode / zip", current: "HPPQ+Q5V, Ganapati Nagar, Udaipur, 313001", status: "PASS", points: 3, fixed: true },
-  { id: "af-6", category: "Business Information", name: "Standard & Holiday Hours", standard: "Mon-Sun operating hours configured with emergency times", current: "Mon-Sat: 9:30 AM - 8:00 PM", status: "PASS", points: 3, fixed: true },
-  { id: "af-7", category: "Business Information", name: "750-Char Business Description", standard: "Full 750 characters with local service keywords and CTA", current: "340 chars (lacks local search keywords)", status: "WARN", points: 5, fixed: false, fixAction: "Expand to 750 characters with SEO description tool" },
+  { id: "af-5", category: "Business Information", name: "Storefront Physical Address", standard: "Precise street address with pincode / zip", current: "Verified commercial address", status: "PASS", points: 3, fixed: true },
+  { id: "af-6", category: "Business Information", name: "Standard & Holiday Hours", standard: "Operating hours configured with holiday schedules", current: "Mon-Sat: 9:30 AM - 8:00 PM", status: "PASS", points: 3, fixed: true },
+  { id: "af-7", category: "Business Information", name: "750-Char Business Description", standard: "Full 750 characters with local service keywords and CTA", current: "Needs local SEO optimization", status: "WARN", points: 5, fixed: false, fixAction: "Expand to 750 characters with SEO description tool" },
 
   // 2. Reviews & Reputation
   { id: "af-8", category: "Reviews & Reputation", name: "Average Star Rating Baseline", standard: "Above 4.5 stars for local 3-Pack placement", current: "4.8 Stars (Strong)", status: "PASS", points: 6, fixed: true },
-  { id: "af-9", category: "Reviews & Reputation", name: "Total Review Volume Threshold", standard: "Over 100 verified customer reviews in metro area", current: "142 Google Reviews", status: "PASS", points: 5, fixed: true },
-  { id: "af-10", category: "Reviews & Reputation", name: "Unanswered Review Backlog", standard: "Zero unanswered reviews older than 48 hours", current: "12 unanswered customer reviews", status: "FAIL", points: 8, fixed: false, fixAction: "Generate and publish AI replies for all 12 reviews" },
-  { id: "af-11", category: "Reviews & Reputation", name: "Review Response Velocity", standard: "Owner reply within 24 hours of customer posting", current: "Average 4.2 days response time", status: "WARN", points: 5, fixed: false, fixAction: "Enable 24-hr auto-draft review alerts" },
-  { id: "af-12", category: "Reviews & Reputation", name: "Negative Review De-escalation", standard: "100% of critical 1-2 star reviews have professional public resolution", current: "1 unanswered critical review (Vikram Singh)", status: "FAIL", points: 7, fixed: false, fixAction: "Publish apologetic resolution to Vikram Singh's review" },
+  { id: "af-9", category: "Reviews & Reputation", name: "Total Review Volume Threshold", standard: "Over 50 verified customer reviews in metro area", current: "Verified Google Reviews", status: "PASS", points: 5, fixed: true },
+  { id: "af-10", category: "Reviews & Reputation", name: "Unanswered Review Backlog", standard: "Zero unanswered reviews older than 48 hours", current: "Unanswered reviews pending response", status: "WARN", points: 8, fixed: false, fixAction: "Generate and publish AI replies for all reviews" },
+  { id: "af-11", category: "Reviews & Reputation", name: "Review Response Velocity", standard: "Owner reply within 24 hours of customer posting", current: "Average response time", status: "WARN", points: 5, fixed: false, fixAction: "Enable 24-hr review alert workflows" },
+  { id: "af-12", category: "Reviews & Reputation", name: "Negative Review De-escalation", standard: "100% of critical reviews have polite public resolution", current: "Resolution workflow pending", status: "WARN", points: 7, fixed: false, fixAction: "Publish professional resolution to critical feedback" },
 
   // 3. Media & Content
-  { id: "af-13", category: "Media & Photos", name: "Verified Profile & Cover Logo", standard: "High-resolution 1080x608 cover image and brand logo", current: "Present & Verified", status: "PASS", points: 4, fixed: true },
-  { id: "af-14", category: "Media & Photos", name: "Exterior Streetfront Photos", standard: "Clear daylight photos showing street signage and entrance", current: "3 daylight exterior photos uploaded", status: "PASS", points: 3, fixed: true },
-  { id: "af-15", category: "Media & Photos", name: "Clinic Interior & Advanced Equipment", standard: "Interior operatory, sterilization, and waiting lounge photos", current: "Only 4 interior photos on file", status: "WARN", points: 4, fixed: false, fixAction: "Upload 5 new photos of business office & team" },
-  { id: "af-16", category: "Media & Photos", name: "30-Day Visual Upload Freshness", standard: "At least 3 new owner photos uploaded in the last 30 days", current: "Last photo uploaded 62 days ago", status: "FAIL", points: 6, fixed: false, fixAction: "Upload 3 fresh photos of office & client delivery" },
+  { id: "af-13", category: "Media & Photos", name: "Verified Profile & Cover Logo", standard: "High-resolution cover image and brand logo", current: "Present & Verified", status: "PASS", points: 4, fixed: true },
+  { id: "af-14", category: "Media & Photos", name: "Exterior Streetfront Photos", standard: "Clear daylight photos showing street signage and entrance", current: "Exterior photos uploaded", status: "PASS", points: 3, fixed: true },
+  { id: "af-15", category: "Media & Photos", name: "Office Interior & Workspaces", standard: "Interior photos of customer service area, office, and facilities", current: "Interior photos on file", status: "WARN", points: 4, fixed: false, fixAction: "Upload new photos of business office & team" },
+  { id: "af-16", category: "Media & Photos", name: "30-Day Visual Upload Freshness", standard: "At least 3 new photos uploaded in the last 30 days", current: "Photo upload recency check", status: "WARN", points: 6, fixed: false, fixAction: "Upload fresh photos of team & client deliverables" },
 
   // 4. Activity & Posts
-  { id: "af-17", category: "Activity & Google Posts", name: "Weekly Google Post Frequency", standard: "At least 1 active post every 7 days (Google posts expire)", current: "Last post published 14 days ago", status: "WARN", points: 5, fixed: false, fixAction: "Publish weekly client success update" },
-  { id: "af-18", category: "Activity & Google Posts", name: "Promotional Call-To-Action Button", standard: "Google Posts include direct 'Call Now' or 'Book' CTAs", current: "Missing actionable button on last post", status: "WARN", points: 4, fixed: false, fixAction: "Attach 'Call Now' button to upcoming post" },
-  { id: "af-19", category: "Activity & Google Posts", name: "Special Offer / Event Campaign", standard: "Active seasonal festival or checkup camp offer live", current: "No active promotional event", status: "WARN", points: 4, fixed: false, fixAction: "Launch promotional business offer" },
-  { id: "af-20", category: "Activity & Google Posts", name: "COVID & Clinical Hygiene Badge", standard: "Health & safety protocols declared in profile attributes", current: "Sanitization attributes updated", status: "PASS", points: 3, fixed: true },
+  { id: "af-17", category: "Activity & Google Posts", name: "Weekly Google Post Frequency", standard: "At least 1 active post every 7 days (Google posts expire)", current: "Post frequency check", status: "WARN", points: 5, fixed: false, fixAction: "Publish weekly business update" },
+  { id: "af-18", category: "Activity & Google Posts", name: "Promotional Call-To-Action Button", standard: "Google Posts include direct 'Call Now' or 'Book' CTAs", current: "Actionable CTA check", status: "WARN", points: 4, fixed: false, fixAction: "Attach 'Call Now' button to upcoming post" },
+  { id: "af-19", category: "Activity & Google Posts", name: "Special Offer / Event Campaign", standard: "Active promotional offer or seasonal campaign live", current: "Seasonal promotion check", status: "WARN", points: 4, fixed: false, fixAction: "Launch promotional business offer" },
+  { id: "af-20", category: "Activity & Google Posts", name: "Business Amenities & Attributes", standard: "Payment methods, accessibility, and service options declared", current: "Profile attributes configured", status: "PASS", points: 3, fixed: true },
 
   // 5. Customer Trust & Local SEO
-  { id: "af-21", category: "Local SEO & Trust", name: "Verified Website Domain Link", standard: "Secure HTTPS website link matching local schema", current: "https://www.smnextgen.com", status: "PASS", points: 4, fixed: true },
-  { id: "af-22", category: "Local SEO & Trust", name: "Online Booking / Appointment URL", standard: "Dedicated direct appointment link configured", current: "Configured & responsive", status: "PASS", points: 3, fixed: true },
-  { id: "af-23", category: "Local SEO & Trust", name: "Service Area Coverage Configuration", standard: "Target neighborhood service areas specified (e.g. Udaipur, Sukher, Fatehpura)", current: "City-level only, missing micro-neighborhoods", status: "WARN", points: 4, fixed: false, fixAction: "Add micro-neighborhoods: Sukher, Fatehpura, Panchwati" },
-  { id: "af-24", category: "Local SEO & Trust", name: "Google Q&A Pre-population", standard: "Top 5 frequently asked patient questions answered by owner", current: "Zero answered Q&A entries", status: "FAIL", points: 5, fixed: false, fixAction: "Pre-populate top 5 patient FAQs with verified answers" }
+  { id: "af-21", category: "Local SEO & Trust", name: "Verified Website Domain Link", standard: "Secure HTTPS website link matching local schema", current: "Website URL configured", status: "PASS", points: 4, fixed: true },
+  { id: "af-22", category: "Local SEO & Trust", name: "Online Booking / Appointment URL", standard: "Dedicated direct contact / appointment link configured", current: "Configured & responsive", status: "PASS", points: 3, fixed: true },
+  { id: "af-23", category: "Local SEO & Trust", name: "Service Area Coverage Configuration", standard: "Target neighborhood service areas specified in local radius", current: "Service radius specified", status: "WARN", points: 4, fixed: false, fixAction: "Refine micro-neighborhood coverage areas" },
+  { id: "af-24", category: "Local SEO & Trust", name: "Google Q&A Pre-population", standard: "Top 5 frequently asked customer questions answered by owner", current: "Customer FAQ check", status: "WARN", points: 5, fixed: false, fixAction: "Pre-populate top 5 customer FAQs with verified answers" }
 ];
 
-export default function AuditTab({ auditScore, appliedFixes, onApplyAuditFix, business }) {
+export default function AuditTab({ auditScore, appliedFixes, onApplyAuditFix, business, serverAudit, onRerunAudit }) {
   const [filter, setFilter] = useState("ALL"); // ALL, ATTENTION, PASS
   const [selectedCategory, setSelectedCategory] = useState("ALL");
 

@@ -21,7 +21,8 @@ export default function SettingsTab({
   setCurrency,
   onResetDemo,
   onDisconnectGoogle,
-  onOpenConnectGoogle
+  onOpenConnectGoogle,
+  onUpdateBusiness
 }) {
   const [bizName, setBizName] = useState(business?.name || "SM NextGen");
   const [bizPhone, setBizPhone] = useState(business?.phone || "+91 70735 38077");
@@ -29,11 +30,40 @@ export default function SettingsTab({
   const [bizGoal, setBizGoal] = useState(business?.primaryGoal || "Get more calls");
   const [aiTone, setAiTone] = useState("Professional & Warm");
   const [savedMsg, setSavedMsg] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
 
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
-    setSavedMsg("Settings updated successfully!");
-    setTimeout(() => setSavedMsg(""), 3000);
+    setIsSaving(true);
+    setSavedMsg("");
+    try {
+      const res = await fetch("/api/growth-os/settings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          businessName: bizName.trim(),
+          phone: bizPhone.trim(),
+          address: bizAddress.trim(),
+          primaryGoal: bizGoal,
+          aiTone: aiTone,
+          currency: currency
+        })
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setSavedMsg("Workspace settings and business profile updated successfully!");
+        if (onUpdateBusiness && data.business) {
+          onUpdateBusiness(data.business);
+        }
+      } else {
+        setSavedMsg(data.error || "Failed to update settings.");
+      }
+    } catch (err) {
+      setSavedMsg("Network error saving settings.");
+    } finally {
+      setIsSaving(false);
+      setTimeout(() => setSavedMsg(""), 3500);
+    }
   };
 
   return (

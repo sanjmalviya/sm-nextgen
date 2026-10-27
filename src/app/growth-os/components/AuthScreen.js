@@ -18,7 +18,7 @@ import {
   Key,
   ArrowLeft
 } from "lucide-react";
-import { storageService, SEED_USERS } from "../lib/supabaseClient";
+import { storageService } from "../lib/supabaseClient";
 
 export default function AuthScreen({ onLoginSuccess, onBackToLanding }) {
   const [authMode, setAuthMode] = useState("login"); // "login" | "signup"
@@ -39,9 +39,9 @@ export default function AuthScreen({ onLoginSuccess, onBackToLanding }) {
   const [errorMsg, setErrorMsg] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  // Handle Login
-  const handleLogin = (e) => {
-    e.preventDefault();
+  // Handle Login via Real Server Endpoint
+  const handleLogin = async (e) => {
+    if (e) e.preventDefault();
     setErrorMsg("");
     if (!loginEmail || !loginPassword) {
       setErrorMsg("Please enter both your email address and password.");
@@ -49,45 +49,36 @@ export default function AuthScreen({ onLoginSuccess, onBackToLanding }) {
     }
 
     setIsLoading(true);
-    setTimeout(() => {
+    try {
+      const res = await fetch("/api/growth-os/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: loginEmail.trim().toLowerCase(),
+          password: loginPassword
+        })
+      });
+
+      const data = await res.json();
+      if (res.ok && data.success) {
+        // Sync local storage session as backup
+        storageService.saveSession(data.user);
+        if (data.workspace?.id) {
+          storageService.setActiveWorkspaceId(data.workspace.id);
+        }
+        onLoginSuccess(data.user, data.workspace, data.hasCompletedProfile, `Welcome back, ${data.user.name}!`);
+      } else {
+        setErrorMsg(data.error || "Authentication failed. Please verify credentials.");
+      }
+    } catch (err) {
+      setErrorMsg("Network error: Could not reach authentication server.");
+    } finally {
       setIsLoading(false);
-      const users = storageService.getUsers();
-      const user = users.find(u => u.email.toLowerCase() === loginEmail.trim().toLowerCase());
-
-      if (!user) {
-        setErrorMsg("No account found with this email. Please create an account below.");
-        return;
-      }
-
-      if (user.password !== loginPassword) {
-        setErrorMsg("Incorrect password. Please verify and try again.");
-        return;
-      }
-
-      // Valid session
-      storageService.saveSession(user);
-      if (user.businessId) {
-        storageService.setActiveWorkspaceId(user.businessId);
-      }
-      onLoginSuccess(user, `Welcome back, ${user.name}!`);
-    }, 450);
+    }
   };
 
-  // Quick Master Admin Login
-  const handleMasterAdminLogin = () => {
-    setIsLoading(true);
-    setErrorMsg("");
-    setTimeout(() => {
-      setIsLoading(false);
-      const adminUser = SEED_USERS[0]; // Sanjay Malviya
-      storageService.saveSession(adminUser);
-      storageService.setActiveWorkspaceId(adminUser.businessId);
-      onLoginSuccess(adminUser, "Master Admin Superpowers unlocked! Full platform access granted.");
-    }, 300);
-  };
-
-  // Handle Sign Up & Workspace Provisioning
-  const handleSignUp = (e) => {
+  // Handle Sign Up & Workspace Provisioning via Real Server Endpoint
+  const handleSignUp = async (e) => {
     e.preventDefault();
     setErrorMsg("");
 
@@ -102,83 +93,36 @@ export default function AuthScreen({ onLoginSuccess, onBackToLanding }) {
     }
 
     setIsLoading(true);
-    setTimeout(() => {
-      try {
-        const newBizId = `biz-${Date.now()}`;
-        const newUserId = `user-${Date.now()}`;
-
-        // 1. Create and save new business workspace
-        const newWorkspace = {
-          id: newBizId,
-          name: bizName.trim(),
-          category: bizCategory,
-          secondaryCategories: [`${bizCategory} Specialist`, "Emergency Service"],
-          primaryGoal: "Get more calls",
-          website: `https://${bizName.toLowerCase().replace(/[^a-z0-9]/g, "")}.com`,
-          phone: bizPhone.trim() || "+91 70735 38077",
-          email: signupEmail.trim(),
-          address: `Main Market Road, ${bizCity.split(",")[0]}`,
-          city: bizCity.trim(),
-          state: "Rajasthan",
-          country: "India",
-          postalCode: "313001",
-          rating: 0,
-          totalReviews: 0,
-          score: 0,
-          plan: "AI Growth Pro",
-          status: "Active",
-          isDemo: false,
-          googleConnected: false,
-          lastSynced: "Pending connection",
-          description: `${bizName} is a top-rated ${bizCategory.toLowerCase()} in ${bizCity} dedicated to excellence and customer satisfaction.`
-        };
-        storageService.addWorkspace(newWorkspace);
-        storageService.setActiveWorkspaceId(newBizId);
-
-        // Initialize zero dummy data state for new business
-        storageService.saveWorkspaceState(newBizId, {
-          kpi: {
-            rating: 0,
-            totalReviews: 0,
-            unansweredReviews: 0,
-            profileCompleteness: 45,
-            calls: 0,
-            callsChange: "+0%",
-            directionRequests: 0,
-            directionsChange: "+0%",
-            websiteClicks: 0,
-            websiteClicksChange: "+0%",
-            searchImpressions: 0
-          },
-          score: 0,
-          reviews: [],
-          tasks: [],
-          appliedFixes: {}
-        });
-
-        // 2. Register user account
-        const newUser = {
-          id: newUserId,
+    try {
+      const res = await fetch("/api/growth-os/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
           name: fullName.trim(),
           email: signupEmail.trim().toLowerCase(),
           password: signupPassword,
-          role: "OWNER",
-          businessId: newBizId,
           businessName: bizName.trim(),
+          category: bizCategory,
           city: bizCity.trim(),
-          createdAt: new Date().toISOString()
-        };
-        storageService.registerUser(newUser);
+          phone: bizPhone.trim()
+        })
+      });
 
-        // 3. Log session & launch workspace
-        storageService.saveSession(newUser);
-        setIsLoading(false);
-        onLoginSuccess(newUser, `Account created successfully! Welcome to SM NextGen Growth OS, ${newUser.name}.`);
-      } catch (err) {
-        setIsLoading(false);
-        setErrorMsg(err.message || "Failed to create account. Please try again.");
+      const data = await res.json();
+      if (res.ok && data.success) {
+        storageService.saveSession(data.user);
+        if (data.workspace?.id) {
+          storageService.setActiveWorkspaceId(data.workspace.id);
+        }
+        onLoginSuccess(data.user, data.workspace, false, `Account created! Welcome to SM NextGen Growth OS, ${data.user.name}.`);
+      } else {
+        setErrorMsg(data.error || "Failed to create account. Please try again.");
       }
-    }, 600);
+    } catch (err) {
+      setErrorMsg("Network error: Could not connect to server during registration.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -219,14 +163,6 @@ export default function AuthScreen({ onLoginSuccess, onBackToLanding }) {
             <ShieldCheck className="w-4 h-4 text-emerald-400" />
             <span>Encrypted Multi-Tenant Storage</span>
           </div>
-          <button
-            onClick={handleMasterAdminLogin}
-            className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-500/30 hover:border-cyan-400 text-cyan-300 text-xs font-bold transition flex items-center gap-1.5 cursor-pointer hover:scale-105 active:scale-95"
-            title="1-Click Login for Sanjay Malviya with full Admin powers"
-          >
-            <Key className="w-3.5 h-3.5" />
-            <span>Master Admin Login</span>
-          </button>
         </div>
       </header>
 
@@ -319,18 +255,6 @@ export default function AuthScreen({ onLoginSuccess, onBackToLanding }) {
                 <Lock className="w-4 h-4" />
                 <span>{isLoading ? "Authenticating..." : "Sign In to Growth OS"}</span>
               </button>
-
-              {/* Master Admin Direct Shortcut */}
-              <div className="pt-2 text-center">
-                <button
-                  type="button"
-                  onClick={handleMasterAdminLogin}
-                  className="text-[11px] text-[#0097B2] hover:underline font-bold flex items-center justify-center gap-1 mx-auto cursor-pointer"
-                >
-                  <Key className="w-3 h-3" />
-                  <span>Log in as Master Admin (Sanjay Malviya)</span>
-                </button>
-              </div>
             </form>
           ) : (
             /* 2. CREATE ACCOUNT FORM */

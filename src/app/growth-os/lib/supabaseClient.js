@@ -72,21 +72,7 @@ export const SEED_WORKSPACES = [
   }
 ];
 
-// Initial Master Admin Account
-export const SEED_USERS = [
-  {
-    id: "user-admin",
-    name: "Sanjay Malviya (Platform Architect)",
-    email: "admin@smnextgen.com",
-    password: "GrowthOS2026!",
-    role: "ADMIN",
-    businessId: "biz-1",
-    businessName: "SM NextGen Growth Workspace",
-    city: "Udaipur, Rajasthan",
-    createdAt: "2026-09-01T00:00:00.000Z"
-  }
-];
-
+// Storage Service for Growth OS client-side session caching
 export const storageService = {
   // Session Management
   getSession: () => {
@@ -94,11 +80,7 @@ export const storageService = {
     try {
       const data = localStorage.getItem("sm_growth_os_session");
       if (!data) return null;
-      const parsed = JSON.parse(data);
-      if (parsed.email === "admin@smnextgen.com" && parsed.businessName?.includes("Apex Dental")) {
-        parsed.businessName = "SM NextGen Growth Workspace";
-      }
-      return parsed;
+      return JSON.parse(data);
     } catch (e) {
       return null;
     }
@@ -120,16 +102,13 @@ export const storageService = {
 
   // User Accounts Registry
   getUsers: () => {
-    if (typeof window === "undefined") return SEED_USERS;
+    if (typeof window === "undefined") return [];
     try {
       const data = localStorage.getItem("sm_growth_os_users");
-      if (!data) {
-        localStorage.setItem("sm_growth_os_users", JSON.stringify(SEED_USERS));
-        return SEED_USERS;
-      }
+      if (!data) return [];
       return JSON.parse(data);
     } catch (e) {
-      return SEED_USERS;
+      return [];
     }
   },
 
@@ -137,7 +116,7 @@ export const storageService = {
     if (typeof window === "undefined") return newUser;
     try {
       const users = storageService.getUsers();
-      const exists = users.find(u => u.email.toLowerCase() === newUser.email.toLowerCase());
+      const exists = users.find(u => u.email?.toLowerCase() === newUser.email?.toLowerCase());
       if (exists) {
         throw new Error("An account with this email already exists. Please Sign In.");
       }

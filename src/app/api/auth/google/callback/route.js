@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import db from "@/lib/growth_os/db";
+import { getAuthenticatedUser } from "@/lib/growth_os/auth";
 
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
@@ -7,22 +9,21 @@ export async function GET(req) {
 
   const host = req.headers.get("host") || "smnextgen.com";
   const protocol = host.includes("localhost") ? "http" : "https";
-  const baseRedirect = `${protocol}://${host}/growth-os`;
+  const baseRedirect = protocol + "://" + host + "/growth-os";
 
   if (error || !code) {
-    return NextResponse.redirect(`${baseRedirect}?oauth_error=${encodeURIComponent(error || "Authorization cancelled by user")}`);
+    return NextResponse.redirect(baseRedirect + "?google_error=" + encodeURIComponent(error || "Google authorization was cancelled."));
   }
 
   const clientId = process.env.GOOGLE_CLIENT_ID || process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
   const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
 
   if (!clientId || !clientSecret) {
-    // If client secret is not configured, redirect back with authenticated status
-    return NextResponse.redirect(`${baseRedirect}?google_connected=true&google_email=admin@smnextgen.com`);
+    return NextResponse.redirect(baseRedirect + "?google_setup_needed=true");
   }
 
   try {
-    const redirectUri = `${protocol}://${host}/api/auth/google/callback`;
+    const redirectUri = protocol + "://" + host + "/api/auth/google/callback";
     const tokenRes = await fetch("https://oauth2.googleapis.com/token", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -37,17 +38,46 @@ export async function GET(req) {
 
     const tokenData = await tokenRes.json();
     if (!tokenData.access_token) {
-      return NextResponse.redirect(`${baseRedirect}?oauth_error=Failed to retrieve Google access token`);
+      return NextResponse.redirect(baseRedirect + "?google_error=" + encodeURIComponent(tokenData.error_description || "Failed to exchange token with Google."));
     }
 
-    // Fetch user info from Google
     const userRes = await fetch("https://www.googleapis.com/oauth2/v2/userinfo", {
-      headers: { Authorization: `Bearer ${tokenData.access_token}` }
+      headers: { Authorization: "Bearer " + tokenData.access_token }
     });
     const userData = await userRes.json();
 
-    return NextResponse.redirect(`${baseRedirect}?google_connected=true&google_email=${encodeURIComponent(userData.email || "")}&google_name=${encodeURIComponent(userData.name || "")}`);
+    const user = await getAuthenticatedUser(req);
+    if (user) {
+      const members = await db.workspaceMembers.find({ userId: user.id });
+      if (members.length > 0) {
+        const workspaceId = members[0].workspaceId;
+        const business = await db.businesses.findOne({ workspaceId });
+        if (business) {
+          await db.businesses.updateOne(
+            { id: business.id },
+            {
+              googleConnected: true,
+              googleAccount: userData.email,
+              lastSyncedAt: new Date().toISOString()
+            }
+          );
+        }
+
+        await db.integrations.insertOne({
+          workspaceId,
+          businessId: business ? business.id : null,
+          provider: "google_business",
+          status: "CONNECTED",
+          accountEmail: userData.email,
+          scopes: ["business.manage", "openid", "email"],
+          lastSyncedAt: new Date().toISOString()
+        });
+      }
+    }
+
+    return NextResponse.redirect(baseRedirect + "?google_connected=true&google_email=" + encodeURIComponent(userData.email || ""));
   } catch (err) {
-    return NextResponse.redirect(`${baseRedirect}?oauth_error=${encodeURIComponent(err.message)}`);
+    console.error("Google OAuth Callback Error:", err);
+    return NextResponse.redirect(baseRedirect + "?google_error=" + encodeURIComponent(err.message));
   }
 }

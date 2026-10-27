@@ -8,43 +8,179 @@ import {
   Image,
   FileText,
   Wrench,
-  Bot
+  Bot,
+  Calendar,
+  Send,
+  Plus
 } from "lucide-react";
 
 export default function ToolsTab({ business }) {
-  const [activeTool, setActiveTool] = useState("description"); // description, photos
+  const [activeTool, setActiveTool] = useState("description"); // description, posts, photos
 
   // Description Generator State
   const [bizName, setBizName] = useState(business?.name || "SM NextGen");
   const [city, setCity] = useState(business?.city || "Udaipur, Rajasthan");
-  const [services, setServices] = useState("Digital Marketing, SEO, AI Automation Systems, Web & App Development");
+  const [services, setServices] = useState(
+    business?.services?.length > 0 
+      ? business.services.join(", ") 
+      : "Digital Marketing, SEO, AI Automation Systems, Web & App Development"
+  );
   const [generatedDesc, setGeneratedDesc] = useState(
+    business?.description ||
     "SM NextGen is Udaipur's premier business growth & AI automation firm located in Ganapati Nagar. We engineer high-converting web systems, top Google 3-Pack rankings, performance advertising campaigns, and custom AI WhatsApp workflows. Dedicated to measurable ROI for ambitious local businesses and enterprises across Rajasthan. Contact +91 70735 38077 to scale your business growth today."
   );
-  const [copied, setCopied] = useState(false);
+  const [descCopied, setDescCopied] = useState(false);
+  const [isGeneratingDesc, setIsGeneratingDesc] = useState(false);
+
+  // Google Post Generator State
+  const [postTopic, setPostTopic] = useState("Special Promotion / Seasonal Offer");
+  const [postDetails, setPostDetails] = useState("Flat 20% discount on business growth consultations this month.");
+  const [postCta, setPostCta] = useState("CALL_NOW");
+  const [generatedPost, setGeneratedPost] = useState("");
+  const [isGeneratingPost, setIsGeneratingPost] = useState(false);
+  const [isSavingPost, setIsSavingPost] = useState(false);
+  const [postSavedMsg, setPostSavedMsg] = useState("");
+  const [postCopied, setPostCopied] = useState(false);
 
   // Photo Ideas Checklist State
   const [checkedPhotos, setCheckedPhotos] = useState({});
 
   const photoIdeas = [
-    { id: "p-1", category: "Storefront & Exterior", title: "Daylight Street Entrance & Signboard", why: "Ensures first-time patients instantly spot clinic from Saheli Nagar main road." },
-    { id: "p-2", category: "High-Tech Operatory", title: "Modern Office & Workspace Suites", why: "Demonstrates established commercial headquarters and operational excellence." },
-    { id: "p-3", category: "Team & Specialists", title: "Strategy Team in Consultation with Client", why: "Builds human trust and doctor-patient rapport before booking." },
-    { id: "p-4", category: "Patient Hospitality", title: "Spotless Reception & Waiting Lounge", why: "Welcomes visiting business clients and establishes corporate trust." },
-    { id: "p-5", category: "Sterilization Protocols", title: "Technology Infrastructure & Meeting Rooms", why: "Highlights cutting-edge technological infrastructure and modern client facilities." }
+    { 
+      id: "p-1", 
+      category: "Storefront & Exterior", 
+      title: "Daylight Street Entrance & Business Signboard", 
+      why: "Ensures first-time customers instantly recognize your commercial building and parking area from the main street." 
+    },
+    { 
+      id: "p-2", 
+      category: "Workspaces & Facilities", 
+      title: "Modern Client Meeting Rooms & Workspace Suites", 
+      why: "Demonstrates established commercial headquarters and operational excellence to corporate clients." 
+    },
+    { 
+      id: "p-3", 
+      category: "Team & Leadership", 
+      title: "Team & Specialists in Consultation with Clients", 
+      why: "Builds human trust and authentic rapport before potential clients call or visit." 
+    },
+    { 
+      id: "p-4", 
+      category: "Client Reception Area", 
+      title: "Clean Reception & Welcome Desk", 
+      why: "Welcomes visiting clients and establishes corporate professionalism on Google Maps." 
+    },
+    { 
+      id: "p-5", 
+      category: "Deliverables & Technology", 
+      title: "Technology Infrastructure & Project Showcase", 
+      why: "Highlights modern tools, high standards, and tangible client outcomes." 
+    }
   ];
 
-  const handleGenerate = () => {
-    setGeneratedDesc(
-      bizName + " is " + city + "'s trusted partner for business acceleration and growth. Specializing in " + services + ", our team combines strategic expertise with modern AI technology. Conveniently situated in " + city + ", we prioritize measurable client revenue and market authority. Call +91 70735 38077 to schedule your growth strategy session."
-    );
+  // Generate 750-Char Description via API or Grounded Fallback
+  const handleGenerateDesc = async () => {
+    setIsGeneratingDesc(true);
+    try {
+      const res = await fetch("/api/growth-os/ai", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "generate_description",
+          keywords: services
+        })
+      });
+      const data = await res.json();
+      if (res.ok && data.success && data.result) {
+        setGeneratedDesc(data.result);
+      } else {
+        // Fallback
+        setGeneratedDesc(
+          `${bizName} is ${city}'s trusted provider for commercial excellence and growth. Specializing in ${services}, our team combines industry expertise with dedicated customer service. Situated conveniently in ${city}, we deliver measurable results and five-star satisfaction. Call ${business?.phone || "+91 70735 38077"} or visit our website to get started today.`
+        );
+      }
+    } catch (e) {
+      setGeneratedDesc(
+        `${bizName} is ${city}'s premier destination for ${services}. Contact us at ${business?.phone || "+91 70735 38077"} to schedule your service or consultation.`
+      );
+    } finally {
+      setIsGeneratingDesc(false);
+    }
   };
 
-  const handleCopy = () => {
+  const handleCopyDesc = () => {
     if (typeof navigator !== "undefined" && navigator.clipboard) {
       navigator.clipboard.writeText(generatedDesc);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      setDescCopied(true);
+      setTimeout(() => setDescCopied(false), 2000);
+    }
+  };
+
+  // Generate Google Post via API
+  const handleGeneratePost = async () => {
+    setIsGeneratingPost(true);
+    setPostSavedMsg("");
+    try {
+      const res = await fetch("/api/growth-os/ai", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "generate_post",
+          topic: `${postTopic}: ${postDetails}`,
+          cta: postCta
+        })
+      });
+      const data = await res.json();
+      if (res.ok && data.success && data.result) {
+        setGeneratedPost(data.result);
+      } else {
+        setGeneratedPost(
+          `📢 Exclusive Update from ${bizName} in ${city}!\n\n${postDetails}\n\nWe are committed to delivering the highest quality experience to all our clients. Tap below to connect with us directly!\n\n📞 Call: ${business?.phone || "+91 70735 38077"}`
+        );
+      }
+    } catch (e) {
+      setGeneratedPost(
+        `Exciting news from ${bizName}! ${postDetails} Contact us today at ${business?.phone || "+91 70735 38077"}.`
+      );
+    } finally {
+      setIsGeneratingPost(false);
+    }
+  };
+
+  // Save Post to Database
+  const handleSavePost = async () => {
+    if (!generatedPost.trim()) return;
+    setIsSavingPost(true);
+    try {
+      const res = await fetch("/api/growth-os/posts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: postTopic,
+          content: generatedPost,
+          ctaType: postCta,
+          status: "DRAFT"
+        })
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setPostSavedMsg("Post saved to queue successfully! Ready for scheduled publishing.");
+        setTimeout(() => setPostSavedMsg(""), 3500);
+      } else {
+        setPostSavedMsg(data.error || "Failed to save post.");
+      }
+    } catch (e) {
+      setPostSavedMsg("Error connecting to server.");
+    } finally {
+      setIsSavingPost(false);
+    }
+  };
+
+  const handleCopyPost = () => {
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      navigator.clipboard.writeText(generatedPost);
+      setPostCopied(true);
+      setTimeout(() => setPostCopied(false), 2000);
     }
   };
 
@@ -58,15 +194,15 @@ export default function ToolsTab({ business }) {
           <span>Growth AI Content Tools</span>
         </div>
         <h2 className="text-2xl font-heading font-extrabold text-white">
-          Profile Content & Photo Generators
+          Profile Content & Marketing Generators
         </h2>
         <p className="text-xs text-slate-400 max-w-xl">
-          Craft high-converting Google Business Profile descriptions and plan high-impact photo uploads that Google's algorithm rewards.
+          Craft high-converting Google Business Profile descriptions, generate weekly Google Posts, and plan high-impact photo uploads that Google's algorithm rewards.
         </p>
       </div>
 
       {/* Tool Selector Tabs */}
-      <div className="flex items-center bg-slate-900 p-1 rounded-xl border border-slate-800 text-xs w-fit">
+      <div className="flex flex-wrap items-center bg-slate-900 p-1 rounded-xl border border-slate-800 text-xs w-fit gap-1">
         <button
           onClick={() => setActiveTool("description")}
           className={"px-4 py-2 rounded-lg font-bold flex items-center gap-1.5 transition cursor-pointer " + (activeTool === "description" ? "bg-[#0097B2] text-white shadow-sm" : "text-slate-400 hover:text-white")}
@@ -74,6 +210,15 @@ export default function ToolsTab({ business }) {
           <FileText className="w-3.5 h-3.5" />
           <span>750-Char Business Description</span>
         </button>
+
+        <button
+          onClick={() => setActiveTool("posts")}
+          className={"px-4 py-2 rounded-lg font-bold flex items-center gap-1.5 transition cursor-pointer " + (activeTool === "posts" ? "bg-[#0097B2] text-white shadow-sm" : "text-slate-400 hover:text-white")}
+        >
+          <Calendar className="w-3.5 h-3.5" />
+          <span>Google Post & Offer Generator</span>
+        </button>
+
         <button
           onClick={() => setActiveTool("photos")}
           className={"px-4 py-2 rounded-lg font-bold flex items-center gap-1.5 transition cursor-pointer " + (activeTool === "photos" ? "bg-[#0097B2] text-white shadow-sm" : "text-slate-400 hover:text-white")}
@@ -119,11 +264,12 @@ export default function ToolsTab({ business }) {
 
           <div className="flex items-center justify-between">
             <button
-              onClick={handleGenerate}
-              className="px-4 py-2 rounded-xl bg-[#0097B2] hover:bg-[#007a91] text-white text-xs font-bold flex items-center gap-1.5 transition active:scale-95 cursor-pointer"
+              onClick={handleGenerateDesc}
+              disabled={isGeneratingDesc}
+              className="px-4 py-2 rounded-xl bg-[#0097B2] hover:bg-[#007a91] text-white text-xs font-bold flex items-center gap-1.5 transition active:scale-95 cursor-pointer disabled:opacity-60"
             >
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Regenerate Description</span>
+              <Sparkles className={`w-3.5 h-3.5 ${isGeneratingDesc ? "animate-spin" : ""}`} />
+              <span>{isGeneratingDesc ? "Generating with Gemini..." : "Generate with AI"}</span>
             </button>
 
             <span className="text-xs font-mono text-slate-400">
@@ -142,18 +288,122 @@ export default function ToolsTab({ business }) {
 
             <div className="flex justify-end">
               <button
-                onClick={handleCopy}
+                onClick={handleCopyDesc}
                 className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold flex items-center gap-1.5 transition cursor-pointer"
               >
-                {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-                <span>{copied ? "Copied to Clipboard!" : "Copy Description"}</span>
+                {descCopied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                <span>{descCopied ? "Copied to Clipboard!" : "Copy Description"}</span>
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Tool 2: Photo Ideas */}
+      {/* Tool 2: Google Post Generator */}
+      {activeTool === "posts" && (
+        <div className="p-6 rounded-3xl bg-slate-900 border border-slate-800 space-y-5">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-base font-heading font-extrabold text-white">Google Post & Offer Autopilot</h3>
+              <p className="text-xs text-slate-400">Google Posts expire every 7 days. Fresh posts signal an active business to Google's Local 3-Pack ranking algorithm.</p>
+            </div>
+          </div>
+
+          {postSavedMsg && (
+            <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold">
+              {postSavedMsg}
+            </div>
+          )}
+
+          <div className="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label className="text-xs text-slate-300 font-bold block mb-1">Post Type / Topic</label>
+              <select
+                value={postTopic}
+                onChange={(e) => setPostTopic(e.target.value)}
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:ring-2 focus:ring-[#0097B2]"
+              >
+                <option value="Special Promotion / Seasonal Offer">Special Promotion / Seasonal Offer</option>
+                <option value="Flagship Service Spotlight">Flagship Service Spotlight</option>
+                <option value="Customer Success Story / Review">Customer Success Story / Review</option>
+                <option value="New Feature / Business Announcement">New Feature / Business Announcement</option>
+                <option value="Holiday Operating Hours Notice">Holiday Operating Hours Notice</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="text-xs text-slate-300 font-bold block mb-1">Call-To-Action (CTA Button)</label>
+              <select
+                value={postCta}
+                onChange={(e) => setPostCta(e.target.value)}
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:ring-2 focus:ring-[#0097B2]"
+              >
+                <option value="CALL_NOW">Call Now (Recommended for Phone Leads)</option>
+                <option value="BOOK">Book / Schedule Appointment</option>
+                <option value="LEARN_MORE">Learn More</option>
+                <option value="ORDER_ONLINE">Order / Get Offer</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label className="text-xs text-slate-300 font-bold block mb-1">Key Offer or Announcement Details</label>
+            <input
+              type="text"
+              value={postDetails}
+              onChange={(e) => setPostDetails(e.target.value)}
+              placeholder="e.g. 15% discount for first 20 clients this week"
+              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:ring-2 focus:ring-[#0097B2]"
+            />
+          </div>
+
+          <button
+            onClick={handleGeneratePost}
+            disabled={isGeneratingPost}
+            className="px-5 py-2.5 rounded-xl bg-[#0097B2] hover:bg-[#007a91] text-white text-xs font-bold flex items-center gap-2 transition active:scale-95 cursor-pointer disabled:opacity-60"
+          >
+            <Sparkles className={`w-3.5 h-3.5 ${isGeneratingPost ? "animate-spin" : ""}`} />
+            <span>{isGeneratingPost ? "Generating Post Draft..." : "Generate Post with Gemini AI"}</span>
+          </button>
+
+          {generatedPost && (
+            <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-mono font-bold text-cyan-400">Google Business Post Preview</span>
+                <span className="text-[11px] font-mono text-slate-500">CTA: {postCta}</span>
+              </div>
+
+              <textarea
+                rows={5}
+                value={generatedPost}
+                onChange={(e) => setGeneratedPost(e.target.value)}
+                className="w-full p-3.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-200 focus:outline-none focus:ring-2 focus:ring-[#0097B2]"
+              />
+
+              <div className="flex flex-wrap items-center justify-end gap-2 pt-1">
+                <button
+                  onClick={handleCopyPost}
+                  className="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer"
+                >
+                  {postCopied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                  <span>{postCopied ? "Copied!" : "Copy Text"}</span>
+                </button>
+
+                <button
+                  onClick={handleSavePost}
+                  disabled={isSavingPost}
+                  className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#0097B2] to-cyan-500 hover:from-[#008299] hover:to-cyan-600 text-white text-xs font-extrabold flex items-center gap-1.5 shadow-md transition active:scale-95 cursor-pointer disabled:opacity-60"
+                >
+                  <Send className="w-3.5 h-3.5" />
+                  <span>{isSavingPost ? "Saving..." : "Save to Post Queue"}</span>
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Tool 3: Photo Ideas */}
       {activeTool === "photos" && (
         <div className="space-y-3">
           {photoIdeas.map((photo) => {
