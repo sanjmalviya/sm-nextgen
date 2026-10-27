@@ -80,7 +80,10 @@ export async function POST(req) {
   } catch (err) {
     console.error("Register Error:", err);
     return NextResponse.json(
-      { error: "An unexpected error occurred during account registration." },
+      {
+        error: "An unexpected error occurred during account registration.",
+        details: err.message
+      },
       { status: 500 }
     );
   }

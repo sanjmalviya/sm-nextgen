@@ -3,6 +3,7 @@
 import { Pool } from "pg";
 
 let poolInstance = null;
+let currentConnectionString = null;
 
 export function getPool() {
   const connectionString =
@@ -14,14 +15,15 @@ export function getPool() {
     return null;
   }
 
-  if (!poolInstance) {
+  if (!poolInstance || currentConnectionString !== connectionString) {
+    currentConnectionString = connectionString;
     const isLocalhost = connectionString.includes("localhost") || connectionString.includes("127.0.0.1");
     poolInstance = new Pool({
       connectionString,
       ssl: isLocalhost ? false : { rejectUnauthorized: false },
-      max: 20,
+      max: 10,
       idleTimeoutMillis: 30000,
-      connectionTimeoutMillis: 5000
+      connectionTimeoutMillis: 10000
     });
 
     poolInstance.on("error", (err) => {

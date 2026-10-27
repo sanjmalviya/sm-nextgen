@@ -2,7 +2,7 @@
 // Supports Managed PostgreSQL (Supabase, Neon, AWS RDS) with local file engine for offline dev.
 import fs from "fs";
 import path from "path";
-import { PostgresCollection } from "./postgresDb";
+import { PostgresCollection } from "./postgresDb.js";
 
 const DATA_DIR = path.join(process.cwd(), "data");
 const DB_FILE = path.join(DATA_DIR, "growth_os_db.json");
@@ -162,13 +162,56 @@ class LocalJsonCollection {
 }
 
 // -------------------------------------------------------------
-// Unified Database Export
+// Unified Database Export with Dynamic Runtime Driver Selection
 // -------------------------------------------------------------
-function createCollection(name, tableName) {
-  if (hasPgConfig) {
-    return new PostgresCollection(tableName);
+class DynamicCollection {
+  constructor(name, tableName) {
+    this.name = name;
+    this.tableName = tableName;
+    this.localCol = new LocalJsonCollection(name);
+    this.pgCol = new PostgresCollection(tableName);
   }
-  return new LocalJsonCollection(name);
+
+  getDriver() {
+    const hasPg = Boolean(
+      process.env.DATABASE_URL ||
+      process.env.POSTGRES_URL ||
+      process.env.SUPABASE_DB_URL
+    );
+    return hasPg ? this.pgCol : this.localCol;
+  }
+
+  async findOne(query) {
+    return await this.getDriver().findOne(query);
+  }
+
+  async find(query, options) {
+    return await this.getDriver().find(query, options);
+  }
+
+  async insertOne(doc) {
+    return await this.getDriver().insertOne(doc);
+  }
+
+  async updateOne(query, updates) {
+    return await this.getDriver().updateOne(query, updates);
+  }
+
+  async deleteOne(query) {
+    return await this.getDriver().deleteOne(query);
+  }
+
+  async deleteMany(query) {
+    return await this.getDriver().deleteMany(query);
+  }
+
+  async count(query = {}) {
+    return await this.getDriver().count(query);
+  }
+}
+
+function createCollection(name, tableName) {
+  return new DynamicCollection(name, tableName);
 }
 
 export const db = {
