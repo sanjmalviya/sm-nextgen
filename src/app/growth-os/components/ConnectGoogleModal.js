@@ -202,7 +202,7 @@ export default function ConnectGoogleModal({
                   )}
                   {verifiedListing.gbpId && (
                     <div className="flex items-center gap-2 font-mono text-[11px] text-slate-400">
-                      <span>Google Business Profile ID:</span>
+                      <span>Google Store Code / GMB ID:</span>
                       <span className="text-emerald-300 font-bold">{verifiedListing.gbpId}</span>
                     </div>
                   )}
