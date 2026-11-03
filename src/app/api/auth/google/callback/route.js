@@ -70,6 +70,8 @@ export async function GET(req) {
           status: "CONNECTED",
           accountEmail: userData.email,
           scopes: ["business.manage", "openid", "email"],
+          accessToken: tokenData.access_token,
+          refreshToken: tokenData.refresh_token || null,
           lastSyncedAt: new Date().toISOString()
         });
       }

@@ -410,37 +410,29 @@ export default function ConnectGoogleModal({
               {/* TAB 3: GOOGLE CLOUD OAUTH 2.0 */}
               {activeMode === "oauth" && (
                 <div className="space-y-4">
-                  <div className="p-4 rounded-2xl bg-slate-950/60 border border-slate-800 text-xs text-slate-300 space-y-2">
-                    <div className="font-bold text-white flex items-center gap-2">
-                      <ShieldCheck className="w-4 h-4 text-cyan-400" />
-                      <span>Google Business Profile API OAuth</span>
+                  <div className="p-4 rounded-2xl bg-emerald-950/30 border border-emerald-500/30 text-xs text-slate-300 space-y-2">
+                    <div className="font-bold text-white flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                        <span>Google Business Profile API OAuth</span>
+                      </div>
+                      <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                        Configured
+                      </span>
                     </div>
                     <p className="text-[11px] text-slate-400 leading-relaxed">
-                      Connect directly via Google's official authorization dialog to manage reviews, upload local posts, and track ranking telemetry in real time.
+                      Connect directly via Google's official authorization dialog to stream real calls, directions, impressions, and newly posted customer reviews directly into your Growth OS workspace.
                     </p>
                     <div className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-[11px] font-mono text-slate-400 space-y-1">
-                      <div>Required Scopes:</div>
-                      <div className="text-cyan-400">• https://www.googleapis.com/auth/business.manage</div>
-                      <div className="text-cyan-400">• openid, email, profile</div>
+                      <div>Authorized Scopes:</div>
+                      <div className="text-emerald-400">• https://www.googleapis.com/auth/business.manage</div>
+                      <div className="text-emerald-400">• openid, email, profile</div>
                     </div>
-                  </div>
-
-                  <div>
-                    <label className="text-[11px] font-mono font-bold text-slate-400 block mb-1">
-                      Google Cloud Web Client ID (Optional for custom domains)
-                    </label>
-                    <input
-                      type="text"
-                      value={customClientId}
-                      onChange={(e) => setCustomClientId(e.target.value)}
-                      placeholder="e.g. 123456789-xxx.apps.googleusercontent.com"
-                      className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-[#0097B2]"
-                    />
                   </div>
 
                   <a
                     href={`/api/auth/google${customClientId ? `?client_id=${encodeURIComponent(customClientId)}` : ""}`}
-                    className="w-full py-3 rounded-xl bg-white hover:bg-slate-100 text-slate-900 text-xs sm:text-sm font-bold shadow-md transition flex items-center justify-center gap-2 cursor-pointer"
+                    className="w-full py-3.5 rounded-xl bg-white hover:bg-slate-100 text-slate-900 text-xs sm:text-sm font-bold shadow-lg shadow-white/10 transition flex items-center justify-center gap-2.5 cursor-pointer"
                   >
                     <svg className="w-4 h-4" viewBox="0 0 24 24">
                       <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -452,7 +444,7 @@ export default function ConnectGoogleModal({
                   </a>
 
                   <p className="text-[11px] text-center text-slate-500">
-                    If your Cloud Client ID is pending, use the <button onClick={() => setActiveMode("owner")} className="text-[#0097B2] underline cursor-pointer">Owner Quick-Connect</button> tab.
+                    Sign in with the Google account managing SM NextGen (e.g. <span className="text-slate-300 font-mono">sanjmalviya88243@gmail.com</span>) to grant read/write telemetry access.
                   </p>
                 </div>
               )}

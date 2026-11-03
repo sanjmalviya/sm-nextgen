@@ -229,6 +229,21 @@ export default function GrowthOSClient() {
         setViewMode("landing");
         loadWorkspaceData(storedActiveId, storedWorkspaces);
       }
+
+      if (urlParams) {
+        if (urlParams.get("google_connected") === "true") {
+          const email = urlParams.get("google_email") || "";
+          showToast(`✅ Google Business Profile connected successfully${email ? ` (${email})` : ""}!`);
+          window.history.replaceState({}, document.title, window.location.pathname);
+          refreshAllData();
+        } else if (urlParams.get("google_error")) {
+          showToast(`❌ Google OAuth error: ${urlParams.get("google_error")}`);
+          window.history.replaceState({}, document.title, window.location.pathname);
+        } else if (urlParams.get("google_setup_needed") === "true") {
+          showToast("⚠️ Google Cloud OAuth Client ID is not configured.");
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }
+      }
     }
 
     verifyServerSession();
