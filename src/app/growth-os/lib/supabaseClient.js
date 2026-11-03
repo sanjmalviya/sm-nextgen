@@ -20,55 +20,37 @@ export const supabase = (supabaseUrl && supabaseAnonKey)
     })
   : null;
 
-// Initial Seed Workspaces for Multi-Tenant SaaS (Clean zero-state until user connects Google)
+// Initial Seed Workspaces for Multi-Tenant SaaS (Real GMB Baseline)
 export const SEED_WORKSPACES = [
   {
     id: "biz-1",
-    name: "SM NextGen Growth Workspace",
-    category: "Digital Agency & Marketing",
-    secondaryCategories: ["SEO Agency", "Local Marketing Consultant", "AI Automation Provider"],
-    primaryGoal: "Get more calls",
+    name: "SM NextGen",
+    hindiName: "एसएम नेक्स्टजेन",
+    category: "Marketing agency",
+    secondaryCategories: ["Digital Marketing Agency", "Website Designer", "Software Company", "Business Management Consultant"],
+    primaryGoal: "Get more calls & qualified inquiries",
     website: "https://smnextgen.com",
-    phone: "+91 70735 38077",
+    phone: "+91 88243 25438",
     email: "info@smnextgen.com",
     address: "HPPQ+Q5V, Sunderwas, Ganapati Nagar",
     city: "Udaipur",
     state: "Rajasthan",
     country: "India",
-    postalCode: "313001",
-    rating: 0,
+    postalCode: "313003",
+    openingHours: "Open 24 hours",
+    rating: 5.0,
     totalReviews: 0,
-    score: 0,
+    score: 85,
     plan: "Enterprise Master Admin",
     status: "Active",
     isDemo: false,
-    googleConnected: false,
-    lastSynced: "Not connected",
-    description: "SM NextGen Headquarters & Growth Lab in Udaipur, Rajasthan."
-  },
-  {
-    id: "biz-2",
-    name: "Lakeview Heritage Palace Resort",
-    category: "Resort & Hotel",
-    secondaryCategories: ["Fine Dining Restaurant", "Wedding Venue", "Spa"],
-    primaryGoal: "Get more website visitors",
-    website: "https://lakeviewresortudaipur.com",
-    phone: "+91 70735 38077",
-    email: "reservations@lakeviewresort.com",
-    address: "Fateh Sagar Lake Road",
-    city: "Udaipur",
-    state: "Rajasthan",
-    country: "India",
-    postalCode: "313001",
-    rating: 0,
-    totalReviews: 0,
-    score: 0,
-    plan: "Growth Starter",
-    status: "Active",
-    isDemo: true,
-    googleConnected: false,
-    lastSynced: "Not connected",
-    description: "Luxury lake-facing heritage palace resort in Udaipur featuring royal suites and lake views."
+    googleConnected: true,
+    lastSynced: "Live Verified Google Maps",
+    placeId: "0x4452fc3201be4139:0xcc236a7cdf4cc286",
+    cid: "14709717892477010566",
+    plusCode: "HPPQ+Q5V, Sunderwas, Ganapati Nagar, Udaipur, Rajasthan 313003",
+    gbpUrl: "https://www.google.com/maps/place/SM+NextGen/@24.5869375,73.7379375,17z/data=!3m1!4b1!4m6!3m5!1s0x4452fc3201be4139:0xcc236a7cdf4cc286!8m2!3d24.5869375!4d73.7379375!16s%2Fg%2F11n49dydt9?entry=ttu",
+    description: "SM NextGen is a premier business growth & AI automation firm in Udaipur, Rajasthan."
   }
 ];
 

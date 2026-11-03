@@ -32,7 +32,27 @@ export default function ReviewsTab({
   const [search, setSearch] = useState("");
   const [selectedTone, setSelectedTone] = useState("professional");
   const [editingReply, setEditingReply] = useState({});
-  const [copiedId, setCopiedId] = useState(null);
+  const [copiedReviewLink, setCopiedReviewLink] = useState(false);
+  const [copiedWhatsApp, setCopiedWhatsApp] = useState(false);
+
+  const realGmbReviewUrl = business?.reviewUrl || business?.gbpUrl || "https://www.google.com/maps/place/SM+NextGen/@24.5869375,73.7379375,17z/data=!4m8!3m7!1s0x4452fc3201be4139:0xcc236a7cdf4cc286!8m2!3d24.5869375!4d73.7379375!9m1!1b1!16s%2Fg%2F11n49dydt9?entry=ttu";
+
+  const handleCopyReviewLink = () => {
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      navigator.clipboard.writeText(realGmbReviewUrl);
+      setCopiedReviewLink(true);
+      setTimeout(() => setCopiedReviewLink(false), 2500);
+    }
+  };
+
+  const handleCopyWhatsAppMsg = () => {
+    const msg = `Hi! Thank you for partnering with ${business?.name || "SM NextGen"}. If you had a great experience with our services, could you please take 30 seconds to share your review on Google? It means the world to our team: ${realGmbReviewUrl} Thank you!`;
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      navigator.clipboard.writeText(msg);
+      setCopiedWhatsApp(true);
+      setTimeout(() => setCopiedWhatsApp(false), 2500);
+    }
+  };
 
   // Add Review Modal State
   const [isAddOpen, setIsAddOpen] = useState(false);
@@ -256,15 +276,73 @@ export default function ReviewsTab({
       {/* Reviews List */}
       <div className="space-y-4">
         {filteredReviews.length === 0 ? (
-          <div className="p-12 text-center text-slate-400 bg-slate-900 rounded-3xl border border-slate-800 space-y-3">
-            <p>No reviews match this filter.</p>
-            <button
-              onClick={() => setIsAddOpen(true)}
-              className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold transition inline-flex items-center gap-1.5"
-            >
-              <Plus className="w-3.5 h-3.5 text-[#0097B2]" />
-              <span>Add a New Customer Review</span>
-            </button>
+          <div className="p-8 sm:p-10 text-center bg-slate-900 rounded-3xl border border-slate-800 space-y-6">
+            <div className="w-14 h-14 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 text-[#0097B2] flex items-center justify-center mx-auto shadow-lg">
+              <Star className="w-7 h-7 fill-amber-400 text-amber-400" />
+            </div>
+
+            <div className="max-w-md mx-auto space-y-2">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-mono font-bold">
+                <ShieldCheck className="w-3.5 h-3.5" />
+                <span>Google Business Profile Verified (5.0★ Baseline)</span>
+              </div>
+              <h3 className="text-xl font-heading font-extrabold text-white">
+                0 Written Customer Reviews on Google Maps
+              </h3>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Your live Google Maps listing is verified and active. Collecting verified 5-star customer reviews is the single fastest way to climb into Udaipur's Google Maps 3-Pack.
+              </p>
+            </div>
+
+            {/* Real Review Generation Action Box */}
+            <div className="max-w-xl mx-auto p-5 rounded-2xl bg-slate-950/80 border border-slate-800 text-left space-y-4">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider">
+                  Direct Google Review Link:
+                </span>
+                <span className="text-[11px] text-emerald-400 font-bold flex items-center gap-1">
+                  <Check className="w-3 h-3" /> Live Google Maps Storefront
+                </span>
+              </div>
+
+              <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-300 font-mono break-all flex items-center justify-between gap-3">
+                <span className="truncate">{realGmbReviewUrl}</span>
+                <button
+                  onClick={handleCopyReviewLink}
+                  className="px-3 py-1.5 rounded-lg bg-[#0097B2] hover:bg-[#007a91] text-white font-bold text-xs shrink-0 flex items-center gap-1.5 transition cursor-pointer"
+                >
+                  <Copy className="w-3.5 h-3.5" />
+                  <span>{copiedReviewLink ? "Copied Link!" : "Copy Link"}</span>
+                </button>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-2.5 pt-1">
+                <button
+                  onClick={handleCopyWhatsAppMsg}
+                  className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-2 transition active:scale-95 cursor-pointer shadow-md"
+                >
+                  <MessageSquare className="w-3.5 h-3.5" />
+                  <span>{copiedWhatsApp ? "WhatsApp Message Copied!" : "Copy WhatsApp Review Request"}</span>
+                </button>
+
+                <a
+                  href={realGmbReviewUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs flex items-center gap-1.5 border border-slate-700 transition"
+                >
+                  <span>Open on Google Maps</span>
+                </a>
+
+                <button
+                  onClick={() => setIsAddOpen(true)}
+                  className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-400 font-bold text-xs flex items-center gap-1.5 border border-slate-700 transition ml-auto"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  <span>Add Manual Review</span>
+                </button>
+              </div>
+            </div>
           </div>
         ) : (
           filteredReviews.map((r) => {

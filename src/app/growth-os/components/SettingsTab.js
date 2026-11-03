@@ -25,8 +25,8 @@ export default function SettingsTab({
   onUpdateBusiness
 }) {
   const [bizName, setBizName] = useState(business?.name || "SM NextGen");
-  const [bizPhone, setBizPhone] = useState(business?.phone || "+91 70735 38077");
-  const [bizAddress, setBizAddress] = useState(business?.address || "HPPQ+Q5V, Sunderwas, Ganapati Nagar, Udaipur, Rajasthan");
+  const [bizPhone, setBizPhone] = useState(business?.phone || "+91 88243 25438");
+  const [bizAddress, setBizAddress] = useState(business?.address || "HPPQ+Q5V, Sunderwas, Ganapati Nagar, Udaipur, Rajasthan 313003");
   const [bizGoal, setBizGoal] = useState(business?.primaryGoal || "Get more calls");
   const [aiTone, setAiTone] = useState("Professional & Warm");
   const [savedMsg, setSavedMsg] = useState("");

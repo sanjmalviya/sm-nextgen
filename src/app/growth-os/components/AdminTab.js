@@ -59,10 +59,10 @@ export default function AdminTab({
   const [isAddBizModalOpen, setIsAddBizModalOpen] = useState(false);
   const [newBizName, setNewBizName] = useState("");
   const [newBizCity, setNewBizCity] = useState("Udaipur, Rajasthan");
-  const [newBizCategory, setNewBizCategory] = useState("Digital Marketing Agency");
-  const [newBizPhone, setNewBizPhone] = useState("+91 70735 38077");
-  const [newBizRating, setNewBizRating] = useState("4.8");
-  const [newBizScore, setNewBizScore] = useState("80");
+  const [newBizCategory, setNewBizCategory] = useState("Marketing agency");
+  const [newBizPhone, setNewBizPhone] = useState("+91 88243 25438");
+  const [newBizRating, setNewBizRating] = useState("5.0");
+  const [newBizScore, setNewBizScore] = useState("85");
 
   // Modal State: Edit Current Business
   const [isEditBizModalOpen, setIsEditBizModalOpen] = useState(false);

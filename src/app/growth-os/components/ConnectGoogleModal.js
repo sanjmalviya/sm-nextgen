@@ -262,10 +262,10 @@ export default function ConnectGoogleModal({
                     <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800 text-[11px] text-slate-300 space-y-1">
                       <div className="flex items-center gap-1.5 text-slate-400">
                         <MapPin className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
-                        <span>HPPQ+Q5V, Sunderwas, Ganapati Nagar, Udaipur, Rajasthan 313001</span>
+                        <span>HPPQ+Q5V, Sunderwas, Ganapati Nagar, Udaipur, Rajasthan 313003</span>
                       </div>
                       <div className="flex items-center gap-1.5 text-slate-400 font-mono">
-                        <span>📞 +91 70735 38077</span>
+                        <span>📞 +91 88243 25438</span>
                         <span>•</span>
                         <span>🌐 smnextgen.com</span>
                       </div>

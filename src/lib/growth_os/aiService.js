@@ -20,9 +20,9 @@ export function isGeminiConfigured() {
   return Boolean(getGeminiApiKey());
 }
 
-// Model standard: High-throughput, ultra-fast Gemini 3.5 model with failover
-const PRIMARY_MODEL = "gemini-3.5-flash-lite";
-const FALLBACK_MODEL = "gemini-3.8-flash";
+// Model standard: High-throughput, ultra-fast Gemini 2.5/3.5 models with failover
+const PRIMARY_MODEL = "gemini-2.5-flash";
+const FALLBACK_MODEL = "gemini-3.5-flash-lite";
 
 async function generateContentWithGemini(client, prompt) {
   try {

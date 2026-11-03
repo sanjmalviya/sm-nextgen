@@ -17,37 +17,10 @@ import {
 export default function PerformanceTab({ business, kpi }) {
   const [timeRange, setTimeRange] = useState("30D"); // 7D, 30D, 90D
 
-  const dataSets = {
-    "7D": {
-      calls: [14, 18, 22, 19, 25, 30, 28],
-      labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-      totalCalls: 156,
-      directions: 184,
-      website: 245,
-      impressions: "4,200"
-    },
-    "30D": {
-      calls: [95, 110, 135, 180],
-      labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
-      totalCalls: 520,
-      directions: 740,
-      website: 1020,
-      impressions: "16,840"
-    },
-    "90D": {
-      calls: [380, 440, 520],
-      labels: ["Month 1", "Month 2", "Month 3"],
-      totalCalls: 1340,
-      directions: 1980,
-      website: 2890,
-      impressions: "48,200"
-    }
-  };
-
   const isConnected = business?.googleConnected;
-  const currentData = isConnected ? dataSets[timeRange] : {
-    calls: [0, 0, 0, 0],
-    labels: timeRange === "7D" ? ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] : ["Week 1", "Week 2", "Week 3", "Week 4"],
+  const currentData = {
+    calls: [kpi?.calls || 0],
+    labels: [timeRange === "7D" ? "Last 7 Days" : timeRange === "30D" ? "Last 30 Days" : "Last 90 Days"],
     totalCalls: kpi?.calls || 0,
     directions: kpi?.directionRequests || 0,
     website: kpi?.websiteClicks || 0,
@@ -115,8 +88,8 @@ export default function PerformanceTab({ business, kpi }) {
             <Phone className="w-4 h-4 text-[#0097B2]" />
           </div>
           <div className="text-2xl sm:text-3xl font-extrabold text-white">{currentData.totalCalls}</div>
-          <div className="text-xs text-emerald-400 flex items-center gap-1">
-            <ArrowUpRight className="w-3.5 h-3.5" /> +24% vs prior period
+          <div className="text-xs text-slate-400 flex items-center gap-1">
+            <ArrowUpRight className="w-3.5 h-3.5 text-[#0097B2]" /> Verified Google Maps
           </div>
         </div>
 
@@ -126,8 +99,8 @@ export default function PerformanceTab({ business, kpi }) {
             <MapPin className="w-4 h-4 text-purple-400" />
           </div>
           <div className="text-2xl sm:text-3xl font-extrabold text-white">{currentData.directions}</div>
-          <div className="text-xs text-emerald-400 flex items-center gap-1">
-            <ArrowUpRight className="w-3.5 h-3.5" /> +18.4% vs prior period
+          <div className="text-xs text-slate-400 flex items-center gap-1">
+            <ArrowUpRight className="w-3.5 h-3.5 text-purple-400" /> Verified Google Maps
           </div>
         </div>
 
@@ -137,8 +110,8 @@ export default function PerformanceTab({ business, kpi }) {
             <Eye className="w-4 h-4 text-blue-400" />
           </div>
           <div className="text-2xl sm:text-3xl font-extrabold text-white">{currentData.website}</div>
-          <div className="text-xs text-emerald-400 flex items-center gap-1">
-            <ArrowUpRight className="w-3.5 h-3.5" /> +32.0% vs prior period
+          <div className="text-xs text-slate-400 flex items-center gap-1">
+            <ArrowUpRight className="w-3.5 h-3.5 text-blue-400" /> Verified Google Maps
           </div>
         </div>
 
@@ -148,8 +121,8 @@ export default function PerformanceTab({ business, kpi }) {
             <Search className="w-4 h-4 text-cyan-400" />
           </div>
           <div className="text-2xl sm:text-3xl font-extrabold text-white">{currentData.impressions}</div>
-          <div className="text-xs text-emerald-400 flex items-center gap-1">
-            <ArrowUpRight className="w-3.5 h-3.5" /> +41.5% discovery queries
+          <div className="text-xs text-slate-400 flex items-center gap-1">
+            <ArrowUpRight className="w-3.5 h-3.5 text-cyan-400" /> Discovery Queries
           </div>
         </div>
       </div>
@@ -161,7 +134,7 @@ export default function PerformanceTab({ business, kpi }) {
             <h3 className="font-heading font-extrabold text-base text-white">
               Phone Call Volume Trend ({timeRange})
             </h3>
-            <p className="text-xs text-slate-400">High-converting inbound patient inquiries from Google Maps Click-to-Call</p>
+            <p className="text-xs text-slate-400">High-converting inbound customer inquiries from Google Maps Click-to-Call</p>
           </div>
           <span className="text-xs font-mono font-bold text-[#0097B2]">
             Peak: {maxCall} Calls

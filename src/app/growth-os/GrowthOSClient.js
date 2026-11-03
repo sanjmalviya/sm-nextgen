@@ -303,21 +303,21 @@ export default function GrowthOSClient() {
   const handleLaunchDemo = () => {
     const demoUser = {
       id: "user-demo",
-      name: "Demo Explorer",
+      name: "Sanjay Malviya (Demo)",
       email: "demo@smnextgen.com",
       role: "DEMO",
       isDemo: true,
-      businessId: "biz-2",
-      businessName: "Lakeview Heritage Palace Resort",
+      businessId: "biz-1",
+      businessName: "SM NextGen",
       city: "Udaipur, Rajasthan",
       createdAt: new Date().toISOString()
     };
     setCurrentUser(demoUser);
     setHasCompletedProfile(true);
     setViewMode("app");
-    setActiveWorkspaceId("biz-2");
-    loadWorkspaceData("biz-2", workspaces);
-    showToast("Loaded 1-Click Interactive Demo Mode!");
+    setActiveWorkspaceId("biz-1");
+    loadWorkspaceData("biz-1", workspaces);
+    showToast("Loaded SM NextGen Live Profile Demo!");
   };
 
   const handleSignOut = async () => {
@@ -374,41 +374,42 @@ export default function GrowthOSClient() {
       phone: googleData.phone || currentBusiness.phone,
       website: googleData.website || currentBusiness.website,
       googleConnected: true,
-      placeId: googleData.placeId || "ChIJW1VvSMNextGenUdaipurHQ",
+      placeId: googleData.placeId || currentBusiness.placeId || "0x4452fc3201be4139:0xcc236a7cdf4cc286",
+      cid: googleData.cid || currentBusiness.cid || "14709717892477010566",
       gbpUrl: googleData.mapsUrl || currentBusiness.gbpUrl,
       lastSynced: "Just now",
       gbpVerified: true
     };
     handleUpdateWorkspace(currentBusiness.id, updatedBiz);
     
-    const verifiedRating = googleData.rating || 5.0;
-    const verifiedReviews = googleData.totalReviews || 47;
-    const activeReviews = (googleData.reviews && googleData.reviews.length > 0) ? googleData.reviews : SM_NEXTGEN_REVIEWS;
-    const activeOpps = (googleData.opportunities && googleData.opportunities.length > 0) ? googleData.opportunities : SM_NEXTGEN_OPPORTUNITIES;
+    const verifiedRating = googleData.rating !== undefined ? Number(googleData.rating) : (currentBusiness.rating || 5.0);
+    const verifiedReviews = googleData.totalReviews !== undefined ? Number(googleData.totalReviews) : (currentBusiness.totalReviews || 0);
+    const activeReviews = Array.isArray(googleData.reviews) ? googleData.reviews : [];
+    const activeOpps = Array.isArray(googleData.opportunities) && googleData.opportunities.length > 0 ? googleData.opportunities : DEFAULT_OPPORTUNITIES;
     const unanswered = activeReviews.filter(r => r.status === "UNANSWERED").length;
 
     const liveKpi = {
       rating: verifiedRating,
       totalReviews: verifiedReviews,
       unansweredReviews: unanswered,
-      profileCompleteness: 95,
-      calls: googleData.calls || 198,
-      callsChange: "+18%",
-      websiteClicks: googleData.websiteClicks || 402,
-      websiteClicksChange: "+26%",
-      directionRequests: googleData.directionRequests || 240,
-      directionsChange: "+14%",
-      searchImpressions: googleData.searchImpressions || 3854
+      profileCompleteness: 90,
+      calls: googleData.calls || 0,
+      callsChange: "+0%",
+      websiteClicks: googleData.websiteClicks || 0,
+      websiteClicksChange: "+0%",
+      directionRequests: googleData.directionRequests || 0,
+      directionsChange: "+0%",
+      searchImpressions: googleData.searchImpressions || 0
     };
     
     setKpi(liveKpi);
-    setAuditScore(88);
+    setAuditScore(85);
     setReviews(activeReviews);
     setOpportunities(activeOpps);
     
     storageService.saveWorkspaceState(currentBusiness.id, {
       kpi: liveKpi,
-      score: 88,
+      score: 85,
       reviews: activeReviews,
       opportunities: activeOpps,
       tasks: tasks,
