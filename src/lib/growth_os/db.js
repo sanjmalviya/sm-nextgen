@@ -35,7 +35,10 @@ const INITIAL_SCHEMA = {
   reviews: [],
   posts: [],
   settings: [],
-  integrations: []
+  integrations: [],
+  gmb_reviews: [],
+  gmb_telemetry: [],
+  password_resets: []
 };
 
 function readLocalDb() {
@@ -222,6 +225,9 @@ export const db = {
   audits: createCollection("audits", "audits"),
   tasks: createCollection("tasks", "tasks"),
   reviews: createCollection("reviews", "reviews"),
+  gmbReviews: createCollection("gmb_reviews", "gmb_reviews"),
+  gmbTelemetry: createCollection("gmb_telemetry", "gmb_telemetry"),
+  passwordResets: createCollection("password_resets", "password_resets"),
   posts: createCollection("posts", "posts"),
   settings: createCollection("settings", "settings"),
   integrations: createCollection("integrations", "integrations")

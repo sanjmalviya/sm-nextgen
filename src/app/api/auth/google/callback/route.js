@@ -60,7 +60,6 @@ export async function GET(req) {
     if (!user && googleEmail) {
       user = await db.users.findOne({ email: googleEmail });
       if (!user) {
-        // Create new user account for this Google email
         user = await db.users.insertOne({
           name: userData.name || googleEmail.split("@")[0],
           email: googleEmail,
@@ -74,9 +73,14 @@ export async function GET(req) {
       baseRedirect + "?google_connected=true&google_email=" + encodeURIComponent(googleEmail || "")
     );
 
-    // If user is resolved, set session cookie so they remain logged in
+    // Set session cookie
     if (user) {
-      const sessionToken = generateToken({ userId: user.id, role: user.role });
+      const sessionToken = generateToken({
+        userId: user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role
+      });
       setSessionCookie(response, sessionToken);
 
       // Locate or create workspace for user
@@ -102,7 +106,6 @@ export async function GET(req) {
       // Find or link active business
       let business = await db.businesses.findOne({ workspaceId });
       if (!business) {
-        // Check if there is an existing SM NextGen business we can link
         const existingSm = await db.businesses.findOne({ name: "SM NextGen" });
         if (existingSm) {
           business = existingSm;
@@ -120,6 +123,8 @@ export async function GET(req) {
         );
       }
 
+      const expiresAt = new Date(Date.now() + (tokenData.expires_in || 3600) * 1000).toISOString();
+
       // Upsert integration record
       const existingIntegration = await db.integrations.findOne({
         workspaceId,
@@ -135,6 +140,8 @@ export async function GET(req) {
             accountEmail: googleEmail,
             accessToken: tokenData.access_token,
             refreshToken: tokenData.refresh_token || existingIntegration.refreshToken,
+            tokenType: "Bearer",
+            expiresAt,
             lastSyncedAt: new Date().toISOString()
           }
         );
@@ -148,6 +155,8 @@ export async function GET(req) {
           scopes: ["business.manage", "openid", "email"],
           accessToken: tokenData.access_token,
           refreshToken: tokenData.refresh_token || null,
+          tokenType: "Bearer",
+          expiresAt,
           lastSyncedAt: new Date().toISOString()
         });
       }

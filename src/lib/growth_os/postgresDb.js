@@ -49,9 +49,25 @@ export function formatDocFromRow(row) {
   const doc = {};
   for (const [key, val] of Object.entries(row)) {
     const camelKey = toCamel(key);
-    // Special camelCase mappings for acronyms
+    // Special camelCase mappings for acronyms & schema fields
     if (key === "google_place_id") doc.googlePlaceId = val;
     else if (key === "google_maps_url") doc.googleMapsUrl = val;
+    else if (key === "google_review_id") doc.googleReviewId = val;
+    else if (key === "author_name") doc.authorName = val;
+    else if (key === "author_photo_url") doc.authorPhotoUrl = val;
+    else if (key === "review_text") doc.reviewText = val;
+    else if (key === "review_date") doc.reviewDate = val;
+    else if (key === "response_text") doc.responseText = val;
+    else if (key === "is_verified") doc.isVerified = Boolean(val);
+    else if (key === "search_impressions") doc.searchImpressions = Number(val) || 0;
+    else if (key === "maps_impressions") doc.mapsImpressions = Number(val) || 0;
+    else if (key === "website_clicks") doc.websiteClicks = Number(val) || 0;
+    else if (key === "call_clicks") doc.callClicks = Number(val) || 0;
+    else if (key === "direction_requests") doc.directionRequests = Number(val) || 0;
+    else if (key === "total_reviews") doc.totalReviews = Number(val) || 0;
+    else if (key === "gmb_rating") doc.gmbRating = Number(val) || 5.0;
+    else if (key === "gmb_review_count") doc.gmbReviewCount = Number(val) || 9;
+    else if (key === "store_code") doc.storeCode = val;
     else if (key === "owner_id") doc.ownerId = val;
     else if (key === "user_id") doc.userId = val;
     else if (key === "workspace_id") doc.workspaceId = val;
@@ -68,6 +84,10 @@ export function formatDocFromRow(row) {
     else if (key === "google_connected") doc.googleConnected = Boolean(val);
     else if (key === "notification_email") doc.notificationEmail = val;
     else if (key === "account_email") doc.accountEmail = val;
+    else if (key === "access_token") doc.accessToken = val;
+    else if (key === "refresh_token") doc.refreshToken = val;
+    else if (key === "token_type") doc.tokenType = val;
+    else if (key === "expires_at") doc.expiresAt = val instanceof Date ? val.toISOString() : val;
     else if (key === "completed_at") doc.completedAt = val;
     else if (key === "published_at") doc.publishedAt = val;
     else if (key === "scheduled_for") doc.scheduledFor = val;

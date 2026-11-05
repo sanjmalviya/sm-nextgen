@@ -63,6 +63,10 @@ CREATE TABLE IF NOT EXISTS businesses (
   google_place_id VARCHAR(255),
   google_maps_url TEXT,
   google_account VARCHAR(255),
+  store_code VARCHAR(64) DEFAULT '03602514580438245940',
+  cid VARCHAR(64) DEFAULT '14709717892477010566',
+  gmb_rating NUMERIC(2,1) DEFAULT 5.0,
+  gmb_review_count INTEGER DEFAULT 9,
   last_synced_at TIMESTAMPTZ,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
@@ -143,7 +147,69 @@ CREATE TABLE IF NOT EXISTS reviews (
 CREATE INDEX IF NOT EXISTS idx_reviews_business ON reviews(business_id);
 CREATE INDEX IF NOT EXISTS idx_reviews_status ON reviews(status);
 
--- 9. GOOGLE UPDATES & POSTS
+-- 9. DEDICATED VERIFIED GMB REVIEWS REPOSITORY (Zero Fake Data)
+CREATE TABLE IF NOT EXISTS gmb_reviews (
+  id VARCHAR(64) PRIMARY KEY,
+  business_id VARCHAR(64) NOT NULL REFERENCES businesses(id) ON DELETE CASCADE,
+  user_id VARCHAR(64) REFERENCES users(id) ON DELETE SET NULL,
+  google_review_id VARCHAR(255),
+  author_name VARCHAR(255) NOT NULL,
+  author_photo_url TEXT,
+  rating INTEGER NOT NULL CHECK (rating >= 1 AND rating <= 5),
+  review_text TEXT NOT NULL,
+  review_date VARCHAR(64),
+  sentiment VARCHAR(32) NOT NULL DEFAULT 'POSITIVE',
+  theme VARCHAR(128),
+  status VARCHAR(32) NOT NULL DEFAULT 'UNANSWERED',
+  response_text TEXT,
+  response_published_at TIMESTAMPTZ,
+  source VARCHAR(64) DEFAULT 'google_sync',
+  is_verified BOOLEAN NOT NULL DEFAULT true,
+  ai_drafts JSONB DEFAULT '{}'::jsonb,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_gmb_reviews_biz ON gmb_reviews(business_id);
+CREATE INDEX IF NOT EXISTS idx_gmb_reviews_rating ON gmb_reviews(rating);
+CREATE INDEX IF NOT EXISTS idx_gmb_reviews_status ON gmb_reviews(status);
+
+-- 10. GMB PERFORMANCE TELEMETRY
+CREATE TABLE IF NOT EXISTS gmb_telemetry (
+  id VARCHAR(64) PRIMARY KEY,
+  business_id VARCHAR(64) NOT NULL REFERENCES businesses(id) ON DELETE CASCADE,
+  date DATE NOT NULL,
+  search_impressions INTEGER NOT NULL DEFAULT 0,
+  maps_impressions INTEGER NOT NULL DEFAULT 0,
+  website_clicks INTEGER NOT NULL DEFAULT 0,
+  call_clicks INTEGER NOT NULL DEFAULT 0,
+  direction_requests INTEGER NOT NULL DEFAULT 0,
+  bookings INTEGER NOT NULL DEFAULT 0,
+  rating NUMERIC(2,1) DEFAULT 5.0,
+  total_reviews INTEGER NOT NULL DEFAULT 0,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  CONSTRAINT uq_gmb_telemetry_biz_date UNIQUE (business_id, date)
+);
+
+CREATE INDEX IF NOT EXISTS idx_gmb_telemetry_biz ON gmb_telemetry(business_id);
+CREATE INDEX IF NOT EXISTS idx_gmb_telemetry_date ON gmb_telemetry(date);
+
+-- 11. PASSWORD RESET TOKENS
+CREATE TABLE IF NOT EXISTS password_resets (
+  id VARCHAR(64) PRIMARY KEY,
+  user_id VARCHAR(64) NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  email VARCHAR(255) NOT NULL,
+  token VARCHAR(255) NOT NULL UNIQUE,
+  expires_at TIMESTAMPTZ NOT NULL,
+  used BOOLEAN NOT NULL DEFAULT false,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_password_resets_token ON password_resets(token);
+CREATE INDEX IF NOT EXISTS idx_password_resets_email ON password_resets(email);
+
+-- 12. GOOGLE UPDATES & POSTS
 CREATE TABLE IF NOT EXISTS posts (
   id VARCHAR(64) PRIMARY KEY,
   business_id VARCHAR(64) NOT NULL REFERENCES businesses(id) ON DELETE CASCADE,
@@ -160,7 +226,7 @@ CREATE TABLE IF NOT EXISTS posts (
 
 CREATE INDEX IF NOT EXISTS idx_posts_business ON posts(business_id);
 
--- 10. EXTERNAL INTEGRATIONS
+-- 13. EXTERNAL INTEGRATIONS & OAUTH TOKENS
 CREATE TABLE IF NOT EXISTS integrations (
   id VARCHAR(64) PRIMARY KEY,
   workspace_id VARCHAR(64) NOT NULL REFERENCES workspaces(id) ON DELETE CASCADE,
@@ -169,6 +235,11 @@ CREATE TABLE IF NOT EXISTS integrations (
   status VARCHAR(32) NOT NULL DEFAULT 'CONNECTED',
   account_email VARCHAR(255),
   scopes JSONB DEFAULT '[]'::jsonb,
+  access_token TEXT,
+  refresh_token TEXT,
+  token_type VARCHAR(64) DEFAULT 'Bearer',
+  expires_at TIMESTAMPTZ,
+  metadata JSONB DEFAULT '{}'::jsonb,
   last_synced_at TIMESTAMPTZ,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()

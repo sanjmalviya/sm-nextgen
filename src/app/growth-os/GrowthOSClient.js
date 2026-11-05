@@ -470,6 +470,24 @@ export default function GrowthOSClient() {
         method: "POST"
       });
       const syncData = await syncRes.json();
+
+      if (syncData.success && syncData.telemetry) {
+        setKpi(prev => ({
+          ...prev,
+          rating: syncData.telemetry.rating ?? prev.rating,
+          totalReviews: syncData.telemetry.totalReviews ?? prev.totalReviews,
+          unansweredReviews: syncData.telemetry.unansweredReviews ?? 0,
+          calls: syncData.telemetry.calls ?? prev.calls,
+          directions: syncData.telemetry.directions ?? prev.directions,
+          websiteClicks: syncData.telemetry.websiteClicks ?? prev.websiteClicks,
+          searchImpressions: syncData.telemetry.searchImpressions ?? prev.searchImpressions
+        }));
+      }
+
+      if (syncData.reviews && Array.isArray(syncData.reviews) && syncData.reviews.length > 0) {
+        setReviews(syncData.reviews);
+      }
+
       await refreshAllData();
 
       if (syncData.connected) {
@@ -788,11 +806,15 @@ export default function GrowthOSClient() {
             <button
               onClick={handleSync}
               disabled={isSyncing}
-              className="px-2.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium flex items-center gap-1.5 border border-slate-700/60 transition cursor-pointer"
-              title="Sync live telemetry from Google Maps"
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 border transition active:scale-95 cursor-pointer shadow-sm ${
+                isSyncing 
+                  ? "bg-[#0097B2]/20 border-[#0097B2]/50 text-[#0097B2]" 
+                  : "bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700/80 hover:border-[#0097B2]/50"
+              }`}
+              title="Sync live telemetry from Google Business Profile"
             >
-              <RefreshCw className={`w-3.5 h-3.5 ${isSyncing ? "animate-spin text-[#0097B2]" : "text-slate-400"}`} />
-              <span className="hidden sm:inline">Sync</span>
+              <RefreshCw className={`w-3.5 h-3.5 ${isSyncing ? "animate-spin text-[#0097B2]" : "text-[#0097B2]"}`} />
+              <span>{isSyncing ? "Syncing GBP..." : "Sync Now"}</span>
             </button>
 
             <div className="hidden sm:flex text-xs bg-slate-800/80 px-2 py-1 rounded-lg border border-slate-700 text-slate-300 font-mono">
