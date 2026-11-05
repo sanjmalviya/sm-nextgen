@@ -15,6 +15,7 @@ export async function GET(req) {
     return NextResponse.json({
       success: true,
       activeBusiness: business,
+      business: business,
       businesses: allBusinesses,
       isCompleted: Boolean(business && business.isCompleted)
     });

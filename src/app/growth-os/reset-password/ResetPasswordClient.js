@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { Lock, Mail, Key, CheckCircle2, AlertTriangle, Loader2, ArrowLeft, Zap } from "lucide-react";
+import { Lock, Mail, Key, CheckCircle2, AlertTriangle, Loader2, ArrowLeft, Zap, ShieldCheck } from "lucide-react";
+import { supabase } from "@/app/growth-os/lib/supabaseClient";
 
 export default function ResetPasswordClient() {
   const searchParams = useSearchParams();
@@ -13,6 +14,7 @@ export default function ResetPasswordClient() {
   const [token, setToken] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [isSupabaseRecovery, setIsSupabaseRecovery] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
@@ -25,6 +27,26 @@ export default function ResetPasswordClient() {
       if (emailParam) setEmail(emailParam);
       if (tokenParam) setToken(tokenParam);
     }
+
+    // Check for Supabase Auth recovery token in URL hash (#access_token=...&type=recovery)
+    if (typeof window !== "undefined") {
+      const hash = window.location.hash;
+      if (hash && (hash.includes("type=recovery") || hash.includes("access_token"))) {
+        setIsSupabaseRecovery(true);
+      }
+    }
+
+    if (supabase) {
+      const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+        if (event === "PASSWORD_RECOVERY") {
+          setIsSupabaseRecovery(true);
+          if (session?.user?.email) {
+            setEmail(session.user.email);
+          }
+        }
+      });
+      return () => subscription?.unsubscribe();
+    }
   }, [searchParams]);
 
   const handleSubmit = async (e) => {
@@ -32,8 +54,18 @@ export default function ResetPasswordClient() {
     setErrorMsg("");
     setSuccessMsg("");
 
-    if (!email || !token || !newPassword) {
-      setErrorMsg("Please provide your email, reset code, and new password.");
+    if (!email) {
+      setErrorMsg("Please enter your account email.");
+      return;
+    }
+
+    if (!isSupabaseRecovery && !token) {
+      setErrorMsg("Please enter the 6-digit verification code from your email.");
+      return;
+    }
+
+    if (!newPassword) {
+      setErrorMsg("Please choose your new password.");
       return;
     }
 
@@ -43,26 +75,42 @@ export default function ResetPasswordClient() {
     }
 
     if (newPassword !== confirmPassword) {
-      setErrorMsg("Passwords do not match.");
+      setErrorMsg("Passwords do not match. Please verify both password fields.");
       return;
     }
 
     setIsLoading(true);
     try {
+      if (isSupabaseRecovery && supabase) {
+        try {
+          const { error: sbUpdateErr } = await supabase.auth.updateUser({ password: newPassword });
+          if (sbUpdateErr) {
+            console.warn("Supabase updateUser notice:", sbUpdateErr.message);
+          }
+        } catch (sbE) {
+          console.warn("Supabase client updateUser exception:", sbE.message);
+        }
+      }
+
       const res = await fetch("/api/growth-os/auth/reset-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, token, newPassword })
+        body: JSON.stringify({
+          email: email.trim().toLowerCase(),
+          token: isSupabaseRecovery ? "SUPABASE_RECOVERY_SESSION" : token.trim(),
+          newPassword,
+          supabaseRecovered: isSupabaseRecovery
+        })
       });
 
       const data = await res.json();
       if (res.ok && data.success) {
-        setSuccessMsg("Password reset successfully! Redirecting to Growth OS...");
+        setSuccessMsg("Password reset successfully! Redirecting to your Growth OS dashboard...");
         setTimeout(() => {
           router.push("/growth-os");
         }, 1500);
       } else {
-        setErrorMsg(data.error || "Failed to reset password. Please verify your code.");
+        setErrorMsg(data.error || "Failed to reset password. Please check your verification code.");
       }
     } catch (err) {
       setErrorMsg("Network error: Could not reach authentication server.");
@@ -105,9 +153,18 @@ export default function ResetPasswordClient() {
               Create New Password
             </h2>
             <p className="text-xs text-slate-400">
-              Enter your account email, verification code, and your chosen new password.
+              {isSupabaseRecovery
+                ? "Your email recovery session is verified. Choose your new password below."
+                : "Enter your account email, 6-digit verification code, and your chosen new password."}
             </p>
           </div>
+
+          {isSupabaseRecovery && (
+            <div className="p-3.5 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs flex items-center gap-2">
+              <ShieldCheck className="w-4 h-4 text-cyan-400 shrink-0" />
+              <span>Verified via Secure Email Recovery Link</span>
+            </div>
+          )}
 
           {errorMsg && (
             <div className="p-3.5 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2">
@@ -125,7 +182,7 @@ export default function ResetPasswordClient() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="text-xs font-mono font-bold text-slate-300 block mb-1">Account Email</label>
+              <label className="text-xs font-mono font-bold text-slate-300 block mb-1">Account Email *</label>
               <div className="relative">
                 <Mail className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
                 <input
@@ -139,23 +196,25 @@ export default function ResetPasswordClient() {
               </div>
             </div>
 
-            <div>
-              <label className="text-xs font-mono font-bold text-slate-300 block mb-1">Reset Code / Token</label>
-              <div className="relative">
-                <Key className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
-                <input
-                  type="text"
-                  required
-                  value={token}
-                  onChange={(e) => setToken(e.target.value)}
-                  placeholder="Enter reset code"
-                  className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:ring-2 focus:ring-[#0097B2]"
-                />
+            {!isSupabaseRecovery && (
+              <div>
+                <label className="text-xs font-mono font-bold text-slate-300 block mb-1">Verification Code *</label>
+                <div className="relative">
+                  <Key className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+                  <input
+                    type="text"
+                    required
+                    value={token}
+                    onChange={(e) => setToken(e.target.value)}
+                    placeholder="Enter 6-digit code from email"
+                    className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs font-mono tracking-wider text-white focus:outline-none focus:ring-2 focus:ring-[#0097B2]"
+                  />
+                </div>
               </div>
-            </div>
+            )}
 
             <div>
-              <label className="text-xs font-mono font-bold text-slate-300 block mb-1">New Password (Min. 6 chars)</label>
+              <label className="text-xs font-mono font-bold text-slate-300 block mb-1">New Password * (Min. 6 chars)</label>
               <div className="relative">
                 <Lock className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
                 <input
@@ -170,7 +229,7 @@ export default function ResetPasswordClient() {
             </div>
 
             <div>
-              <label className="text-xs font-mono font-bold text-slate-300 block mb-1">Confirm New Password</label>
+              <label className="text-xs font-mono font-bold text-slate-300 block mb-1">Confirm New Password *</label>
               <div className="relative">
                 <Lock className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
                 <input
@@ -178,7 +237,7 @@ export default function ResetPasswordClient() {
                   required
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  placeholder="••••••••"
+                  placeholder="Repeat new password"
                   className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:ring-2 focus:ring-[#0097B2]"
                 />
               </div>
@@ -187,7 +246,7 @@ export default function ResetPasswordClient() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#0097B2] to-cyan-600 hover:from-[#007a91] hover:to-cyan-700 text-white font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-xl shadow-[#0097B2]/20 transition cursor-pointer disabled:opacity-50"
+              className="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/20 transition cursor-pointer disabled:opacity-50"
             >
               {isLoading ? (
                 <>
@@ -197,16 +256,26 @@ export default function ResetPasswordClient() {
               ) : (
                 <>
                   <CheckCircle2 className="w-4 h-4" />
-                  <span>Update Password & Sign In</span>
+                  <span>Save New Password & Enter Growth OS</span>
                 </>
               )}
             </button>
           </form>
+
+          <div className="text-center pt-2">
+            <Link
+              href="/growth-os"
+              className="text-xs text-slate-400 hover:text-white transition cursor-pointer"
+            >
+              Remember your password? Sign In
+            </Link>
+          </div>
         </div>
       </main>
 
-      <footer className="w-full max-w-7xl mx-auto px-4 py-4 text-center text-xs text-slate-600 border-t border-slate-900/60 relative z-10">
-        SM NextGen Growth OS Platform — Account Security
+      {/* Footer */}
+      <footer className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-6 border-t border-slate-900 text-center text-xs text-slate-500">
+        &copy; {new Date().getFullYear()} SM NextGen. Udaipur, Rajasthan. All rights reserved.
       </footer>
     </div>
   );

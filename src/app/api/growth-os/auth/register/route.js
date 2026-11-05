@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import db from "@/lib/growth_os/db";
+import { getPool } from "@/lib/growth_os/postgresDb";
 import { hashPassword, generateToken, setSessionCookie } from "@/lib/growth_os/auth";
 
 export async function POST(req) {
@@ -38,6 +39,27 @@ export async function POST(req) {
       passwordHash,
       role: "USER"
     });
+
+    // Synchronize into Supabase auth.users to support native password recovery & OAuth
+    const pool = getPool();
+    if (pool) {
+      try {
+        await pool.query(
+          `INSERT INTO auth.users (
+            id, instance_id, email, encrypted_password, email_confirmed_at,
+            created_at, updated_at, raw_app_meta_data, raw_user_meta_data,
+            is_super_admin, role, aud
+          ) VALUES (
+            gen_random_uuid(), '00000000-0000-0000-0000-000000000000', $1, $2, NOW(),
+            NOW(), NOW(), '{"provider":"email","providers":["email"]}', $3,
+            false, 'authenticated', 'authenticated'
+          ) ON CONFLICT (email) DO UPDATE SET encrypted_password = EXCLUDED.encrypted_password, updated_at = NOW()`,
+          [cleanEmail, passwordHash, JSON.stringify({ name: name.trim() })]
+        );
+      } catch (authErr) {
+        console.warn("[REGISTER AUTH SYNC] Notice syncing to auth.users:", authErr.message);
+      }
+    }
 
     // Auto-create initial workspace for user
     const workspace = await db.workspaces.insertOne({

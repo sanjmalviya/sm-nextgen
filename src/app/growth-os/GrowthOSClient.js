@@ -102,14 +102,29 @@ export default function GrowthOSClient() {
       const bizRes = await fetch("/api/growth-os/business");
       if (bizRes.ok) {
         const bizData = await bizRes.json();
-        if (bizData.business) {
+        const biz = bizData.activeBusiness || bizData.business;
+        if (biz) {
+          const formattedBiz = {
+            ...biz,
+            rating: biz.gmbRating ? Number(biz.gmbRating) : 5.0,
+            totalReviews: biz.gmbReviewCount ? Number(biz.gmbReviewCount) : 9,
+            storeCode: biz.storeCode || biz.googlePlaceId || "03602514580438245940",
+            cid: biz.cid || "14709717892477010566",
+            placeId: biz.googlePlaceId || "03602514580438245940",
+            gbpUrl: biz.googleMapsUrl || "https://www.google.com/maps/place/SM+NextGen/@24.5869375,73.7379375,17z/data=!3m1!4b1!4m6!3m5!1s0x4452fc3201be4139:0xcc236a7cdf4cc286!8m2!3d24.5869375!4d73.7379375!16s%2Fg%2F11n49dydt9?entry=ttu"
+          };
           setWorkspaces(prev => {
-            const exists = prev.some(w => w.id === bizData.business.id);
+            const exists = prev.some(w => w.id === biz.id);
             return exists 
-              ? prev.map(w => w.id === bizData.business.id ? bizData.business : w) 
-              : [bizData.business, ...prev];
+              ? prev.map(w => w.id === biz.id ? { ...w, ...formattedBiz } : w) 
+              : [formattedBiz, ...prev];
           });
-          setActiveWorkspaceId(bizData.business.id);
+          setActiveWorkspaceId(biz.id);
+          setKpi(prev => ({
+            ...prev,
+            rating: formattedBiz.rating,
+            totalReviews: formattedBiz.totalReviews
+          }));
         }
       }
 

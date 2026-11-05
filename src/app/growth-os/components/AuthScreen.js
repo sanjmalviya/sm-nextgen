@@ -43,6 +43,7 @@ export default function AuthScreen({ onLoginSuccess, onBackToLanding }) {
   const [resetEmail, setResetEmail] = useState("");
   const [resetCode, setResetCode] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [resetStep, setResetStep] = useState(1); // 1 = request, 2 = enter code & new pass
 
   const [errorMsg, setErrorMsg] = useState("");
@@ -158,10 +159,8 @@ export default function AuthScreen({ onLoginSuccess, onBackToLanding }) {
 
       const data = await res.json();
       if (res.ok && data.success) {
-        setSuccessMsg(data.message || "Reset instructions generated. Enter the code below to reset your password.");
-        if (data.resetCode) {
-          setResetCode(data.resetCode);
-        }
+        setSuccessMsg(data.message || `A verification code was sent to ${resetEmail}. Please check your inbox or spam folder.`);
+        setResetCode(""); // ZERO AUTO-FILL: Never auto-fill; wait for real code from email
         setResetStep(2);
       } else {
         setErrorMsg(data.error || "Could not process password reset request.");
@@ -180,12 +179,17 @@ export default function AuthScreen({ onLoginSuccess, onBackToLanding }) {
     setSuccessMsg("");
 
     if (!resetCode.trim() || !newPassword.trim()) {
-      setErrorMsg("Please enter the reset code and your new password.");
+      setErrorMsg("Please enter the verification code and your new password.");
       return;
     }
 
     if (newPassword.length < 6) {
       setErrorMsg("New password must be at least 6 characters long.");
+      return;
+    }
+
+    if (confirmNewPassword && newPassword !== confirmNewPassword) {
+      setErrorMsg("New passwords do not match. Please re-enter.");
       return;
     }
 
@@ -593,33 +597,63 @@ export default function AuthScreen({ onLoginSuccess, onBackToLanding }) {
                 </form>
               ) : (
                 <form onSubmit={handleCompleteReset} className="space-y-4">
+                  <div className="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 text-xs text-slate-300 space-y-1.5">
+                    <div className="font-bold text-white flex items-center gap-1.5">
+                      <Mail className="w-3.5 h-3.5 text-[#0097B2]" />
+                      <span>Code Sent to: <strong className="text-cyan-300">{resetEmail}</strong></span>
+                    </div>
+                    <p className="text-[11px] text-slate-400 leading-relaxed">
+                      Please check your inbox (and spam/junk folder) for your 6-digit verification code. Enter it below to set your new password.
+                    </p>
+                  </div>
+
                   <div>
-                    <label className="text-xs font-mono font-bold text-slate-300 block mb-1">Verification Code / Token</label>
+                    <label className="text-xs font-mono font-bold text-slate-300 block mb-1">
+                      Enter 6-Digit Verification Code *
+                    </label>
                     <div className="relative">
                       <Key className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
                       <input
                         type="text"
                         required
+                        autoFocus
                         value={resetCode}
                         onChange={(e) => setResetCode(e.target.value)}
-                        placeholder="Enter 6-digit code or token"
-                        className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:ring-2 focus:ring-[#0097B2]"
+                        placeholder="Enter 6-digit code from email"
+                        className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs font-mono tracking-wider text-white focus:outline-none focus:ring-2 focus:ring-[#0097B2]"
                       />
                     </div>
                   </div>
 
-                  <div>
-                    <label className="text-xs font-mono font-bold text-slate-300 block mb-1">New Password (Min. 6 chars)</label>
-                    <div className="relative">
-                      <Lock className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
-                      <input
-                        type="password"
-                        required
-                        value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
-                        placeholder="••••••••"
-                        className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:ring-2 focus:ring-[#0097B2]"
-                      />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="text-xs font-mono font-bold text-slate-300 block mb-1">New Password *</label>
+                      <div className="relative">
+                        <Lock className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+                        <input
+                          type="password"
+                          required
+                          value={newPassword}
+                          onChange={(e) => setNewPassword(e.target.value)}
+                          placeholder="Min. 6 chars"
+                          className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:ring-2 focus:ring-[#0097B2]"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="text-xs font-mono font-bold text-slate-300 block mb-1">Confirm Password *</label>
+                      <div className="relative">
+                        <Lock className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+                        <input
+                          type="password"
+                          required
+                          value={confirmNewPassword}
+                          onChange={(e) => setConfirmNewPassword(e.target.value)}
+                          placeholder="Repeat password"
+                          className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:ring-2 focus:ring-[#0097B2]"
+                        />
+                      </div>
                     </div>
                   </div>
 
@@ -636,18 +670,27 @@ export default function AuthScreen({ onLoginSuccess, onBackToLanding }) {
                     ) : (
                       <>
                         <CheckCircle2 className="w-4 h-4" />
-                        <span>Reset Password & Enter Growth OS</span>
+                        <span>Verify Code & Reset Password</span>
                       </>
                     )}
                   </button>
 
-                  <div className="text-center pt-2">
+                  <div className="pt-2 flex items-center justify-between text-xs text-slate-400">
                     <button
                       type="button"
                       onClick={() => { setResetStep(1); setErrorMsg(""); }}
-                      className="text-xs text-slate-400 hover:text-white transition cursor-pointer"
+                      className="hover:text-white transition cursor-pointer flex items-center gap-1"
                     >
-                      Didn't get code? Resend
+                      <ArrowLeft className="w-3 h-3" />
+                      <span>Change email</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleRequestReset}
+                      disabled={isLoading}
+                      className="text-[#0097B2] hover:underline transition cursor-pointer"
+                    >
+                      Didn't receive email? Resend
                     </button>
                   </div>
                 </form>

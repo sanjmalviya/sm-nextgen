@@ -1,15 +1,16 @@
 import { NextResponse } from "next/server";
 import db from "@/lib/growth_os/db";
+import { getPool } from "@/lib/growth_os/postgresDb";
 import { hashPassword, generateToken, setSessionCookie } from "@/lib/growth_os/auth";
 
 export async function POST(req) {
   try {
     const body = await req.json();
-    const { email, token, newPassword } = body;
+    const { email, token, newPassword, supabaseRecovered } = body;
 
-    if (!email || !token || !newPassword) {
+    if (!email || (!token && !supabaseRecovered) || !newPassword) {
       return NextResponse.json(
-        { error: "Email, reset token/code, and new password are required." },
+        { error: "Email, verification token/code, and new password are required." },
         { status: 400 }
       );
     }
@@ -22,52 +23,77 @@ export async function POST(req) {
     }
 
     const cleanEmail = email.trim().toLowerCase();
-    const cleanToken = token.trim();
 
-    // Find valid token matching cleanToken or matching prefix code
-    const resetRecords = await db.passwordResets.find({ email: cleanEmail, used: false });
-    const matching = resetRecords.find(r => 
-      r.token === cleanToken || 
-      r.token.startsWith(cleanToken + "-") ||
-      cleanToken.includes(r.token)
-    );
-
-    if (!matching) {
-      return NextResponse.json(
-        { error: "Invalid or expired password reset code. Please request a new code." },
-        { status: 400 }
-      );
-    }
-
-    // Check expiry
-    const expiresAt = new Date(matching.expiresAt).getTime();
-    if (Date.now() > expiresAt) {
-      return NextResponse.json(
-        { error: "This password reset code has expired. Please request a new one." },
-        { status: 400 }
-      );
-    }
-
-    // Find target user
+    // Find target user in database
     const user = await db.users.findOne({ email: cleanEmail });
     if (!user) {
-      return NextResponse.json({ error: "User account not found." }, { status: 404 });
+      return NextResponse.json({ error: "No account found matching this email address." }, { status: 404 });
     }
 
-    // Hash new password and update
+    let matching = null;
+    if (!supabaseRecovered) {
+      const cleanToken = token.trim();
+      // Find valid token matching cleanToken or matching 6-digit prefix
+      const resetRecords = await db.passwordResets.find({ email: cleanEmail, used: false });
+      matching = resetRecords.find(r =>
+        r.token === cleanToken ||
+        r.token.startsWith(cleanToken + "-") ||
+        cleanToken.includes(r.token)
+      );
+
+      if (!matching) {
+        return NextResponse.json(
+          { error: "Invalid or expired verification code. Please check your email or request a new code." },
+          { status: 400 }
+        );
+      }
+
+      // Check expiry
+      const expiresAt = new Date(matching.expiresAt).getTime();
+      if (Date.now() > expiresAt) {
+        return NextResponse.json(
+          { error: "This verification code has expired. Please request a new code." },
+          { status: 400 }
+        );
+      }
+    }
+
+    // Hash new password using bcrypt
     const newHash = await hashPassword(newPassword);
+
+    // Update password in public.users
     await db.users.updateOne(
       { id: user.id },
       { passwordHash: newHash }
     );
 
-    // Mark reset record as used
-    await db.passwordResets.updateOne(
-      { id: matching.id },
-      { used: true }
-    );
+    // Synchronize new password to Supabase auth.users
+    const pool = getPool();
+    if (pool) {
+      try {
+        await pool.query(
+          "UPDATE auth.users SET encrypted_password = $1, updated_at = NOW() WHERE email = $2",
+          [newHash, cleanEmail]
+        );
+      } catch (authErr) {
+        console.warn("[AUTH UPDATE SYNC] Could not sync password to auth.users:", authErr.message);
+      }
+    }
 
-    // Auto-login user with fresh session token
+    // Invalidate reset records
+    if (matching) {
+      await db.passwordResets.updateOne(
+        { id: matching.id },
+        { used: true }
+      );
+    } else {
+      await db.passwordResets.updateMany(
+        { email: cleanEmail, used: false },
+        { used: true }
+      );
+    }
+
+    // Issue fresh session token
     const sessionToken = generateToken({
       userId: user.id,
       email: user.email,
@@ -98,7 +124,7 @@ export async function POST(req) {
   } catch (err) {
     console.error("Reset Password Error:", err);
     return NextResponse.json(
-      { error: "An unexpected error occurred while resetting your password." },
+      { error: "An unexpected error occurred while resetting password. Please try again." },
       { status: 500 }
     );
   }
