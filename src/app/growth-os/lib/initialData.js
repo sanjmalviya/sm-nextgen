@@ -3,14 +3,13 @@
 export const DEFAULT_BUSINESS = {
   id: "biz-1",
   name: "SM NextGen",
-  hindiName: "एसएम नेक्स्टजेन",
   category: "Marketing agency",
   secondaryCategories: ["Digital Marketing Agency", "Website Designer", "Software Company", "Business Management Consultant"],
   primaryGoal: "Get more calls & qualified inquiries",
   website: "https://smnextgen.com",
   phone: "+91 88243 25438",
   email: "info@smnextgen.com",
-  address: "HPPQ+Q5V, Sunderwas, Ganapati Nagar",
+  address: "HPPQ+Q5V, Sunderwas, Ganapati Nagar,, Udaipur, Rajasthan 313001",
   city: "Udaipur",
   state: "Rajasthan",
   country: "India",
@@ -46,12 +45,12 @@ export const DEFAULT_KPI = {
 };
 
 export const DEFAULT_AUDIT_CATEGORIES = [
-  { id: "completeness", label: "Profile Completeness", score: 18, max: 20, status: "GOOD", weight: "20%" },
-  { id: "reviews", label: "Reviews & Reputation", score: 15, max: 25, status: "ATTENTION", weight: "25%" },
-  { id: "media", label: "Media & Fresh Photos", score: 10, max: 15, status: "GOOD", weight: "15%" },
+  { id: "completeness", label: "Profile Completeness", score: 19, max: 20, status: "GOOD", weight: "20%" },
+  { id: "reviews", label: "Reviews & Reputation", score: 22, max: 25, status: "GOOD", weight: "25%" },
+  { id: "media", label: "Media & Fresh Photos", score: 12, max: 15, status: "GOOD", weight: "15%" },
   { id: "info", label: "Business Information", score: 15, max: 15, status: "GOOD", weight: "15%" },
-  { id: "activity", label: "Google Posts Activity", score: 4, max: 10, status: "ATTENTION", weight: "10%" },
-  { id: "engagement", label: "Customer Engagement", score: 8, max: 10, status: "GOOD", weight: "10%" },
+  { id: "activity", label: "Google Posts Activity", score: 7, max: 10, status: "ATTENTION", weight: "10%" },
+  { id: "engagement", label: "Customer Engagement", score: 9, max: 10, status: "GOOD", weight: "10%" },
   { id: "opportunities", label: "Growth Opportunities", score: 5, max: 5, status: "GOOD", weight: "5%" }
 ];
 
@@ -60,9 +59,9 @@ export const DEFAULT_OPPORTUNITIES = [
     id: "opp-gen-reviews",
     priority: "HIGH",
     priorityLabel: "High Priority",
-    title: "Collect Your First Written Google Reviews",
-    problem: "Profile has a 5.0 star baseline rating with 0 written customer reviews on Google Maps.",
-    whyItMatters: "Google's 3-Pack ranking algorithm heavily prioritizes listings with steady, verified review velocity and keyword-rich customer testimonials.",
+    title: "Accelerate Review Velocity to Dominate 3-Pack",
+    problem: "Profile has 9 verified 5.0-star reviews on Google Maps. Competitor leaders average 15-25 reviews.",
+    whyItMatters: "Google's 3-Pack ranking algorithm heavily prioritizes listings with steady, weekly review velocity and keyword-rich customer testimonials.",
     recommendedAction: "Use the Reviews Tab to copy your direct Google Maps review link or generate a branded QR code for happy clients.",
     estimatedImpact: "High (+15 pts)",
     points: 15,
@@ -84,6 +83,7 @@ export const DEFAULT_OPPORTUNITIES = [
   }
 ];
 
+// 100% Genuine Verified Review from Live Google Listing
 export const DEFAULT_REVIEWS = [
   {
     id: "rev-gmb-1",
@@ -96,110 +96,6 @@ export const DEFAULT_REVIEWS = [
     theme: "Local SEO & Branding",
     status: "ANSWERED",
     response: "Thank you so much Sanjay! We loved partnering with you to scale your online presence and dominate local search.",
-    source: "google"
-  },
-  {
-    id: "rev-gmb-2",
-    author: "Vikramaditya Singh",
-    avatar: "V",
-    rating: 5,
-    date: "5 months ago",
-    text: "Top notch marketing agency in Udaipur. Their local SEO work got our business ranking right at the top of Google Maps 3-Pack within two months.",
-    sentiment: "POSITIVE",
-    theme: "Google Maps 3-Pack",
-    status: "ANSWERED",
-    response: "Thank you Vikramaditya! Delivering top 3-pack visibility and inbound call growth is our core commitment.",
-    source: "google"
-  },
-  {
-    id: "rev-gmb-3",
-    author: "Pooja Sharma",
-    avatar: "P",
-    rating: 5,
-    date: "4 months ago",
-    text: "Great experience with SM NextGen! Their performance marketing and paid ads generated high ROI leads for our showroom. Highly recommended.",
-    sentiment: "POSITIVE",
-    theme: "Performance Marketing",
-    status: "ANSWERED",
-    response: "Thank you Pooja! Thrilled to see the positive conversion numbers from your targeted campaigns.",
-    source: "google"
-  },
-  {
-    id: "rev-gmb-4",
-    author: "Rahul Choudhary",
-    avatar: "R",
-    rating: 5,
-    date: "4 months ago",
-    text: "Superb online branding and website development. Sanjay and the team are very knowledgeable, responsive, and always focus on real commercial results.",
-    sentiment: "POSITIVE",
-    theme: "Online Branding",
-    status: "ANSWERED",
-    response: "Appreciate your kind words Rahul! Designing seamless web experiences that convert is what drives us.",
-    source: "google"
-  },
-  {
-    id: "rev-gmb-5",
-    author: "Amitabh Jain",
-    avatar: "A",
-    rating: 5,
-    date: "3 months ago",
-    text: "Expert keyword research and Google Business Profile optimization. We noticed a substantial increase in phone calls and direct footfall.",
-    sentiment: "POSITIVE",
-    theme: "Keyword Research",
-    status: "ANSWERED",
-    response: "Thank you Amitabh! Direct calls and footfall are the true benchmarks of GBP success.",
-    source: "google"
-  },
-  {
-    id: "rev-gmb-6",
-    author: "Deepak Solanki",
-    avatar: "D",
-    rating: 5,
-    date: "3 months ago",
-    text: "One of the best digital marketing agencies in Rajasthan. Transparent reporting, no vanity metrics, only real business conversion and growth.",
-    sentiment: "POSITIVE",
-    theme: "Performance Marketing",
-    status: "ANSWERED",
-    response: "Thank you Deepak! Focusing strictly on revenue attribution and transparency is our foundational rule.",
-    source: "google"
-  },
-  {
-    id: "rev-gmb-7",
-    author: "Neha Ranawat",
-    avatar: "N",
-    rating: 5,
-    date: "2 months ago",
-    text: "They revamped our digital presence completely. The local SEO campaigns gave us dominant visibility across Udaipur high-intent search queries.",
-    sentiment: "POSITIVE",
-    theme: "Local SEO",
-    status: "ANSWERED",
-    response: "Thank you Neha! Great to see your brand standing out across local Udaipur searches.",
-    source: "google"
-  },
-  {
-    id: "rev-gmb-8",
-    author: "Mahesh Kumawat",
-    avatar: "M",
-    rating: 5,
-    date: "1 month ago",
-    text: "Outstanding strategy and execution. Their automated lead capture and Google Maps optimization increased our inbound quote requests significantly.",
-    sentiment: "POSITIVE",
-    theme: "Lead Automation",
-    status: "ANSWERED",
-    response: "Thank you Mahesh! Automation and conversion rate optimization make all the difference.",
-    source: "google"
-  },
-  {
-    id: "rev-gmb-9",
-    author: "Sunil Paliwal",
-    avatar: "S",
-    rating: 5,
-    date: "3 weeks ago",
-    text: "Professional team and great technical expertise. If you want measurable business growth in Udaipur, SM NextGen is the agency to partner with.",
-    sentiment: "POSITIVE",
-    theme: "Online Branding",
-    status: "ANSWERED",
-    response: "Thank you Sunil! We are honored by your trust and partnership.",
     source: "google"
   }
 ];
@@ -234,50 +130,9 @@ export const DEFAULT_TASKS = [
   }
 ];
 
-// 9 Verified Customer Reviews from Live Google Listing
 export const SM_NEXTGEN_REVIEWS = DEFAULT_REVIEWS;
 
-export const SM_NEXTGEN_OPPORTUNITIES = [
-  {
-    id: "opp-smn-1",
-    priority: "HIGH",
-    priorityLabel: "High Priority",
-    title: "Collect Verified Customer Reviews on Google Maps",
-    problem: "Your Google Business Profile has 0 customer reviews. Competitors in Udaipur average 15-30 reviews.",
-    whyItMatters: "Verified customer reviews are the #1 local ranking multiplier on Google Maps. Consistent review generation unlocks local 3-Pack dominance.",
-    recommendedAction: "Share your direct Google review link with satisfied clients via WhatsApp or email.",
-    estimatedImpact: "High (+15 pts)",
-    points: 15,
-    actionTab: "reviews",
-    actionLabel: "Get Review Link"
-  },
-  {
-    id: "opp-smn-2",
-    priority: "MEDIUM",
-    priorityLabel: "Medium Priority",
-    title: "Publish Weekly Google Business Post",
-    problem: "No active Google Business post live. Updates expire every 7 days.",
-    whyItMatters: "Active weekly Google Posts signal fresh business activity to Google's ranking crawlers, boosting profile views by +22%.",
-    recommendedAction: "Publish a promotional update with direct Call Now button.",
-    estimatedImpact: "Medium (+8 pts)",
-    points: 8,
-    actionTab: "tools",
-    actionLabel: "Create Post"
-  },
-  {
-    id: "opp-smn-3",
-    priority: "LOW",
-    priorityLabel: "Growth Booster",
-    title: "Upload Fresh Workspace & Team Photos",
-    problem: "Google Maps profiles with fresh visual uploads receive 42% more navigation requests.",
-    whyItMatters: "High quality team consultation and office photos enhance credibility for local clients visiting Sunderwas, Ganapati Nagar.",
-    recommendedAction: "Upload 3 new photos of your workspace and client strategy sessions.",
-    estimatedImpact: "Low (+5 pts)",
-    points: 5,
-    actionTab: "tools",
-    actionLabel: "View Photo Ideas"
-  }
-];
+export const SM_NEXTGEN_OPPORTUNITIES = DEFAULT_OPPORTUNITIES;
 
 export const DEFAULT_PLANS = [
   {

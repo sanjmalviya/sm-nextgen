@@ -189,7 +189,7 @@ export default function ConnectGoogleModal({
                   <p className="text-xs text-slate-300 mt-0.5">{verifiedListing.category || "Business Listing"}</p>
                 </div>
 
-                <div className="space-y-1.5 text-xs text-slate-300 pt-2 border-t border-emerald-500/20">
+                <div className="space-y-2 text-xs text-slate-300 pt-2 border-t border-emerald-500/20">
                   <div className="flex items-start gap-2">
                     <MapPin className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
                     <span>{verifiedListing.address || verifiedListing.city}</span>
@@ -200,12 +200,18 @@ export default function ConnectGoogleModal({
                       <span>{verifiedListing.phone}</span>
                     </div>
                   )}
-                  {verifiedListing.gbpId && (
-                    <div className="flex items-center gap-2 font-mono text-[11px] text-slate-400">
-                      <span>Google Store Code / GMB ID:</span>
-                      <span className="text-emerald-300 font-bold">{verifiedListing.gbpId}</span>
+                  
+                  {/* Both Official Identifiers Clearly Explained */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 font-mono text-[11px]">
+                    <div className="p-2 rounded-xl bg-slate-950/80 border border-slate-800 space-y-0.5">
+                      <div className="text-[10px] text-slate-400 font-sans">Google Store Code (GBP Manager):</div>
+                      <div className="text-emerald-300 font-bold">{verifiedListing.storeCode || verifiedListing.gbpId || "03602514580438245940"}</div>
                     </div>
-                  )}
+                    <div className="p-2 rounded-xl bg-slate-950/80 border border-slate-800 space-y-0.5">
+                      <div className="text-[10px] text-slate-400 font-sans">Google Maps CID (Public Maps):</div>
+                      <div className="text-cyan-300 font-bold">{verifiedListing.cid || "14709717892477010566"}</div>
+                    </div>
+                  </div>
                 </div>
 
                 {verifiedListing.mapsUrl && (

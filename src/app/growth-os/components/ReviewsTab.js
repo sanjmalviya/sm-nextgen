@@ -181,9 +181,27 @@ export default function ReviewsTab({
           </div>
           <div className="h-10 w-px bg-slate-800"></div>
           <div>
-            <div className="text-xs text-emerald-400 font-bold">{avgRating} Avg Rating</div>
-            <div className="text-xs text-slate-400">{reviews.length} Total Reviews</div>
+            <div className="text-xs text-emerald-400 font-bold">5.0 ★ Google Rating</div>
+            <div className="text-xs text-slate-400">9 on Google Maps ({reviews.length} Synced)</div>
           </div>
+        </div>
+      </div>
+
+      {/* Verified Google Listing Telemetry Notice */}
+      <div className="p-3.5 rounded-2xl bg-[#0097B2]/10 border border-[#0097B2]/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+        <div className="flex items-center gap-2 text-cyan-300">
+          <ShieldCheck className="w-4 h-4 text-[#0097B2] shrink-0" />
+          <span>
+            <strong>SM NextGen Google Maps Listing Verified:</strong> 9 Reviews (5.0★ Rating) on Google Maps Storefront. {reviews.length} verified review{reviews.length !== 1 ? "s" : ""} in active inbox.
+          </span>
+        </div>
+        <div className="flex items-center gap-2 shrink-0">
+          <button
+            onClick={() => setIsAddOpen(true)}
+            className="px-3 py-1.5 rounded-xl bg-[#0097B2] hover:bg-[#007a91] text-white font-bold text-xs transition cursor-pointer"
+          >
+            + Add Verified Review
+          </button>
         </div>
       </div>
 

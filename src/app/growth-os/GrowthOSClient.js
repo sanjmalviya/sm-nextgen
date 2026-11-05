@@ -389,8 +389,10 @@ export default function GrowthOSClient() {
       phone: googleData.phone || currentBusiness.phone,
       website: googleData.website || currentBusiness.website,
       googleConnected: true,
-      placeId: googleData.placeId || currentBusiness.placeId || "0x4452fc3201be4139:0xcc236a7cdf4cc286",
+      storeCode: googleData.storeCode || currentBusiness.storeCode || "03602514580438245940",
+      placeId: googleData.placeId || currentBusiness.placeId || "03602514580438245940",
       cid: googleData.cid || currentBusiness.cid || "14709717892477010566",
+      gbpId: googleData.storeCode || "03602514580438245940",
       gbpUrl: googleData.mapsUrl || currentBusiness.gbpUrl,
       lastSynced: "Just now",
       gbpVerified: true
@@ -460,13 +462,27 @@ export default function GrowthOSClient() {
     showToast("Google Business Profile disconnected. Dashboard reset to blank state.");
   };
 
-  // Live Sync Simulation
-  const handleSync = () => {
+  // Live Real Google Business Profile Sync
+  const handleSync = async () => {
     setIsSyncing(true);
-    setTimeout(() => {
+    try {
+      const syncRes = await fetch("/api/growth-os/integrations/google/sync", {
+        method: "POST"
+      });
+      const syncData = await syncRes.json();
+      await refreshAllData();
+
+      if (syncData.connected) {
+        showToast(syncData.message || "Live Google Business Profile synced successfully!");
+      } else {
+        showToast(syncData.message || "Connect Google OAuth to enable continuous telemetry sync.");
+      }
+    } catch (err) {
+      console.error("Live sync failed:", err);
+      showToast("Sync error: " + (err.message || "Could not reach server."));
+    } finally {
       setIsSyncing(false);
-      showToast("Google Business Profile synced with Google Maps API!");
-    }, 1100);
+    }
   };
 
   // Opportunity Handlers
