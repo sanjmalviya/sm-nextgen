@@ -13,7 +13,7 @@ module.exports = {
         surface: '#F8FAFC', light: '#E6EEF2', white: '#FFFFFF',
         accent: '#FFD700', green: '#10B981', red: '#EF4444'
       },
-      fontFamily: { heading: ['Poppins', 'sans-serif'], body: ['Inter', 'sans-serif'] },
+      fontFamily: { heading: ['Poppins', 'sans-serif'], subheading: ['Montserrat', 'sans-serif'], body: ['Inter', 'sans-serif'] },
       animation: { 'blob': 'blob 7s infinite', 'float': 'float 6s ease-in-out infinite' }
     }
   },

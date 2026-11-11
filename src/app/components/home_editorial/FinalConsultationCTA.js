@@ -83,21 +83,21 @@ export default function FinalConsultationCTA() {
             </h2>
 
             <p className="text-base sm:text-lg text-slate-300 font-light leading-relaxed max-w-xl">
-              Schedule a confidential growth consultation with our leadership team. We will audit your acquisition bottlenecks and outline a connected scaling roadmap.
+              Book a confidential session with our senior strategists to spot acquisition bottlenecks and map your next growth stage.
             </p>
 
             <div className="space-y-3 pt-2 max-w-lg mx-auto lg:mx-0 text-left">
               <div className="flex items-center gap-3 text-xs sm:text-sm text-slate-200">
                 <CheckCircle2 className="w-4 h-4 text-[#0097B2] shrink-0" />
-                <span>Direct session with Senior Principals (Zero junior hand-offs)</span>
+                <span>Direct session with Senior Growth Leads</span>
               </div>
               <div className="flex items-center gap-3 text-xs sm:text-sm text-slate-200">
                 <CheckCircle2 className="w-4 h-4 text-[#0097B2] shrink-0" />
-                <span>Actionable bottleneck diagnostic with zero sales pressure</span>
+                <span>Actionable bottleneck review, zero sales pressure</span>
               </div>
               <div className="flex items-center gap-3 text-xs sm:text-sm text-slate-200">
                 <CheckCircle2 className="w-4 h-4 text-[#0097B2] shrink-0" />
-                <span>Complete commercial NDA protection for your business data</span>
+                <span>Strict commercial NDA confidentiality</span>
               </div>
             </div>
 

@@ -15,42 +15,42 @@ export default function GrowthOSShowcase() {
       title: "Google Business Ownership Gate",
       status: "LIVE & OPERATIONAL",
       isLive: true,
-      desc: "Strict anti-spoofing ownership verification preventing competitors from claiming your Google profile without matching credentials or GBP ID.",
+      desc: "Verified profile linking using your authorized Google account or GBP ID.",
       badge: "Security & Auth"
     },
     {
       title: "24-Point Diagnostic Growth Audit",
       status: "LIVE & OPERATIONAL",
       isLive: true,
-      desc: "Instant weighted diagnostic scoring across completeness, reviews, media freshness, Google Posts, and customer engagement.",
+      desc: "Weighted scoring across completeness, reviews, media, posts, and engagement.",
       badge: "Audit Engine"
     },
     {
       title: "AI Review Auto-Responder",
       status: "LIVE & OPERATIONAL",
       isLive: true,
-      desc: "Multi-tone response generator (Professional, Friendly, Warm, Premium) tailored for Google 3-Pack SEO algorithm velocity.",
+      desc: "Multi-tone AI review replies built for speed and Google 3-Pack relevance.",
       badge: "Reputation AI"
     },
     {
       title: "Live Google Maps Telemetry",
       status: "LIVE & OPERATIONAL",
       isLive: true,
-      desc: "Direct tracking of verified phone calls, customer direction requests, and search impressions from connected Google Profiles.",
+      desc: "Track verified calls, direction requests, and local search impressions.",
       badge: "Telemetry"
     },
     {
       title: "Multi-Location Automated Ad Sync",
       status: "IN ROADMAP (Q1 2027)",
       isLive: false,
-      desc: "Automated budget reallocation based on real-time footfall and local Google 3-Pack rank fluctuation.",
+      desc: "Smart local ad budget tuning based on real-time 3-Pack ranking signals.",
       badge: "Planned Module"
     },
     {
       title: "Autonomous WhatsApp Drip Scheduler",
       status: "IN ROADMAP (Q2 2027)",
       isLive: false,
-      desc: "AI conversational re-engagement sequences that trigger when customers have not visited in 30+ days.",
+      desc: "Automated re-engagement sequences triggered by customer visit history.",
       badge: "Planned Module"
     }
   ];
@@ -78,7 +78,7 @@ export default function GrowthOSShowcase() {
           </h2>
 
           <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 font-light leading-relaxed">
-            A purpose-built SaaS platform engineered to manage your Google Business Profile, automate review response velocity, audit local ranking factors, and give you complete clarity into customer inquiries.
+            Manage your Google Business Profile, automate review replies, audit local ranking gaps, and track customer calls in one workspace.
           </p>
         </div>
 

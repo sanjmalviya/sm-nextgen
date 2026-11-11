@@ -450,7 +450,7 @@ export default function ConnectGoogleModal({
                   </a>
 
                   <p className="text-[11px] text-center text-slate-500">
-                    Sign in with the Google account managing SM NextGen (e.g. <span className="text-slate-300 font-mono">sanjmalviya88243@gmail.com</span>) to grant read/write telemetry access.
+                    Sign in with the Google account managing your Business Profile (e.g. <span className="text-slate-300 font-mono">you@company.com</span>) to grant read/write telemetry access.
                   </p>
                 </div>
               )}

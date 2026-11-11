@@ -353,7 +353,7 @@ export default function AuthScreen({ onLoginSuccess, onBackToLanding }) {
                     required
                     value={loginEmail}
                     onChange={(e) => setLoginEmail(e.target.value)}
-                    placeholder="sanjmalviya88243@gmail.com"
+                    placeholder="you@company.com"
                     className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-[#0097B2]"
                   />
                 </div>
@@ -421,7 +421,7 @@ export default function AuthScreen({ onLoginSuccess, onBackToLanding }) {
                       required
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
-                      placeholder="Sanjay Malviya"
+                      placeholder="Your Full Name"
                       className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:ring-2 focus:ring-[#0097B2]"
                     />
                   </div>
@@ -560,7 +560,7 @@ export default function AuthScreen({ onLoginSuccess, onBackToLanding }) {
                         required
                         value={resetEmail}
                         onChange={(e) => setResetEmail(e.target.value)}
-                        placeholder="sanjmalviya88243@gmail.com"
+                        placeholder="you@company.com"
                         className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:ring-2 focus:ring-[#0097B2]"
                       />
                     </div>

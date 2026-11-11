@@ -190,7 +190,7 @@ export default function ResetPasswordClient() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="sanjmalviya88243@gmail.com"
+                  placeholder="you@company.com"
                   className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:ring-2 focus:ring-[#0097B2]"
                 />
               </div>

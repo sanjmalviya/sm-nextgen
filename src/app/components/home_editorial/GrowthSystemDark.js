@@ -1,10 +1,10 @@
 "use client";
 import React, { useState } from "react";
-import Link from "next/link";
+import Image from "next/image";
 import { 
   Compass, Laptop, Target, Bot, BarChart3, 
-  ArrowRight, CheckCircle2, ChevronRight, Zap, 
-  Layers, RefreshCw, Cpu, Activity, ShieldCheck
+  ArrowRight, CheckCircle2, ChevronRight, 
+  RefreshCw, Cpu
 } from "lucide-react";
 
 const SYSTEM_NODES = [
@@ -14,30 +14,30 @@ const SYSTEM_NODES = [
     title: "Strategy & Offer Economics",
     category: "FOUNDATION",
     icon: Compass,
-    tagline: "Define Category Moats Before Spending Ad Dollars",
-    desc: "We analyze your P&L, gross margins, competitor vulnerabilities, and ideal customer profile (ICP) to engineer high-margin offers that convert.",
+    tagline: "Clear Category Moats Before Spending",
+    desc: "Align margins, ideal buyers, and positioning into offers that convert.",
     deliverables: [
-      "Competitive Moat & Category Positioning",
-      "Offer Architecture & Pricing Optimization",
-      "Unit Economics & CAC Payback Modeling",
-      "12-Month Compounding Growth Blueprint"
+      "Category Positioning & Moat",
+      "Offer & Pricing Architecture",
+      "CAC Payback Modeling",
+      "12-Month Growth Blueprint"
     ],
     metric: "Foundation",
-    metricValue: "P&L Grounded"
+    metricValue: "Margin Led"
   },
   {
     id: "platform",
     num: "02",
-    title: "High-Performance Web Platforms",
-    category: "CONVERSION MOAT",
+    title: "High-Speed Web Platforms",
+    category: "CONVERSION",
     icon: Laptop,
-    tagline: "Sub-Second Next.js Speed Eliminates Cart & Form Drops",
-    desc: "We build custom enterprise websites, web applications, and headless commerce platforms engineered for frictionless user journeys and high conversion rates.",
+    tagline: "Sub-Second Speed Eliminates Drop-Off",
+    desc: "Fast Next.js websites and CRO funnels built for effortless conversions.",
     deliverables: [
-      "Next.js App Router Architecture",
-      "Sub-Second Core Web Vitals (<0.8s LCP)",
-      "Frictionless CRO Checkouts & Intake",
-      "Mobile-First Responsive Precision"
+      "Next.js Web Architecture",
+      "Core Web Vitals (<0.8s LCP)",
+      "Frictionless CRO Funnels",
+      "Mobile-First Responsive UI"
     ],
     metric: "Conversion",
     metricValue: "+38% CRO Lift"
@@ -45,53 +45,53 @@ const SYSTEM_NODES = [
   {
     id: "demand",
     num: "03",
-    title: "Precision Demand & Local 3-Pack",
-    category: "ACQUISITION ENGINE",
+    title: "Demand & Local SEO",
+    category: "ACQUISITION",
     icon: Target,
-    tagline: "Capture High-Intent Buyers at the Moment of Search",
-    desc: "We deploy disciplined Meta & Google ad campaigns paired with local Google Maps 3-Pack dominance to drive predictable inbound customer flow.",
+    tagline: "Capture High-Intent Search Demand",
+    desc: "Disciplined Meta, Google Ads, and Google Maps 3-Pack local visibility.",
     deliverables: [
-      "Google Maps 3-Pack Ranking Dominance",
-      "High-Intent Paid Search (Google Ads)",
-      "High-ROAS Meta & Social Performance",
-      "Authority Content & Technical SEO"
+      "Google Maps 3-Pack SEO",
+      "High-Intent Google Ads",
+      "Performance Meta Campaigns",
+      "Authority Search Content"
     ],
     metric: "Prominence",
-    metricValue: "Rank #1 3-Pack"
+    metricValue: "Top 3 Visibility"
   },
   {
     id: "automation",
     num: "04",
-    title: "Autonomous AI & WhatsApp Routing",
-    category: "OPERATIONAL LEVERAGE",
+    title: "AI & WhatsApp Automation",
+    category: "OPERATIONS",
     icon: Bot,
-    tagline: "Engage Inbound Leads in Under 4 Minutes 24/7",
-    desc: "Intelligent conversational bots qualify inquiries, answer questions, and immediately route qualified opportunities directly to your sales calendar or WhatsApp.",
+    tagline: "Respond to Leads Within Minutes",
+    desc: "24/7 AI assistants qualify inquiries and sync straight to your sales pipeline.",
     deliverables: [
-      "Autonomous 24/7 AI Lead Qualification",
-      "Instant WhatsApp Cloud API Integration",
-      "Automated Nurture & Review Request Loops",
-      "Zero-Latency CRM Sales Pipeline Sync"
+      "24/7 AI Lead Qualification",
+      "WhatsApp Cloud API Flows",
+      "Review Request Loops",
+      "Instant CRM Pipeline Sync"
     ],
     metric: "Speed",
-    metricValue: "< 3.8 Mins"
+    metricValue: "< 4 Mins"
   },
   {
     id: "attribution",
     num: "05",
-    title: "Closed-Loop Revenue Attribution",
-    category: "FINANCIAL TRUTH",
+    title: "Closed-Loop Attribution",
+    category: "ANALYTICS",
     icon: BarChart3,
-    tagline: "Track Every Rupee from First Impression to Bank Account",
-    desc: "We eliminate guesswork with unified executive dashboards that track multi-touch attribution directly against cash deposited, enabling confident capital reinvestment.",
+    tagline: "Every Rupee Tied to Pipeline & Revenue",
+    desc: "Unified dashboards connect campaigns directly to real customer revenue.",
     deliverables: [
-      "Closed-Loop Multi-Touch Attribution",
-      "Real-Time Executive BI Dashboards",
-      "CAC-to-LTV Cohort Tracking",
-      "Continuous Conversion Rate Optimization"
+      "Multi-Touch Attribution",
+      "Executive BI Dashboards",
+      "CAC-to-LTV Tracking",
+      "Continuous Funnel CRO"
     ],
     metric: "Clarity",
-    metricValue: "96.4% Match"
+    metricValue: "Full Attribution"
   }
 ];
 
@@ -125,8 +125,31 @@ export default function GrowthSystemDark({ onStartConversation }) {
           </h2>
 
           <p className="text-base sm:text-lg text-slate-300 font-light leading-relaxed">
-            Not a disconnected list of services. A single, interconnected feedback loop where strategy informs code, code converts traffic, AI automates sales, and measurement dictates reinvestment.
+            Strategy informs web engineering, web converts demand, AI automates follow-up, and analytics guide every rupee reinvested.
           </p>
+        </div>
+
+        {/* Visual Business Growth Ecosystem Showcase */}
+        <div className="max-w-5xl mx-auto mb-14 rounded-3xl bg-white p-3 sm:p-5 border border-white/20 shadow-2xl">
+          <div className="rounded-2xl overflow-hidden bg-white">
+            <Image
+              src="/images/SM NextGen Business Growth Ecosystem.png"
+              alt="SM NextGen Business Growth Ecosystem connecting Business Strategy, Branding, Marketing, Sales, Customer Experience, Analytics, Automation, and Technology"
+              width={1672}
+              height={941}
+              quality={85}
+              sizes="(max-width: 1024px) 95vw, 980px"
+              className="w-full h-auto block"
+            />
+          </div>
+          <div className="pt-3 px-2 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-slate-600">
+            <span className="font-subheading font-bold text-[#0B2545]">
+              8 Connected Growth Disciplines Operating Under One Partner
+            </span>
+            <span className="text-[11px] font-mono font-bold text-[#0097B2]">
+              Strategy · Brand · Demand · Sales · Tech · AI · Analytics
+            </span>
+          </div>
         </div>
 
         {/* 5-Node Interactive Connected Pipeline System */}
@@ -204,7 +227,7 @@ export default function GrowthSystemDark({ onStartConversation }) {
                     </div>
                     <div>
                       <span className="text-[11px] font-mono font-bold text-cyan-400 uppercase tracking-widest block">
-                        ACTIVE NODE {activeNode.num} // {activeNode.category}
+                        ACTIVE NODE {activeNode.num} · {activeNode.category}
                       </span>
                       <h3 className="text-2xl font-bold font-heading text-white">
                         {activeNode.title}

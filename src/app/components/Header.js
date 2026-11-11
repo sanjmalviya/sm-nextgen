@@ -420,7 +420,7 @@ export default function Header() {
               onClick={closeAllMenus}
               className="block py-3 text-base font-bold text-[#0B2545] dark:text-white font-heading hover:text-[#0097B2]"
             >
-              About & Founder
+              About Us
             </Link>
 
             <Link

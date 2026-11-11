@@ -19,7 +19,7 @@ export default function GrowthOSFloatingLauncher() {
         "What is Growth OS?",
         "How to rank in Google Maps Top 3?",
         "How to get more local leads?",
-        "Chat with Founders on WhatsApp"
+        "Chat with Growth Team on WhatsApp"
       ],
       actions: [
         { label: "⚡ Launch Growth OS (Live App)", url: "/growth-os", type: "app" }

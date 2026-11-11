@@ -333,7 +333,7 @@ export default function GrowthOSClient() {
   const handleLaunchDemo = () => {
     const demoUser = {
       id: "user-demo",
-      name: "Sanjay Malviya (Demo)",
+      name: "SM NextGen Demo Workspace",
       email: "demo@smnextgen.com",
       role: "DEMO",
       isDemo: true,

@@ -2,10 +2,15 @@
 
 import React from "react";
 import Link from "next/link";
-import { 
-  Compass, Laptop, Bot, BarChart3, ShieldCheck, 
-  ArrowRight, CheckCircle2, MessageSquare, Sparkles, 
-  MapPin, Clock, Award, Users 
+import Image from "next/image";
+import {
+  Compass,
+  Laptop,
+  Bot,
+  BarChart3,
+  ArrowRight,
+  CheckCircle2,
+  MapPin,
 } from "lucide-react";
 
 const PILLARS = [
@@ -13,75 +18,73 @@ const PILLARS = [
     step: "01",
     title: "Strategy Before Tactics",
     icon: Compass,
-    desc: "We analyze unit economics, customer lifetime value, and competitive positioning before recommending ad channels or writing code."
+    desc: "Unit economics, offers, and positioning validated before spending ad capital.",
   },
   {
     step: "02",
-    title: "Full-Stack Software Engineering",
+    title: "Full-Stack Web Engineering",
     icon: Laptop,
-    desc: "We build production-grade Next.js web applications, client portals, and CRO funnels engineered for sub-second load times and high conversion."
+    desc: "Sub-second Next.js websites and CRO funnels built for higher conversion.",
   },
   {
     step: "03",
-    title: "Autonomous AI & Workflow Leverage",
+    title: "AI & Workflow Automation",
     icon: Bot,
-    desc: "We implement official WhatsApp Cloud API workflows, 24/7 lead qualification bots, and automated pipeline hand-offs to eliminate manual delays."
+    desc: "WhatsApp Cloud API and 24/7 lead qualification that stop manual delays.",
   },
   {
     step: "04",
-    title: "Closed-Loop Revenue Attribution",
+    title: "Closed-Loop Attribution",
     icon: BarChart3,
-    desc: "We measure marketing performance against real deposited bank revenue rather than vanity ad clicks or slide-deck impressions."
-  }
+    desc: "Every channel measured against real qualified pipeline and revenue.",
+  },
 ];
 
 const WORKING_PRINCIPLES = [
   {
-    title: "Direct Founder Engagement",
-    desc: "Every partnership is directed personally by our founder, Sanjay Malviya. We do not pitch with senior executives and hand execution off to junior interns."
+    title: "Senior Leadership Execution",
+    desc: "Your growth roadmap is directed and executed by senior strategists and engineers—never handed off to junior interns.",
   },
   {
-    title: "100% In-House Execution",
-    desc: "Our engineering, media buying, SEO, and AI workflow teams work together in-house. We maintain complete quality control across every deliverable."
+    title: "100% In-House Team",
+    desc: "Engineering, performance media, SEO, and AI automation specialists collaborate under one roof.",
   },
   {
     title: "Commercial Confidentiality",
-    desc: "We operate under strict mutual non-disclosure agreements to protect your commercial strategies, customer lists, and proprietary pricing."
+    desc: "Strict mutual NDAs safeguard your strategies, customer records, and commercial data.",
   },
   {
-    title: "Responsive Communication SLA",
-    desc: "Active growth partners have direct WhatsApp and Slack channels with our leadership team, backed by an under-4-hour response commitment during business hours."
-  }
+    title: "4-Hour Communication SLA",
+    desc: "Dedicated WhatsApp and Slack channels backed by an under-4-hour response commitment.",
+  },
 ];
 
 export default function AboutClient() {
   const handleWhatsApp = () => {
-    const msg = "Hi Sanjay, I would like to explore a strategic growth partnership with SM NextGen.";
+    const msg = "Hi SM NextGen Team, I would like to explore a strategic growth partnership.";
     window.open(`https://wa.me/917073538077?text=${encodeURIComponent(msg)}`, "_blank");
   };
 
   return (
     <main className="relative w-full z-10 overflow-x-hidden min-h-screen bg-white dark:bg-[#030D1A] font-body text-[#0B2545] dark:text-[#E6EEF2] selection:bg-[#0097B2] selection:text-white transition-colors duration-200">
-      
       {/* 01: HERO SECTION */}
       <section className="relative pt-36 pb-20 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80 dark:border-white/5 bg-gradient-to-b from-[#F8FAFC] to-white dark:from-[#071A30] dark:to-[#030D1A]">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-12 gap-12 items-center">
-            
             <div className="lg:col-span-7 text-center lg:text-left">
               <span className="text-xs font-mono font-bold text-[#0097B2] uppercase tracking-wider block mb-4">
                 About SM NextGen
               </span>
 
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-heading text-[#0B2545] dark:text-white tracking-tight mb-6 leading-tight">
-                We're Building <br className="hidden sm:inline" />
+                A Connected Partner for{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0097B2] via-cyan-500 to-[#007a91]">
-                  A Different Kind of Growth Partner.
+                  Measurable Growth.
                 </span>
               </h1>
 
               <p className="text-lg sm:text-xl text-slate-600 dark:text-slate-300 font-light leading-relaxed max-w-2xl mx-auto lg:mx-0 mb-8">
-                SM NextGen was founded to solve the core frustration business leaders face with traditional agencies: fragmented services, vanity metrics, and a total disconnect between marketing spend and bank deposits.
+                SM NextGen replaces fragmented retainers and vanity reporting with one unified system spanning strategy, web engineering, demand, AI, and revenue analytics.
               </p>
 
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-8">
@@ -97,7 +100,7 @@ export default function AboutClient() {
                   onClick={handleWhatsApp}
                   className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-white dark:bg-white/10 text-slate-800 dark:text-white font-bold text-xs uppercase tracking-wider border border-slate-200 dark:border-white/15 hover:border-[#0097B2] transition cursor-pointer"
                 >
-                  WhatsApp Leadership
+                  WhatsApp Our Team
                 </button>
               </div>
 
@@ -108,33 +111,31 @@ export default function AboutClient() {
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-[#0097B2]" />
-                  <span>Serving Clients Across India, US & UK</span>
+                  <span>Serving Clients Across India, US &amp; UK</span>
                 </div>
               </div>
             </div>
 
-            {/* Founder Portrait Card */}
+            {/* Agency Partnership Visual Card */}
             <div className="lg:col-span-5 flex justify-center">
-              <div className="w-full max-w-sm rounded-3xl bg-slate-50 dark:bg-[#071A30] border border-slate-200/80 dark:border-white/10 p-6 shadow-xl text-center">
-                <div className="relative h-72 w-full rounded-2xl overflow-hidden bg-slate-900 mb-5 shadow-inner">
-                  <img
-                    src="/images/sanjay.png"
-                    alt="Sanjay Malviya - Founder of SM NextGen"
-                    className="w-full h-full object-cover object-top"
+              <div className="w-full max-w-md rounded-3xl bg-slate-50 dark:bg-[#071A30] border border-slate-200/80 dark:border-white/10 p-5 shadow-xl">
+                <div className="rounded-2xl overflow-hidden aspect-video bg-slate-900 mb-4 shadow-inner">
+                  <Image
+                    src="/images/Business Growth Team Meeting.png"
+                    alt="SM NextGen cross-functional strategy, engineering, and marketing team collaborating on business growth"
+                    width={1672}
+                    height={941}
+                    quality={85}
+                    sizes="(max-width: 1024px) 95vw, 440px"
+                    className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#040e1b] via-transparent to-transparent opacity-75" />
-                  <div className="absolute bottom-3 left-3 right-3 text-left">
-                    <span className="text-[10px] font-mono text-cyan-300 font-bold bg-[#0097B2]/30 px-2 py-0.5 rounded backdrop-blur-sm">
-                      Founder & Managing Principal
-                    </span>
-                  </div>
                 </div>
 
-                <h3 className="text-xl font-bold font-heading text-[#0B2545] dark:text-white">
-                  Sanjay Malviya
+                <h3 className="text-lg font-bold font-heading text-[#0B2545] dark:text-white">
+                  SM NextGen Advisory &amp; Engineering
                 </h3>
                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                  Growth Strategist & Software Architect
+                  In-House Strategists, Marketers, Developers &amp; AI Specialists
                 </p>
                 <div className="pt-4 mt-4 border-t border-slate-200 dark:border-white/10 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
                   <span className="flex items-center gap-1">
@@ -146,7 +147,6 @@ export default function AboutClient() {
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </section>
@@ -227,10 +227,10 @@ export default function AboutClient() {
       <section className="py-20 px-4 sm:px-6 lg:px-8 text-center">
         <div className="max-w-3xl mx-auto space-y-6">
           <h2 className="text-3xl sm:text-4xl font-extrabold font-heading text-[#0B2545] dark:text-white tracking-tight">
-            Ready for a Growth Partner That Takes Full Ownership?
+            Ready for a Growth Partner With Complete Accountability?
           </h2>
           <p className="text-base text-slate-600 dark:text-slate-300 font-light leading-relaxed">
-            Schedule an introductory consultation directly with Sanjay Malviya. We will review your current systems and discuss how a connected approach can scale your business.
+            Schedule an introductory consultation with our senior growth team to audit your funnel and map your next growth stage.
           </p>
           <div className="pt-2">
             <Link
@@ -243,7 +243,6 @@ export default function AboutClient() {
           </div>
         </div>
       </section>
-
     </main>
   );
 }

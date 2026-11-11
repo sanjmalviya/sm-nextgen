@@ -6,6 +6,8 @@ import BusinessChallenges from "./components/home_editorial/BusinessChallenges";
 import GrowthSystemDark from "./components/home_editorial/GrowthSystemDark";
 import ServicesEditorial from "./components/home_editorial/ServicesEditorial";
 import HowWeWorkProcess from "./components/home_editorial/HowWeWorkProcess";
+import CustomerJourneyDiagram from "./components/CustomerJourneyDiagram";
+import DashboardsShowcase from "./components/home_editorial/DashboardsShowcase";
 import CaseStudiesProof from "./components/home_editorial/CaseStudiesProof";
 import GrowthOSShowcase from "./components/home_editorial/GrowthOSShowcase";
 import AboutLeadership from "./components/home_editorial/AboutLeadership";
@@ -31,45 +33,51 @@ export default function HomeClient() {
   return (
     <main className="relative w-full z-10 overflow-x-hidden min-h-screen bg-white dark:bg-[#030D1A] font-body text-[#0B2545] dark:text-[#E6EEF2] selection:bg-[#0097B2] selection:text-white transition-colors duration-200">
       
-      {/* SECTION 1 — HERO: POSITIONING, VALUE PROPOSITION & SYSTEM PREVIEW */}
+      {/* SECTION 1 — HERO: POSITIONING, SKY BACKDROP & UNIFIED DASHBOARD PREVIEW */}
       <HeroEditorial
         onStartConversation={scrollToConsultation}
       />
 
-      {/* SECTION 2 — THE BUSINESS PROBLEM: THE COST OF FRAGMENTED GROWTH */}
+      {/* SECTION 2 — THE BUSINESS PROBLEM & OPPORTUNITY */}
       <BusinessChallenges
         onExploreSystem={scrollToSystem}
       />
 
-      {/* SECTION 3 — THE SM NEXTGEN GROWTH SYSTEM (DEEP NAVY CONNECTED ENGINE) */}
+      {/* SECTION 3 — THE SM NEXTGEN GROWTH ECOSYSTEM & CONNECTED SYSTEM */}
       <div id="growth-system">
         <GrowthSystemDark
           onStartConversation={scrollToConsultation}
         />
       </div>
 
-      {/* SECTION 4 — CAPABILITIES: 6 STRATEGIC PILLARS */}
+      {/* SECTION 4 — GROWTH PHILOSOPHY & STRATEGIC CAPABILITY PILLARS */}
       <ServicesEditorial />
 
-      {/* SECTION 5 — HOW WE GROW: 6-STAGE COMPACT METHODOLOGY */}
+      {/* SECTION 5 — BUSINESS GROWTH PROCESS: 6-STAGE ORBITAL METHOD */}
       <HowWeWorkProcess
         onStartConversation={scrollToConsultation}
       />
 
-      {/* SECTION 6 — EVIDENCE & CASE STUDIES: REAL DOCUMENTED BLUEPRINTS */}
+      {/* SECTION 6 — CUSTOMER JOURNEY: DISCOVERY TO LOYALTY PIPELINE */}
+      <CustomerJourneyDiagram />
+
+      {/* SECTION 7 — SUPPORTING REPORTING & ANALYTICS DASHBOARD PREVIEWS */}
+      <DashboardsShowcase />
+
+      {/* SECTION 8 — EVIDENCE, CASE BLUEPRINTS & HUMAN STORYTELLING */}
       <CaseStudiesProof
         onExploreCase={scrollToConsultation}
       />
 
-      {/* SECTION 7 — GROWTH OS: SOFTWARE ECOSYSTEM SPOTLIGHT */}
+      {/* SECTION 9 — GROWTH OS: SOFTWARE ECOSYSTEM SPOTLIGHT */}
       <GrowthOSShowcase />
 
-      {/* SECTION 8 — FOUNDER & WORKING PRINCIPLES: SANJAY MALVIYA */}
+      {/* SECTION 10 — DIRECT LEADERSHIP, STRATEGIC PARTNERSHIP & TEAM TRUST */}
       <AboutLeadership
         onStartConversation={scrollToConsultation}
       />
 
-      {/* SECTION 9 — FINAL CTA: "LET'S FIND YOUR NEXT GROWTH OPPORTUNITY" */}
+      {/* SECTION 11 — FINAL CTA: "LET'S FIND YOUR NEXT GROWTH OPPORTUNITY" */}
       <FinalConsultationCTA />
 
     </main>

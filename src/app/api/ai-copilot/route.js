@@ -164,7 +164,7 @@ function generateSmartReply(query, history = []) {
            "Feel free to ask questions like: *\"How do I rank in the Top 3 on Google Maps?\"*, *\"What is Growth OS?\"*, or *\"How do you handle negative reviews?\"*!",
     actions: [
       { label: "⚡ Launch Growth OS (Live App)", url: "/growth-os", type: "app" },
-      { label: "💬 Chat with Founder on WhatsApp", url: "https://wa.me/917073538077?text=Hi%20SM%20NextGen,%20I%20need%20help%20growing%20my%20business", type: "whatsapp" }
+      { label: "💬 Chat with Growth Team on WhatsApp", url: "https://wa.me/917073538077?text=Hi%20SM%20NextGen,%20I%20need%20help%20growing%20my%20business", type: "whatsapp" }
     ],
     suggestions: ["How to rank in Google Maps Top 3?", "What is Growth OS?", "How to get more reviews?"]
   };

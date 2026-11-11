@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { 
   Compass, TrendingUp, Laptop, Bot, BarChart3, Scale, 
   ArrowRight, Check
@@ -11,48 +12,48 @@ const CAPABILITY_PILLARS = [
   {
     num: "01",
     title: "Growth Strategy",
-    desc: "We analyze unit economics, market positioning, and buyer intent to engineer high-margin commercial offerings before spending capital.",
-    examples: ["Category Positioning", "Offer Architecture", "Competitor Gap Analysis"],
+    desc: "Market positioning, offer design, and unit economics before scaling spend.",
+    examples: ["Category Positioning", "Offer Architecture", "Competitor Analysis"],
     icon: Compass,
     href: "/services/brand-strategy-positioning"
   },
   {
     num: "02",
     title: "Marketing & Demand",
-    desc: "Targeted customer acquisition through Google Maps 3-Pack local SEO, disciplined performance media, and authority content.",
-    examples: ["Google Maps Local SEO", "Meta & Google Paid Search", "B2B Lead Generation"],
+    desc: "Targeted demand via Local SEO, Google Maps, and high-intent paid media.",
+    examples: ["Google Maps SEO", "Paid Search & Meta", "B2B Lead Generation"],
     icon: TrendingUp,
     href: "/services/search-engine-optimization-seo"
   },
   {
     num: "03",
-    title: "Conversion & Digital Experience",
-    desc: "Production-grade Next.js web applications, headless commerce platforms, and CRO funnels engineered for frictionless conversion.",
-    examples: ["Sub-Second Web Platforms", "Frictionless CRO Funnels", "Custom Web & Mobile Apps"],
+    title: "Web & Conversion",
+    desc: "Sub-second Next.js websites, landing funnels, and e-commerce builds.",
+    examples: ["Fast Web Platforms", "CRO Landing Funnels", "Web & Mobile Apps"],
     icon: Laptop,
     href: "/services/website-development"
   },
   {
     num: "04",
-    title: "AI & Business Automation",
-    desc: "Deploy autonomous conversational bots and WhatsApp workflows to qualify leads, book calls, and remove manual repetitive tasks.",
-    examples: ["WhatsApp CRM Integration", "24/7 AI Qualification Bots", "Automated Intake Pipelines"],
+    title: "AI & Automation",
+    desc: "24/7 qualification bots, WhatsApp workflows, and instant CRM routing.",
+    examples: ["WhatsApp CRM Flows", "AI Lead Bots", "Automated Intake"],
     icon: Bot,
     href: "/services/ai-business-automation-systems"
   },
   {
     num: "05",
-    title: "Data & Intelligence",
-    desc: "End-to-end attribution tracking that connects every marketing rupee and inquiry to actual deposited revenue in your bank account.",
-    examples: ["Closed-Loop Attribution", "CAC-to-LTV Unit Economics", "Executive BI Dashboards"],
+    title: "Data & Analytics",
+    desc: "Closed-loop tracking tying ad spend directly to qualified revenue.",
+    examples: ["Revenue Attribution", "CAC & LTV Tracking", "Executive Dashboards"],
     icon: BarChart3,
     href: "/services/ai-data-analytics-business-intelligence"
   },
   {
     num: "06",
-    title: "Business Operations Support",
-    desc: "Essential compliance governance, trademark protection, and financial advisory that protect and structure growing enterprises.",
-    examples: ["Entity Registration", "GST & Financial Advisory", "Trademark & IP Protection"],
+    title: "Business Operations",
+    desc: "Registrations, compliance, GST advisory, and trademark protection.",
+    examples: ["Entity Registration", "GST & Compliance", "Trademark Protection"],
     icon: Scale,
     href: "/services/business-compliance-management"
   }
@@ -84,6 +85,47 @@ export default function ServicesEditorial() {
             <span>Explore All Capabilities</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
+        </div>
+
+        {/* Growth Philosophy Visual Hub Feature */}
+        <div className="mb-12 rounded-3xl bg-white dark:bg-[#0B2545]/50 border border-slate-200/80 dark:border-white/10 p-6 sm:p-8 shadow-sm grid lg:grid-cols-12 gap-8 items-center">
+          <div className="lg:col-span-5">
+            <div className="max-w-xs sm:max-w-sm mx-auto rounded-2xl bg-white p-3 border border-slate-100 shadow-xs">
+              <Image
+                src="/images/Isometric Teal Growth Strategy Hub.png"
+                alt="Isometric hub illustrating how business strategy, marketing, software engineering, AI automation, and data analytics converge around measurable growth"
+                width={1122}
+                height={1402}
+                quality={85}
+                sizes="(max-width: 1024px) 80vw, 360px"
+                className="w-full h-auto block"
+              />
+            </div>
+          </div>
+          <div className="lg:col-span-7 space-y-5">
+            <span className="inline-block px-3 py-1 rounded-full bg-[#0097B2]/10 text-[#0097B2] dark:text-cyan-300 text-[11px] font-subheading font-bold uppercase tracking-wider">
+              Connected Growth Philosophy
+            </span>
+            <h3 className="text-2xl sm:text-3xl font-extrabold font-heading text-[#0B2545] dark:text-white leading-tight">
+              Why Disciplines Multiply When Built Together.
+            </h3>
+            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 font-light leading-relaxed">
+              Great marketing stalls on a slow site; fast websites underperform without clear strategy and follow-up. Aligning every discipline compounds results.
+            </p>
+            <div className="grid sm:grid-cols-2 gap-3 pt-1">
+              {[
+                { label: "Strategy Before Spend", text: "Positioning and unit economics validated early." },
+                { label: "Conversion Engineering", text: "Sub-second web architecture built to convert." },
+                { label: "AI & CRM Leverage", text: "Automated lead qualification and fast follow-up." },
+                { label: "Unified Analytics", text: "Campaigns tracked to pipeline and revenue." }
+              ].map((item) => (
+                <div key={item.label} className="p-3.5 rounded-2xl bg-[#F8FAFC] dark:bg-white/5 border border-slate-200/70 dark:border-white/10">
+                  <div className="text-xs font-subheading font-bold text-[#0B2545] dark:text-white mb-1">{item.label}</div>
+                  <div className="text-xs text-slate-600 dark:text-slate-300 font-light leading-snug">{item.text}</div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* 6 Capability Pillars Grid (3x2) */}

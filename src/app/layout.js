@@ -32,11 +32,6 @@ export default function RootLayout({ children }) {
                   "url": "https://smnextgen.com",
                   "logo": "https://smnextgen.com/images/logo.png",
                   "description": "Your Complete Business Growth Partner. Strategy, marketing, technology, AI, automation, and closed-loop revenue attribution.",
-                  "founder": {
-                    "@type": "Person",
-                    "name": "Sanjay Malviya",
-                    "jobTitle": "Founder & Growth Strategist"
-                  },
                   "contactPoint": {
                     "@type": "ContactPoint",
                     "telephone": "+91-70735-38077",

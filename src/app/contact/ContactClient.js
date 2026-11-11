@@ -173,7 +173,7 @@ export function ContactFormClient() {
                     Inquiry Received
                   </h3>
                   <p className="text-sm text-slate-600 dark:text-slate-300 max-w-sm mx-auto leading-relaxed">
-                    Thank you. Sanjay Malviya or a senior growth strategist will review your requirements and reach out within 4 business hours.
+                    Thank you. A senior growth strategist from our leadership team will review your requirements and reach out within 4 business hours.
                   </p>
                   <button
                     type="button"
@@ -204,7 +204,7 @@ export function ContactFormClient() {
                       required
                       value={formData.name}
                       onChange={handleChange}
-                      placeholder="e.g. Sanjay Malviya"
+                      placeholder="e.g. Rahul Sharma"
                       className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-[#0B2545] dark:text-white placeholder-slate-400 text-xs focus:outline-none focus:border-[#0097B2] transition"
                     />
                   </div>
@@ -284,7 +284,7 @@ export function ContactFormClient() {
                   </button>
 
                   <p className="text-[11px] text-center text-slate-500 dark:text-slate-400 mt-2">
-                    Direct founder review. Strict commercial NDA guaranteed.
+                    Direct senior strategist review. Strict commercial NDA guaranteed.
                   </p>
                 </form>
               )}
