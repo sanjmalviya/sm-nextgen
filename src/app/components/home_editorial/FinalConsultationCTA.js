@@ -11,7 +11,11 @@ export default function FinalConsultationCTA() {
     name: "",
     email: "",
     phone: "",
-    objective: ""
+    company: "",
+    website: "",
+    industry: "",
+    objective: "",
+    challenge: "",
   });
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -28,7 +32,7 @@ export default function FinalConsultationCTA() {
     try {
       const payload = {
         access_key: "e4fe151c-7df8-43d9-9528-7657ad7a72d7",
-        subject: `Strategic Growth Consultation Request: ${formData.name}`,
+        subject: `Strategic Growth Conversation Request: ${formData.name} (${formData.company || "Independent"})`,
         from_name: "SM NextGen Strategic Intake",
         ...formData
       };
@@ -42,12 +46,12 @@ export default function FinalConsultationCTA() {
       if (res.ok) {
         setSubmitted(true);
       } else {
-        const waMsg = `Hi SM NextGen Leadership, I would like to schedule a Strategic Growth Consultation.\n\nName: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\nObjective: ${formData.objective}`;
+        const waMsg = `Hi SM NextGen Leadership, I would like to request a Growth Conversation.\n\nName: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\nCompany: ${formData.company}\nIndustry: ${formData.industry}\nObjective: ${formData.objective}`;
         window.open(`https://wa.me/917073538077?text=${encodeURIComponent(waMsg)}`, "_blank");
         setSubmitted(true);
       }
     } catch {
-      const waMsg = `Hi SM NextGen Leadership, I would like to schedule a Strategic Growth Consultation.\n\nName: ${formData.name}\nPhone: ${formData.phone}`;
+      const waMsg = `Hi SM NextGen Leadership, I would like to request a Growth Conversation.\n\nName: ${formData.name}\nPhone: ${formData.phone}\nCompany: ${formData.company}`;
       window.open(`https://wa.me/917073538077?text=${encodeURIComponent(waMsg)}`, "_blank");
       setSubmitted(true);
     } finally {
@@ -56,7 +60,7 @@ export default function FinalConsultationCTA() {
   };
 
   const handleWhatsAppDirect = () => {
-    const waMsg = "Hi SM NextGen Leadership, I would like to schedule a strategic growth consultation for my business.";
+    const waMsg = "Hi SM NextGen Leadership, I would like to start a growth conversation for my business.";
     window.open(`https://wa.me/917073538077?text=${encodeURIComponent(waMsg)}`, "_blank");
   };
 
@@ -70,20 +74,20 @@ export default function FinalConsultationCTA() {
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-14 items-center">
           
           {/* Left Column (6 Cols): Clear Invitation */}
-          <div className="lg:col-span-6 space-y-6 text-center lg:text-left">
+          <div className="lg:col-span-5 space-y-6 text-center lg:text-left">
             <span className="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider block">
-              Start a Conversation
+              YOUR NEXT GROWTH OPPORTUNITY STARTS HERE
             </span>
 
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-heading text-white tracking-tight leading-tight">
-              Let's Find Your Next <br />
+              Let's Find What's Holding Your Business Back —{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0097B2] via-cyan-400 to-teal-300">
-                Growth Opportunity.
+                and What Comes Next.
               </span>
             </h2>
 
             <p className="text-base sm:text-lg text-slate-300 font-light leading-relaxed max-w-xl">
-              Book a confidential session with our senior strategists to spot acquisition bottlenecks and map your next growth stage.
+              Tell us about your business, your current challenges and where you want to go. We'll explore the opportunities and identify the right next steps.
             </p>
 
             <div className="space-y-3 pt-2 max-w-lg mx-auto lg:mx-0 text-left">
@@ -105,16 +109,16 @@ export default function FinalConsultationCTA() {
               <button
                 type="button"
                 onClick={handleWhatsAppDirect}
-                className="w-full sm:w-auto px-6 py-3 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition cursor-pointer"
+                className="w-full sm:w-auto px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition cursor-pointer shadow-md"
               >
-                <MessageSquare className="w-4 h-4 text-emerald-400" />
-                <span>Quick Inquiry via WhatsApp</span>
+                <MessageSquare className="w-4 h-4 text-white" />
+                <span>Connect on WhatsApp</span>
               </button>
             </div>
           </div>
 
-          {/* Right Column (6 Cols): Clean 4-Field Consultation Form */}
-          <div className="lg:col-span-6">
+          {/* Right Column (7 Cols): Comprehensive 8-Field Form */}
+          <div className="lg:col-span-7">
             <div className="p-7 sm:p-9 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-xl shadow-2xl">
               {submitted ? (
                 <div className="text-center py-10 space-y-4">
@@ -122,10 +126,10 @@ export default function FinalConsultationCTA() {
                     <CheckCircle2 className="w-8 h-8" />
                   </div>
                   <h3 className="text-2xl font-bold font-heading text-white">
-                    Inquiry Received
+                    Request Received
                   </h3>
                   <p className="text-sm text-slate-300 max-w-sm mx-auto leading-relaxed">
-                    Thank you. A managing principal will review your business context and reach out within 4 business hours.
+                    Thank you. A senior strategist will review your business context and reach out within 4 business hours.
                   </p>
                   <button
                     type="button"
@@ -139,29 +143,28 @@ export default function FinalConsultationCTA() {
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="mb-2">
                     <h3 className="text-xl font-bold font-heading text-white">
-                      Request Consultation
+                      Tell Us About Your Business.
                     </h3>
                     <p className="text-xs text-slate-400 mt-1">
-                      Fill out your details below to schedule an introductory growth session.
+                      A conversation about your business. No generic packages. No unnecessary sales pressure.
                     </p>
                   </div>
 
-                  <div>
-                    <label className="block text-xs font-medium text-slate-300 mb-1.5">
-                      Your Full Name *
-                    </label>
-                    <input
-                      type="text"
-                      name="name"
-                      required
-                      value={formData.name}
-                      onChange={handleChange}
-                      placeholder="e.g. Rahul Sharma"
-                      className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-[#0097B2] transition"
-                    />
-                  </div>
-
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-medium text-slate-300 mb-1.5">
+                        Full Name *
+                      </label>
+                      <input
+                        type="text"
+                        name="name"
+                        required
+                        value={formData.name}
+                        onChange={handleChange}
+                        placeholder="e.g. Rahul Sharma"
+                        className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-[#0097B2] transition"
+                      />
+                    </div>
                     <div>
                       <label className="block text-xs font-medium text-slate-300 mb-1.5">
                         Work Email *
@@ -173,9 +176,12 @@ export default function FinalConsultationCTA() {
                         value={formData.email}
                         onChange={handleChange}
                         placeholder="you@company.com"
-                        className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-[#0097B2] transition"
+                        className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-[#0097B2] transition"
                       />
                     </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-xs font-medium text-slate-300 mb-1.5">
                         Phone / WhatsApp *
@@ -187,22 +193,78 @@ export default function FinalConsultationCTA() {
                         value={formData.phone}
                         onChange={handleChange}
                         placeholder="+91 98765 43210"
-                        className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-[#0097B2] transition"
+                        className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-[#0097B2] transition"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-slate-300 mb-1.5">
+                        Company Name
+                      </label>
+                      <input
+                        type="text"
+                        name="company"
+                        value={formData.company}
+                        onChange={handleChange}
+                        placeholder="e.g. Acme Enterprises"
+                        className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-[#0097B2] transition"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-medium text-slate-300 mb-1.5">
+                        Website
+                      </label>
+                      <input
+                        type="url"
+                        name="website"
+                        value={formData.website}
+                        onChange={handleChange}
+                        placeholder="https://yourcompany.com"
+                        className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-[#0097B2] transition"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-slate-300 mb-1.5">
+                        Industry
+                      </label>
+                      <input
+                        type="text"
+                        name="industry"
+                        value={formData.industry}
+                        onChange={handleChange}
+                        placeholder="e.g. D2C, B2B SaaS, Clinic, Manufacturing"
+                        className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-[#0097B2] transition"
                       />
                     </div>
                   </div>
 
                   <div>
                     <label className="block text-xs font-medium text-slate-300 mb-1.5">
-                      What is your core growth objective?
+                      Primary Growth Objective
                     </label>
-                    <textarea
+                    <input
+                      type="text"
                       name="objective"
-                      rows={3}
                       value={formData.objective}
                       onChange={handleChange}
-                      placeholder="e.g. Improve Google 3-Pack rank, lower customer acquisition costs, or rebuild web conversion funnel."
-                      className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-[#0097B2] transition resize-none"
+                      placeholder="e.g. Lower CAC, scale Google 3-Pack, or rebuild web conversion funnel"
+                      className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-[#0097B2] transition"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-medium text-slate-300 mb-1.5">
+                      Current Business Challenge
+                    </label>
+                    <textarea
+                      name="challenge"
+                      rows={2}
+                      value={formData.challenge}
+                      onChange={handleChange}
+                      placeholder="What is currently holding the business back?"
+                      className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-[#0097B2] transition resize-none"
                     />
                   </div>
 
@@ -215,14 +277,14 @@ export default function FinalConsultationCTA() {
                       <span>Sending Details...</span>
                     ) : (
                       <>
-                        <span>Submit Consultation Request</span>
+                        <span>Request a Growth Conversation</span>
                         <ArrowRight className="w-3.5 h-3.5" />
                       </>
                     )}
                   </button>
 
                   <p className="text-[11px] text-center text-slate-400 mt-2">
-                    Guaranteed response within 4 hours. No obligation.
+                    A conversation about your business. No generic packages. No unnecessary sales pressure.
                   </p>
                 </form>
               )}

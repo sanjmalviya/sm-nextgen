@@ -1,253 +1,278 @@
 "use client";
-import React, { useState } from "react";
+
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { 
-  Zap, Star, ShieldCheck, CheckCircle2, ArrowRight, 
-  ArrowUpRight, Bot, MapPin, Activity, Sparkles, 
-  Sliders, Lock, Eye, Clock, Check
-} from "lucide-react";
+import Image from "next/image";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Zap, ArrowUpRight } from "lucide-react";
+
+gsap.registerPlugin(ScrollTrigger);
+
+const OS_DASHBOARDS = [
+  {
+    id: "business-overview",
+    title: "Business Overview Dashboard",
+    desc: "Complete executive visibility across connected Google profiles, diagnostic health scores, and active growth levers.",
+    image: "/images/Growth OS Business Overview Dashboard.png",
+    alt: "Growth OS Business Overview Dashboard displaying health scores, customer activity, and growth metrics",
+    badge: "Live Product View",
+  },
+  {
+    id: "crm-pipeline",
+    title: "CRM Pipeline Dashboard",
+    desc: "Track every inquiry from initial customer contact to appointment booking and won revenue with automated stage progression.",
+    image: "/images/Growth OS CRM Pipeline Dashboard.png",
+    alt: "Growth OS CRM Pipeline Dashboard showing leads, deal velocity, and conversion funnel",
+    badge: "Pipeline Engine",
+  },
+  {
+    id: "marketing-intel",
+    title: "Marketing Intelligence Dashboard",
+    desc: "Real-time Google 3-Pack rank tracking, local search impressions, direction requests, and call telemetry.",
+    image: "/images/Growth OS Marketing Intelligence Dashboard.png",
+    alt: "Growth OS Marketing Intelligence Dashboard showing local SEO telemetry and review response metrics",
+    badge: "Telemetry Engine",
+  },
+];
+
+const PLATFORM_MODULES = [
+  {
+    num: "01",
+    title: "Business Profile Audit",
+    status: "AVAILABLE",
+    isLive: true,
+    desc: "Understand the strengths and gaps in your Google Business Profile.",
+    badge: "FEATURE 01",
+  },
+  {
+    num: "02",
+    title: "AI Review Reply Assistant",
+    status: "AVAILABLE",
+    isLive: true,
+    desc: "Create relevant, personalised responses to customer reviews.",
+    badge: "FEATURE 02",
+  },
+  {
+    num: "03",
+    title: "Profile Performance Insights",
+    status: "AVAILABLE",
+    isLive: true,
+    desc: "Monitor available profile performance signals and identify improvement opportunities.",
+    badge: "FEATURE 03",
+  },
+  {
+    num: "04",
+    title: "Business Visibility Workflows",
+    status: "IN DEVELOPMENT",
+    isLive: false,
+    desc: "Manage key local visibility activities from a more connected workspace.",
+    badge: "FEATURE 04",
+  },
+];
 
 export default function GrowthOSShowcase() {
-  const [activeFeature, setActiveFeature] = useState(0);
+  const [activeDashboardIndex, setActiveDashboardIndex] = useState(0);
+  const currentDash = OS_DASHBOARDS[activeDashboardIndex];
 
-  const LIVE_CAPABILITIES = [
-    {
-      title: "Google Business Ownership Gate",
-      status: "LIVE & OPERATIONAL",
-      isLive: true,
-      desc: "Verified profile linking using your authorized Google account or GBP ID.",
-      badge: "Security & Auth"
-    },
-    {
-      title: "24-Point Diagnostic Growth Audit",
-      status: "LIVE & OPERATIONAL",
-      isLive: true,
-      desc: "Weighted scoring across completeness, reviews, media, posts, and engagement.",
-      badge: "Audit Engine"
-    },
-    {
-      title: "AI Review Auto-Responder",
-      status: "LIVE & OPERATIONAL",
-      isLive: true,
-      desc: "Multi-tone AI review replies built for speed and Google 3-Pack relevance.",
-      badge: "Reputation AI"
-    },
-    {
-      title: "Live Google Maps Telemetry",
-      status: "LIVE & OPERATIONAL",
-      isLive: true,
-      desc: "Track verified calls, direction requests, and local search impressions.",
-      badge: "Telemetry"
-    },
-    {
-      title: "Multi-Location Automated Ad Sync",
-      status: "IN ROADMAP (Q1 2027)",
-      isLive: false,
-      desc: "Smart local ad budget tuning based on real-time 3-Pack ranking signals.",
-      badge: "Planned Module"
-    },
-    {
-      title: "Autonomous WhatsApp Drip Scheduler",
-      status: "IN ROADMAP (Q2 2027)",
-      isLive: false,
-      desc: "Automated re-engagement sequences triggered by customer visit history.",
-      badge: "Planned Module"
+  const productMockupRef = useRef(null);
+  const modulesGridRef = useRef(null);
+
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) return;
+
+    // 1. 3D Rise on product mockup frame
+    if (productMockupRef.current) {
+      gsap.fromTo(
+        productMockupRef.current,
+        {
+          rotateX: 10,
+          scale: 0.95,
+          opacity: 0.85,
+          transformPerspective: 1200,
+        },
+        {
+          rotateX: 0,
+          scale: 1,
+          opacity: 1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: productMockupRef.current,
+            start: "top 85%",
+            end: "bottom 60%",
+            scrub: 1,
+          },
+        }
+      );
     }
-  ];
+
+    // 2. Cascade reveal on module cards
+    if (modulesGridRef.current) {
+      const cards = modulesGridRef.current.children;
+      gsap.fromTo(
+        cards,
+        { y: 30, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          stagger: 0.08,
+          duration: 0.6,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: modulesGridRef.current,
+            start: "top 88%",
+          },
+        }
+      );
+    }
+  }, []);
 
   return (
-    <section className="relative py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white via-[#F8FAFC] to-white dark:from-[#071A30] dark:via-[#0B2545] dark:to-[#071A30] text-[#0B2545] dark:text-[#E6EEF2] border-t border-slate-200/80 dark:border-white/5 transition-colors duration-300 font-body overflow-hidden">
-      
-      {/* Background Lighting */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-[#0097B2]/10 blur-[130px] rounded-full pointer-events-none" />
-
-      <div className="max-w-7xl mx-auto relative z-10">
-        
+    <section className="relative py-20 sm:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white via-[#F8FAFC] to-white dark:from-[#071A30] dark:via-[#0B2545] dark:to-[#071A30] text-[#0B2545] dark:text-[#E6EEF2] border-t border-slate-200/80 dark:border-white/5 font-body overflow-hidden">
+      <div className="max-w-7xl mx-auto">
         {/* Section Header */}
-        <div className="max-w-3xl mx-auto text-center mb-16 sm:mb-20">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0097B2]/15 border border-[#0097B2]/30 text-[#0097B2] dark:text-cyan-400 text-xs font-mono font-bold uppercase tracking-wider mb-4">
+        <div className="max-w-3xl mx-auto text-center mb-12 sm:mb-14">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0097B2]/10 border border-[#0097B2]/20 text-[#0097B2] dark:text-cyan-400 text-xs font-mono font-bold uppercase tracking-wider mb-3">
             <Zap className="w-3.5 h-3.5" />
-            <span>SOFTWARE PRODUCT ECOSYSTEM</span>
+            <span>POWERED BY SM NEXTGEN</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-heading text-[#0B2545] dark:text-white tracking-tight mb-5 leading-tight">
-            SM NextGen Growth OS. <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0097B2] via-cyan-500 to-[#007a91]">
-              The Operating System for Business Prominence.
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-heading text-[#0B2545] dark:text-white tracking-tight mb-4 leading-tight">
+            Meet Growth OS. <br />
+            <span className="text-[#0097B2]">
+              A Smarter Way to Manage Local Business Growth.
             </span>
           </h2>
 
-          <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 font-light leading-relaxed">
-            Manage your Google Business Profile, automate review replies, audit local ranking gaps, and track customer calls in one workspace.
+          <p className="text-base sm:text-lg text-slate-700 dark:text-slate-200 font-normal leading-relaxed max-w-2xl mx-auto mb-2">
+            Managing a local business online often means juggling business listings, customer reviews, profile updates and performance tracking across disconnected tools.
+          </p>
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-light max-w-2xl mx-auto">
+            Growth OS is being developed to bring important Google Business Profile growth workflows into one focused platform.
           </p>
         </div>
 
-        {/* Feature Split Layout: Interactive Showcase */}
-        <div className="grid lg:grid-cols-12 gap-10 items-center mb-16">
-          
-          {/* Left Column (5 Cols): Capabilities List with Clear Status Tags */}
-          <div className="lg:col-span-5 space-y-3">
-            <div className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider px-1 mb-2">
-              PLATFORM CAPABILITIES & STATUS
-            </div>
-
-            {LIVE_CAPABILITIES.map((cap, index) => {
-              const isSelected = activeFeature === index;
+        {/* Clean, Plain & Systematic Dashboard Showcase with 3D Rise */}
+        <div className="mb-12">
+          {/* Dashboard View Selector Tabs */}
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-6">
+            {OS_DASHBOARDS.map((dash, idx) => {
+              const isSelected = activeDashboardIndex === idx;
               return (
-                <div
-                  key={index}
-                  onClick={() => setActiveFeature(index)}
-                  className={`p-4 rounded-2xl border transition-all cursor-pointer ${
+                <button
+                  key={dash.id}
+                  type="button"
+                  onClick={() => setActiveDashboardIndex(idx)}
+                  className={`px-4 py-2 rounded-xl text-xs font-subheading font-bold transition-colors cursor-pointer flex items-center gap-2 border ${
                     isSelected
-                      ? "bg-white dark:bg-[#071A30] border-[#0097B2] shadow-lg shadow-[#0097B2]/10"
-                      : "bg-slate-50 dark:bg-white/5 border-slate-200/80 dark:border-white/5 hover:border-slate-300 dark:hover:border-white/20"
+                      ? "bg-[#0B2545] dark:bg-[#0097B2] text-white border-[#0B2545] dark:border-[#0097B2]"
+                      : "bg-white dark:bg-white/5 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-white/10 hover:border-[#0097B2]/50"
                   }`}
                 >
-                  <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-[10px] font-mono font-bold text-[#0097B2] uppercase tracking-wider">
-                      {cap.badge}
-                    </span>
-                    <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full ${
-                      cap.isLive 
-                        ? "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30" 
-                        : "bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30"
-                    }`}>
-                      {cap.status}
-                    </span>
-                  </div>
-
-                  <h3 className="text-sm font-bold font-heading text-[#0B2545] dark:text-white mb-1">
-                    {cap.title}
-                  </h3>
-
-                  <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-light">
-                    {cap.desc}
-                  </p>
-                </div>
+                  <span className={`w-1.5 h-1.5 rounded-full ${isSelected ? "bg-cyan-300" : "bg-[#0097B2]"}`} />
+                  <span>{dash.title}</span>
+                </button>
               );
             })}
           </div>
 
-          {/* Right Column (7 Cols): Realistic Product Interface Visual */}
-          <div className="lg:col-span-7">
-            <div className="rounded-3xl bg-[#040e1b] border border-slate-800 p-6 sm:p-8 shadow-2xl relative overflow-hidden text-white font-sans">
-              
-              {/* Product Header */}
-              <div className="flex items-center justify-between pb-5 border-b border-slate-800 mb-6">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-2xl bg-[#0097B2] flex items-center justify-center text-white font-extrabold text-sm shadow-md shadow-[#0097B2]/30">
-                    OS
-                  </div>
-                  <div>
-                    <div className="text-xs font-mono font-bold text-cyan-400">SM NEXTGEN GROWTH OS</div>
-                    <div className="text-sm font-bold text-white">Live Workspace: SM NextGen HQ (Udaipur)</div>
-                  </div>
-                </div>
-
+          {/* Systematic Framed Product Mockup with 3D Perspective */}
+          <div style={{ perspective: "1200px" }} className="w-full">
+            <div
+              ref={productMockupRef}
+              style={{ transformStyle: "preserve-3d" }}
+              className="max-w-5xl mx-auto rounded-2xl bg-[#040e1b] border border-slate-800 shadow-xl overflow-hidden will-change-transform"
+            >
+              <div className="px-4 py-2.5 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/15 border border-emerald-500/30 px-2.5 py-1 rounded-full font-bold">
-                    Connected
+                  <span className="w-2.5 h-2.5 rounded-full bg-rose-400" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-amber-400" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
+                  <span className="ml-2 font-mono text-[11px] text-slate-300">
+                    SM NextGen Growth OS — {currentDash.title}
                   </span>
-                  <Link
-                    href="/growth-os"
-                    className="hidden sm:inline-flex items-center gap-1 text-xs font-bold text-[#0097B2] hover:text-cyan-300 transition"
-                  >
-                    <span>Full App</span>
-                    <ArrowUpRight className="w-3.5 h-3.5" />
-                  </Link>
                 </div>
+                <span className="px-2 py-0.5 rounded-md bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[10px] font-mono font-bold">
+                  {currentDash.badge}
+                </span>
               </div>
 
-              {/* Central Mockup Dashboard Body */}
-              <div className="space-y-4">
-                
-                {/* 3 Live Metric Badges */}
-                <div className="grid grid-cols-3 gap-2.5">
-                  <div className="p-3 rounded-xl bg-slate-900/80 border border-slate-800">
-                    <div className="text-[10px] text-slate-400">Google Star Rating</div>
-                    <div className="text-base font-extrabold text-amber-400 flex items-center gap-1 mt-0.5">
-                      <Star className="w-4 h-4 fill-amber-400" />
-                      5.0 ★
-                    </div>
-                    <div className="text-[9px] text-slate-400 font-mono">47 Real Reviews</div>
-                  </div>
-
-                  <div className="p-3 rounded-xl bg-slate-900/80 border border-slate-800">
-                    <div className="text-[10px] text-slate-400">Growth Audit Score</div>
-                    <div className="text-base font-extrabold text-emerald-400 mt-0.5">
-                      88 / 100
-                    </div>
-                    <div className="text-[9px] text-emerald-400 font-mono">Profile Verified</div>
-                  </div>
-
-                  <div className="p-3 rounded-xl bg-slate-900/80 border border-slate-800">
-                    <div className="text-[10px] text-slate-400">Inbound Calls</div>
-                    <div className="text-base font-extrabold text-white mt-0.5">
-                      198 Calls
-                    </div>
-                    <div className="text-[9px] text-cyan-400 font-mono">+18% This Month</div>
-                  </div>
-                </div>
-
-                {/* Simulated 24-Point Audit Checklist Preview */}
-                <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-2.5">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-bold text-white flex items-center gap-1.5">
-                      <ShieldCheck className="w-4 h-4 text-[#0097B2]" />
-                      24-Point Diagnostic Health Checklist
-                    </span>
-                    <span className="text-[10px] font-mono text-emerald-400 font-bold">Passing 21/24 Checks</span>
-                  </div>
-
-                  <div className="space-y-1.5 text-xs text-slate-300">
-                    <div className="flex items-center justify-between p-2 rounded-lg bg-slate-950/60 border border-slate-800/60">
-                      <div className="flex items-center gap-2">
-                        <Check className="w-3.5 h-3.5 text-emerald-400" />
-                        <span>NAP Consistency (Ganapati Nagar, Udaipur HQ)</span>
-                      </div>
-                      <span className="text-[10px] font-mono text-emerald-400">100% Match</span>
-                    </div>
-
-                    <div className="flex items-center justify-between p-2 rounded-lg bg-slate-950/60 border border-slate-800/60">
-                      <div className="flex items-center gap-2">
-                        <Check className="w-3.5 h-3.5 text-emerald-400" />
-                        <span>Google Business Profile Ownership Gate</span>
-                      </div>
-                      <span className="text-[10px] font-mono text-emerald-400">Owner Verified</span>
-                    </div>
-
-                    <div className="flex items-center justify-between p-2 rounded-lg bg-slate-950/60 border border-slate-800/60">
-                      <div className="flex items-center gap-2">
-                        <Check className="w-3.5 h-3.5 text-emerald-400" />
-                        <span>AI Review Autopilot (Drafting Enabled)</span>
-                      </div>
-                      <span className="text-[10px] font-mono text-cyan-400">Active</span>
-                    </div>
-                  </div>
-                </div>
-
+              <div className="relative w-full aspect-[16/9] bg-slate-950">
+                <Image
+                  src={currentDash.image}
+                  alt={currentDash.alt}
+                  fill
+                  quality={85}
+                  sizes="(max-width: 1024px) 100vw, 980px"
+                  className="object-contain object-top"
+                />
               </div>
 
-              {/* Bottom Interactive CTA Bar */}
-              <div className="mt-6 pt-5 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div className="text-xs text-slate-400 text-center sm:text-left">
-                  <span>Sign in with authorized Google email or enter 10-digit GBP ID</span>
-                </div>
-
+              <div className="p-4 bg-slate-900/80 border-t border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-slate-400">
+                <p className="font-light">{currentDash.desc}</p>
                 <Link
                   href="/growth-os"
-                  className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#0097B2] to-cyan-500 hover:from-[#007a91] hover:to-cyan-600 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-[#0097B2]/30 transition"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#0097B2] hover:bg-[#007a91] text-white font-bold text-xs uppercase tracking-wider transition"
                 >
-                  <span>Launch Growth OS Free</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  <span>Explore Growth OS</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
-
             </div>
           </div>
-
         </div>
 
+        {/* Operational Modules Breakdown Grid */}
+        <div className="max-w-5xl mx-auto mb-10">
+          <div className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider mb-3 px-1">
+            KEY FEATURES &amp; AVAILABILITY
+          </div>
+          <div
+            ref={modulesGridRef}
+            className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3.5"
+          >
+            {PLATFORM_MODULES.map((mod, index) => (
+              <div
+                key={index}
+                className="p-4 rounded-xl bg-white dark:bg-[#0B2545]/40 border border-slate-200/80 dark:border-white/10 hover:border-[#0097B2]/40 transition-colors flex flex-col justify-between"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[10px] font-mono font-bold text-[#0097B2] uppercase">
+                      {mod.badge}
+                    </span>
+                    <span
+                      className={`text-[9px] font-mono font-bold px-2 py-0.5 rounded-full ${
+                        mod.isLive
+                          ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20"
+                          : "bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20"
+                      }`}
+                    >
+                      {mod.status}
+                    </span>
+                  </div>
+                  <h3 className="text-sm font-bold font-heading text-[#0B2545] dark:text-white mb-1">
+                    {mod.title}
+                  </h3>
+                  <p className="text-xs text-slate-600 dark:text-slate-300 font-light leading-relaxed">
+                    {mod.desc}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Closing Line */}
+        <div className="text-center max-w-xl mx-auto pt-4 border-t border-slate-200/80 dark:border-white/10">
+          <p className="text-sm font-semibold text-[#0B2545] dark:text-white font-heading">
+            Built by SM NextGen. Designed to make local business growth easier to manage.
+          </p>
+          <p className="text-[11px] text-slate-400 dark:text-slate-500 font-mono mt-1">
+            *Features marked as available are fully operational. Additional automation workflows in scheduled development.
+          </p>
+        </div>
       </div>
     </section>
   );

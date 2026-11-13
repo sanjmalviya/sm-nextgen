@@ -1,13 +1,20 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { 
   Calculator, Sparkles, TrendingUp, DollarSign, 
   ArrowRight, ShieldCheck, CheckCircle2, ChevronRight, 
   Zap, BarChart2 
 } from "lucide-react";
 
+gsap.registerPlugin(ScrollTrigger);
+
 export default function HomeGrowthTools({ onStartConversation }) {
+  const sectionRef = useRef(null);
+  const toolCardRef = useRef(null);
+
   // Tab: "roi" | "cac" | "audit"
   const [activeTool, setActiveTool] = useState("roi");
 
@@ -22,8 +29,50 @@ export default function HomeGrowthTools({ onStartConversation }) {
   const [acquisitions, setAcquisitions] = useState(120);
   const estimatedCac = acquisitions > 0 ? Math.round(totalMarketing / acquisitions) : 0;
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) return;
+
+    const ctx = gsap.context(() => {
+      if (toolCardRef.current) {
+        gsap.fromTo(
+          toolCardRef.current,
+          {
+            opacity: 0.85,
+            y: 35,
+            rotateX: 8,
+            scale: 0.96,
+            transformPerspective: 1200,
+            transformOrigin: "center top",
+          },
+          {
+            opacity: 1,
+            y: 0,
+            rotateX: 0,
+            scale: 1,
+            duration: 1.1,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: toolCardRef.current,
+              start: "top 85%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      }
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="growth-tools" className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-[#F8FAFC] dark:bg-[#071A30] text-[#0B2545] dark:text-[#E6EEF2] border-t border-[#0B2545]/5 dark:border-white/5 transition-colors duration-300 font-body">
+    <section 
+      ref={sectionRef} 
+      id="growth-tools" 
+      className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-[#F8FAFC] dark:bg-[#071A30] text-[#0B2545] dark:text-[#E6EEF2] border-t border-[#0B2545]/5 dark:border-white/5 transition-colors duration-300 font-body"
+      style={{ perspective: "1200px" }}
+    >
       <div className="max-w-7xl mx-auto">
         
         {/* Section Header */}
@@ -45,8 +94,11 @@ export default function HomeGrowthTools({ onStartConversation }) {
           </p>
         </div>
 
-        {/* Interactive Tool Frame */}
-        <div className="max-w-5xl mx-auto bg-white dark:bg-[#0B2545] rounded-3xl border border-[#0B2545]/10 dark:border-white/10 shadow-xl overflow-hidden">
+        {/* Interactive Tool Frame with 3D Perspective */}
+        <div 
+          ref={toolCardRef} 
+          className="max-w-5xl mx-auto bg-white dark:bg-[#0B2545] rounded-3xl border border-[#0B2545]/10 dark:border-white/10 shadow-xl overflow-hidden will-change-transform"
+        >
           
           {/* Tool Switcher Tabs */}
           <div className="flex border-b border-[#0B2545]/10 dark:border-white/10 bg-slate-50 dark:bg-black/20 p-2 gap-2 overflow-x-auto">
@@ -90,21 +142,21 @@ export default function HomeGrowthTools({ onStartConversation }) {
                 <div className="space-y-6">
                   <div>
                     <label className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block mb-2">
-                      Monthly Marketing Budget: <span className="text-[#0097B2] font-mono text-base font-bold">${adSpend.toLocaleString()}</span>
+                      Monthly Marketing Budget: <span className="text-[#0097B2] font-mono text-base font-bold">₹{adSpend.toLocaleString('en-IN')}</span>
                     </label>
                     <input
                       type="range"
-                      min={5000}
-                      max={200000}
+                      min={10000}
+                      max={500000}
                       step={5000}
                       value={adSpend}
                       onChange={(e) => setAdSpend(Number(e.target.value))}
                       className="w-full accent-[#0097B2] cursor-pointer"
                     />
                     <div className="flex justify-between text-[11px] text-slate-400 font-mono mt-1">
-                      <span>$5,000</span>
-                      <span>$100,000</span>
-                      <span>$200,000</span>
+                      <span>₹10,000</span>
+                      <span>₹2,50,000</span>
+                      <span>₹5,00,000</span>
                     </div>
                   </div>
 
@@ -137,18 +189,18 @@ export default function HomeGrowthTools({ onStartConversation }) {
                   <div>
                     <span className="text-xs uppercase font-mono tracking-widest text-slate-400">Projected Monthly Pipeline</span>
                     <div className="text-4xl sm:text-5xl font-extrabold font-heading text-[#0097B2] mt-1 font-mono">
-                      ${projectedRevenue.toLocaleString()}
+                      ₹{projectedRevenue.toLocaleString('en-IN')}
                     </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4 pt-4 border-t border-slate-200 dark:border-white/10 text-xs">
                     <div>
                       <span className="text-slate-400 block font-mono">Est. Net Yield</span>
-                      <span className="font-bold text-emerald-600 dark:text-emerald-400 text-sm font-mono">+${netProfitEstimated.toLocaleString()}</span>
+                      <span className="font-bold text-emerald-600 dark:text-emerald-400 text-sm font-mono">+₹{netProfitEstimated.toLocaleString('en-IN')}</span>
                     </div>
                     <div>
                       <span className="text-slate-400 block font-mono">Annualized Run Rate</span>
-                      <span className="font-bold text-[#0B2545] dark:text-white text-sm font-mono">${(projectedRevenue * 12).toLocaleString()}</span>
+                      <span className="font-bold text-[#0B2545] dark:text-white text-sm font-mono">₹{(projectedRevenue * 12).toLocaleString('en-IN')}</span>
                     </div>
                   </div>
 
@@ -168,13 +220,13 @@ export default function HomeGrowthTools({ onStartConversation }) {
                 <div className="space-y-6">
                   <div>
                     <label className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block mb-2">
-                      Total Sales & Marketing Spend: <span className="text-[#0097B2] font-mono text-base font-bold">${totalMarketing.toLocaleString()}</span>
+                      Total Sales & Marketing Spend: <span className="text-[#0097B2] font-mono text-base font-bold">₹{totalMarketing.toLocaleString('en-IN')}</span>
                     </label>
                     <input
                       type="range"
                       min={10000}
-                      max={250000}
-                      step={5000}
+                      max={1000000}
+                      step={10000}
                       value={totalMarketing}
                       onChange={(e) => setTotalMarketing(Number(e.target.value))}
                       className="w-full accent-[#0097B2] cursor-pointer"
@@ -205,14 +257,14 @@ export default function HomeGrowthTools({ onStartConversation }) {
                   <div>
                     <span className="text-xs uppercase font-mono tracking-widest text-slate-400">Blended Customer Acquisition Cost (CAC)</span>
                     <div className="text-4xl sm:text-5xl font-extrabold font-heading text-[#0097B2] mt-1 font-mono">
-                      ${estimatedCac.toLocaleString()}
+                      ₹{estimatedCac.toLocaleString('en-IN')}
                     </div>
                   </div>
 
                   <div className="pt-4 border-t border-slate-200 dark:border-white/10 text-xs text-slate-600 dark:text-slate-300 space-y-2">
                     <div className="flex items-center gap-2">
                       <CheckCircle2 className="w-4 h-4 text-[#0097B2] shrink-0" />
-                      <span>Recommended Target LTV: <strong>${(estimatedCac * 3).toLocaleString()}</strong></span>
+                      <span>Recommended Target LTV: <strong>₹{(estimatedCac * 3).toLocaleString('en-IN')}</strong></span>
                     </div>
                     <div className="flex items-center gap-2">
                       <CheckCircle2 className="w-4 h-4 text-[#0097B2] shrink-0" />

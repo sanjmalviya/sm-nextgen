@@ -74,7 +74,7 @@ export async function POST(req) {
       const isAuthorizedEmail = 
         !ownerEmail || 
         ownerEmail.toLowerCase().includes("admin@smnextgen.com") || 
-        ownerEmail.toLowerCase().includes("sanjmalviya") || 
+        ownerEmail.toLowerCase().includes("info@smnextgen.com") || 
         ownerEmail.toLowerCase().includes("smnextgen.in") || 
         ownerEmail.toLowerCase().endsWith("@smnextgen.com");
 
@@ -133,7 +133,7 @@ export async function POST(req) {
           reviews: verifiedReviews,
           isLiveVerified: true,
           verificationSource: "Google Business Profile Official Verified Listing",
-          verifiedOwnerEmail: ownerEmail || "sanjmalviya88243@gmail.com"
+          verifiedOwnerEmail: ownerEmail || "admin@smnextgen.com"
         }
       });
     }

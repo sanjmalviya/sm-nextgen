@@ -1,33 +1,68 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Link from "next/link";
-import { Phone, Mail, MapPin, MessageSquare, ArrowUpRight, Zap } from "lucide-react";
+import Image from "next/image";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Phone, Mail, MapPin, MessageSquare, ArrowUpRight, Zap, ShieldCheck } from "lucide-react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Footer() {
+  const footerRef = useRef(null);
+  const wordmarkRef = useRef(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) return;
+
+    const ctx = gsap.context(() => {
+      if (wordmarkRef.current) {
+        gsap.fromTo(
+          wordmarkRef.current,
+          { yPercent: 25, opacity: 0.6, scale: 0.98 },
+          {
+            yPercent: 0,
+            opacity: 1,
+            scale: 1,
+            ease: "none",
+            scrollTrigger: {
+              trigger: wordmarkRef.current,
+              start: "top 98%",
+              end: "bottom bottom",
+              scrub: 1,
+            },
+          }
+        );
+      }
+    }, footerRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <footer className="bg-[#071A30] text-white pt-16 pb-10 border-t border-white/10 mt-auto font-body relative overflow-hidden">
-      
+    <footer ref={footerRef} className="bg-[#071A30] text-white pt-16 pb-6 border-t border-white/10 mt-auto font-body relative overflow-hidden">
       {/* Subtle Atmospheric Lighting */}
-      <div className="absolute top-0 left-0 w-96 h-96 bg-[#0097B2]/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#0097B2]/10 rounded-full blur-[130px] pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-[140px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
-        {/* Top Grid: Brand & Map */}
+        {/* Top Grid: Brand Details & Google Map */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 mb-14 pb-14 border-b border-white/10">
-          
           {/* Left Column (5 Cols): Brand & Direct Details */}
           <div className="lg:col-span-5 flex flex-col justify-between space-y-6">
             <div>
               {/* Logo Lockup */}
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 rounded-full overflow-hidden shrink-0 flex items-center justify-center bg-[#0097B2]/10 border border-[#0097B2]/30">
-                  <img 
+                  <Image 
                     src="/images/logo.png" 
                     alt="SM NextGen" 
-                    className="w-full h-full object-cover" 
                     width={40}
                     height={40}
+                    className="w-full h-full object-cover" 
                   />
                 </div>
                 <div className="flex flex-col">
@@ -41,7 +76,7 @@ export default function Footer() {
               </div>
 
               <p className="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-sm font-light">
-                Your Complete Business Growth Partner. Combining strategy, marketing, technology, AI automation, and closed-loop revenue attribution.
+                We bring strategy, marketing, technology and AI together to help businesses build stronger brands, smarter systems and sustainable growth.
               </p>
             </div>
 
@@ -80,8 +115,7 @@ export default function Footer() {
                 <div>
                   <span className="text-[10px] text-slate-400 uppercase font-mono block">Headquarters</span>
                   <span className="text-slate-300 leading-relaxed font-light text-xs">
-                    HPPQ+Q5V, Sunderwas, Ganapati Nagar, <br />
-                    Udaipur, Rajasthan 313001, India
+                    Udaipur, Rajasthan, India
                   </span>
                 </div>
               </div>
@@ -104,112 +138,116 @@ export default function Footer() {
               referrerPolicy="no-referrer-when-downgrade"
             />
           </div>
-
         </div>
 
         {/* Navigation Columns */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
-          
-          <div>
-            <h4 className="font-bold mb-4 text-[#0097B2] uppercase text-xs tracking-wider font-mono">
-              Growth Capabilities
-            </h4>
-            <ul className="space-y-2.5 text-xs text-slate-300 font-medium">
-              <li><Link href="/services/brand-strategy-positioning" className="hover:text-white transition-colors">Growth Strategy</Link></li>
-              <li><Link href="/services/search-engine-optimization-seo" className="hover:text-white transition-colors">Marketing & Demand</Link></li>
-              <li><Link href="/services/website-development" className="hover:text-white transition-colors">Conversion & Web Tech</Link></li>
-              <li><Link href="/services/ai-business-automation-systems" className="hover:text-white transition-colors">AI & Automations</Link></li>
-              <li><Link href="/services/ai-data-analytics-business-intelligence" className="hover:text-white transition-colors">Data & Attribution</Link></li>
-              <li><Link href="/services/business-compliance-management" className="hover:text-white transition-colors">Operations Support</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-bold mb-4 text-[#0097B2] uppercase text-xs tracking-wider font-mono">
-              Systems & Products
-            </h4>
-            <ul className="space-y-2.5 text-xs text-slate-300 font-medium">
-              <li>
-                <Link href="/growth-os" className="text-cyan-300 font-bold hover:text-white inline-flex items-center gap-1.5 transition-colors">
-                  <Zap className="w-3.5 h-3.5 text-cyan-300" />
-                  <span>Growth OS Platform</span>
-                </Link>
-              </li>
-              <li><Link href="/how-we-work" className="hover:text-white transition-colors">How We Grow (Methodology)</Link></li>
-              <li><Link href="/industries" className="hover:text-white transition-colors">Industry Blueprints</Link></li>
-              <li><Link href="/case-studies" className="hover:text-white transition-colors">Documented Results</Link></li>
-              <li><Link href="/tools" className="hover:text-white transition-colors">Growth Tools & Calculators</Link></li>
-            </ul>
-          </div>
-
           <div>
             <h4 className="font-bold mb-4 text-[#0097B2] uppercase text-xs tracking-wider font-mono">
               Company
             </h4>
             <ul className="space-y-2.5 text-xs text-slate-300 font-medium">
-              <li><Link href="/about" className="hover:text-white transition-colors">About & Leadership</Link></li>
-              <li><Link href="/contact" className="hover:text-white transition-colors">Contact Us</Link></li>
-              <li><Link href="/pricing" className="hover:text-white transition-colors">Engagement Tiers</Link></li>
-              <li>
-                <a 
-                  href="https://wa.me/917073538077" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="hover:text-emerald-400 transition-colors inline-flex items-center gap-1.5"
-                >
-                  <MessageSquare className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>WhatsApp: +91 70735 38077</span>
-                </a>
-              </li>
+              <li><Link href="/about" className="hover:text-white transition-colors">About Us</Link></li>
+              <li><Link href="/how-we-work" className="hover:text-white transition-colors">How We Grow</Link></li>
+              <li><Link href="/industries" className="hover:text-white transition-colors">Industries</Link></li>
+              <li><Link href="/case-studies" className="hover:text-white transition-colors">Case Studies</Link></li>
+              <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>
             </ul>
           </div>
 
           <div>
             <h4 className="font-bold mb-4 text-[#0097B2] uppercase text-xs tracking-wider font-mono">
-              Legal & Compliance
+              Capabilities
             </h4>
-            <ul className="space-y-2 text-xs text-slate-400 font-medium">
-              <li><Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
-              <li><Link href="/terms-and-conditions" className="hover:text-white transition-colors">Terms of Service</Link></li>
-              <li><Link href="/refund-policy" className="hover:text-white transition-colors">Refund Policy</Link></li>
-              <li><Link href="/cookie-policy" className="hover:text-white transition-colors">Cookie Policy</Link></li>
-              <li><Link href="/data-deletion" className="hover:text-rose-400 transition-colors">User Data Deletion</Link></li>
+            <ul className="space-y-2.5 text-xs text-slate-300 font-medium">
+              <li><Link href="/services/brand-strategy-positioning" className="hover:text-white transition-colors">Growth Strategy</Link></li>
+              <li><Link href="/services/search-engine-optimization-seo" className="hover:text-white transition-colors">Marketing &amp; Demand</Link></li>
+              <li><Link href="/services/website-development" className="hover:text-white transition-colors">Digital Experience</Link></li>
+              <li><Link href="/services/sales-funnel-conversion" className="hover:text-white transition-colors">Conversion Systems</Link></li>
+              <li><Link href="/services/ai-business-automation-systems" className="hover:text-white transition-colors">AI &amp; Automation</Link></li>
+              <li><Link href="/services/ai-data-analytics-business-intelligence" className="hover:text-white transition-colors">Data &amp; Intelligence</Link></li>
             </ul>
+          </div>
+
+          <div>
+            <h4 className="font-bold mb-4 text-[#0097B2] uppercase text-xs tracking-wider font-mono">
+              Products &amp; Resources
+            </h4>
+            <ul className="space-y-2.5 text-xs text-slate-300 font-medium">
+              <li>
+                <Link href="/growth-os" className="text-cyan-300 font-bold hover:text-white inline-flex items-center gap-1.5 transition-colors">
+                  <Zap className="w-3.5 h-3.5 text-cyan-300" />
+                  <span>Growth OS</span>
+                </Link>
+              </li>
+              <li><Link href="/tools" className="hover:text-white transition-colors">Growth Tools</Link></li>
+              <li><Link href="/blogs" className="hover:text-white transition-colors">Insights</Link></li>
+              <li><Link href="/how-we-work" className="hover:text-white transition-colors">Resources</Link></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-bold mb-4 text-[#0097B2] uppercase text-xs tracking-wider font-mono">
+              Contact &amp; Legal
+            </h4>
+            <ul className="space-y-2.5 text-xs text-slate-300 font-medium mb-4">
+              <li className="text-slate-400">Udaipur, Rajasthan, India</li>
+              <li><a href="mailto:info@smnextgen.com" className="text-[#0097B2] hover:underline">info@smnextgen.com</a></li>
+              <li><a href="tel:+917073538077" className="text-white hover:text-[#0097B2]">+91 70735 38077</a></li>
+            </ul>
+
+            <div className="space-y-1.5 pt-2 border-t border-white/10 text-[11px] text-slate-400">
+              <div><Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link></div>
+              <div><Link href="/terms-and-conditions" className="hover:text-white transition-colors">Terms of Service</Link></div>
+            </div>
             
             {/* Social Links */}
-            <div className="mt-5 flex items-center space-x-3">
+            <div className="mt-4 flex items-center space-x-3">
               <a 
                 href="https://www.instagram.com/smnextgen/" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 aria-label="SM NextGen on Instagram"
-                className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:bg-pink-600 transition-colors"
+                className="w-7 h-7 rounded-lg bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:bg-pink-600 transition-colors"
               >
-                <span className="text-xs font-bold font-mono">IG</span>
+                <span className="text-[10px] font-bold font-mono">IG</span>
               </a>
               <a 
                 href="https://www.linkedin.com/company/109211431" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 aria-label="SM NextGen on LinkedIn"
-                className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:bg-blue-600 transition-colors"
+                className="w-7 h-7 rounded-lg bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:bg-blue-600 transition-colors"
               >
-                <span className="text-xs font-bold font-mono">IN</span>
+                <span className="text-[10px] font-bold font-mono">IN</span>
               </a>
             </div>
           </div>
+        </div>
 
+        {/* Oversized Official SVG Footer Wordmark (Approved Brand Asset) with Curtain Reveal */}
+        <div className="w-full overflow-hidden flex justify-center items-end mt-12 mb-6 pointer-events-none select-none">
+          <img 
+            ref={wordmarkRef}
+            src="/images/sm-nextgen-footer-wordmark.svg" 
+            alt="SM NEXTGEN" 
+            className="w-full max-w-[1600px] h-auto block opacity-90 transition-opacity hover:opacity-100 will-change-transform" 
+          />
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center text-xs text-slate-500 font-mono">
-          <p>© {new Date().getFullYear()} SM NextGen. All Rights Reserved. Built for Business Growth.</p>
-          <div className="mt-3 md:mt-0 flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span>Systems Live & Operational</span>
+        <div className="border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center text-xs text-slate-400 font-mono">
+          <p className="font-bold text-slate-300">
+            SM NEXTGEN — Built for Business Growth.
+          </p>
+          <div className="mt-3 md:mt-0 flex items-center gap-4">
+            <p>© 2026 SM NextGen. All rights reserved.</p>
+            <div className="flex items-center gap-1.5 text-emerald-400">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span>Systems Live</span>
+            </div>
           </div>
         </div>
-
       </div>
     </footer>
   );

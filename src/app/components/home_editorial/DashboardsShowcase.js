@@ -1,8 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   TrendingUp,
   Users,
@@ -14,85 +16,71 @@ import {
   Eye,
 } from "lucide-react";
 
+gsap.registerPlugin(ScrollTrigger);
+
 const DASHBOARD_VIEWS = [
   {
     id: "marketing",
     label: "Marketing Performance",
     icon: TrendingUp,
-    title: "Campaign Reach, Leads & ROI",
-    subtitle: "Clear channel attribution across Ads, Organic Search, Social & WhatsApp.",
+    title: "Marketing Performance",
+    subtitle: "Understand campaign performance across paid, organic and social channels.",
     src: "/images/SM NextGen Marketing Dashboard.png",
     width: 1672,
     height: 941,
     alt: "SM NextGen Marketing Performance dashboard visual preview displaying ad spend, total leads, conversions, 3.8x ROI, channel share, and campaign comparison",
     highlights: [
-      "Cost per lead vs. qualified conversions",
-      "Side-by-side paid, organic & social comparison",
-      "Quickly shift budget toward winning campaigns",
+      "Understand campaign performance across paid, organic and social channels",
+      "Connect ad spend directly to inbound customer inquiries",
+      "Shift budget toward highest-performing customer acquisition channels",
     ],
   },
   {
     id: "leads",
     label: "Lead Management",
     icon: Users,
-    title: "Centralized Lead Intake & Qualification",
-    subtitle: "Track every inquiry cleanly without speed-to-lead drop-off.",
+    title: "Lead Management",
+    subtitle: "See how inquiries move through your sales pipeline.",
     src: "/images/Modern SaaS Lead Management Dashboard.png",
     width: 1672,
     height: 941,
     alt: "SM NextGen Lead Management CRM dashboard visual preview showing total leads, qualification stages, lead source distribution, and recent lead table",
     highlights: [
-      "Monitor progression from raw lead to qualified buyer",
-      "Spot channels delivering high-intent prospects",
-      "Full visibility into recent inquiries and status",
+      "See how inquiries move through your sales pipeline",
+      "Track response velocity and eliminate follow-up delays",
+      "Identify high-intent prospects and monitor conversion stages",
     ],
   },
   {
-    id: "pipeline",
-    label: "Sales Pipeline",
+    id: "conversion",
+    label: "Conversion Insights",
     icon: Kanban,
-    title: "Stage-by-Stage Deal Velocity",
-    subtitle: "Complete sales visibility from first response through closed revenue.",
+    title: "Conversion Insights",
+    subtitle: "Identify where potential customers drop off.",
     src: "/images/SM NextGen Sales Pipeline Dashboard.png",
     width: 1672,
     height: 941,
-    alt: "SM NextGen Sales Pipeline Kanban board visual preview across New Leads, Contacted, Qualified, Proposal, and Converted stages",
+    alt: "SM NextGen Conversion Insights and Sales Pipeline Kanban board visual preview",
     highlights: [
-      "Spot stalled proposals with stage deal values",
-      "Consistent handoffs from marketing to sales",
-      "Measure close rates from qualified to won",
+      "Identify where potential customers drop off across the funnel",
+      "Pinpoint landing page, form, and checkout friction points",
+      "Measure stage-by-stage conversion velocity and close rates",
     ],
   },
   {
     id: "revenue",
-    label: "Revenue Analytics",
+    label: "Revenue & ROI",
     icon: IndianRupee,
-    title: "Revenue Mix & Growth Forecasting",
-    subtitle: "Connect service lines, average deal value, and revenue trends.",
+    title: "Revenue & ROI",
+    subtitle: "Understand the commercial contribution of your growth activities.",
     src: "/images/SM NextGen Revenue Analytics Dashboard.png",
     width: 1672,
     height: 941,
-    alt: "SM NextGen Revenue Analytics dashboard visual preview showing total revenue, 20.4% growth, service category mix, and monthly revenue forecast",
+    alt: "SM NextGen Revenue & ROI Analytics dashboard visual preview showing total revenue, service category mix, and monthly revenue forecast",
     highlights: [
-      "Revenue share across marketing, web tech & CRM",
-      "Track deal size and monthly growth momentum",
-      "Project revenue trajectory from active pipeline",
-    ],
-  },
-  {
-    id: "overview",
-    label: "Growth Tracking KPIs",
-    icon: BarChart3,
-    title: "Executive KPI Snapshot",
-    subtitle: "Modular scorecards summarizing reach, clicks, conversion & revenue.",
-    src: "/images/Modern Teal Marketing Dashboard UI.png",
-    width: 1536,
-    height: 1024,
-    alt: "Modular SM NextGen marketing and growth analytics widgets preview displaying leads generated, conversion rate, 3.8x ROI, and channel trends",
-    highlights: [
-      "Fast weekly sparklines built for founders & leads",
-      "Paid ads, social, SEO, web & WhatsApp views",
-      "Marketing metrics tied to revenue outcomes",
+      "Understand the commercial contribution of your growth activities",
+      "Track Customer Acquisition Cost (CAC) and Lifetime Value (LTV)",
+      "Measure true return on ad spend tied directly to deposited revenue",
     ],
   },
 ];
@@ -101,28 +89,62 @@ export default function DashboardsShowcase() {
   const [activeId, setActiveId] = useState("marketing");
   const activeView = DASHBOARD_VIEWS.find((v) => v.id === activeId) || DASHBOARD_VIEWS[0];
 
+  const dashboardFrameRef = useRef(null);
+
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) return;
+
+    if (dashboardFrameRef.current) {
+      gsap.fromTo(
+        dashboardFrameRef.current,
+        {
+          rotateX: 10,
+          scale: 0.95,
+          opacity: 0.85,
+          transformPerspective: 1200,
+        },
+        {
+          rotateX: 0,
+          scale: 1,
+          opacity: 1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: dashboardFrameRef.current,
+            start: "top 85%",
+            end: "bottom 60%",
+            scrub: 1,
+          },
+        }
+      );
+    }
+  }, []);
+
   return (
     <section
       id="growth-intelligence"
-      className="relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-white dark:bg-[#030D1A] text-[#0B2545] dark:text-[#E6EEF2] border-t border-slate-200/80 dark:border-white/5 transition-colors duration-200 font-body"
+      className="relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-white dark:bg-[#030D1A] text-[#0B2545] dark:text-[#E6EEF2] border-t border-slate-200/80 dark:border-white/5 transition-colors duration-200 font-body overflow-hidden"
     >
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="max-w-3xl mx-auto text-center mb-12 sm:mb-14">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0097B2]/10 border border-[#0097B2]/20 text-[#0097B2] dark:text-cyan-300 text-xs font-subheading font-bold uppercase tracking-wider mb-4">
             <Eye className="w-3.5 h-3.5" />
-            <span>Clarity Across Every Metric</span>
+            <span>CLARITY BEHIND EVERY DECISION</span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-heading text-[#0B2545] dark:text-white tracking-tight leading-tight mb-4">
-            Connected Reporting for{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0097B2] to-cyan-500">
-              Marketing, Sales &amp; Revenue.
+            Know What's Working. <br />
+            <span className="text-[#0097B2]">
+              Understand What Needs to Improve.
             </span>
           </h2>
 
-          <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 font-light leading-relaxed">
-            Sample visual views showing how we unite marketing, leads, pipeline, and revenue in one place.
+          <p className="text-base sm:text-lg text-slate-700 dark:text-slate-200 font-normal leading-relaxed mb-2">
+            Marketing performance should mean more than impressions, clicks and likes.
+          </p>
+          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 font-light leading-relaxed">
+            We help connect the important parts of performance — from acquisition and lead quality to conversion, customer acquisition cost and revenue.
           </p>
         </div>
 
@@ -155,7 +177,7 @@ export default function DashboardsShowcase() {
           })}
         </div>
 
-        {/* Split Showcase Frame */}
+        {/* Split Showcase Frame with 3D Scroll Reveal */}
         <div className="grid lg:grid-cols-12 gap-8 items-center rounded-3xl bg-[#F8FAFC] dark:bg-[#071A30] border border-slate-200/90 dark:border-white/10 p-5 sm:p-8 shadow-sm">
           {/* Left Narrative Column */}
           <div className="lg:col-span-4 space-y-5">
@@ -192,9 +214,13 @@ export default function DashboardsShowcase() {
             </div>
           </div>
 
-          {/* Right Framed Dashboard Image */}
-          <div className="lg:col-span-8">
-            <div className="rounded-2xl bg-white dark:bg-[#030D1A] border border-slate-200/90 dark:border-white/10 shadow-xl overflow-hidden">
+          {/* Right Framed Dashboard Image (Rises forward in 3D on scroll) */}
+          <div style={{ perspective: "1200px" }} className="lg:col-span-8">
+            <div
+              ref={dashboardFrameRef}
+              style={{ transformStyle: "preserve-3d" }}
+              className="rounded-2xl bg-white dark:bg-[#030D1A] border border-slate-200/90 dark:border-white/10 shadow-lg overflow-hidden will-change-transform"
+            >
               <div className="px-4 py-2.5 bg-slate-100/80 dark:bg-white/5 border-b border-slate-200/70 dark:border-white/10 flex items-center justify-between">
                 <div className="flex items-center gap-1.5">
                   <span className="w-2.5 h-2.5 rounded-full bg-rose-400" />
@@ -220,6 +246,16 @@ export default function DashboardsShowcase() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Closing Statement */}
+        <div className="mt-8 text-center">
+          <p className="text-sm sm:text-base font-bold font-heading text-[#0B2545] dark:text-white">
+            Better visibility leads to better decisions.
+          </p>
+          <p className="text-[11px] text-slate-400 dark:text-slate-500 font-mono mt-1">
+            *Illustrative interface previews. Actual client reporting configured with verified live attribution.
+          </p>
         </div>
       </div>
     </section>

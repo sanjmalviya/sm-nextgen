@@ -1,0 +1,25 @@
+<!-- Load Poppins 800 in your site, then place this at the bottom of the footer. -->
+<div class="footer-wordmark">
+  <img src="/assets/sm-nextgen-footer-wordmark.svg" alt="SM NextGen">
+</div>
+
+<style>
+.footer-wordmark {
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  margin: 3rem auto 0;
+  line-height: 0;
+}
+.footer-wordmark img {
+  display: block;
+  width: min(100%, 1800px);
+  height: auto;
+}
+@media (max-width: 640px) {
+  .footer-wordmark { margin-top: 2rem; }
+  .footer-wordmark img { width: 112%; max-width: none; }
+}
+</style>

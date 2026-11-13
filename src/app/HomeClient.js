@@ -1,19 +1,66 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
+import dynamic from "next/dynamic";
+import Lenis from "lenis";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
 import HeroEditorial from "./components/home_editorial/HeroEditorial";
 import BusinessChallenges from "./components/home_editorial/BusinessChallenges";
 import GrowthSystemDark from "./components/home_editorial/GrowthSystemDark";
-import ServicesEditorial from "./components/home_editorial/ServicesEditorial";
 import HowWeWorkProcess from "./components/home_editorial/HowWeWorkProcess";
-import CustomerJourneyDiagram from "./components/CustomerJourneyDiagram";
+import ServicesEditorial from "./components/home_editorial/ServicesEditorial";
+import IndustriesShowcase from "./components/home_editorial/IndustriesShowcase";
 import DashboardsShowcase from "./components/home_editorial/DashboardsShowcase";
 import CaseStudiesProof from "./components/home_editorial/CaseStudiesProof";
 import GrowthOSShowcase from "./components/home_editorial/GrowthOSShowcase";
 import AboutLeadership from "./components/home_editorial/AboutLeadership";
 import FinalConsultationCTA from "./components/home_editorial/FinalConsultationCTA";
 
+// Dynamically import 3D Canvas layer (SSR: false for client-side WebGL)
+const ScrollPrism3D = dynamic(() => import("./components/3d/ScrollPrism3D"), {
+  ssr: false,
+});
+
+gsap.registerPlugin(ScrollTrigger);
+
 export default function HomeClient() {
+  // Initialize Lenis Smooth Scrolling synchronized with GSAP ScrollTrigger
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) return;
+
+    const lenis = new Lenis({
+      duration: 1.15,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      syncTouch: true,
+      touchMultiplier: 1.35,
+    });
+
+    lenis.on("scroll", ScrollTrigger.update);
+
+    const updateLenis = (time) => {
+      lenis.raf(time * 1000);
+    };
+
+    gsap.ticker.add(updateLenis);
+    gsap.ticker.lagSmoothing(0);
+
+    const refreshTimer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 250);
+
+    return () => {
+      clearTimeout(refreshTimer);
+      gsap.ticker.remove(updateLenis);
+      lenis.destroy();
+    };
+  }, []);
+
   const scrollToConsultation = () => {
     const el = document.getElementById("consultation");
     if (el) {
@@ -33,51 +80,68 @@ export default function HomeClient() {
   return (
     <main className="relative w-full z-10 overflow-x-hidden min-h-screen bg-white dark:bg-[#030D1A] font-body text-[#0B2545] dark:text-[#E6EEF2] selection:bg-[#0097B2] selection:text-white transition-colors duration-200">
       
-      {/* SECTION 1 — HERO: POSITIONING, SKY BACKDROP & UNIFIED DASHBOARD PREVIEW */}
+      {/* 3D Interactive Background Prism Layer (Desktop & Mobile) */}
+      <ScrollPrism3D />
+
+      {/* SECTION 01 — HERO */}
       <HeroEditorial
         onStartConversation={scrollToConsultation}
       />
 
-      {/* SECTION 2 — THE BUSINESS PROBLEM & OPPORTUNITY */}
+      {/* SECTION 02 — THE GROWTH PROBLEM */}
       <BusinessChallenges
         onExploreSystem={scrollToSystem}
       />
 
-      {/* SECTION 3 — THE SM NEXTGEN GROWTH ECOSYSTEM & CONNECTED SYSTEM */}
+      {/* SECTION 03 — THE CONNECTED GROWTH SYSTEM */}
       <div id="growth-system">
         <GrowthSystemDark
           onStartConversation={scrollToConsultation}
         />
       </div>
 
-      {/* SECTION 4 — GROWTH PHILOSOPHY & STRATEGIC CAPABILITY PILLARS */}
-      <ServicesEditorial />
+      {/* SECTION 04 — OUR CAPABILITIES */}
+      <div id="capabilities">
+        <ServicesEditorial />
+      </div>
 
-      {/* SECTION 5 — BUSINESS GROWTH PROCESS: 6-STAGE ORBITAL METHOD */}
-      <HowWeWorkProcess
-        onStartConversation={scrollToConsultation}
-      />
+      {/* SECTION 05 — HOW WE GROW */}
+      <div id="how-we-work">
+        <HowWeWorkProcess
+          onStartConversation={scrollToConsultation}
+        />
+      </div>
 
-      {/* SECTION 6 — CUSTOMER JOURNEY: DISCOVERY TO LOYALTY PIPELINE */}
-      <CustomerJourneyDiagram />
+      {/* SECTION 06 — GROWTH IN ACTION */}
+      <div id="case-studies">
+        <CaseStudiesProof
+          onExploreCase={scrollToConsultation}
+        />
+      </div>
 
-      {/* SECTION 7 — SUPPORTING REPORTING & ANALYTICS DASHBOARD PREVIEWS */}
-      <DashboardsShowcase />
+      {/* SECTION 07 — INDUSTRIES WE SUPPORT */}
+      <div id="industries">
+        <IndustriesShowcase />
+      </div>
 
-      {/* SECTION 8 — EVIDENCE, CASE BLUEPRINTS & HUMAN STORYTELLING */}
-      <CaseStudiesProof
-        onExploreCase={scrollToConsultation}
-      />
+      {/* SECTION 08 — BUSINESS INTELLIGENCE */}
+      <div id="dashboards">
+        <DashboardsShowcase />
+      </div>
 
-      {/* SECTION 9 — GROWTH OS: SOFTWARE ECOSYSTEM SPOTLIGHT */}
-      <GrowthOSShowcase />
+      {/* SECTION 09 — GROWTH OS */}
+      <div id="growth-os">
+        <GrowthOSShowcase />
+      </div>
 
-      {/* SECTION 10 — DIRECT LEADERSHIP, STRATEGIC PARTNERSHIP & TEAM TRUST */}
-      <AboutLeadership
-        onStartConversation={scrollToConsultation}
-      />
+      {/* SECTION 10 — THE PARTNERSHIP */}
+      <div id="about">
+        <AboutLeadership
+          onStartConversation={scrollToConsultation}
+        />
+      </div>
 
-      {/* SECTION 11 — FINAL CTA: "LET'S FIND YOUR NEXT GROWTH OPPORTUNITY" */}
+      {/* SECTION 11 — FINAL CTA */}
       <FinalConsultationCTA />
 
     </main>

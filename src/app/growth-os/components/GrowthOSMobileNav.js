@@ -180,7 +180,7 @@ export default function GrowthOSMobileNav({
           <span className="text-[10px] mt-0.5">Audit</span>
         </button>
 
-        {/* 5. Role-Aware 5th Tab: Admin for Sanjay, Assistant for Business Owner */}
+        {/* 5. Role-Aware 5th Tab: Admin for Platform Admin, Assistant for Business Owner */}
         {isMasterAdmin ? (
           <button
             onClick={() => setActiveTab("admin")}

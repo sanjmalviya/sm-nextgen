@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 430" role="img" aria-labelledby="title desc">
+  <title id="title">SM NextGen</title>
+  <desc id="desc">Oversized centered SM NextGen footer wordmark with a teal-to-soft-white vertical fade.</desc>
+  <defs>
+    <linearGradient id="wordmarkFade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0097B2" stop-opacity="1"/>
+      <stop offset="48%" stop-color="#39B7C8" stop-opacity=".82"/>
+      <stop offset="78%" stop-color="#B7E1E7" stop-opacity=".38"/>
+      <stop offset="100%" stop-color="#E6EEF2" stop-opacity=".04"/>
+    </linearGradient>
+  </defs>
+  <text x="900" y="342"
+        text-anchor="middle"
+        textLength="1690"
+        lengthAdjust="spacingAndGlyphs"
+        font-family="Poppins, Inter, Arial, sans-serif"
+        font-size="300"
+        font-weight="800"
+        letter-spacing="-13"
+        fill="url(#wordmarkFade)">SM NextGen</text>
+</svg>

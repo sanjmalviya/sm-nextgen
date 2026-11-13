@@ -1,123 +1,214 @@
 "use client";
 
-import React from "react";
-import styles from "./GrowthProcessDiagram.module.css";
+import React, { useEffect, useRef } from "react";
+import Image from "next/image";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ArrowRight } from "lucide-react";
 
-const PROCESS_STAGES = [
+gsap.registerPlugin(ScrollTrigger);
+
+const STAGES = [
   {
-    step: "01",
-    title: "DISCOVER",
-    desc: "Understand your business, market, audience and goals.",
-    renderIcon: (className) => (
-      <svg className={className} viewBox="0 0 48 48" fill="none" aria-hidden="true">
-        <circle cx="21" cy="21" r="12" stroke="currentColor" strokeWidth="3.2" />
-        <path d="m30 30 10 10" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" />
-        <path d="M16 21h10M21 16v10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-      </svg>
-    ),
+    num: "01",
+    label: "Stage one",
+    title: "Discover",
+    focus: "Research & understanding",
+    desc: "Understand your business, market, customers and objectives.",
+    image: "/images/wg01-discover.png",
+    alt: "Isometric business research environment representing discovery",
   },
   {
-    step: "02",
-    title: "DIAGNOSE",
-    desc: "Identify bottlenecks, weaknesses and growth opportunities.",
-    renderIcon: (className) => (
-      <svg className={className} viewBox="0 0 48 48" fill="none" aria-hidden="true">
-        <path d="M8 39V25h7v14M21 39V15h7v24M34 39V7h7v32" stroke="currentColor" strokeWidth="3" strokeLinejoin="round" />
-        <circle cx="35" cy="13" r="7" fill="currentColor" fillOpacity="0.1" stroke="currentColor" strokeWidth="2.5" />
-        <path d="m40 18 5 5" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
-      </svg>
-    ),
+    num: "02",
+    label: "Stage two",
+    title: "Diagnose",
+    focus: "Audit & opportunity mapping",
+    desc: "Identify the gaps, bottlenecks and opportunities affecting growth.",
+    image: "/images/wg02-diagnose.png",
+    alt: "Isometric business audit environment identifying a workflow bottleneck",
   },
   {
-    step: "03",
-    title: "STRATEGIZE",
-    desc: "Develop a clear, customised strategy for sustainable growth.",
-    renderIcon: (className) => (
-      <svg className={className} viewBox="0 0 48 48" fill="none" aria-hidden="true">
-        <circle cx="23" cy="24" r="17" stroke="currentColor" strokeWidth="3" />
-        <circle cx="23" cy="24" r="10" stroke="currentColor" strokeWidth="3" />
-        <circle cx="23" cy="24" r="3" fill="currentColor" />
-        <path d="m25 22 15-15m-8 1 8-1-1 8" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    ),
+    num: "03",
+    label: "Stage three",
+    title: "Strategize",
+    focus: "Roadmap & commercial economics",
+    desc: "Build a clear plan around your priorities, resources and goals.",
+    image: "/images/wg03-strategize.png",
+    alt: "Isometric strategic roadmap planning environment",
   },
   {
-    step: "04",
-    title: "BUILD",
-    desc: "Implement the marketing, sales, technology and automation systems you need.",
-    renderIcon: (className) => (
-      <svg className={className} viewBox="0 0 48 48" fill="none" aria-hidden="true">
-        <path d="m24 6 18 9-18 9-18-9 18-9Z" stroke="currentColor" strokeWidth="3" strokeLinejoin="round" />
-        <path d="m7 24 17 9 17-9M7 33l17 9 17-9" stroke="currentColor" strokeWidth="3" strokeLinejoin="round" />
-      </svg>
-    ),
+    num: "04",
+    label: "Stage four",
+    title: "Build",
+    focus: "Platform & automation deployment",
+    desc: "Implement the right marketing, technology and automation systems.",
+    image: "/images/wg04-build.png",
+    alt: "Isometric digital infrastructure and web engineering construction environment",
   },
   {
-    step: "05",
-    title: "OPTIMIZE",
-    desc: "Measure performance, learn from the data and improve continuously.",
-    renderIcon: (className) => (
-      <svg className={className} viewBox="0 0 48 48" fill="none" aria-hidden="true">
-        <path d="M8 31a16 16 0 1 1 32 0" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" />
-        <path d="m24 27 10-10" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" />
-        <circle cx="24" cy="27" r="3.5" fill="currentColor" />
-        <path d="M12 37h24" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-      </svg>
-    ),
+    num: "05",
+    label: "Stage five",
+    title: "Optimize",
+    focus: "Data analysis & continuous refinement",
+    desc: "Measure performance, learn from the data and improve what matters.",
+    image: "/images/wg05-optimize.png",
+    alt: "Isometric performance optimization dashboard with analytics dials",
   },
   {
-    step: "06",
-    title: "SCALE",
-    desc: "Expand what works and grow with stronger, connected systems.",
-    renderIcon: (className) => (
-      <svg className={className} viewBox="0 0 48 48" fill="none" aria-hidden="true">
-        <path d="M7 39V27h8v12M20 39V18h8v21M33 39V8h8v31" stroke="currentColor" strokeWidth="3" strokeLinejoin="round" />
-        <path d="m8 19 11-7 8 2L40 4m-8 0h8v8" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    ),
+    num: "06",
+    label: "Stage six",
+    title: "Scale",
+    focus: "Cross-channel compounding",
+    desc: "Expand successful activities and strengthen the systems behind them.",
+    image: "/images/wg06-scale.png",
+    alt: "Isometric enterprise business network scaling upwards",
   },
 ];
 
 export default function GrowthProcessDiagram() {
+  const gridRef = useRef(null);
+  const artworksRef = useRef([]);
+
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) return;
+
+    // 1. Staggered 3D Card Entrance on Scroll
+    if (gridRef.current) {
+      const cards = gridRef.current.children;
+      gsap.fromTo(
+        cards,
+        {
+          y: 60,
+          rotateX: 12,
+          opacity: 0,
+          transformPerspective: 1200,
+        },
+        {
+          y: 0,
+          rotateX: 0,
+          opacity: 1,
+          stagger: 0.1,
+          duration: 0.8,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: gridRef.current,
+            start: "top 82%",
+          },
+        }
+      );
+    }
+
+    // 2. Subtle scroll-linked floating parallax for each isometric artwork
+    artworksRef.current.forEach((el) => {
+      if (!el) return;
+      gsap.fromTo(
+        el,
+        { yPercent: -5 },
+        {
+          yPercent: 5,
+          ease: "none",
+          scrollTrigger: {
+            trigger: el,
+            start: "top 90%",
+            end: "bottom 10%",
+            scrub: 1.2,
+          },
+        }
+      );
+    });
+  }, []);
+
   return (
-    <div className={styles.processSection} aria-labelledby="process-title">
-      <p className={`${styles.eyebrow} font-subheading`}>The SM NextGen Method</p>
-      <h2 id="process-title" className={`${styles.title} font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight`}>
-        From business challenge to <span className={styles.titleAccent}>measurable growth.</span>
-      </h2>
-      <p className={`${styles.intro} font-body text-base sm:text-lg font-light`}>
-        A connected, six-stage approach that brings strategy, marketing, sales and technology together to build a stronger business.
-      </p>
-      <div className={styles.rule} aria-hidden="true" />
+    <div className="w-full">
+      {/* Systematic Section Header */}
+      <div className="max-w-3xl mx-auto text-center mb-12 sm:mb-16">
+        <p className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#F0FAFB] dark:bg-[#0097B2]/10 border border-[#D6EEF1] dark:border-[#0097B2]/20 text-[#0097B2] text-xs font-mono font-bold uppercase tracking-wider mb-4">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#0097B2]" />
+          <span>OUR APPROACH</span>
+        </p>
 
-      <div className={styles.timeline}>
-        <svg className={styles.track} viewBox="0 0 1200 100" preserveAspectRatio="none" aria-hidden="true">
-          <path
-            className={styles.trackBase}
-            d="M0 24 C100 24 100 76 200 76 S300 24 400 24 S500 76 600 76 S700 24 800 24 S900 76 1000 76 S1100 24 1200 24"
-          />
-          <path
-            className={styles.trackAccent}
-            d="M0 24 C100 24 100 76 200 76 S300 24 400 24 S500 76 600 76 S700 24 800 24 S900 76 1000 76 S1100 24 1200 24"
-          />
-        </svg>
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-heading text-[#0B2545] dark:text-white tracking-tight mb-4 leading-tight">
+          From Business Challenges to{" "}
+          <span className="text-[#0097B2]">
+            Measurable Progress.
+          </span>
+        </h2>
 
-        {PROCESS_STAGES.map((stage, idx) => {
-          const isEven = idx % 2 === 1;
-          return (
-            <article
-              key={stage.step}
-              className={`${styles.stage} ${isEven ? styles.stageEven : styles.stageOdd}`}
-            >
-              <div className={styles.orbit}>
-                <span className={`${styles.number} font-subheading`}>{stage.step}</span>
-                {stage.renderIcon(styles.icon)}
+        <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 font-light leading-relaxed max-w-2xl mx-auto">
+          Every business has different customers, economics, challenges and growth opportunities. Our process starts by understanding those differences.
+        </p>
+
+        <div className="inline-flex items-center gap-2 mt-5 text-xs font-mono font-bold text-slate-500 dark:text-slate-400">
+          <span className="w-2 h-2 rounded-full bg-[#0097B2]" />
+          <span>SIX CONNECTED STAGES</span>
+        </div>
+      </div>
+
+      {/* Systematic 6-Card Grid Layout with 3D Perspective */}
+      <div
+        ref={gridRef}
+        style={{ perspective: "1200px" }}
+        className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto"
+      >
+        {STAGES.map((stage, idx) => (
+          <article
+            key={stage.num}
+            style={{ transformStyle: "preserve-3d" }}
+            className="rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#071A30] shadow-xs hover:border-[#0097B2]/40 transition-colors p-5 flex flex-col justify-between will-change-transform"
+          >
+            <div>
+              {/* Card Top: Number & Label */}
+              <div className="flex items-center gap-3 mb-4">
+                <span className="w-8 h-8 rounded-full bg-[#0B2545] dark:bg-[#0097B2] text-white text-xs font-bold font-heading flex items-center justify-center shrink-0">
+                  {stage.num}
+                </span>
+                <div>
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 block">
+                    {stage.label}
+                  </span>
+                  <h3 className="text-lg font-bold font-heading text-[#0B2545] dark:text-white leading-tight">
+                    {stage.title}
+                  </h3>
+                </div>
               </div>
-              <h3 className={`${styles.stageTitle} font-subheading`}>{stage.title}</h3>
-              <p className={`${styles.stageDesc} font-body`}>{stage.desc}</p>
-            </article>
-          );
-        })}
+
+              {/* Artwork Figure with Scroll Parallax */}
+              <figure className="relative aspect-square w-full rounded-xl overflow-hidden mb-4 bg-slate-50 dark:bg-black/30 border border-slate-100 dark:border-white/5">
+                <div
+                  ref={(el) => {
+                    artworksRef.current[idx] = el;
+                  }}
+                  className="w-full h-full relative will-change-transform"
+                >
+                  <Image
+                    src={stage.image}
+                    alt={stage.alt}
+                    fill
+                    quality={85}
+                    sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 360px"
+                    className="object-cover object-center"
+                  />
+                </div>
+              </figure>
+
+              {/* Card Copy */}
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-light mb-4">
+                {stage.desc}
+              </p>
+            </div>
+
+            {/* Card Foot: Focus Label & Direct Arrow */}
+            <div className="pt-3 border-t border-slate-100 dark:border-white/5 flex items-center justify-between text-xs">
+              <span className="text-[11px] font-semibold text-[#0097B2] dark:text-cyan-400">
+                {stage.focus}
+              </span>
+              <span className="w-6 h-6 rounded-full bg-slate-100 dark:bg-white/10 flex items-center justify-center text-[#0097B2]">
+                <ArrowRight className="w-3.5 h-3.5" />
+              </span>
+            </div>
+          </article>
+        ))}
       </div>
     </div>
   );
