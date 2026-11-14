@@ -1,309 +1,424 @@
-﻿"use client";
-import { useState, useEffect, useRef } from "react";
-import confetti from "canvas-confetti";
-import Link from "next/link";
+"use client";
 
-const WHATSAPP_NUMBER = "917073538077"; 
-const getWhatsAppLink = (message) => `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+import React, { useState } from "react";
+import Link from "next/link";
+import HeroSkyBackdrop from "@/app/components/HeroSkyBackdrop";
+import {
+  Wrench,
+  ArrowRight,
+  CheckCircle2,
+  Send,
+  Code,
+  Palette,
+  BarChart3,
+  Bot,
+  Search,
+  PenTool,
+} from "lucide-react";
+
+const DISCIPLINES = [
+  { name: "Design & UX/UI", icon: Palette, desc: "Design systems, brand guidelines, conversion wireframes and prototypes." },
+  { name: "Full-Stack Development", icon: Code, desc: "Next.js, React, Tailwind CSS, API integrations and Shopify storefronts." },
+  { name: "Paid Media & Ads", icon: BarChart3, desc: "Meta Ads, Google Search, YouTube Ads and performance tracking." },
+  { name: "SEO & Content", icon: Search, desc: "Technical SEO audits, on-page optimization, content briefs and copywriting." },
+  { name: "Automation & AI Workflows", icon: Bot, desc: "WhatsApp Cloud API, CRM integrations, Zapier/Make and AI chatbots." },
+  { name: "Analytics & BI", icon: BarChart3, desc: "Google Analytics 4, Tag Manager, dashboard engineering and attribution." },
+];
+
+const WHAT_MATTERS = [
+  { title: "Quality of Work", desc: "Production-grade execution that meets rigorous commercial standards." },
+  { title: "Clear Communication", desc: "Proactive updates, responsiveness and adherence to milestones." },
+  { title: "Reliability & Deadlines", desc: "Delivering agreed scopes on time without last-minute delays." },
+  { title: "Documentation", desc: "Clean code, commented assets and clear handover notes." },
+  { title: "Confidentiality", desc: "Strict adherence to NDAs protecting client data and intellectual property." },
+  { title: "Clear Scope", desc: "Well-defined deliverables, milestones and compensation before work begins." },
+];
+
+const PROCESS_STEPS = [
+  { step: "01", name: "Apply", desc: "Submit your portfolio, technical background and core skills." },
+  { step: "02", name: "Skill & Portfolio Review", desc: "Our team evaluates your past work against project quality benchmarks." },
+  { step: "03", name: "Fit Discussion", desc: "A brief conversation on availability, working style and preferred project types." },
+  { step: "04", name: "Scope & Terms", desc: "Mutual agreement on project scope, milestone fees and deadlines." },
+  { step: "05", name: "Project Collaboration", desc: "Collaborate directly on approved client deliverables." },
+];
 
 export function ExecutionClient() {
-  const cursorRef = useRef(null);
-  
-  const [formStep, setFormStep] = useState(1);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [waLink, setWaLink] = useState("#");
-
   const [formData, setFormData] = useState({
-    fullName: "", email: "", phone: "", city: "", profession: "",
-    model: "Execution", // Fixed for this page
-    experience: "Expert", 
-    skills: [], 
-    message: "",
-    portfolio: ""
+    name: "",
+    email: "",
+    phone: "",
+    portfolioUrl: "",
+    discipline: "Development",
+    expertise: "",
+    location: "",
+    intro: "",
+    portfolioLinks: "",
+    consent: false,
   });
 
-  const [activeFaq, setActiveFaq] = useState(null);
-  const toggleFaq = (i) => setActiveFaq(activeFaq === i ? null : i);
+  const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
-  // Skills tailored for execution across the ecosystem
-  const availableSkills = ["Digital Marketing", "Web/App Dev", "Performance Ads", "SEO", "UI/UX Design", "Video Editing", "AI/Bot Dev", "Accounting/Finance", "Content Writing"];
-
-  useEffect(() => {
-    const moveCursor = (e) => {
-      if (cursorRef.current) {
-        requestAnimationFrame(() => {
-          cursorRef.current.style.transform = `translate3d(${e.clientX - 250}px, ${e.clientY - 250}px, 0)`;
-          cursorRef.current.style.opacity = '1';
-        });
-      }
-    };
-    const hideCursor = () => { if (cursorRef.current) cursorRef.current.style.opacity = '0'; };
-
-    window.addEventListener('mousemove', moveCursor);
-    window.addEventListener('mouseleave', hideCursor);
-    return () => {
-      window.removeEventListener('mousemove', moveCursor);
-      window.removeEventListener('mouseleave', hideCursor);
-    };
-  }, []);
-
-  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
-  const handleSkillToggle = (skill) => {
-    setFormData(prev => ({
-      ...prev,
-      skills: prev.skills.includes(skill) ? prev.skills.filter(s => s !== skill) : [...prev.skills, skill]
-    }));
-  };
-
-  const nextStep = () => {
-    if(!formData.fullName || !formData.email || !formData.phone || !formData.city || !formData.profession) {
-      alert("Please fill all required details in Step 1.");
-      return;
-    }
-    setFormStep(2);
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    if (!formData.name || !formData.email || !formData.phone || !formData.consent) return;
+    setLoading(true);
 
     try {
-      const response = await fetch("https://api.web3forms.com/submit", {
+      const payload = {
+        access_key: "e4fe151c-7df8-43d9-9528-7657ad7a72d7",
+        subject: `Execution Partner Application: ${formData.name} (${formData.discipline})`,
+        from_name: "SM NextGen Execution Partner Intake",
+        partnerType: "Execution Partner",
+        ...formData,
+      };
+
+      await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "Accept": "application/json" },
-        body: JSON.stringify({
-          access_key: "e4fe151c-7df8-43d9-9528-7657ad7a72d7",
-          subject: "💻 New EXECUTION Partner Application",
-          from_name: "Partner Ecosystem",
-          Name: formData.fullName,
-          Email: formData.email,
-          Phone: formData.phone,
-          City: formData.city,
-          Profession: formData.profession,
-          "Selected Model": formData.model,
-          Experience: formData.experience,
-          "Core Skills": formData.skills.join(", ") || "None selected",
-          Portfolio: formData.portfolio || "Not provided",
-          Message: formData.message || "No message"
-        })
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(payload),
       });
-
-      const result = await response.json();
-
-      if (result.success) {
-        confetti({ particleCount: 300, spread: 100, origin: { y: 0.6 }, colors: ['#0097B2', '#ffffff'] });
-        setIsSuccess(true);
-
-        const waMessage = `Hi SM NextGen Team! I want to join as an *EXECUTION PARTNER* 💻\n\n*Name:* ${formData.fullName}\n*Role:* ${formData.profession}\n*Experience:* ${formData.experience}\n*Core Skills:* ${formData.skills.join(", ") || "N/A"}\n\nI'm ready to execute high-quality projects. Let's discuss.`;
-        const generatedWaLink = getWhatsAppLink(waMessage);
-        setWaLink(generatedWaLink);
-
-        setTimeout(() => { 
-            window.open(generatedWaLink, '_blank'); 
-            setIsSubmitting(false);
-            setFormStep(1);
-        }, 2000);
-      } else {
-        alert("Submission failed: " + result.message);
-        setIsSubmitting(false);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("Network Error. Please try again.");
-      setIsSubmitting(false);
+      setSubmitted(true);
+    } catch {
+      const msg = `Hi SM NextGen Team, I would like to join the Execution Partner Network.\nName: ${formData.name}\nDiscipline: ${formData.discipline}\nPortfolio: ${formData.portfolioUrl}`;
+      window.open(`https://wa.me/917073538077?text=${encodeURIComponent(msg)}`, "_blank");
+      setSubmitted(true);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const faqData = [
-    { q: "How are projects assigned to me?", a: "Once a client is closed by our sales team, we match the project requirements with your specific skill set and availability in our vetted partner pool." },
-    { q: "Do I have to talk to the client directly?", a: "Usually, no. Our Project Managers handle client communication, feedback, and scope. You just focus purely on executing the work to perfection." },
-    { q: "How and when do I get paid?", a: "Payments are tied to clear project milestones. Once you deliver a milestone and it passes our QA check, your payment is processed immediately. No chasing invoices." },
-    { q: "Do I need a portfolio?", a: "Yes. Execution partners are selected strictly based on the quality of their past work, whether it's code, ad accounts managed, or design files." }
-  ];
-
   return (
-    <>
-      <main className="bg-[#F8FAFC] dark:bg-[#0B2545] font-body text-[#0B2545] dark:text-[#E6EEF2] min-h-screen selection:bg-[#0097B2] selection:text-white w-full overflow-x-hidden transition-colors duration-300 relative">
-        <div ref={cursorRef} className="pointer-events-none fixed top-0 left-0 w-[500px] h-[500px] bg-[#0097B2]/20 dark:bg-[#0097B2]/15 rounded-full blur-[120px] z-[99] hidden lg:block mix-blend-screen dark:mix-blend-lighten opacity-0 transition-opacity duration-300" style={{ willChange: 'transform' }}></div>
+    <main className="relative w-full z-10 overflow-x-hidden min-h-screen bg-white dark:bg-[#030D1A] font-body text-[#0B2545] dark:text-[#E6EEF2] selection:bg-[#0097B2] selection:text-white transition-colors duration-200">
+      {/* 1. HERO SECTION WITH AIRY SKY BACKDROP */}
+      <HeroSkyBackdrop className="pt-36 pb-20 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80 dark:border-white/5">
+        <div className="max-w-7xl mx-auto">
+          <div className="max-w-3xl">
+            {/* Frosted Positioning Badge */}
+            <div className="inline-flex flex-wrap items-center gap-2 px-4 py-1.5 rounded-full bg-white/95 dark:bg-white/10 backdrop-blur-md border border-slate-200 dark:border-white/15 text-xs font-semibold text-[#0B2545] dark:text-white shadow-xs mb-6">
+              <span className="w-2 h-2 rounded-full bg-[#0097B2]" />
+              <span className="text-[#0097B2] font-subheading font-bold uppercase tracking-wider text-[11px]">
+                SPECIALIST EXECUTION PARTNER NETWORK
+              </span>
+              <span className="text-slate-300 dark:text-white/25 hidden sm:inline">|</span>
+              <span className="text-slate-600 dark:text-slate-300 text-[11px] hidden sm:inline">
+                Design · Engineering · Media Buying
+              </span>
+            </div>
 
-        {/* 1️⃣ HERO SECTION */}
-        <section className="relative pt-32 pb-16 md:pt-40 md:pb-20 bg-[#071A30] text-center px-4 z-10 overflow-hidden border-b border-white/5">
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px] z-0"></div>
-          <div className="absolute top-[-20%] left-1/2 transform -translate-x-1/2 w-[600px] md:w-[800px] h-[600px] md:h-[800px] bg-purple-500/20 rounded-full blur-[150px] pointer-events-none z-0 animate-pulse"></div>
-          
-          <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
-            <Link href="/partners" className="text-[#E6EEF2]/70 hover:text-white text-xs font-bold uppercase tracking-widest mb-6 transition-colors flex items-center justify-center gap-2">
-               <i className="fas fa-arrow-left"></i> Back to All Models
-            </Link>
-            <span className="inline-block px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-xs font-bold uppercase tracking-widest text-purple-400 mb-6 backdrop-blur-md shadow-sm">
-              <i className="fas fa-laptop-code mr-2"></i> The Specialists Role
-            </span>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-heading font-extrabold text-white mb-6 leading-tight tracking-tight drop-shadow-sm">
-              Become an <span className="text-purple-400">Execution Partner</span>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-heading text-[#0B2545] dark:text-white tracking-tight leading-tight mb-6">
+              Bring Your Expertise to{" "}
+              <span className="text-[#0097B2]">
+                Meaningful Business Projects.
+              </span>
             </h1>
-            <p className="text-base md:text-xl text-[#E6EEF2]/90 mb-10 leading-relaxed font-light max-w-2xl">
-              Stop hunting for clients. We bring the high-ticket B2B projects. You focus 100% on delivery, and get paid securely on milestones.
+
+            <p className="text-lg sm:text-xl text-slate-700 dark:text-slate-200 font-normal leading-relaxed mb-8">
+              We collaborate with specialists when a project needs skills that complement the wider growth plan.
             </p>
-            <button onClick={() => document.getElementById('partnerForm').scrollIntoView({behavior:'smooth'})} className="w-full sm:w-auto px-10 py-4 md:py-5 bg-purple-600 hover:bg-white hover:text-[#0B2545] text-white font-bold rounded-xl shadow-[0_0_30px_-5px_rgba(168,85,247,0.5)] transition-all hover:-translate-y-1 text-base md:text-lg">
-              Apply as Execution Partner 💻
-            </button>
-          </div>
-        </section>
 
-        {/* 2️⃣ ROLE OVERVIEW */}
-        <section className="py-16 md:py-24 bg-white dark:bg-[#071A30] border-b border-gray-100 dark:border-white/5 relative z-20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid lg:grid-cols-2 gap-10 md:gap-16 items-start">
-              <div>
-                <h2 className="text-3xl md:text-5xl font-heading font-extrabold text-[#0B2545] dark:text-white mb-6">What You Will Do</h2>
-                <p className="text-gray-600 dark:text-[#E6EEF2]/70 mb-8 leading-relaxed">
-                  As an Execution Partner, you are the talent engine. We handle the sales pipeline, client management, and billing. You do what you do best: create, build, and optimize.
+            <div className="flex flex-col sm:flex-row items-center gap-4">
+              <a
+                href="#apply-execution"
+                className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-[#0097B2] hover:bg-[#007a91] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition shadow-sm"
+              >
+                <span>Apply as an Execution Partner</span>
+                <ArrowRight className="w-4 h-4" />
+              </a>
+              <Link
+                href="/partners"
+                className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-white dark:bg-white/10 text-slate-800 dark:text-white font-bold text-xs uppercase tracking-wider border border-slate-200 dark:border-white/15 hover:border-[#0097B2] transition flex items-center justify-center shadow-xs"
+              >
+                Back to All Partners
+              </Link>
+            </div>
+          </div>
+        </div>
+      </HeroSkyBackdrop>
+
+      {/* 2. POTENTIAL DISCIPLINES */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80 dark:border-white/5">
+        <div className="max-w-7xl mx-auto">
+          <div className="max-w-3xl mb-12">
+            <span className="text-xs font-mono font-bold text-[#0097B2] uppercase tracking-wider block mb-3">
+              SPECIALIST DOMAINS
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold font-heading text-[#0B2545] dark:text-white tracking-tight">
+              Potential Disciplines.
+            </h2>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {DISCIPLINES.map((d, idx) => {
+              const Icon = d.icon;
+              return (
+                <div key={idx} className="p-6 rounded-2xl bg-slate-50 dark:bg-[#071A30] border border-slate-200/80 dark:border-white/10">
+                  <div className="w-10 h-10 rounded-xl bg-[#0097B2]/10 text-[#0097B2] flex items-center justify-center mb-4">
+                    <Icon className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-base font-bold font-heading text-[#0B2545] dark:text-white mb-2">
+                    {d.name}
+                  </h3>
+                  <p className="text-xs text-slate-600 dark:text-slate-300 font-light leading-relaxed">
+                    {d.desc}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* 3. WHAT MATTERS */}
+      <section className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8 bg-[#F8FAFC] dark:bg-[#071A30]/50 border-b border-slate-200/80 dark:border-white/5">
+        <div className="max-w-7xl mx-auto">
+          <div className="max-w-3xl mb-12">
+            <span className="text-xs font-mono font-bold text-[#0097B2] uppercase tracking-wider block mb-3">
+              QUALITY STANDARDS
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold font-heading text-[#0B2545] dark:text-white tracking-tight">
+              What Matters to Us.
+            </h2>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {WHAT_MATTERS.map((item, idx) => (
+              <div key={idx} className="p-6 rounded-2xl bg-white dark:bg-[#0B2545]/40 border border-slate-200/80 dark:border-white/10">
+                <div className="flex items-center gap-2 mb-2 font-bold font-heading text-base text-[#0B2545] dark:text-white">
+                  <CheckCircle2 className="w-4 h-4 text-[#0097B2] shrink-0" />
+                  <span>{item.title}</span>
+                </div>
+                <p className="text-xs text-slate-600 dark:text-slate-300 font-light leading-relaxed pl-6">
+                  {item.desc}
                 </p>
-                <div className="space-y-4">
-                  <div className="bg-[#F8FAFC] dark:bg-[#11325B] p-5 rounded-2xl border border-gray-100 dark:border-white/5 flex gap-4 items-start">
-                    <i className="fas fa-file-signature text-purple-500 text-xl mt-1"></i>
-                    <div>
-                      <h4 className="font-bold text-[#0B2545] dark:text-white mb-1">Receive Project Briefs</h4>
-                      <p className="text-sm text-gray-500 dark:text-[#E6EEF2]/70">Get clear, structured requirements and scope of work from our internal Project Managers.</p>
-                    </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 4. PROCESS */}
+      <section className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80 dark:border-white/5">
+        <div className="max-w-7xl mx-auto">
+          <div className="max-w-3xl mb-12">
+            <span className="text-xs font-mono font-bold text-[#0097B2] uppercase tracking-wider block mb-3">
+              ONBOARDING PATHWAY
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold font-heading text-[#0B2545] dark:text-white tracking-tight">
+              Process for Collaboration.
+            </h2>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            {PROCESS_STEPS.map((step) => (
+              <div key={step.step} className="p-6 rounded-2xl bg-slate-50 dark:bg-[#071A30] border border-slate-200/80 dark:border-white/10">
+                <span className="text-2xl font-mono font-bold text-[#0097B2] block mb-2">
+                  {step.step}
+                </span>
+                <h3 className="text-base font-bold font-heading text-[#0B2545] dark:text-white mb-2">
+                  {step.name}
+                </h3>
+                <p className="text-xs text-slate-600 dark:text-slate-300 font-light leading-relaxed">
+                  {step.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-8">
+            Note: We do not claim every applicant is vetted, approved or guaranteed work. Opportunities depend on active client project requirements and verified portfolio fit.
+          </p>
+        </div>
+      </section>
+
+      {/* 5. APPLICATION FORM */}
+      <section id="apply-execution" className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80 dark:border-white/5">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-10">
+            <span className="text-xs font-mono font-bold text-[#0097B2] uppercase tracking-wider block mb-3">
+              JOIN THE NETWORK
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold font-heading text-[#0B2545] dark:text-white tracking-tight mb-3">
+              Apply as an Execution Partner
+            </h2>
+            <p className="text-sm text-slate-600 dark:text-slate-300 font-light">
+              Submit your portfolio and technical skills for evaluation.
+            </p>
+          </div>
+
+          <div className="p-8 sm:p-10 rounded-3xl bg-slate-50 dark:bg-[#071A30] border border-slate-200/80 dark:border-white/10 shadow-sm">
+            {submitted ? (
+              <div className="p-8 rounded-2xl bg-white dark:bg-white/5 border border-emerald-500/30 text-center space-y-4">
+                <div className="w-12 h-12 rounded-full bg-emerald-500/10 text-emerald-500 flex items-center justify-center mx-auto">
+                  <CheckCircle2 className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold font-heading text-[#0B2545] dark:text-white">
+                  Application Received
+                </h3>
+                <p className="text-sm text-slate-600 dark:text-slate-300 font-light">
+                  Thank you for submitting your portfolio. Our team will review your work and contact you when a project matches your capabilities.
+                </p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-5">
+                <div className="grid sm:grid-cols-2 gap-5">
+                  <div>
+                    <label className="text-xs font-semibold text-slate-700 dark:text-slate-200 block mb-1.5">
+                      Full Name *
+                    </label>
+                    <input
+                      type="text"
+                      name="name"
+                      required
+                      value={formData.name}
+                      onChange={handleChange}
+                      placeholder="Your full name"
+                      className="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-[#030D1A] border border-slate-200 dark:border-white/10 text-sm text-[#0B2545] dark:text-white"
+                    />
                   </div>
-                  <div className="bg-[#F8FAFC] dark:bg-[#11325B] p-5 rounded-2xl border border-gray-100 dark:border-white/5 flex gap-4 items-start">
-                    <i className="fas fa-hammer text-purple-500 text-xl mt-1"></i>
-                    <div>
-                      <h4 className="font-bold text-[#0B2545] dark:text-white mb-1">Execute & Deliver</h4>
-                      <p className="text-sm text-gray-500 dark:text-[#E6EEF2]/70">Write the code, design the UI, run the ads, or file the compliances within the agreed timeframe.</p>
-                    </div>
-                  </div>
-                  <div className="bg-[#F8FAFC] dark:bg-[#11325B] p-5 rounded-2xl border border-gray-100 dark:border-white/5 flex gap-4 items-start">
-                    <i className="fas fa-check-double text-purple-500 text-xl mt-1"></i>
-                    <div>
-                      <h4 className="font-bold text-[#0B2545] dark:text-white mb-1">QA & Get Paid</h4>
-                      <p className="text-sm text-gray-500 dark:text-[#E6EEF2]/70">Submit your work for our internal QA. Once approved, your milestone payment is released instantly.</p>
-                    </div>
+                  <div>
+                    <label className="text-xs font-semibold text-slate-700 dark:text-slate-200 block mb-1.5">
+                      Professional Email *
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      required
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder="you@domain.com"
+                      className="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-[#030D1A] border border-slate-200 dark:border-white/10 text-sm text-[#0B2545] dark:text-white"
+                    />
                   </div>
                 </div>
-              </div>
 
-              {/* Earnings Focus */}
-              <div>
-                <div className="bg-[#0B2545] p-8 md:p-10 rounded-[2.5rem] border-2 border-purple-500 shadow-[0_20px_50px_rgba(168,85,247,0.2)] relative overflow-hidden text-white">
-                  <div className="absolute top-0 right-0 w-40 h-40 bg-purple-500/20 rounded-full blur-3xl"></div>
-                  <span className="text-[10px] uppercase tracking-widest text-purple-400 font-bold mb-2 block">The Math</span>
-                  <h2 className="text-3xl md:text-4xl font-heading font-extrabold mb-6">How You Earn</h2>
-                  
-                  <div className="bg-white/5 border border-white/10 rounded-2xl p-6 mb-6 backdrop-blur-sm">
-                    <p className="text-4xl font-black text-purple-400 mb-2">20% – 40%</p>
-                    <p className="text-sm text-[#E6EEF2]/80">Of the total project value, depending on the complexity of your execution.</p>
+                <div className="grid sm:grid-cols-2 gap-5">
+                  <div>
+                    <label className="text-xs font-semibold text-slate-700 dark:text-slate-200 block mb-1.5">
+                      Phone Number *
+                    </label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      required
+                      value={formData.phone}
+                      onChange={handleChange}
+                      placeholder="+91 98765 43210"
+                      className="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-[#030D1A] border border-slate-200 dark:border-white/10 text-sm text-[#0B2545] dark:text-white"
+                    />
                   </div>
-
-                  <h4 className="font-bold mb-4">Ecosystem Examples:</h4>
-                  <ul className="space-y-3 text-sm text-[#E6EEF2]/90 mb-8">
-                    <li className="flex justify-between border-b border-white/10 pb-2">
-                      <span>Client pays for an AI Chatbot Build (₹60,000):</span>
-                    </li>
-                    <li className="flex justify-between border-b border-white/10 pb-2 text-purple-400 font-bold">
-                      <span>Your Execution Share:</span>
-                      <span>₹12,000 - ₹24,000</span>
-                    </li>
-                    <li className="text-[11px] md:text-xs text-[#E6EEF2]/60 pt-2 italic">
-                      * You don't spend time pitching, negotiating, or collecting payments. You just build and earn.
-                    </li>
-                  </ul>
+                  <div>
+                    <label className="text-xs font-semibold text-slate-700 dark:text-slate-200 block mb-1.5">
+                      Primary Discipline *
+                    </label>
+                    <select
+                      name="discipline"
+                      value={formData.discipline}
+                      onChange={handleChange}
+                      className="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-[#030D1A] border border-slate-200 dark:border-white/10 text-sm text-[#0B2545] dark:text-white"
+                    >
+                      <option value="Design & UX/UI">Design &amp; UX/UI</option>
+                      <option value="Full-Stack Development">Full-Stack Development</option>
+                      <option value="Paid Media & Ads">Paid Media &amp; Ads</option>
+                      <option value="SEO & Content">SEO &amp; Content</option>
+                      <option value="Automation & AI">Automation &amp; AI</option>
+                      <option value="Analytics & BI">Analytics &amp; BI</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </section>
 
-        {/* 3️⃣ IDEAL FOR */}
-        <section className="py-16 md:py-24 bg-[#F8FAFC] dark:bg-[#0B1120] border-b border-gray-100 dark:border-white/5 relative z-20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-3xl md:text-5xl font-heading font-extrabold text-[#0B2545] dark:text-white mb-16">Perfect Candidates For Execution</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-              <div className="bg-white dark:bg-[#162032] p-6 rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm hover:border-purple-500 transition-colors">
-                <i className="fas fa-code text-3xl text-purple-500 mb-4"></i>
-                <h4 className="font-bold text-[#0B2545] dark:text-white mb-1">Developers</h4>
-                <p className="text-xs text-gray-500">Web, App, and AI</p>
-              </div>
-              <div className="bg-white dark:bg-[#162032] p-6 rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm hover:border-purple-500 transition-colors">
-                <i className="fas fa-chart-line text-3xl text-purple-500 mb-4"></i>
-                <h4 className="font-bold text-[#0B2545] dark:text-white mb-1">Marketers</h4>
-                <p className="text-xs text-gray-500">SEO & Performance Ads</p>
-              </div>
-              <div className="bg-white dark:bg-[#162032] p-6 rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm hover:border-purple-500 transition-colors">
-                <i className="fas fa-palette text-3xl text-purple-500 mb-4"></i>
-                <h4 className="font-bold text-[#0B2545] dark:text-white mb-1">Creatives</h4>
-                <p className="text-xs text-gray-500">Designers & Video Editors</p>
-              </div>
-              <div className="bg-white dark:bg-[#162032] p-6 rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm hover:border-purple-500 transition-colors">
-                <i className="fas fa-calculator text-3xl text-purple-500 mb-4"></i>
-                <h4 className="font-bold text-[#0B2545] dark:text-white mb-1">Financial Experts</h4>
-                <p className="text-xs text-gray-500">CA, CS & Compliance</p>
-              </div>
-            </div>
-          </div>
-        </section>
+                <div className="grid sm:grid-cols-2 gap-5">
+                  <div>
+                    <label className="text-xs font-semibold text-slate-700 dark:text-slate-200 block mb-1.5">
+                      Portfolio / GitHub / Dribbble URL *
+                    </label>
+                    <input
+                      type="url"
+                      name="portfolioUrl"
+                      required
+                      value={formData.portfolioUrl}
+                      onChange={handleChange}
+                      placeholder="https://yourwork.com"
+                      className="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-[#030D1A] border border-slate-200 dark:border-white/10 text-sm text-[#0B2545] dark:text-white"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs font-semibold text-slate-700 dark:text-slate-200 block mb-1.5">
+                      Location / Time Zone
+                    </label>
+                    <input
+                      type="text"
+                      name="location"
+                      value={formData.location}
+                      onChange={handleChange}
+                      placeholder="e.g. Udaipur / Remote IST"
+                      className="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-[#030D1A] border border-slate-200 dark:border-white/10 text-sm text-[#0B2545] dark:text-white"
+                    />
+                  </div>
+                </div>
 
-        {/* 4️⃣ DEDICATED FORM */}
-        <section id="partnerForm" className="py-16 md:py-24 bg-white dark:bg-[#071A30] border-t border-gray-200 dark:border-white/5 relative z-20">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="bg-[#F8FAFC] dark:bg-[#11325B] p-6 sm:p-10 rounded-[2rem] border border-gray-200 dark:border-white/10 shadow-xl relative overflow-hidden">
-              {!isSuccess ? (
                 <div>
-                  <div className="text-center mb-8">
-                    <h2 className="text-2xl md:text-4xl font-heading font-extrabold text-[#0B2545] dark:text-white mb-2">Join the Talent Pool</h2>
-                  </div>
-                  {/* Same Form Logic as Referral, customized styling for execution */}
-                  <form onSubmit={handleSubmit}>
-                    {formStep === 1 && (
-                      <div className="space-y-5 animate-fade-in-up">
-                        <div className="grid sm:grid-cols-2 gap-5">
-                          <div><label className="block text-[10px] font-bold text-gray-500 dark:text-[#E6EEF2]/60 uppercase tracking-widest mb-2">Full Name *</label><input type="text" name="fullName" value={formData.fullName} onChange={handleChange} required className="w-full bg-white dark:bg-[#071A30] border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3.5 text-sm text-[#0B2545] dark:text-white focus:border-purple-500 outline-none" /></div>
-                          <div><label className="block text-[10px] font-bold text-gray-500 dark:text-[#E6EEF2]/60 uppercase tracking-widest mb-2">Email Address *</label><input type="email" name="email" value={formData.email} onChange={handleChange} required className="w-full bg-white dark:bg-[#071A30] border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3.5 text-sm text-[#0B2545] dark:text-white focus:border-purple-500 outline-none" /></div>
-                        </div>
-                        <div className="grid sm:grid-cols-2 gap-5">
-                          <div><label className="block text-[10px] font-bold text-gray-500 dark:text-[#E6EEF2]/60 uppercase tracking-widest mb-2">Phone Number *</label><input type="tel" name="phone" value={formData.phone} onChange={handleChange} required className="w-full bg-white dark:bg-[#071A30] border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3.5 text-sm text-[#0B2545] dark:text-white focus:border-purple-500 outline-none" /></div>
-                          <div><label className="block text-[10px] font-bold text-gray-500 dark:text-[#E6EEF2]/60 uppercase tracking-widest mb-2">City/Location *</label><input type="text" name="city" value={formData.city} onChange={handleChange} required className="w-full bg-white dark:bg-[#071A30] border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3.5 text-sm text-[#0B2545] dark:text-white focus:border-purple-500 outline-none" /></div>
-                        </div>
-                        <div><label className="block text-[10px] font-bold text-gray-500 dark:text-[#E6EEF2]/60 uppercase tracking-widest mb-2">Your Specialized Role *</label><input type="text" name="profession" value={formData.profession} onChange={handleChange} required placeholder="e.g. Senior Facebook Ads Expert" className="w-full bg-white dark:bg-[#071A30] border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3.5 text-sm text-[#0B2545] dark:text-white focus:border-purple-500 outline-none" /></div>
-                        <button type="button" onClick={nextStep} className="w-full py-4 rounded-xl bg-[#0B2545] dark:bg-purple-600 text-white font-bold transition-all">Next Step: Skills & Portfolio</button>
-                      </div>
-                    )}
-                    {formStep === 2 && (
-                      <div className="space-y-5 animate-fade-in-up">
-                        <div>
-                          <label className="block text-[10px] font-bold text-gray-500 dark:text-[#E6EEF2]/60 uppercase tracking-widest mb-3">Your Core Skills (Select Multiple)</label>
-                          <div className="flex flex-wrap gap-2">
-                            {availableSkills.map((skill) => (
-                              <span key={skill} onClick={() => handleSkillToggle(skill)} className={`cursor-pointer px-4 py-2 rounded-full text-xs font-bold border transition-all ${formData.skills.includes(skill) ? 'bg-purple-600 text-white border-purple-600' : 'bg-white dark:bg-[#071A30] text-gray-500 dark:text-[#E6EEF2]/70 border-gray-200 hover:border-gray-300 dark:border-white/10'}`}>
-                                {formData.skills.includes(skill) && <i className="fas fa-check mr-1.5"></i>} {skill}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                        <div><label className="block text-[10px] font-bold text-gray-500 dark:text-[#E6EEF2]/60 uppercase tracking-widest mb-2">Portfolio URL (CRITICAL FOR APPROVAL) *</label><input type="url" name="portfolio" value={formData.portfolio} onChange={handleChange} required placeholder="https://behance.net/..." className="w-full bg-white dark:bg-[#071A30] border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3.5 text-sm text-[#0B2545] dark:text-white focus:border-purple-500 outline-none" /></div>
-                        <div className="flex gap-4">
-                          <button type="button" onClick={() => setFormStep(1)} className="px-6 py-4 rounded-xl border border-gray-300 dark:border-white/20 font-bold hover:bg-gray-100 dark:hover:bg-white/5 text-gray-600 dark:text-gray-300">Back</button>
-                          <button type="submit" disabled={isSubmitting} className={`flex-grow py-4 rounded-xl text-white font-bold transition-all ${isSubmitting ? 'bg-gray-400' : 'bg-purple-600 hover:bg-[#0B2545] dark:hover:bg-white dark:hover:text-[#0B2545]'}`}>
-                            {isSubmitting ? "Submitting..." : "Submit Application"}
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                  </form>
+                  <label className="text-xs font-semibold text-slate-700 dark:text-slate-200 block mb-1.5">
+                    Specific Tools, Frameworks &amp; Skills
+                  </label>
+                  <input
+                    type="text"
+                    name="expertise"
+                    value={formData.expertise}
+                    onChange={handleChange}
+                    placeholder="e.g. Next.js 15, Tailwind, Supabase, Meta Ads Manager, Webflow"
+                    className="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-[#030D1A] border border-slate-200 dark:border-white/10 text-sm text-[#0B2545] dark:text-white"
+                  />
                 </div>
-              ) : (
-                <div className="flex flex-col items-center text-center py-12">
-                  <div className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center mb-6"><i className="fas fa-check text-4xl text-green-500"></i></div>
-                  <h3 className="text-2xl font-bold text-[#0B2545] dark:text-white mb-3">Application Received! 🎉</h3>
-                  <a href={waLink} target="_blank" rel="noreferrer" className="px-8 py-4 bg-[#25D366] text-white font-bold rounded-xl mt-4 flex gap-2"><i className="fab fa-whatsapp text-xl"></i> Confirm on WhatsApp</a>
+
+                <div>
+                  <label className="text-xs font-semibold text-slate-700 dark:text-slate-200 block mb-1.5">
+                    Short Introduction
+                  </label>
+                  <textarea
+                    name="intro"
+                    rows={3}
+                    value={formData.intro}
+                    onChange={handleChange}
+                    placeholder="Briefly describe your recent projects and typical availability..."
+                    className="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-[#030D1A] border border-slate-200 dark:border-white/10 text-sm text-[#0B2545] dark:text-white"
+                  />
                 </div>
-              )}
-            </div>
+
+                <div className="flex items-start gap-3 pt-2">
+                  <input
+                    type="checkbox"
+                    id="consent"
+                    name="consent"
+                    required
+                    checked={formData.consent}
+                    onChange={handleChange}
+                    className="w-4 h-4 rounded text-[#0097B2] accent-[#0097B2] mt-0.5"
+                  />
+                  <label htmlFor="consent" className="text-xs text-slate-600 dark:text-slate-300 cursor-pointer">
+                    I consent to SM NextGen reviewing my details and contacting me regarding project collaboration.
+                  </label>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full py-3.5 rounded-xl bg-[#0097B2] hover:bg-[#007a91] text-white font-bold text-xs uppercase tracking-wider transition flex items-center justify-center gap-2 cursor-pointer shadow-sm disabled:opacity-50"
+                >
+                  <span>{loading ? "Submitting..." : "Apply as an Execution Partner"}</span>
+                  <Send className="w-4 h-4" />
+                </button>
+              </form>
+            )}
           </div>
-        </section>
-      </main>
-    </>
+        </div>
+      </section>
+    </main>
   );
 }

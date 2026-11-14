@@ -16,13 +16,13 @@ const CAPABILITIES = [
   {
     num: "01",
     title: "Growth Strategy",
-    desc: "Build a clearer direction before investing in growth.",
+    desc: "Build a clear direction before investing in execution.",
     deliverables: [
+      "Business Growth Strategy",
       "Market & Competitor Research",
       "Brand Positioning",
-      "Ideal Customer Profile",
-      "Growth Planning",
-      "Offer & Pricing Strategy"
+      "Customer & Offer Strategy",
+      "Growth Audits & Roadmaps"
     ],
     ctaText: "Explore Growth Strategy",
     icon: Compass,
@@ -33,15 +33,14 @@ const CAPABILITIES = [
   {
     num: "02",
     title: "Marketing & Demand Generation",
-    desc: "Reach the right people and create consistent opportunities.",
+    desc: "Attract the right audience and create consistent demand.",
     deliverables: [
+      "Search Engine Optimization",
       "Performance Marketing",
-      "Meta & Google Ads",
-      "SEO & Local SEO",
-      "AEO & GEO",
       "Social Media Marketing",
-      "Content & Brand Communication",
-      "Lead Generation"
+      "Content Marketing",
+      "Lead Generation",
+      "Email & WhatsApp Marketing"
     ],
     ctaText: "Explore Marketing",
     icon: TrendingUp,
@@ -52,14 +51,14 @@ const CAPABILITIES = [
   {
     num: "03",
     title: "Brand & Digital Experience",
-    desc: "Create digital experiences that build trust and drive action.",
+    desc: "Create experiences that communicate value and build trust.",
     deliverables: [
-      "Brand Identity & Communication",
-      "Website Development",
+      "Brand Identity & Branding",
+      "Website Design & Development",
+      "Landing Pages & Funnels",
       "E-commerce Development",
-      "Landing Pages",
       "UI/UX Design",
-      "Web & Mobile Applications"
+      "Conversion Optimization"
     ],
     ctaText: "Explore Digital Experience",
     icon: Laptop,
@@ -70,14 +69,14 @@ const CAPABILITIES = [
   {
     num: "04",
     title: "Conversion & Revenue",
-    desc: "Make more of your existing traffic, leads and opportunities.",
+    desc: "Improve the journey from initial interest to paying customer.",
     deliverables: [
       "Conversion Rate Optimization",
-      "Sales Funnel Development",
-      "Lead Qualification",
-      "Customer Journey Optimization",
-      "CRM Implementation",
-      "Retention & Remarketing"
+      "Lead Management",
+      "Sales Funnel Optimization",
+      "Customer Journey Improvement",
+      "Follow-up Systems",
+      "Retention Strategies"
     ],
     ctaText: "Explore Conversion Systems",
     icon: BarChart3,
@@ -88,15 +87,14 @@ const CAPABILITIES = [
   {
     num: "05",
     title: "AI & Automation",
-    desc: "Make business processes smarter, faster and more connected.",
+    desc: "Make business processes smarter and more efficient.",
     deliverables: [
-      "AI-Powered Workflows",
+      "AI Business Workflows",
       "WhatsApp Automation",
+      "AI Chatbots",
+      "Lead Routing & Qualification",
       "CRM Automation",
-      "Lead Routing & Follow-ups",
-      "AI Assistants",
-      "Business Process Automation",
-      "API & Platform Integrations"
+      "Workflow Integrations"
     ],
     ctaText: "Explore AI & Automation",
     icon: Bot,
@@ -107,14 +105,14 @@ const CAPABILITIES = [
   {
     num: "06",
     title: "Data & Business Intelligence",
-    desc: "Turn business activity into meaningful decisions.",
+    desc: "Turn business information into better decisions.",
     deliverables: [
       "Marketing Analytics",
       "Performance Dashboards",
-      "Campaign Attribution",
-      "CAC & LTV Analysis",
       "ROI & ROAS Tracking",
-      "Reporting & Insights"
+      "Customer Acquisition Analysis",
+      "Attribution & Reporting",
+      "Business Intelligence"
     ],
     ctaText: "Explore Business Intelligence",
     icon: Scale,
@@ -192,7 +190,7 @@ export default function ServicesEditorial() {
         {/* Section Header */}
         <div className="max-w-3xl mb-12">
           <span className="text-xs font-mono font-bold text-[#0097B2] uppercase tracking-wider block mb-2">
-            WHAT WE BRING TO THE TABLE
+            ONE PARTNER. CONNECTED CAPABILITIES.
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-heading text-[#0B2545] dark:text-white tracking-tight leading-tight mb-4">
             The Right Capabilities. <br />
@@ -201,11 +199,17 @@ export default function ServicesEditorial() {
             </span>
           </h2>
           <p className="text-base sm:text-lg text-slate-700 dark:text-slate-200 font-normal leading-relaxed mb-2">
-            From growth strategy to marketing, technology and automation, we bring together the capabilities required to build and improve your business growth system.
+            We bring together the strategic, creative and technical capabilities required to solve business challenges and support your next stage of growth.
           </p>
-          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-light">
-            We don't believe every business needs every service. We identify the priorities and build around what matters most.
-          </p>
+          <div className="pt-2">
+            <Link
+              href="/services"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#0097B2] hover:bg-[#007a91] text-white text-xs font-bold uppercase tracking-wider transition shadow-xs"
+            >
+              <span>Explore All Capabilities</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
         </div>
 
         {/* Growth Philosophy Visual Hub Feature with 3D Scroll Reveal */}

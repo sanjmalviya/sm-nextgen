@@ -24,7 +24,7 @@ export default function HowWeWorkProcess({ onStartConversation }) {
             href="/how-we-work"
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-white/5 dark:hover:bg-white/10 text-slate-800 dark:text-white font-subheading font-bold text-xs uppercase tracking-wider transition-colors border border-slate-200 dark:border-white/10"
           >
-            <span>Explore Our Growth Framework</span>
+            <span>Explore Our Approach</span>
             <ArrowRight className="w-3.5 h-3.5 text-[#0097B2]" />
           </Link>
 

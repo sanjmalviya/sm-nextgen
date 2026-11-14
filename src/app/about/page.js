@@ -1,20 +1,26 @@
 import AboutClient from './AboutClient';
 
 export const metadata = {
-  title: 'About Us | SM NextGen — Business Growth Partner',
+  title: 'About SM NextGen | Your Complete Business Growth Partner',
   description:
-    'We build more than an agency. SM NextGen is a business growth partner integrating strategy, modern technology, AI automation, and closed-loop revenue attribution.',
-  keywords:
-    'About SM NextGen, Business Growth Partner, Strategic Growth Company, Technology-Enabled Growth, Enterprise Growth Architecture',
-  metadataBase: new URL('https://smnextgen.com'),
+    'Discover SM NextGen, a Business Growth Partner connecting strategy, marketing, technology, AI and automation to help businesses grow smarter.',
+  keywords: [
+    'Business Growth Partner',
+    'Business Growth Company',
+    'Business Growth Solutions',
+    'Growth Strategy',
+    'Marketing & Technology',
+    'Business Automation',
+  ],
+  metadataBase: new URL('https://www.smnextgen.com'),
   alternates: {
-    canonical: 'https://smnextgen.com/about',
+    canonical: 'https://www.smnextgen.com/about',
   },
   openGraph: {
-    title: 'About Us | SM NextGen — Business Growth Partner',
+    title: 'About SM NextGen | Your Complete Business Growth Partner',
     description:
-      'We replace disconnected agency retainers with a unified compounding business growth engine.',
-    url: 'https://smnextgen.com/about',
+      'Discover SM NextGen, a Business Growth Partner connecting strategy, marketing, technology, AI and automation to help businesses grow smarter.',
+    url: 'https://www.smnextgen.com/about',
     siteName: 'SM NextGen',
     images: [
       {

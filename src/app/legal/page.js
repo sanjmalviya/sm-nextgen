@@ -1,18 +1,31 @@
-// file: app/legal/page.js
 import LegalClient from './LegalClient';
 
 export const metadata = {
-  title: 'Legal & Compliance | SM NextGen',
-  description: 'Read our Privacy Policy, Terms of Service, and Refund Policy. Transparency and compliance are core values at SM NextGen.',
-  metadataBase: new URL('https://smnextgen.com'),
+  title: 'Legal Information & Policies | SM NextGen',
+  description:
+    'Find the policies that explain how SM NextGen websites, services and digital products are used.',
+  keywords: [
+    'Legal Information',
+    'SM NextGen Policies',
+    'Privacy Policy',
+    'Terms and Conditions',
+    'Refund Policy',
+    'Cookie Policy',
+    'Data Deletion',
+  ],
+  metadataBase: new URL('https://www.smnextgen.com'),
+  alternates: {
+    canonical: 'https://www.smnextgen.com/legal',
+  },
   openGraph: {
-    title: 'Legal & Compliance | SM NextGen',
-    description: 'Privacy Policy, Terms of Service, and Refund Policy.',
-    url: 'https://smnextgen.com/legal', // Apna exact URL yahan daalna agar folder name alag ho
+    title: 'Legal Information & Policies | SM NextGen',
+    description:
+      'Find the policies that explain how SM NextGen websites, services and digital products are used.',
+    url: 'https://www.smnextgen.com/legal',
     siteName: 'SM NextGen',
     images: [
       {
-        url: '/images/og-home.png', // Agar legal ke liye alag image nahi hai toh home ki laga lo, warna '/images/og-legal.png' kar do
+        url: '/icon.png',
         width: 1200,
         height: 630,
         alt: 'SM NextGen Legal Policies',

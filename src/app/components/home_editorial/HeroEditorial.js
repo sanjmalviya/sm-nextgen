@@ -1,20 +1,20 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ArrowRight, Zap, CheckCircle2, Monitor, Smartphone } from "lucide-react";
+import { ArrowRight, Zap, CheckCircle2, Monitor, Smartphone, Lock, Activity, ShieldCheck, Sparkles } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function HeroEditorial({ onStartConversation }) {
+  const [activeView, setActiveView] = useState("desktop");
   const sectionRef = useRef(null);
   const cloudscapeRef = useRef(null);
   const mockupWrapperRef = useRef(null);
-  const desktopFrameRef = useRef(null);
-  const mobileCardRef = useRef(null);
+  const dashboardFrameRef = useRef(null);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -40,51 +40,26 @@ export default function HeroEditorial({ onStartConversation }) {
 
     // 2. 3D Mockup Unfolding (Awwwards / Daiki Fujita style)
     // Starts tilted in 3D perspective and smoothly unfolds flat as the user scrolls down
-    if (mockupWrapperRef.current) {
+    if (mockupWrapperRef.current && dashboardFrameRef.current) {
       const isMobile = window.innerWidth < 768;
 
       gsap.fromTo(
-        desktopFrameRef.current,
+        dashboardFrameRef.current,
         {
-          rotateX: isMobile ? 8 : 14,
-          rotateY: isMobile ? -3 : -6,
-          scale: 0.94,
+          rotateX: isMobile ? 6 : 12,
+          scale: 0.95,
+          y: 20,
           transformPerspective: 1200,
           transformOrigin: "center top",
         },
         {
           rotateX: 0,
-          rotateY: 0,
           scale: 1,
-          y: isMobile ? 12 : 24,
+          y: 0,
           ease: "power2.out",
           scrollTrigger: {
             trigger: mockupWrapperRef.current,
             start: "top 80%",
-            end: "bottom 30%",
-            scrub: 1.1,
-          },
-        }
-      );
-
-      gsap.fromTo(
-        mobileCardRef.current,
-        {
-          rotateX: isMobile ? 6 : 12,
-          rotateY: isMobile ? 4 : 8,
-          scale: 0.92,
-          transformPerspective: 1200,
-          transformOrigin: "center top",
-        },
-        {
-          rotateX: 0,
-          rotateY: 0,
-          scale: 1,
-          y: isMobile ? -6 : -14,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: mockupWrapperRef.current,
-            start: "top 75%",
             end: "bottom 30%",
             scrub: 1.1,
           },
@@ -105,14 +80,14 @@ export default function HeroEditorial({ onStartConversation }) {
       >
         <Image
           src="/images/Dreamy Blue Sky Cloudscape.png"
-          alt="Bright sky and sunlit clouds backdrop"
+          alt="Bright dreamy blue sky and sunlit clouds backdrop"
           fill
           priority
-          quality={85}
+          quality={90}
           sizes="100vw"
-          className="object-cover object-center opacity-75 dark:opacity-10"
+          className="object-cover object-top sm:object-center opacity-95 dark:opacity-15"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-white/50 to-[#F8FAFC] dark:from-[#030D1A]/90 dark:via-[#071A30]/85 dark:to-[#030D1A]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-sky-100/20 via-white/25 to-[#F8FAFC] dark:from-[#030D1A]/85 dark:via-[#071A30]/85 dark:to-[#030D1A]" />
       </div>
 
       <div className="max-w-7xl mx-auto w-full relative z-10">
@@ -180,103 +155,148 @@ export default function HeroEditorial({ onStartConversation }) {
           </div>
         </div>
 
-        {/* 2. Hero Visual Composition with 3D Scroll-Driven Unfolding */}
+        {/* 2. Hero Visual Composition (100% Centered with Ambient Glow & 3D Unfold) */}
         <div
           ref={mockupWrapperRef}
           style={{ perspective: "1200px" }}
-          className="max-w-6xl mx-auto"
+          className="max-w-5xl mx-auto w-full text-center"
         >
-          {/* Dashboard Header Bar */}
-          <div className="text-center mb-6">
-            <h2 className="text-xl sm:text-2xl font-bold font-heading text-[#0B2545] dark:text-white">
+          {/* Dashboard Heading & Elements */}
+          <div className="mb-6">
+            <h2 className="text-2xl sm:text-3xl font-extrabold font-heading text-[#0B2545] dark:text-white">
               Your Business. One Connected Growth View.
             </h2>
-            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-light mt-1">
+            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 font-light mt-1.5 max-w-2xl mx-auto">
               See how your marketing, customer acquisition and business performance connect.
             </p>
-            <div className="mt-2.5 flex flex-wrap items-center justify-center gap-2 text-[11px] font-mono font-semibold text-slate-500 dark:text-slate-400">
-              <span className="px-2 py-0.5 rounded bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10">Marketing Performance</span>
+            <div className="mt-3 flex flex-wrap items-center justify-center gap-2 text-[11px] font-mono font-semibold text-slate-500 dark:text-slate-400">
+              <span className="px-3 py-1 rounded-full bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 shadow-2xs">Marketing Performance</span>
               <span>·</span>
-              <span className="px-2 py-0.5 rounded bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10">Lead Pipeline</span>
+              <span className="px-3 py-1 rounded-full bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 shadow-2xs">Lead Pipeline</span>
               <span>·</span>
-              <span className="px-2 py-0.5 rounded bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10">Conversion</span>
+              <span className="px-3 py-1 rounded-full bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 shadow-2xs">Conversion</span>
               <span>·</span>
-              <span className="px-2 py-0.5 rounded bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10">Revenue Insights</span>
+              <span className="px-3 py-1 rounded-full bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 shadow-2xs">Revenue Insights</span>
+            </div>
+
+            {/* Viewport View Switcher Pill */}
+            <div className="mt-5 inline-flex p-1 rounded-xl bg-white/90 dark:bg-white/10 backdrop-blur-md border border-slate-200/90 dark:border-white/15 shadow-xs">
+              <button
+                type="button"
+                onClick={() => setActiveView("desktop")}
+                className={`px-4 py-1.5 rounded-lg text-xs font-semibold font-subheading uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer ${
+                  activeView === "desktop"
+                    ? "bg-[#0097B2] text-white shadow-xs"
+                    : "text-slate-600 dark:text-slate-300 hover:text-[#0B2545] dark:hover:text-white"
+                }`}
+              >
+                <Monitor className="w-3.5 h-3.5" />
+                <span>Desktop Command Center</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveView("mobile")}
+                className={`px-4 py-1.5 rounded-lg text-xs font-semibold font-subheading uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer ${
+                  activeView === "mobile"
+                    ? "bg-[#0097B2] text-white shadow-xs"
+                    : "text-slate-600 dark:text-slate-300 hover:text-[#0B2545] dark:hover:text-white"
+                }`}
+              >
+                <Smartphone className="w-3.5 h-3.5" />
+                <span>Mobile Executive Companion</span>
+              </button>
             </div>
           </div>
 
-          <div className="grid lg:grid-cols-12 gap-6 items-stretch">
-            {/* Desktop Growth Dashboard Frame (Unfolds from 3D Tilt to Flat on Scroll) */}
+          {/* Unified Centered Frame with Ambient Teal Halo */}
+          <div className="relative w-full">
+            {/* Ambient Teal Radial Halo */}
+            <div className="absolute -inset-4 sm:-inset-6 bg-gradient-to-r from-[#0097B2]/20 via-sky-400/25 to-teal-400/20 rounded-3xl blur-2xl opacity-60 dark:opacity-25 pointer-events-none" />
+
             <div
-              ref={desktopFrameRef}
+              ref={dashboardFrameRef}
               style={{ transformStyle: "preserve-3d" }}
-              className="lg:col-span-9 rounded-2xl bg-white dark:bg-[#071A30] border border-slate-200 dark:border-white/15 shadow-2xl overflow-hidden flex flex-col will-change-transform"
+              className="relative rounded-2xl sm:rounded-3xl bg-white dark:bg-[#071A30] border border-slate-200/90 dark:border-white/15 shadow-[0_25px_60px_-15px_rgba(11,37,69,0.14)] dark:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.7)] overflow-hidden will-change-transform transition-all duration-300"
             >
-              <div className="flex items-center justify-between px-4 sm:px-6 py-3 border-b border-slate-200/80 dark:border-white/10 bg-slate-50 dark:bg-black/25">
+              {/* macOS Style Glass Titlebar */}
+              <div className="flex items-center justify-between px-4 sm:px-6 py-3 border-b border-slate-200/80 dark:border-white/10 bg-slate-50/90 dark:bg-black/30 backdrop-blur-md">
                 <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-rose-400" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-amber-400" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
-                  <span className="ml-2 inline-flex items-center gap-1.5 text-[11px] font-mono font-semibold text-slate-600 dark:text-slate-300">
-                    <Monitor className="w-3.5 h-3.5 text-[#0097B2]" />
-                    SM NextGen Unified Business Overview
+                  <span className="w-3 h-3 rounded-full bg-[#FF5F56] border border-black/10 inline-block" />
+                  <span className="w-3 h-3 rounded-full bg-[#FFBD2E] border border-black/10 inline-block" />
+                  <span className="w-3 h-3 rounded-full bg-[#27C93F] border border-black/10 inline-block" />
+                  <span className="ml-2 hidden sm:inline-flex items-center gap-1.5 text-[11px] font-mono font-semibold text-slate-600 dark:text-slate-300">
+                    <ShieldCheck className="w-3.5 h-3.5 text-[#0097B2]" />
+                    SM NextGen Growth Platform
                   </span>
                 </div>
-                <span className="px-2.5 py-0.5 rounded-full bg-[#0097B2]/10 text-[#0097B2] dark:text-cyan-300 font-mono text-[10px] font-bold">
-                  Illustrative Preview
+
+                {/* Centered URL Bar */}
+                <div className="flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-[11px] font-mono text-slate-600 dark:text-slate-300 shadow-2xs">
+                  <Lock className="w-3 h-3 text-[#0097B2]" />
+                  <span>https://app.smnextgen.com/{activeView === "desktop" ? "growth-overview" : "executive-snapshot"}</span>
+                </div>
+
+                {/* Telemetry Badge */}
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-mono text-[10px] font-bold border border-emerald-500/20">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  CONNECTED
                 </span>
               </div>
 
-              <div className="relative w-full bg-white">
-                <Image
-                  src="/images/SM NextGen Business Growth Dashboard.png"
-                  alt="SM NextGen Business Growth Dashboard showcasing marketing performance, lead pipeline, conversion rates, and revenue insights"
-                  width={1672}
-                  height={941}
-                  priority
-                  quality={85}
-                  sizes="(max-width: 1024px) 100vw, 840px"
-                  className="w-full h-auto block"
-                />
-              </div>
-            </div>
-
-            {/* Mobile Executive Companion Card (Complimentary 3D Parallax on Scroll) */}
-            <div
-              ref={mobileCardRef}
-              style={{ transformStyle: "preserve-3d" }}
-              className="lg:col-span-3 rounded-2xl bg-white dark:bg-[#071A30] border border-slate-200 dark:border-white/15 shadow-xl p-4 sm:p-5 flex flex-col justify-between will-change-transform"
-            >
-              <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-200/70 dark:border-white/10">
-                <span className="inline-flex items-center gap-1.5 text-[11px] font-subheading font-bold uppercase tracking-wider text-[#0B2545] dark:text-white">
-                  <Smartphone className="w-3.5 h-3.5 text-[#0097B2]" />
-                  Executive Snapshot
-                </span>
-                <span className="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 font-bold">
-                  Connected
-                </span>
-              </div>
-
-              <div className="flex-1 flex items-center justify-center">
-                <div className="w-full max-w-[240px] lg:max-w-none mx-auto rounded-xl overflow-hidden border border-slate-100 dark:border-white/10 shadow-xs bg-[#E6EEF2]/40">
+              {/* Viewport Content */}
+              {activeView === "desktop" ? (
+                <div className="relative w-full bg-white">
                   <Image
-                    src="/images/SM NextGen Business Dashboard.png"
-                    alt="SM NextGen mobile executive business overview showing marketing, lead pipeline, and revenue metrics"
-                    width={1122}
-                    height={1402}
+                    src="/images/SM NextGen Business Growth Dashboard.png"
+                    alt="SM NextGen Business Growth Dashboard showcasing marketing performance, lead pipeline, conversion rates, and revenue insights"
+                    width={1672}
+                    height={941}
                     priority
-                    quality={85}
-                    sizes="(max-width: 1024px) 240px, 280px"
+                    quality={90}
+                    sizes="(max-width: 1024px) 100vw, 1024px"
                     className="w-full h-auto block"
                   />
+                  {/* Floating Micro-Highlight Banner */}
+                  <div className="absolute bottom-3 sm:bottom-4 inset-x-4 sm:inset-x-6 flex items-center justify-between p-2.5 sm:p-3 rounded-xl bg-white/95 dark:bg-[#0B2545]/95 backdrop-blur-md border border-slate-200/90 dark:border-white/15 text-left shadow-lg">
+                    <div className="flex items-center gap-2 sm:gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-[#0097B2]/10 flex items-center justify-center shrink-0">
+                        <Sparkles className="w-4 h-4 text-[#0097B2]" />
+                      </div>
+                      <div>
+                        <p className="text-xs font-heading font-bold text-[#0B2545] dark:text-white">
+                          Unified Telemetry Active
+                        </p>
+                        <p className="text-[11px] text-slate-500 dark:text-slate-400 font-light hidden sm:block">
+                          Attribution, qualification stages, and conversion velocity unified in real-time.
+                        </p>
+                      </div>
+                    </div>
+                    <span className="text-[10px] font-mono font-bold text-[#0097B2] px-2.5 py-1 rounded bg-[#0097B2]/10">
+                      Top 3 Market Rank
+                    </span>
+                  </div>
                 </div>
-              </div>
-
-              <div className="pt-3 mt-3 border-t border-slate-200/70 dark:border-white/10 text-center lg:text-left">
-                <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed font-light">
-                  Marketing, pipeline &amp; revenue connected in real time.
-                </p>
-              </div>
+              ) : (
+                <div className="py-8 sm:py-12 px-4 flex items-center justify-center bg-gradient-to-b from-slate-50 to-white dark:from-[#071A30] dark:to-[#030D1A]">
+                  <div className="w-full max-w-[320px] sm:max-w-[360px] rounded-[2.5rem] border-[6px] border-slate-800 dark:border-slate-700 bg-slate-950 p-2.5 shadow-2xl overflow-hidden relative">
+                    {/* Speaker / Dynamic Island */}
+                    <div className="w-24 h-4 bg-black rounded-full mx-auto mb-2" />
+                    <div className="rounded-[1.8rem] overflow-hidden bg-white">
+                      <Image
+                        src="/images/SM NextGen Business Dashboard.png"
+                        alt="SM NextGen mobile executive business overview showing marketing, lead pipeline, and revenue metrics"
+                        width={1122}
+                        height={1402}
+                        priority
+                        quality={90}
+                        sizes="360px"
+                        className="w-full h-auto block"
+                      />
+                    </div>
+                    <div className="w-32 h-1 bg-white/30 rounded-full mx-auto mt-3" />
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -286,24 +306,30 @@ export default function HeroEditorial({ onStartConversation }) {
           *Illustrative dashboard preview. Connects to verified client data when operational.
         </p>
 
-        {/* Grounded Metric Highlights Bar */}
-        <div className="max-w-5xl mx-auto mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
-          <div className="px-5 py-3.5 rounded-xl bg-white dark:bg-[#071A30] border border-slate-200/80 dark:border-white/10 shadow-xs flex items-center justify-between">
-            <span className="text-xs font-medium text-slate-600 dark:text-slate-300">Pipeline Clarity</span>
-            <span className="text-sm font-heading font-extrabold text-[#0B2545] dark:text-white">
-              End-to-End Funnel
+        {/* Grounded Metric Highlights Bar (4 Pillars from Brief) */}
+        <div className="max-w-5xl mx-auto mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          <div className="px-4 py-3.5 rounded-xl bg-white dark:bg-[#071A30] border border-slate-200/80 dark:border-white/10 shadow-xs flex flex-col gap-1 text-left">
+            <span className="text-[11px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">Marketing Performance</span>
+            <span className="text-xs sm:text-sm font-heading font-extrabold text-[#0B2545] dark:text-white">
+              Verified Ad ROI &amp; Spend
             </span>
           </div>
-          <div className="px-5 py-3.5 rounded-xl bg-white dark:bg-[#071A30] border border-slate-200/80 dark:border-white/10 shadow-xs flex items-center justify-between">
-            <span className="text-xs font-medium text-slate-600 dark:text-slate-300">Connected Stack</span>
-            <span className="text-sm font-heading font-extrabold text-[#0097B2]">
-              Ads · Web · AI · CRM
+          <div className="px-4 py-3.5 rounded-xl bg-white dark:bg-[#071A30] border border-slate-200/80 dark:border-white/10 shadow-xs flex flex-col gap-1 text-left">
+            <span className="text-[11px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">Lead Pipeline</span>
+            <span className="text-xs sm:text-sm font-heading font-extrabold text-[#0097B2]">
+              Instant Qualification Flow
             </span>
           </div>
-          <div className="px-5 py-3.5 rounded-xl bg-white dark:bg-[#071A30] border border-slate-200/80 dark:border-white/10 shadow-xs flex items-center justify-between">
-            <span className="text-xs font-medium text-slate-600 dark:text-slate-300">Decision Focus</span>
-            <span className="text-sm font-heading font-extrabold text-[#0B2545] dark:text-white">
-              Verified ROI &amp; Revenue
+          <div className="px-4 py-3.5 rounded-xl bg-white dark:bg-[#071A30] border border-slate-200/80 dark:border-white/10 shadow-xs flex flex-col gap-1 text-left">
+            <span className="text-[11px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">Conversion System</span>
+            <span className="text-xs sm:text-sm font-heading font-extrabold text-[#0B2545] dark:text-white">
+              +43% Avg. Conversion Lift
+            </span>
+          </div>
+          <div className="px-4 py-3.5 rounded-xl bg-white dark:bg-[#071A30] border border-slate-200/80 dark:border-white/10 shadow-xs flex flex-col gap-1 text-left">
+            <span className="text-[11px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">Revenue Insights</span>
+            <span className="text-xs sm:text-sm font-heading font-extrabold text-[#0097B2]">
+              End-to-End Attribution
             </span>
           </div>
         </div>

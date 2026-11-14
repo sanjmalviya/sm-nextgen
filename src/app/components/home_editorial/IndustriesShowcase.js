@@ -14,31 +14,31 @@ gsap.registerPlugin(ScrollTrigger);
 
 const INDUSTRIES_DATA = [
   {
-    id: "ecommerce",
-    num: "01",
-    sector: "D2C & E-commerce",
-    title: "D2C & E-commerce",
-    desc: "Acquisition, conversion, repeat purchases and profitable customer growth.",
-    image: "/images/Modern Skincare Brand Workspace.png",
-    alt: "Modern skincare cosmetics workstation and clean brand packaging",
-    icon: ShoppingCart,
-  },
-  {
     id: "saas",
-    num: "02",
+    num: "01",
     sector: "B2B & SaaS",
     title: "B2B & SaaS",
-    desc: "Positioning, demand generation, qualified pipeline and sales enablement.",
+    desc: "Build predictable demand, stronger positioning and efficient lead-to-customer journeys.",
     image: "/images/Focused Work in a Modern Office.png",
     alt: "B2B SaaS strategic workstation with laptop and growth analytics",
     icon: Laptop,
+  },
+  {
+    id: "ecommerce",
+    num: "02",
+    sector: "D2C & E-commerce",
+    title: "D2C & E-commerce",
+    desc: "Improve digital experiences, customer acquisition and conversion opportunities.",
+    image: "/images/Modern Skincare Brand Workspace.png",
+    alt: "Modern skincare cosmetics workstation and clean brand packaging",
+    icon: ShoppingCart,
   },
   {
     id: "healthcare",
     num: "03",
     sector: "Healthcare & Clinics",
     title: "Healthcare & Clinics",
-    desc: "Local visibility, patient enquiries, appointment journeys and reputation.",
+    desc: "Strengthen digital visibility, patient enquiries and appointment journeys.",
     image: "/images/Modern Clinic Consultation.png",
     alt: "Doctor and patient consultation in a modern bright medical clinic",
     icon: Stethoscope,
@@ -48,7 +48,7 @@ const INDUSTRIES_DATA = [
     num: "04",
     sector: "Hospitality & Travel",
     title: "Hospitality & Travel",
-    desc: "Digital discovery, direct enquiries, bookings and customer experience.",
+    desc: "Build brand visibility, customer engagement and direct enquiry systems.",
     image: "/images/Warm Resort Welcome at Reception.png",
     alt: "Luxury resort reception desk welcoming guests with warm hospitality",
     icon: Hotel,
@@ -58,7 +58,7 @@ const INDUSTRIES_DATA = [
     num: "05",
     sector: "Real Estate",
     title: "Real Estate",
-    desc: "Project visibility, qualified property enquiries and lead follow-up.",
+    desc: "Generate relevant enquiries and improve high-value customer journeys.",
     image: "/images/Modern Home Design Consultation.png",
     alt: "Architects and clients reviewing blueprints and interior design samples",
     icon: Home,
@@ -66,9 +66,9 @@ const INDUSTRIES_DATA = [
   {
     id: "education",
     num: "06",
-    sector: "Education & Professional Services",
-    title: "Education & Professional Services",
-    desc: "Brand authority, enquiry generation and conversion-focused digital experiences.",
+    sector: "Education",
+    title: "Education",
+    desc: "Strengthen student acquisition, digital presence and enquiry management.",
     image: "/images/Business Management Classroom Presentation.png",
     alt: "Modern business management classroom presentation and student collaboration",
     icon: GraduationCap,
@@ -76,12 +76,22 @@ const INDUSTRIES_DATA = [
   {
     id: "manufacturing",
     num: "07",
-    sector: "Manufacturing & Industrial Businesses",
-    title: "Manufacturing & Industrial Businesses",
-    desc: "B2B visibility, product discovery, enquiry systems and digital infrastructure.",
+    sector: "Manufacturing & Industrial",
+    title: "Manufacturing & Industrial",
+    desc: "Improve business visibility, product positioning and B2B enquiry generation.",
     image: "/images/Industrial Factory Floor Teamwork.png",
     alt: "Engineers and factory floor managers collaborating in a modern clean manufacturing plant",
     icon: Factory,
+  },
+  {
+    id: "professional-services",
+    num: "08",
+    sector: "Professional Services",
+    title: "Professional Services",
+    desc: "Build authority, customer trust and stronger consultation pipelines.",
+    image: "/images/Collaborative Office Strategy Meeting.png",
+    alt: "Consultants collaborating on strategic client roadmap",
+    icon: Building2,
   },
 ];
 
@@ -127,26 +137,26 @@ export default function IndustriesShowcase() {
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
           <div className="max-w-3xl">
             <span className="text-xs font-mono font-bold text-[#0097B2] uppercase tracking-wider block mb-2">
-              GROWTH ISN'T ONE-SIZE-FITS-ALL
+              GROWTH BUILT AROUND YOUR INDUSTRY
             </span>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-heading text-[#0B2545] dark:text-white tracking-tight leading-tight mb-3">
               Different Industries. <br />
               <span className="text-[#0097B2]">
-                Different Growth Challenges.
+                Different Challenges. Connected Growth Thinking.
               </span>
             </h2>
             <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 font-light leading-relaxed">
-              The way a customer discovers, evaluates and chooses a business varies across industries. Our approach adapts to the business model, buying behaviour and commercial priorities.
+              We adapt our approach to your market, customer behaviour, sales cycle and business objectives.
             </p>
           </div>
 
-          <a
-            href="#consultation"
+          <Link
+            href="/industries"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#0097B2] hover:bg-[#007a91] text-white text-xs font-subheading font-bold uppercase tracking-wider shrink-0 transition shadow-xs"
           >
-            <span>Discuss Your Industry</span>
+            <span>Explore Industry Solutions</span>
             <ArrowRight className="w-3.5 h-3.5" />
-          </a>
+          </Link>
         </div>
 
         {/* 7 Systematic Industry Cards with 3D Depth Reveals */}

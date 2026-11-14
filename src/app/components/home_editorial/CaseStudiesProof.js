@@ -11,58 +11,52 @@ gsap.registerPlugin(ScrollTrigger);
 
 const CASE_STUDIES = [
   {
-    id: "b2b-saas",
-    sector: "B2B & SaaS",
-    clientModel: "Enterprise Logistics Platform",
-    title: "Predictable Inbound Pipeline & Lower CAC",
+    id: "apna-loanwala",
+    sector: "Financial Services · Loan Consultancy",
+    clientModel: "Apna Loanwala",
+    location: "Udaipur, Rajasthan",
+    badge: "Client Work",
+    isClientWork: true,
+    title: "Making Loan Information Easier to Understand",
     icon: Laptop,
-    metrics: [
-      { label: "Pipeline Velocity", value: "+48%" },
-      { label: "CAC Reduction", value: "-26%" },
-      { label: "Lead Response", value: "< 4 Mins" }
-    ],
-    challenge: "Manual screening delayed follow-ups and dropped high-intent demo requests.",
-    approach: "Identified qualification bottlenecks and implemented structured lead scoring with immediate pipeline routing.",
-    work: "Interactive ROI funnel, automated WhatsApp & CRM qualification workflows, and B2B intent search campaigns.",
-    outcome: "Shortened sales cycles by 48% and lifted qualified demo completions with a 26% reduction in customer acquisition cost.",
+    challenge: "Loan services can be difficult for potential customers to understand. People often have questions about eligibility, documentation, loan types and rejection reasons before they are ready to enquire.",
+    approach: "Build clearer, more approachable communication around loan-related services and common customer questions.",
+    work: "Social media content planning, educational loan-related content, creative design and communication, vehicle & business loan campaigns, and enquiry-focused messaging.",
+    outcome: "A more informative digital presence that helps potential customers understand available loan services and take the next step with greater clarity.",
     image: "/images/From Friction to Conversion.png",
-    alt: "Diagram illustrating conversion transformation from friction to smooth pipeline flow",
+    alt: "Diagram illustrating clearer communication for loan enquiry journey",
   },
   {
-    id: "d2c-commerce",
-    sector: "D2C & E-commerce",
-    clientModel: "Lifestyle & Skincare Brand",
-    title: "Profitable Ad Scaling & Fast Checkout",
+    id: "tbh-events",
+    sector: "Event Management · Weddings · Corporate Events",
+    clientModel: "TBH Events — The Black Horse Entertainment",
+    location: "Udaipur, Rajasthan",
+    badge: "Client Work",
+    isClientWork: true,
+    title: "Presenting Event Experiences Through Premium Visual Storytelling",
     icon: ShoppingBag,
-    metrics: [
-      { label: "Checkout Conv.", value: "+38%" },
-      { label: "Repeat Orders", value: "+26%" },
-      { label: "Blended ROAS", value: "3.4x" }
-    ],
-    challenge: "Slow mobile pages and fragmented retargeting drove high cart abandonment and unsustainable acquisition costs.",
-    approach: "Redesigned customer journey around sub-second mobile speed, one-click checkout, and automated retention loops.",
-    work: "High-speed Next.js storefront, 1-click checkout funnels, Meta performance ads, and WhatsApp repeat purchase triggers.",
-    outcome: "Achieved a +38% checkout conversion lift and turned one-time buyers into repeat customers at 3.4x blended ROAS.",
+    challenge: "An event management brand needs to communicate more than event decoration. Potential customers need to see its ability to manage the complete experience — from planning and hospitality to production and execution.",
+    approach: "Build a premium visual content direction that showcases the range of services and creates a stronger brand impression.",
+    work: "Social media content planning, premium event creatives and carousel content, cinematic showcase concepts, destination wedding communication, and corporate event storytelling.",
+    outcome: "A clearer presentation of the brand's service capabilities, designed to attract attention from wedding, destination wedding and corporate event audiences.",
     image: "/images/From Outdated to Conversion-Ready.png",
-    alt: "Diagram illustrating transition from outdated web store to high conversion platform",
+    alt: "Diagram illustrating premium visual storytelling for event management",
   },
   {
-    id: "healthcare",
-    sector: "Healthcare & Clinics",
-    clientModel: "Multi-Location Clinic Group",
-    title: "Google 3-Pack Visibility & Auto Booking",
+    id: "ck-homestay",
+    sector: "Hospitality · Homestay · Tourism",
+    clientModel: "CK Homestay, Udaipur",
+    location: "Udaipur, Rajasthan",
+    badge: "Concept Case Study",
+    isClientWork: false,
+    title: "Turning a Homestay's Online Presence into a Booking Journey",
     icon: Stethoscope,
-    metrics: [
-      { label: "Consultations", value: "2.6x" },
-      { label: "No-Shows", value: "-65%" },
-      { label: "Maps Rank", value: "Top 3" }
-    ],
-    challenge: "Low local search visibility and manual phone booking led to missed patient inquiries and high appointment no-shows.",
-    approach: "Optimized Google Business Profiles across locations with friction-free digital appointment scheduling and automated reminders.",
-    work: "Local SEO & Google 3-Pack optimization, online appointment journeys, and automated WhatsApp reminder loops.",
-    outcome: "Generated 2.6x consultation growth, reduced patient no-shows by 65%, and established Top 3 local visibility across all branches.",
+    challenge: "A beautiful homestay has comfortable rooms and a good guest experience, but depends heavily on third-party booking platforms. Local search visibility is limited and enquiries arrive through scattered channels.",
+    approach: "Make it easier for travellers to discover the property, understand the experience and enquire directly.",
+    work: "Hospitality-focused website, room galleries, local SEO targeting Udaipur travel searches, Google Business Profile optimization, and WhatsApp booking flow.",
+    outcome: "A stronger direct discovery and enquiry journey, with less dependence on scattered communication channels.",
     image: "/images/From Stagnant Growth to Sustainable Success.png",
-    alt: "Diagram illustrating transition from stagnant local growth to sustainable multi-location scaling",
+    alt: "Diagram illustrating transition to direct booking journeys",
   }
 ];
 
@@ -111,7 +105,7 @@ export default function CaseStudiesProof({ onExploreCase }) {
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
           <div className="max-w-3xl">
             <span className="text-xs font-mono font-bold text-[#0097B2] uppercase tracking-wider block mb-2">
-              SELECTED WORK &amp; CASE STUDIES
+              OUR WORK &amp; BUSINESS EXPERIENCE
             </span>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-heading text-[#0B2545] dark:text-white tracking-tight leading-tight mb-3">
               Real Business Challenges. <br />
@@ -120,7 +114,7 @@ export default function CaseStudiesProof({ onExploreCase }) {
               </span>
             </h2>
             <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 font-light leading-relaxed">
-              Every business has a different growth story. We focus on understanding the challenge, finding the opportunity and implementing the right solution.
+              Every business has different growth opportunities. We combine strategic thinking and practical execution to address the challenges that matter.
             </p>
           </div>
 
@@ -128,7 +122,7 @@ export default function CaseStudiesProof({ onExploreCase }) {
             href="/case-studies"
             className="inline-flex items-center gap-2 text-xs font-subheading font-bold text-[#0097B2] dark:text-cyan-400 hover:underline uppercase tracking-wider shrink-0"
           >
-            <span>View All Case Studies</span>
+            <span>Explore Our Work</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
@@ -152,9 +146,15 @@ export default function CaseStudiesProof({ onExploreCase }) {
                     <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#0097B2] dark:text-cyan-400">
                       {study.sector}
                     </span>
-                    <div className="w-8 h-8 rounded-lg bg-slate-50 dark:bg-white/10 border border-slate-100 dark:border-white/10 flex items-center justify-center text-[#0B2545] dark:text-white">
-                      <Icon className="w-4 h-4" />
-                    </div>
+                    <span
+                      className={`text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full border ${
+                        study.isClientWork
+                          ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20"
+                          : "bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-white/10"
+                      }`}
+                    >
+                      {study.badge}
+                    </span>
                   </div>
 
                   {/* Before & After Transformation Visual Preview */}
@@ -174,22 +174,8 @@ export default function CaseStudiesProof({ onExploreCase }) {
                   </h3>
 
                   <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-4">
-                    Industry / Business Type: {study.clientModel}
+                    {study.clientModel} · {study.location}
                   </p>
-
-                  {/* Metrics Row */}
-                  <div className="grid grid-cols-3 gap-2 py-3 px-3 rounded-xl bg-slate-50 dark:bg-black/20 border border-slate-100 dark:border-white/5 mb-4 text-center">
-                    {study.metrics.map((m, mIdx) => (
-                      <div key={mIdx}>
-                        <span className="block text-sm sm:text-base font-extrabold text-[#0B2545] dark:text-white font-heading">
-                          {m.value}
-                        </span>
-                        <span className="block text-[10px] text-slate-500 dark:text-slate-400 font-mono mt-0.5">
-                          {m.label}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
 
                   {/* Problem & Solution Narrative Structured Format */}
                   <div className="space-y-2 text-xs text-slate-600 dark:text-slate-300 font-light leading-relaxed mb-4">
@@ -206,7 +192,7 @@ export default function CaseStudiesProof({ onExploreCase }) {
                       {study.work}
                     </div>
                     <div>
-                      <strong className="text-slate-900 dark:text-white font-medium">The Outcome: </strong>
+                      <strong className="text-slate-900 dark:text-white font-medium">Business Value: </strong>
                       {study.outcome}
                     </div>
                   </div>

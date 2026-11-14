@@ -76,7 +76,7 @@ export default function Footer() {
               </div>
 
               <p className="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-sm font-light">
-                We bring strategy, marketing, technology and AI together to help businesses build stronger brands, smarter systems and sustainable growth.
+                We connect strategy, marketing, technology and intelligent systems to help businesses build stronger brands, attract the right customers and achieve sustainable growth.
               </p>
             </div>
 
@@ -140,30 +140,38 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Navigation Columns */}
+        {/* Navigation Columns matching Master Brief */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
           <div>
             <h4 className="font-bold mb-4 text-[#0097B2] uppercase text-xs tracking-wider font-mono">
-              Company
+              Explore
             </h4>
             <ul className="space-y-2.5 text-xs text-slate-300 font-medium">
+              <li><Link href="/" className="hover:text-white transition-colors">Home</Link></li>
               <li><Link href="/about" className="hover:text-white transition-colors">About Us</Link></li>
               <li><Link href="/how-we-work" className="hover:text-white transition-colors">How We Grow</Link></li>
+              <li><Link href="/services" className="hover:text-white transition-colors">Capabilities</Link></li>
               <li><Link href="/industries" className="hover:text-white transition-colors">Industries</Link></li>
-              <li><Link href="/case-studies" className="hover:text-white transition-colors">Case Studies</Link></li>
-              <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>
+              <li><Link href="/case-studies" className="hover:text-white transition-colors">Our Work</Link></li>
+              <li><Link href="/tools" className="hover:text-white transition-colors">Growth Tools</Link></li>
+              <li>
+                <Link href="/growth-os" className="text-cyan-300 font-bold hover:text-white inline-flex items-center gap-1.5 transition-colors">
+                  <Zap className="w-3.5 h-3.5 text-cyan-300" />
+                  <span>Growth OS</span>
+                </Link>
+              </li>
             </ul>
           </div>
 
           <div>
             <h4 className="font-bold mb-4 text-[#0097B2] uppercase text-xs tracking-wider font-mono">
-              Capabilities
+              Growth Capabilities
             </h4>
             <ul className="space-y-2.5 text-xs text-slate-300 font-medium">
               <li><Link href="/services/brand-strategy-positioning" className="hover:text-white transition-colors">Growth Strategy</Link></li>
               <li><Link href="/services/search-engine-optimization-seo" className="hover:text-white transition-colors">Marketing &amp; Demand</Link></li>
-              <li><Link href="/services/website-development" className="hover:text-white transition-colors">Digital Experience</Link></li>
-              <li><Link href="/services/sales-funnel-conversion" className="hover:text-white transition-colors">Conversion Systems</Link></li>
+              <li><Link href="/services/website-development" className="hover:text-white transition-colors">Brand &amp; Digital Experience</Link></li>
+              <li><Link href="/services/sales-funnel-conversion" className="hover:text-white transition-colors">Conversion &amp; Revenue</Link></li>
               <li><Link href="/services/ai-business-automation-systems" className="hover:text-white transition-colors">AI &amp; Automation</Link></li>
               <li><Link href="/services/ai-data-analytics-business-intelligence" className="hover:text-white transition-colors">Data &amp; Intelligence</Link></li>
             </ul>
@@ -171,26 +179,24 @@ export default function Footer() {
 
           <div>
             <h4 className="font-bold mb-4 text-[#0097B2] uppercase text-xs tracking-wider font-mono">
-              Products &amp; Resources
+              Connect
             </h4>
             <ul className="space-y-2.5 text-xs text-slate-300 font-medium">
-              <li>
-                <Link href="/growth-os" className="text-cyan-300 font-bold hover:text-white inline-flex items-center gap-1.5 transition-colors">
-                  <Zap className="w-3.5 h-3.5 text-cyan-300" />
-                  <span>Growth OS</span>
-                </Link>
-              </li>
-              <li><Link href="/tools" className="hover:text-white transition-colors">Growth Tools</Link></li>
-              <li><Link href="/blogs" className="hover:text-white transition-colors">Insights</Link></li>
-              <li><Link href="/how-we-work" className="hover:text-white transition-colors">Resources</Link></li>
+              <li><Link href="/contact" className="hover:text-white transition-colors">Start a Growth Conversation</Link></li>
+              <li><Link href="/contact" className="hover:text-white transition-colors">Contact Us</Link></li>
+              <li><a href="https://www.linkedin.com/company/109211431" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">LinkedIn</a></li>
+              <li><a href="https://www.instagram.com/smnextgen/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Instagram</a></li>
+              <li><a href="https://www.youtube.com/@smnextgen" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">YouTube</a></li>
+              <li><a href="https://wa.me/917073538077" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">WhatsApp</a></li>
             </ul>
           </div>
 
           <div>
             <h4 className="font-bold mb-4 text-[#0097B2] uppercase text-xs tracking-wider font-mono">
-              Contact &amp; Legal
+              Location &amp; Legal
             </h4>
             <ul className="space-y-2.5 text-xs text-slate-300 font-medium mb-4">
+              <li className="text-slate-400">SM NextGen</li>
               <li className="text-slate-400">Udaipur, Rajasthan, India</li>
               <li><a href="mailto:info@smnextgen.com" className="text-[#0097B2] hover:underline">info@smnextgen.com</a></li>
               <li><a href="tel:+917073538077" className="text-white hover:text-[#0097B2]">+91 70735 38077</a></li>
@@ -198,29 +204,8 @@ export default function Footer() {
 
             <div className="space-y-1.5 pt-2 border-t border-white/10 text-[11px] text-slate-400">
               <div><Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link></div>
-              <div><Link href="/terms-and-conditions" className="hover:text-white transition-colors">Terms of Service</Link></div>
-            </div>
-            
-            {/* Social Links */}
-            <div className="mt-4 flex items-center space-x-3">
-              <a 
-                href="https://www.instagram.com/smnextgen/" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                aria-label="SM NextGen on Instagram"
-                className="w-7 h-7 rounded-lg bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:bg-pink-600 transition-colors"
-              >
-                <span className="text-[10px] font-bold font-mono">IG</span>
-              </a>
-              <a 
-                href="https://www.linkedin.com/company/109211431" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                aria-label="SM NextGen on LinkedIn"
-                className="w-7 h-7 rounded-lg bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:bg-blue-600 transition-colors"
-              >
-                <span className="text-[10px] font-bold font-mono">IN</span>
-              </a>
+              <div><Link href="/terms-and-conditions" className="hover:text-white transition-colors">Terms &amp; Conditions</Link></div>
+              <div><Link href="/cookie-policy" className="hover:text-white transition-colors">Cookie Policy</Link></div>
             </div>
           </div>
         </div>
@@ -235,13 +220,18 @@ export default function Footer() {
           />
         </div>
 
-        {/* Bottom Bar */}
-        <div className="border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center text-xs text-slate-400 font-mono">
-          <p className="font-bold text-slate-300">
-            SM NEXTGEN — Built for Business Growth.
-          </p>
-          <div className="mt-3 md:mt-0 flex items-center gap-4">
-            <p>© 2026 SM NextGen. All rights reserved.</p>
+        {/* Footer Brand Signature */}
+        <div className="border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center text-xs text-slate-400 font-mono gap-3">
+          <div>
+            <p className="font-bold text-white text-xs">
+              SM NEXTGEN — YOUR COMPLETE BUSINESS GROWTH PARTNER.
+            </p>
+            <p className="text-[11px] text-slate-400 mt-0.5">
+              Strategy. Marketing. Technology. AI. Automation. Growth.
+            </p>
+          </div>
+          <div className="flex items-center gap-4">
+            <p>© SM NextGen. All Rights Reserved.</p>
             <div className="flex items-center gap-1.5 text-emerald-400">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               <span>Systems Live</span>

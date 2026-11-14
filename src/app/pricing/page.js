@@ -1,27 +1,32 @@
 import PricingClient from './PricingClient';
 
 export const metadata = {
-  title: 'Growth Engagements | SM NextGen — Business Growth Partner',
+  title: 'Business Growth Engagements & Pricing | SM NextGen',
   description:
-    'Explore SM NextGen growth engagement models. From executive growth audits and project sprints to full-stack growth partnerships designed for enterprise scale.',
-  keywords:
-    'SM NextGen growth engagements, business growth partner pricing, growth audit, growth sprint, executive growth advisory, AI automation architecture',
-  metadataBase: new URL('https://smnextgen.com'),
+    'Explore flexible SM NextGen engagement models, from focused growth audits and projects to ongoing growth partnerships and custom systems.',
+  keywords: [
+    'Business Growth Engagements',
+    'Growth Audit',
+    'Core Growth System',
+    'Full-Stack Growth Partnership',
+    'SM NextGen Pricing',
+  ],
+  metadataBase: new URL('https://www.smnextgen.com'),
   alternates: {
-    canonical: 'https://smnextgen.com/pricing',
+    canonical: 'https://www.smnextgen.com/pricing',
   },
   openGraph: {
-    title: 'Growth Engagements | SM NextGen — Business Growth Partner',
+    title: 'Business Growth Engagements & Pricing | SM NextGen',
     description:
-      'High-conviction growth engagement models designed to compound enterprise value through strategy, technology, AI and marketing.',
-    url: 'https://smnextgen.com/pricing',
+      'Explore flexible SM NextGen engagement models, from focused growth audits and projects to ongoing growth partnerships and custom systems.',
+    url: 'https://www.smnextgen.com/pricing',
     siteName: 'SM NextGen',
     images: [
       {
         url: '/icon.png',
         width: 1200,
         height: 630,
-        alt: 'SM NextGen Growth Engagements',
+        alt: 'SM NextGen Pricing & Engagements',
       },
     ],
     locale: 'en_IN',

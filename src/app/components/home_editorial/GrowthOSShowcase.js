@@ -11,12 +11,20 @@ gsap.registerPlugin(ScrollTrigger);
 
 const OS_DASHBOARDS = [
   {
+    id: "growth-score",
+    title: "Growth Score Engine & Audit (90/100)",
+    desc: "SM NextGen Growth Score Engine: 90/100 Excellent • Top 3 Rank. 24-Point Audit breakdown (Completeness 19/20, Reviews 22/25, Media 12/15, Business Info 15/15) with 9 Verified Reviews on Google Maps.",
+    image: "/images/Real Growth OS.png",
+    alt: "Real Growth OS Dashboard showing 90/100 Growth Score, 24-Point Audit breakdown, 5-Star Rating, 9 Verified Reviews on Google Maps, and Top Growth Opportunities",
+    badge: "Live Product Telemetry",
+  },
+  {
     id: "business-overview",
     title: "Business Overview Dashboard",
     desc: "Complete executive visibility across connected Google profiles, diagnostic health scores, and active growth levers.",
     image: "/images/Growth OS Business Overview Dashboard.png",
     alt: "Growth OS Business Overview Dashboard displaying health scores, customer activity, and growth metrics",
-    badge: "Live Product View",
+    badge: "Executive Overview",
   },
   {
     id: "crm-pipeline",
@@ -32,14 +40,14 @@ const OS_DASHBOARDS = [
     desc: "Real-time Google 3-Pack rank tracking, local search impressions, direction requests, and call telemetry.",
     image: "/images/Growth OS Marketing Intelligence Dashboard.png",
     alt: "Growth OS Marketing Intelligence Dashboard showing local SEO telemetry and review response metrics",
-    badge: "Telemetry Engine",
+    badge: "Local Telemetry",
   },
 ];
 
 const PLATFORM_MODULES = [
   {
     num: "01",
-    title: "Business Profile Audit",
+    title: "Google Business Profile Audits",
     status: "AVAILABLE",
     isLive: true,
     desc: "Understand the strengths and gaps in your Google Business Profile.",
@@ -47,27 +55,43 @@ const PLATFORM_MODULES = [
   },
   {
     num: "02",
-    title: "AI Review Reply Assistant",
+    title: "Business Profile Insights",
     status: "AVAILABLE",
     isLive: true,
-    desc: "Create relevant, personalised responses to customer reviews.",
+    desc: "Monitor profile performance signals, search impressions and customer actions.",
     badge: "FEATURE 02",
   },
   {
     num: "03",
-    title: "Profile Performance Insights",
+    title: "Growth Score & Recommendations",
     status: "AVAILABLE",
     isLive: true,
-    desc: "Monitor available profile performance signals and identify improvement opportunities.",
+    desc: "Prioritized 24-point audit score and high-impact growth actions.",
     badge: "FEATURE 03",
   },
   {
     num: "04",
-    title: "Business Visibility Workflows",
+    title: "Review Management",
+    status: "AVAILABLE",
+    isLive: true,
+    desc: "Monitor customer feedback, ratings, and sentiment across Google Maps.",
+    badge: "FEATURE 04",
+  },
+  {
+    num: "05",
+    title: "AI-Assisted Review Replies",
+    status: "AVAILABLE",
+    isLive: true,
+    desc: "Create relevant, personalized responses to customer reviews in seconds.",
+    badge: "FEATURE 05",
+  },
+  {
+    num: "06",
+    title: "Growth Action Tracking",
     status: "IN DEVELOPMENT",
     isLive: false,
-    desc: "Manage key local visibility activities from a more connected workspace.",
-    badge: "FEATURE 04",
+    desc: "Manage key local visibility tasks and progress from one connected workspace.",
+    badge: "FEATURE 06",
   },
 ];
 
@@ -135,22 +159,38 @@ export default function GrowthOSShowcase() {
         <div className="max-w-3xl mx-auto text-center mb-12 sm:mb-14">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0097B2]/10 border border-[#0097B2]/20 text-[#0097B2] dark:text-cyan-400 text-xs font-mono font-bold uppercase tracking-wider mb-3">
             <Zap className="w-3.5 h-3.5" />
-            <span>POWERED BY SM NEXTGEN</span>
+            <span>INTRODUCING OUR SOFTWARE PRODUCT</span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-heading text-[#0B2545] dark:text-white tracking-tight mb-4 leading-tight">
-            Meet Growth OS. <br />
+            Smarter Business Growth <br />
             <span className="text-[#0097B2]">
-              A Smarter Way to Manage Local Business Growth.
+              Starts With Better Systems.
             </span>
           </h2>
 
-          <p className="text-base sm:text-lg text-slate-700 dark:text-slate-200 font-normal leading-relaxed max-w-2xl mx-auto mb-2">
-            Managing a local business online often means juggling business listings, customer reviews, profile updates and performance tracking across disconnected tools.
+          <p className="text-base sm:text-lg text-slate-700 dark:text-slate-200 font-normal leading-relaxed max-w-2xl mx-auto mb-3">
+            SM NextGen Growth OS is our evolving software platform designed to help businesses understand growth opportunities, organize important workflows and take informed action.
           </p>
           <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-light max-w-2xl mx-auto">
-            Growth OS is being developed to bring important Google Business Profile growth workflows into one focused platform.
+            Starting with Google Business Profile Growth, we're developing a connected experience around business insights, recommendations and actionable workflows.
           </p>
+        </div>
+
+        {/* Product Workflow Strip */}
+        <div className="max-w-4xl mx-auto mb-10 p-4 rounded-xl bg-white dark:bg-white/5 border border-slate-200/80 dark:border-white/10 flex flex-wrap items-center justify-center gap-2 text-xs font-mono font-bold">
+          <span className="text-slate-400">PRODUCT WORKFLOW:</span>
+          <span className="text-[#0B2545] dark:text-white">CONNECT</span>
+          <span className="text-[#0097B2]">→</span>
+          <span className="text-[#0B2545] dark:text-white">AUDIT</span>
+          <span className="text-[#0097B2]">→</span>
+          <span className="text-[#0B2545] dark:text-white">SCORE</span>
+          <span className="text-[#0097B2]">→</span>
+          <span className="text-[#0B2545] dark:text-white">PRIORITIZE</span>
+          <span className="text-[#0097B2]">→</span>
+          <span className="text-[#0B2545] dark:text-white">ACT</span>
+          <span className="text-[#0097B2]">→</span>
+          <span className="text-cyan-500 dark:text-cyan-400">MEASURE</span>
         </div>
 
         {/* Clean, Plain & Systematic Dashboard Showcase with 3D Rise */}
@@ -210,14 +250,22 @@ export default function GrowthOSShowcase() {
               </div>
 
               <div className="p-4 bg-slate-900/80 border-t border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-slate-400">
-                <p className="font-light">{currentDash.desc}</p>
-                <Link
-                  href="/growth-os"
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#0097B2] hover:bg-[#007a91] text-white font-bold text-xs uppercase tracking-wider transition"
-                >
-                  <span>Explore Growth OS</span>
-                  <ArrowUpRight className="w-3.5 h-3.5" />
-                </Link>
+                <p className="font-light max-w-xl">{currentDash.desc}</p>
+                <div className="flex items-center gap-2 shrink-0">
+                  <Link
+                    href="/growth-os"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#0097B2] hover:bg-[#007a91] text-white font-bold text-xs uppercase tracking-wider transition"
+                  >
+                    <span>Explore Growth OS</span>
+                    <ArrowUpRight className="w-3.5 h-3.5" />
+                  </Link>
+                  <Link
+                    href="/contact"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider transition border border-white/10"
+                  >
+                    <span>Request Early Access</span>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
@@ -230,7 +278,7 @@ export default function GrowthOSShowcase() {
           </div>
           <div
             ref={modulesGridRef}
-            className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3.5"
+            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3.5"
           >
             {PLATFORM_MODULES.map((mod, index) => (
               <div

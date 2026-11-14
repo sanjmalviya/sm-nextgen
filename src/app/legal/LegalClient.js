@@ -1,90 +1,120 @@
-// file: app/legal/LegalClient.js
 "use client";
-import { useState } from "react";
+
+import React from "react";
+import Link from "next/link";
+import HeroSkyBackdrop from "../components/HeroSkyBackdrop";
+import {
+  ShieldCheck,
+  FileText,
+  RotateCcw,
+  Cookie,
+  Trash2,
+  ArrowRight,
+  ExternalLink,
+} from "lucide-react";
+
+const POLICIES = [
+  {
+    title: "Privacy Policy",
+    href: "/privacy-policy",
+    desc: "How information is collected, used and protected when you interact with SM NextGen websites, services or digital products.",
+    icon: ShieldCheck,
+  },
+  {
+    title: "Terms & Conditions",
+    href: "/terms-and-conditions",
+    desc: "The terms governing website access, service proposals, delivery responsibilities and intellectual property.",
+    icon: FileText,
+  },
+  {
+    title: "Refund & Cancellation Policy",
+    href: "/refund-policy",
+    desc: "Clear guidelines regarding service deposits, cancellation procedures, project milestones and billing terms.",
+    icon: RotateCcw,
+  },
+  {
+    title: "Cookie Policy",
+    href: "/cookie-policy",
+    desc: "How cookies and similar browser technologies are utilized to ensure secure operations and analytics.",
+    icon: Cookie,
+  },
+  {
+    title: "Data Deletion Requests",
+    href: "/data-deletion",
+    desc: "How to request review or deletion of personal data associated with an enquiry or service account.",
+    icon: Trash2,
+  },
+];
 
 export default function LegalClient() {
-  const [activeTab, setActiveTab] = useState("privacy");
-
   return (
-    // <main> class updated: removed hardcoded background/text colors to inherit from layout.js
-    <main className="relative w-full z-10 min-h-screen overflow-x-hidden transition-colors duration-300">
-      <section className="pt-40 pb-24 px-4">
-        <div className="max-w-5xl mx-auto">
-          
-          <div className="text-center mb-12">
-            <h1 className="text-3xl md:text-4xl font-heading font-bold text-[#0B2545] dark:text-white mb-4">Legal & Compliance</h1>
-            <p className="text-gray-500 dark:text-[#E6EEF2]/70">Transparency is our core value. Read our policies below.</p>
+    <main className="relative w-full z-10 overflow-x-hidden min-h-screen bg-white dark:bg-[#030D1A] font-body text-[#0B2545] dark:text-[#E6EEF2] selection:bg-[#0097B2] selection:text-white transition-colors duration-200">
+      {/* 1. HERO SECTION WITH AIRY SKY BACKDROP */}
+      <HeroSkyBackdrop className="pt-36 pb-20 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80 dark:border-white/5">
+        <div className="max-w-7xl mx-auto">
+          <div className="max-w-3xl">
+            {/* Frosted Positioning Badge */}
+            <div className="inline-flex flex-wrap items-center gap-2 px-4 py-1.5 rounded-full bg-white/95 dark:bg-white/10 backdrop-blur-md border border-slate-200 dark:border-white/15 text-xs font-semibold text-[#0B2545] dark:text-white shadow-xs mb-6">
+              <span className="w-2 h-2 rounded-full bg-[#0097B2]" />
+              <span className="text-[#0097B2] font-subheading font-bold uppercase tracking-wider text-[11px]">
+                LEGAL &amp; COMPLIANCE HUB
+              </span>
+              <span className="text-slate-300 dark:text-white/25 hidden sm:inline">|</span>
+              <span className="text-slate-600 dark:text-slate-300 text-[11px] hidden sm:inline">
+                Governance · Data Transparency
+              </span>
+            </div>
+
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-heading text-[#0B2545] dark:text-white tracking-tight leading-tight mb-6">
+              Legal Information.{" "}
+              <span className="text-[#0097B2]">
+                Clear Expectations.
+              </span>
+            </h1>
+
+            <p className="text-lg sm:text-xl text-slate-700 dark:text-slate-200 font-normal leading-relaxed mb-6">
+              Find the policies that explain how SM NextGen websites, services and digital products are used.
+            </p>
+          </div>
+        </div>
+      </HeroSkyBackdrop>
+
+      {/* 2. POLICY CARDS */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80 dark:border-white/5">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {POLICIES.map((policy) => {
+              const Icon = policy.icon;
+              return (
+                <Link
+                  key={policy.href}
+                  href={policy.href}
+                  className="p-8 rounded-3xl bg-slate-50 dark:bg-[#071A30] border border-slate-200/80 dark:border-white/10 hover:border-[#0097B2] transition flex flex-col justify-between group shadow-sm"
+                >
+                  <div>
+                    <div className="w-12 h-12 rounded-2xl bg-[#0097B2]/10 dark:bg-[#0097B2]/20 text-[#0097B2] flex items-center justify-center mb-6">
+                      <Icon className="w-6 h-6" />
+                    </div>
+                    <h2 className="text-xl font-bold font-heading text-[#0B2545] dark:text-white group-hover:text-[#0097B2] transition mb-3">
+                      {policy.title}
+                    </h2>
+                    <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-light leading-relaxed mb-6">
+                      {policy.desc}
+                    </p>
+                  </div>
+
+                  <span className="text-xs font-bold text-[#0097B2] flex items-center gap-1 group-hover:translate-x-1 transition">
+                    <span>Read Policy</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </span>
+                </Link>
+              );
+            })}
           </div>
 
-          {/* Tab Buttons */}
-          <div className="flex flex-wrap justify-center gap-4 mb-12">
-            <button 
-              onClick={() => setActiveTab('privacy')} 
-              className={`px-6 py-3 rounded-full font-bold border transition shadow-sm ${activeTab === 'privacy' ? 'bg-[#0097B2] text-white border-[#0097B2]' : 'bg-white dark:bg-[#11325B] text-gray-500 dark:text-[#E6EEF2]/80 border-gray-200 dark:border-white/10'}`}
-            >
-              Privacy Policy
-            </button>
-            <button 
-              onClick={() => setActiveTab('terms')} 
-              className={`px-6 py-3 rounded-full font-bold border transition shadow-sm ${activeTab === 'terms' ? 'bg-[#0097B2] text-white border-[#0097B2]' : 'bg-white dark:bg-[#11325B] text-gray-500 dark:text-[#E6EEF2]/80 border-gray-200 dark:border-white/10'}`}
-            >
-              Terms of Service
-            </button>
-            <button 
-              onClick={() => setActiveTab('refund')} 
-              className={`px-6 py-3 rounded-full font-bold border transition shadow-sm ${activeTab === 'refund' ? 'bg-[#0097B2] text-white border-[#0097B2]' : 'bg-white dark:bg-[#11325B] text-gray-500 dark:text-[#E6EEF2]/80 border-gray-200 dark:border-white/10'}`}
-            >
-              Refund Policy
-            </button>
+          <div className="mt-16 p-6 rounded-2xl bg-[#F8FAFC] dark:bg-[#071A30]/50 border border-slate-200/80 dark:border-white/10 text-xs text-slate-500 dark:text-slate-400">
+            <span className="font-bold text-slate-700 dark:text-slate-300">Office Location &amp; Legal Notices:</span> SM NextGen, HPPQ+Q5V, Sunderwas, Ganapati Nagar, Udaipur, Rajasthan 313001, India. Official Communications: <a href="mailto:info@smnextgen.com" className="text-[#0097B2] hover:underline">info@smnextgen.com</a>.
           </div>
-
-          {/* Tab Content */}
-          <div className="bg-white dark:bg-[#162032] p-8 md:p-12 rounded-3xl shadow-xl border border-gray-100 dark:border-white/5 min-h-[300px]">
-            
-            {activeTab === 'privacy' && (
-              <div className="prose dark:prose-invert max-w-none text-sm text-gray-600 dark:text-[#E6EEF2]/80 animate-fade-in-up">
-                <h3 className="text-xl font-bold text-[#0B2545] dark:text-white mb-4">1. Information We Collect</h3>
-                <p className="mb-4">At SM NextGen, we collect information you provide directly to us via forms, such as your name, email address, phone number, and business details. We also collect data automatically via cookies to improve website performance.</p>
-                
-                <h3 className="text-xl font-bold text-[#0B2545] dark:text-white mb-4">2. How We Use Information</h3>
-                <p className="mb-4">We use your data to: Provide services, process payments, send growth newsletters (if subscribed), and improve our digital products. We <strong>never</strong> sell your data to third parties.</p>
-
-                <h3 className="text-xl font-bold text-[#0B2545] dark:text-white mb-4">3. Data Security</h3>
-                <p>We implement SSL encryption and secure servers to protect your data. However, no method of transmission over the Internet is 100% secure.</p>
-              </div>
-            )}
-
-            {activeTab === 'terms' && (
-              <div className="prose dark:prose-invert max-w-none text-sm text-gray-600 dark:text-[#E6EEF2]/80 animate-fade-in-up">
-                <h3 className="text-xl font-bold text-[#0B2545] dark:text-white mb-4">1. Acceptance of Terms</h3>
-                <p className="mb-4">By accessing our website or purchasing our services, you agree to be bound by these Terms. If you do not agree, please do not use our services.</p>
-                
-                <h3 className="text-xl font-bold text-[#0B2545] dark:text-white mb-4">2. Service Delivery</h3>
-                <p className="mb-4">Timelines for projects (Web Dev, Marketing) are estimates. Delays caused by client non-responsiveness are not our liability. All intellectual property rights remain with SM NextGen until full payment is received.</p>
-
-                <h3 className="text-xl font-bold text-[#0B2545] dark:text-white mb-4">3. Client Responsibilities</h3>
-                <p>You agree to provide accurate information and necessary assets (logos, content) on time. Failure to do so may result in project delays.</p>
-              </div>
-            )}
-
-            {activeTab === 'refund' && (
-              <div className="prose dark:prose-invert max-w-none text-sm text-gray-600 dark:text-[#E6EEF2]/80 animate-fade-in-up">
-                <h3 className="text-xl font-bold text-[#0B2545] dark:text-white mb-4">1. Service Services</h3>
-                <p className="mb-4">Due to the nature of digital services (time & effort involved), we generally do not offer refunds once work has commenced. 
-                <br/>- <strong>Retainers:</strong> Can be cancelled with 30 days notice.
-                <br/>- <strong>One-time Projects:</strong> 50% advance is non-refundable once design/development starts.</p>
-                
-                <h3 className="text-xl font-bold text-[#0B2545] dark:text-white mb-4">2. Exceptional Circumstances</h3>
-                <p>If we fail to deliver the agreed scope of work, a partial or full refund may be issued at the discretion of SM NextGen management within 14 days.</p>
-              </div>
-            )}
-
-          </div>
-
-          <div className="text-center mt-12 text-xs text-gray-400">
-            <p>Last Updated: October 2026 | Contact: info@smnextgen.com | Udaipur, Rajasthan, India</p>
-          </div>
-
         </div>
       </section>
     </main>

@@ -1,18 +1,32 @@
-// file: app/tools/page.js
 import ToolsClient from './ToolsClient';
 
 export const metadata = {
-  title: 'Growth Tools & Calculators | SM NextGen',
-  description: 'Free marketing and engineering tools to forecast ROI, calculate CAC, and generate UTM links for your digital campaigns.',
-  metadataBase: new URL('https://smnextgen.com'),
+  title: 'Free Business Growth Tools & Marketing Calculators | SM NextGen',
+  description:
+    'Use free business growth calculators, ROAS and CAC tools, break-even ROAS calculator, UTM builder and website checklists from SM NextGen.',
+  keywords: [
+    'Business Growth Tools',
+    'Marketing Calculators',
+    'ROAS Calculator',
+    'CAC Calculator',
+    'Break-Even ROAS',
+    'UTM Link Builder',
+    'Website Growth Checklist',
+    'Local SEO Readiness Checker',
+  ],
+  metadataBase: new URL('https://www.smnextgen.com'),
+  alternates: {
+    canonical: 'https://www.smnextgen.com/tools',
+  },
   openGraph: {
-    title: 'Growth Tools & Calculators | SM NextGen',
-    description: 'Calculate ROI, CAC, and build UTM links easily.',
-    url: 'https://smnextgen.com/tools',
+    title: 'Free Business Growth Tools & Marketing Calculators | SM NextGen',
+    description:
+      'Use free business growth calculators, ROAS and CAC tools, break-even ROAS calculator, UTM builder and website checklists from SM NextGen.',
+    url: 'https://www.smnextgen.com/tools',
     siteName: 'SM NextGen',
     images: [
       {
-        url: '/images/og-home.png', // Agar tools ke liye alag image hai toh '/images/og-tools.png' daal dena
+        url: '/icon.png',
         width: 1200,
         height: 630,
         alt: 'SM NextGen Growth Tools',

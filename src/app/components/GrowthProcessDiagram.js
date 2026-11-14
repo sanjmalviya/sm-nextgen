@@ -13,8 +13,8 @@ const STAGES = [
     num: "01",
     label: "Stage one",
     title: "Discover",
-    focus: "Research & understanding",
-    desc: "Understand your business, market, customers and objectives.",
+    focus: "Focus: Business model, customer profile, market and goals.",
+    desc: "Understand your business, customers, market and objectives.",
     image: "/images/wg01-discover.png",
     alt: "Isometric business research environment representing discovery",
   },
@@ -22,8 +22,8 @@ const STAGES = [
     num: "02",
     label: "Stage two",
     title: "Diagnose",
-    focus: "Audit & opportunity mapping",
-    desc: "Identify the gaps, bottlenecks and opportunities affecting growth.",
+    focus: "Focus: Growth gaps, performance and opportunities.",
+    desc: "Identify the bottlenecks affecting acquisition, conversions, sales and operations.",
     image: "/images/wg02-diagnose.png",
     alt: "Isometric business audit environment identifying a workflow bottleneck",
   },
@@ -31,8 +31,8 @@ const STAGES = [
     num: "03",
     label: "Stage three",
     title: "Strategize",
-    focus: "Roadmap & commercial economics",
-    desc: "Build a clear plan around your priorities, resources and goals.",
+    focus: "Focus: Strategy, priorities and execution planning.",
+    desc: "Create a prioritized roadmap based on business objectives and available resources.",
     image: "/images/wg03-strategize.png",
     alt: "Isometric strategic roadmap planning environment",
   },
@@ -40,8 +40,8 @@ const STAGES = [
     num: "04",
     label: "Stage four",
     title: "Build",
-    focus: "Platform & automation deployment",
-    desc: "Implement the right marketing, technology and automation systems.",
+    focus: "Focus: Development, implementation and execution.",
+    desc: "Implement the right combination of marketing, branding, technology and automation.",
     image: "/images/wg04-build.png",
     alt: "Isometric digital infrastructure and web engineering construction environment",
   },
@@ -49,8 +49,8 @@ const STAGES = [
     num: "05",
     label: "Stage five",
     title: "Optimize",
-    focus: "Data analysis & continuous refinement",
-    desc: "Measure performance, learn from the data and improve what matters.",
+    focus: "Focus: Measurement, analysis and continuous improvement.",
+    desc: "Evaluate performance and improve the systems that drive progress.",
     image: "/images/wg05-optimize.png",
     alt: "Isometric performance optimization dashboard with analytics dials",
   },
@@ -58,8 +58,8 @@ const STAGES = [
     num: "06",
     label: "Stage six",
     title: "Scale",
-    focus: "Cross-channel compounding",
-    desc: "Expand successful activities and strengthen the systems behind them.",
+    focus: "Focus: Systems, efficiency and sustainable expansion.",
+    desc: "Strengthen successful processes and expand growth opportunities.",
     image: "/images/wg06-scale.png",
     alt: "Isometric enterprise business network scaling upwards",
   },
@@ -125,7 +125,7 @@ export default function GrowthProcessDiagram() {
       <div className="max-w-3xl mx-auto text-center mb-12 sm:mb-16">
         <p className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#F0FAFB] dark:bg-[#0097B2]/10 border border-[#D6EEF1] dark:border-[#0097B2]/20 text-[#0097B2] text-xs font-mono font-bold uppercase tracking-wider mb-4">
           <span className="w-1.5 h-1.5 rounded-full bg-[#0097B2]" />
-          <span>OUR APPROACH</span>
+          <span>THE SM NEXTGEN GROWTH FRAMEWORK</span>
         </p>
 
         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-heading text-[#0B2545] dark:text-white tracking-tight mb-4 leading-tight">
@@ -136,7 +136,7 @@ export default function GrowthProcessDiagram() {
         </h2>
 
         <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 font-light leading-relaxed max-w-2xl mx-auto">
-          Every business has different customers, economics, challenges and growth opportunities. Our process starts by understanding those differences.
+          Every business has a different starting point. We follow a structured process to understand what matters, identify opportunities and build the right solutions.
         </p>
 
         <div className="inline-flex items-center gap-2 mt-5 text-xs font-mono font-bold text-slate-500 dark:text-slate-400">

@@ -1,276 +1,323 @@
 "use client";
-import { useState, useMemo } from "react";
+
+import React, { useState, useMemo } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { Search, ArrowRight, Phone, MessageSquare, Briefcase, Bot, Scale, Megaphone, Laptop } from "lucide-react";
+import HeroSkyBackdrop from "../components/HeroSkyBackdrop";
+import {
+  Search,
+  ArrowRight,
+  TrendingUp,
+  Bot,
+  Laptop,
+  Compass,
+  DollarSign,
+  Sparkles,
+  BookOpen,
+} from "lucide-react";
+
+const FALLBACK_BLOGS = [
+  {
+    _id: "fb-1",
+    title: "Why Marketing Activity Does Not Always Translate into Business Growth",
+    slug: "why-marketing-activity-does-not-always-translate-into-business-growth",
+    category: "Business Growth",
+    excerpt: "More traffic doesn't automatically mean more customers. Learn why disconnected marketing campaigns fail to move the revenue needle.",
+    createdAt: "2025-01-15",
+    authorName: "SM NextGen Growth Team",
+    imageUrl: "/images/services/brand-strategy-positioning.png",
+  },
+  {
+    _id: "fb-2",
+    title: "How to Identify the Biggest Bottleneck in Your Sales Funnel",
+    slug: "how-to-identify-the-biggest-bottleneck-in-your-sales-funnel",
+    category: "Sales & Revenue",
+    excerpt: "Understand where prospective buyers drop off and how to engineer higher conversion velocity across your customer journey.",
+    createdAt: "2025-01-20",
+    authorName: "SM NextGen Growth Team",
+    imageUrl: "/images/services/sales-funnel-conversion.png",
+  },
+  {
+    _id: "fb-3",
+    title: "CAC vs LTV: What Business Owners Should Understand",
+    slug: "cac-vs-ltv-what-business-owners-should-understand",
+    category: "Marketing Strategy",
+    excerpt: "Why scaling ad spend without knowing your customer acquisition economics leads to cash-flow traps, and how to model sustainable unit economics.",
+    createdAt: "2025-02-01",
+    authorName: "SM NextGen Growth Team",
+    imageUrl: "/images/services/financial-consulting-advisory.png",
+  },
+  {
+    _id: "fb-4",
+    title: "What a Business Website Needs Beyond Good Design",
+    slug: "what-a-business-website-needs-beyond-good-design",
+    category: "Technology & Systems",
+    excerpt: "A website is not an online brochure—it is an interactive conversion system. Discover the essential technical architecture for high-converting platforms.",
+    createdAt: "2025-02-10",
+    authorName: "SM NextGen Growth Team",
+    imageUrl: "/images/services/website-development.png",
+  },
+  {
+    _id: "fb-5",
+    title: "Local SEO Foundations for Service Businesses",
+    slug: "local-seo-foundations-for-service-businesses",
+    category: "SEO & Search",
+    excerpt: "How to optimize your Google Business Profile, directories and localized citations to capture high-intent local customer searches.",
+    createdAt: "2025-02-18",
+    authorName: "SM NextGen Growth Team",
+    imageUrl: "/images/services/search-engine-optimization-seo.png",
+  },
+  {
+    _id: "fb-6",
+    title: "Where AI Automation Can Actually Help a Small Business",
+    slug: "where-ai-automation-can-actually-help-a-small-business",
+    category: "AI & Automation",
+    excerpt: "Cut through the AI hype: practical, repeatable workflows like WhatsApp lead routing and CRM sync that save real team hours.",
+    createdAt: "2025-02-25",
+    authorName: "SM NextGen Growth Team",
+    imageUrl: "/images/services/ai-business-automation-systems.png",
+  },
+];
+
+const CATEGORIES = [
+  "All Articles",
+  "Business Growth",
+  "Marketing Strategy",
+  "Sales & Revenue",
+  "SEO & Search",
+  "AI & Automation",
+  "Technology & Systems",
+  "Founder Lessons",
+];
 
 export default function BlogsClient({ initialBlogs = [] }) {
-  const [allBlogs] = useState(initialBlogs);
-  const [isLoading] = useState(false); 
+  const allBlogs = initialBlogs.length > 0 ? initialBlogs : FALLBACK_BLOGS;
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeCategory, setActiveCategory] = useState("all");
-
-  const [leadName, setLeadName] = useState("");
-  const [leadService, setLeadService] = useState("Growth Strategy");
+  const [activeCategory, setActiveCategory] = useState("All Articles");
 
   const filteredBlogs = useMemo(() => {
-    return allBlogs.filter(blog => {
+    return allBlogs.filter((blog) => {
       let catMatch = true;
-      if (activeCategory !== 'all') {
-        const blogCat = (blog.category || 'growth').toLowerCase();
-        if (activeCategory === 'marketing' && !(blogCat.includes('marketing') || blogCat.includes('seo') || blogCat.includes('ads'))) catMatch = false;
-        if (activeCategory === 'tech' && !(blogCat.includes('tech') || blogCat.includes('web') || blogCat.includes('app'))) catMatch = false;
-        if (activeCategory === 'automation' && !(blogCat.includes('automation') || blogCat.includes('ai'))) catMatch = false;
-        if (activeCategory === 'finance' && !(blogCat.includes('finance') || blogCat.includes('legal') || blogCat.includes('tax'))) catMatch = false;
+      if (activeCategory !== "All Articles") {
+        catMatch = (blog.category || "").toLowerCase() === activeCategory.toLowerCase();
       }
 
       let searchMatch = true;
       if (searchQuery) {
         const term = searchQuery.toLowerCase();
-        const titleMatch = (blog.title || '').toLowerCase().includes(term);
-        const catTitleMatch = (blog.category || '').toLowerCase().includes(term);
-        searchMatch = titleMatch || catTitleMatch;
+        const titleMatch = (blog.title || "").toLowerCase().includes(term);
+        const catMatch2 = (blog.category || "").toLowerCase().includes(term);
+        searchMatch = titleMatch || catMatch2;
       }
 
       return catMatch && searchMatch;
     });
   }, [searchQuery, activeCategory, allBlogs]);
 
-  const extractPlainText = (content) => {
-    if (!content) return "Read the full case study and strategy inside...";
-    if (typeof content === 'string') {
-      const plainText = content.replace(/<[^>]+>/g, '');
-      return plainText.length > 120 ? plainText.substring(0, 120) + '...' : plainText;
-    }
-    if (Array.isArray(content)) {
-      const plainText = content
-        .filter(block => block._type === 'block' && block.children)
-        .map(block => block.children.map(child => child.text).join(''))
-        .join(' ');
-      return plainText.length > 120 ? plainText.substring(0, 120) + '...' : plainText || "Read the full case study and strategy inside...";
-    }
-    return "Read the full case study and strategy inside...";
-  };
-
-  const getCategoryColor = (category) => {
-    const catName = (category || "").toLowerCase();
-    if(catName.includes("marketing") || catName.includes("seo")) return "bg-blue-500/10 text-blue-600 border-blue-200 dark:border-blue-500/20";
-    if(catName.includes("tech") || catName.includes("web")) return "bg-purple-500/10 text-purple-600 border-purple-200 dark:border-purple-500/20";
-    if(catName.includes("automation") || catName.includes("ai")) return "bg-[#0097B2]/10 text-[#0097B2] border-[#0097B2]/20";
-    if(catName.includes("finance") || catName.includes("legal")) return "bg-orange-500/10 text-orange-600 border-orange-200 dark:border-orange-500/20";
-    return "bg-gray-100 text-gray-600 border-gray-200 dark:bg-white/5 dark:text-gray-300 dark:border-white/10";
-  };
-
-  const handleQuickLead = (e) => {
-    e.preventDefault();
-    const phone = "917073538077";
-    const message = `Hi SM NextGen Team, I was reading your growth insights. Name: ${leadName} | Interested in: ${leadService}. Please connect with me.`;
-    const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-    window.open(url, '_blank');
-  };
-
   return (
-    <main className="relative w-full z-10 overflow-x-hidden min-h-screen transition-colors duration-300 bg-[#F4F7F6] dark:bg-[#0B2545] font-sans">
-      
-      <section className="relative pt-40 pb-20 px-4 bg-white dark:bg-[#071A30] border-b border-gray-200 dark:border-white/5 overflow-hidden">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:24px_24px] dark:bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)]"></div>
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#0097B2]/10 rounded-full blur-[120px] pointer-events-none"></div>
+    <main className="relative w-full z-10 overflow-x-hidden min-h-screen bg-white dark:bg-[#030D1A] font-body text-[#0B2545] dark:text-[#E6EEF2] selection:bg-[#0097B2] selection:text-white transition-colors duration-200">
+      {/* 1. HERO SECTION WITH AIRY SKY BACKDROP (CENTER ALIGNED) */}
+      <HeroSkyBackdrop className="pt-36 pb-20 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80 dark:border-white/5">
+        <div className="max-w-5xl mx-auto text-center">
+          {/* Frosted Positioning Badge */}
+          <div className="inline-flex flex-wrap items-center justify-center gap-2 px-4 py-1.5 rounded-full bg-white/95 dark:bg-white/10 backdrop-blur-md border border-slate-200 dark:border-white/15 text-xs font-semibold text-[#0B2545] dark:text-white shadow-xs mb-6">
+            <span className="w-2 h-2 rounded-full bg-[#0097B2]" />
+            <span className="text-[#0097B2] font-subheading font-bold uppercase tracking-wider text-[11px]">
+              GROWTH LAB
+            </span>
+            <span className="text-slate-300 dark:text-white/25 hidden sm:inline">|</span>
+            <span className="text-slate-600 dark:text-slate-300 text-[11px] hidden sm:inline">
+              Research · Tactical Playbooks · Case Insights
+            </span>
+          </div>
 
-        <div className="relative z-10 max-w-4xl mx-auto text-center">
-          <span className="text-[#0097B2] font-bold text-xs uppercase tracking-widest bg-[#0097B2]/10 px-4 py-1.5 rounded-full border border-[#0097B2]/20 mb-6 inline-flex items-center gap-2">
-            <Bot className="w-4 h-4" /> Growth Intelligence & Engineering
-          </span>
-          <h1 className="text-4xl md:text-5xl lg:text-7xl font-heading font-extrabold text-[#0B2545] dark:text-white mb-6 tracking-tight">
-            Insights that engineer <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0097B2] to-blue-600">Enterprise Growth.</span>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-heading text-[#0B2545] dark:text-white tracking-tight leading-tight mb-6">
+            Ideas for Building{" "}
+            <span className="text-[#0097B2]">
+              Smarter Businesses.
+            </span>
           </h1>
-          <p className="text-gray-600 dark:text-gray-300 text-lg max-w-2xl mx-auto leading-relaxed">
-            Data-backed breakdowns on commercial strategy, full-funnel CRO, AI workflow deployment, and sustainable unit economics.
+
+          <p className="text-lg sm:text-xl text-slate-700 dark:text-slate-200 font-normal leading-relaxed max-w-3xl mx-auto mb-8">
+            Practical perspectives on the decisions, systems and strategies that shape sustainable business growth.
           </p>
 
-          <div className="mt-10 max-w-xl mx-auto relative group">
-            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-              <Search className="w-5 h-5 text-gray-400 group-focus-within:text-[#0097B2] transition-colors" />
-            </div>
-            <input 
-              type="text" 
-              placeholder="Search insights, strategies, or guides..." 
+          {/* Centered Search Bar */}
+          <div className="relative max-w-xl mx-auto mb-10">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <input
+              type="text"
+              placeholder="Search perspectives &amp; topics (e.g. CAC, Funnels, Systems, AI)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-white dark:bg-[#162032] border border-gray-200 dark:border-white/10 rounded-full py-4 pl-12 pr-4 text-[15px] text-[#0B2545] dark:text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-[#0097B2]/50 focus:border-[#0097B2] transition-all"
+              className="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-white/95 dark:bg-[#071A30]/90 backdrop-blur-xl border border-slate-200/90 dark:border-white/15 text-sm text-[#0B2545] dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-[#0097B2] shadow-lg transition"
             />
           </div>
+
+          {/* Premium Knowledge Streams Grid Showcase */}
+          <div className="max-w-4xl mx-auto rounded-3xl bg-white/95 dark:bg-[#071A30]/95 backdrop-blur-xl border border-slate-200/90 dark:border-white/15 p-4 sm:p-6 shadow-2xl">
+            <div className="flex items-center justify-between pb-3 mb-4 border-b border-slate-200/80 dark:border-white/10 text-left">
+              <div>
+                <span className="text-[10px] font-mono font-bold text-[#0097B2] uppercase tracking-wider block">
+                  Knowledge Architecture
+                </span>
+                <p className="text-sm font-heading font-bold text-[#0B2545] dark:text-white">
+                  Core Research Topics &amp; Frameworks
+                </p>
+              </div>
+              <span className="text-[10px] font-mono text-[#0097B2] font-bold px-2.5 py-1 rounded-full bg-cyan-50 dark:bg-cyan-950/40 border border-cyan-200 dark:border-cyan-800/40">
+                Editorial Series
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 text-left">
+              {[
+                { t: "Marketing Activity vs Revenue Growth", c: "Business Growth" },
+                { t: "Identifying Funnel Bottlenecks & Leaks", c: "Sales & Revenue" },
+                { t: "CAC vs LTV: Real Business Economics", c: "Marketing Strategy" },
+                { t: "Essential Architecture for High-Converting Web", c: "Technology & Systems" },
+                { t: "Local SEO Foundations for Service Brands", c: "SEO & Search" },
+                { t: "Practical AI & Automation Without Hype", c: "AI & Automation" },
+              ].map((art, idx) => (
+                <div
+                  key={idx}
+                  className="p-3 rounded-xl bg-slate-50/90 dark:bg-black/30 border border-slate-100 dark:border-white/5 hover:border-[#0097B2] transition group cursor-pointer"
+                >
+                  <span className="text-[10px] font-mono font-bold text-[#0097B2] block mb-1">
+                    {art.c}
+                  </span>
+                  <p className="text-xs font-bold text-[#0B2545] dark:text-white group-hover:text-[#0097B2] transition leading-tight">
+                    {art.t}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </HeroSkyBackdrop>
+
+      {/* 2. CATEGORY NAVIGATION */}
+      <section className="py-6 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80 dark:border-white/5 bg-[#F8FAFC] dark:bg-[#071A30]/50 sticky top-16 z-20 backdrop-blur-md">
+        <div className="max-w-7xl mx-auto flex flex-wrap items-center gap-2">
+          {CATEGORIES.map((cat) => {
+            const isCurrent = activeCategory === cat;
+            return (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={`px-4 py-2 rounded-xl text-xs font-semibold transition cursor-pointer ${
+                  isCurrent
+                    ? "bg-[#0097B2] text-white shadow-sm"
+                    : "bg-white dark:bg-white/5 text-slate-700 dark:text-slate-300 border border-slate-200/80 dark:border-white/10 hover:border-[#0097B2]/40"
+                }`}
+              >
+                {cat}
+              </button>
+            );
+          })}
         </div>
       </section>
 
-      <section className="py-16 px-4">
+      {/* 3. ARTICLES GRID */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80 dark:border-white/5">
         <div className="max-w-7xl mx-auto">
-          
-          <div className="flex flex-wrap justify-center gap-3 mb-16">
-            <button onClick={() => setActiveCategory('all')} className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all border ${activeCategory === 'all' ? 'bg-[#0097B2] text-white border-[#0097B2] shadow-md shadow-[#0097B2]/20' : 'bg-white dark:bg-[#162032] text-gray-600 dark:text-gray-300 border-gray-200 dark:border-white/10 hover:border-[#0097B2] hover:text-[#0097B2]'}`}>All Insights</button>
-            <button onClick={() => setActiveCategory('marketing')} className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold transition-all border ${activeCategory === 'marketing' ? 'bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-600/20' : 'bg-white dark:bg-[#162032] text-gray-600 dark:text-gray-300 border-gray-200 dark:border-white/10 hover:border-blue-600 hover:text-blue-600'}`}><Megaphone className="w-4 h-4"/> Marketing</button>
-            <button onClick={() => setActiveCategory('tech')} className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold transition-all border ${activeCategory === 'tech' ? 'bg-purple-600 text-white border-purple-600 shadow-md shadow-purple-600/20' : 'bg-white dark:bg-[#162032] text-gray-600 dark:text-gray-300 border-gray-200 dark:border-white/10 hover:border-purple-600 hover:text-purple-600'}`}><Laptop className="w-4 h-4"/> Tech Dev</button>
-            <button onClick={() => setActiveCategory('automation')} className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold transition-all border ${activeCategory === 'automation' ? 'bg-[#0097B2] text-white border-[#0097B2] shadow-md shadow-[#0097B2]/20' : 'bg-white dark:bg-[#162032] text-gray-600 dark:text-gray-300 border-gray-200 dark:border-white/10 hover:border-[#0097B2] hover:text-[#0097B2]'}`}><Bot className="w-4 h-4"/> AI Automation</button>
-            <button onClick={() => setActiveCategory('finance')} className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold transition-all border ${activeCategory === 'finance' ? 'bg-orange-600 text-white border-orange-600 shadow-md shadow-orange-600/20' : 'bg-white dark:bg-[#162032] text-gray-600 dark:text-gray-300 border-gray-200 dark:border-white/10 hover:border-orange-600 hover:text-orange-600'}`}><Scale className="w-4 h-4"/> Finance & Legal</button>
-          </div>
-
-          {isLoading ? (
-            <div className="flex justify-center py-20">
-              <div className="w-10 h-10 border-4 border-[#0097B2] border-t-transparent rounded-full animate-spin"></div>
-            </div>
-          ) : filteredBlogs.length === 0 ? (
-            <div className="bg-white dark:bg-[#162032] p-16 rounded-[2rem] text-center border border-gray-100 dark:border-white/5 max-w-2xl mx-auto">
-              <Search className="w-12 h-12 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
-              <h3 className="text-2xl font-bold text-[#0B2545] dark:text-white mb-2">No Insights Found</h3>
-              <p className="text-gray-500">We couldn&apos;t find any articles matching your search or category filter. Try something else!</p>
-              <button onClick={() => {setSearchQuery(''); setActiveCategory('all');}} className="mt-6 text-[#0097B2] font-bold hover:underline">Clear all filters</button>
+          {filteredBlogs.length === 0 ? (
+            <div className="p-12 text-center bg-slate-50 dark:bg-[#071A30] rounded-3xl border border-slate-200 dark:border-white/10 max-w-lg mx-auto">
+              <Search className="w-8 h-8 text-slate-400 mx-auto mb-3" />
+              <h3 className="text-lg font-bold font-heading text-[#0B2545] dark:text-white mb-1">
+                No Articles Found
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">
+                Try searching for another keyword or view all categories.
+              </p>
+              <button
+                onClick={() => {
+                  setSearchQuery("");
+                  setActiveCategory("All Articles");
+                }}
+                className="text-xs font-bold text-[#0097B2] hover:underline cursor-pointer"
+              >
+                Reset filters
+              </button>
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredBlogs.map((post, index) => {
-                const validDate = post._createdAt || post.publishedAt 
-                  ? new Date(post._createdAt || post.publishedAt).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })
-                  : "Recently Published";
-
-                const fallbackAvatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(post.authorName || 'SM NextGen')}&background=0097B2&color=fff&bold=true`;
-                const finalAuthorImage = post.authorImageUrl || post.authorImage?.asset?.url || fallbackAvatar;
-
-                return (
-                  <motion.article 
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    key={post._id || index} 
-                    className="bg-white dark:bg-[#162032] rounded-[1.5rem] overflow-hidden shadow-sm hover:shadow-2xl border border-gray-100 dark:border-white/5 transition-all duration-300 group flex flex-col"
-                  >
-                    <Link href={`/blogs/${post.slug}`} className="block relative h-56 overflow-hidden">
-                      <img 
-                        src={post.imageUrl || post.image_url || 'https://images.unsplash.com/photo-1557838923-2985c318be48?auto=format&fit=crop&w=800&q=80'} 
-                        className="w-full h-full object-cover group-hover:scale-105 transition duration-700" 
-                        alt={post.title} 
-                      />
-                      <div className="absolute top-4 left-4">
-                        <span className={`text-[11px] font-bold px-3 py-1.5 rounded-full border backdrop-blur-md ${getCategoryColor(post.category)}`}>
-                          {post.category || "Growth Strategy"}
+              {filteredBlogs.map((post) => (
+                <article
+                  key={post._id}
+                  className="rounded-3xl bg-slate-50 dark:bg-[#071A30] border border-slate-200/80 dark:border-white/10 overflow-hidden flex flex-col justify-between hover:border-[#0097B2]/50 transition group"
+                >
+                  <div>
+                    {post.imageUrl && (
+                      <div className="aspect-video w-full bg-slate-900 overflow-hidden relative">
+                        <img
+                          src={post.imageUrl}
+                          alt={post.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                        />
+                      </div>
+                    )}
+                    <div className="p-6 sm:p-7">
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-[11px] font-mono font-bold text-[#0097B2] uppercase tracking-wider">
+                          {post.category || "Business Growth"}
                         </span>
                       </div>
-                    </Link>
-
-                    <div className="p-6 flex flex-col flex-grow">
-                      <p className="text-xs text-gray-400 font-medium mb-3">
-                        {validDate}
-                      </p>
                       <Link href={`/blogs/${post.slug}`}>
-                        <h2 className="text-xl font-bold text-[#0B2545] dark:text-white mb-3 group-hover:text-[#0097B2] transition-colors leading-tight line-clamp-2">
+                        <h2 className="text-lg font-bold font-heading text-[#0B2545] dark:text-white group-hover:text-[#0097B2] transition mb-3 line-clamp-2">
                           {post.title}
                         </h2>
                       </Link>
-                      <p className="text-[15px] text-gray-500 dark:text-[#E6EEF2]/70 mb-6 leading-relaxed line-clamp-3 flex-grow">
-                        {extractPlainText(post.content)}
+                      <p className="text-xs text-slate-600 dark:text-slate-300 font-light leading-relaxed line-clamp-3 mb-4">
+                        {post.excerpt || (typeof post.content === "string" ? post.content.substring(0, 120) : "Read practical growth analysis and implementation guidance.")}
                       </p>
-                      
-                      <div className="mt-auto pt-4 border-t border-gray-100 dark:border-white/5 flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <img src={finalAuthorImage} className="w-8 h-8 rounded-full object-cover border-2 border-gray-50 dark:border-white/10" alt="Author" />
-                          <span className="text-xs font-bold text-[#0B2545] dark:text-white">{post.authorName || "SM NextGen Growth Team"}</span>
-                        </div>
-                        <Link href={`/blogs/${post.slug}`} className="w-8 h-8 rounded-full bg-gray-50 dark:bg-white/5 flex items-center justify-center text-[#0097B2] group-hover:bg-[#0097B2] group-hover:text-white transition-colors">
-                          <ArrowRight className="w-4 h-4" />
-                        </Link>
-                      </div>
                     </div>
-                  </motion.article>
-                );
-              })}
+                  </div>
+
+                  <div className="p-6 sm:p-7 pt-0 border-t border-slate-200/60 dark:border-white/5 flex items-center justify-between mt-4">
+                    <span className="text-[11px] text-slate-400 font-medium">
+                      {post.authorName || "SM NextGen Growth Team"}
+                    </span>
+                    <Link
+                      href={`/blogs/${post.slug}`}
+                      className="text-xs font-bold text-[#0097B2] flex items-center gap-1 group-hover:translate-x-1 transition"
+                    >
+                      <span>Read Article</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
+                </article>
+              ))}
             </div>
           )}
         </div>
       </section>
 
-      <section className="py-20 px-4 bg-white dark:bg-[#071A30] border-t border-gray-200 dark:border-white/5">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            
-            <div className="bg-gradient-to-br from-[#0B2545] to-[#11325B] p-10 rounded-[2.5rem] text-white shadow-2xl relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-[#0097B2]/20 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
-              
-              <h3 className="text-3xl font-extrabold mb-4 font-heading relative z-10">Get a Quick Callback <Phone className="inline w-6 h-6 text-[#0097B2]" /></h3>
-              <p className="text-white/80 mb-8 relative z-10 text-[17px]">Ready to implement these strategies? Drop your details and our growth team will WhatsApp you within minutes.</p>
-              
-              <form onSubmit={handleQuickLead} className="relative z-10 space-y-4">
-                <input 
-                  type="text" 
-                  placeholder="Your Full Name" 
-                  value={leadName}
-                  onChange={(e) => setLeadName(e.target.value)}
-                  required 
-                  className="w-full px-5 py-4 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-[#0097B2] transition"
-                />
-                
-                <select 
-                  value={leadService}
-                  onChange={(e) => setLeadService(e.target.value)}
-                  className="w-full px-5 py-4 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-[#0097B2] transition cursor-pointer appearance-none"
-                >
-                  <option value="Growth Strategy" className="text-gray-900">Growth Strategy</option>
-                  <option value="Marketing" className="text-gray-900">Digital Marketing</option>
-                  <option value="Tech Development" className="text-gray-900">Tech Development</option>
-                  <option value="Automation" className="text-gray-900">AI Automation</option>
-                  <option value="Legal/Finance" className="text-gray-900">Legal & Finance</option>
-                </select>
-
-                <button type="submit" className="w-full bg-[#0097B2] hover:bg-white hover:text-[#0B2545] text-white font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2 mt-2 shadow-lg">
-                  Request Free Call <MessageSquare className="w-5 h-5" />
-                </button>
-              </form>
-            </div>
-
-            <div className="p-4 lg:p-10">
-              <h3 className="text-2xl font-bold text-[#0B2545] dark:text-white mb-2">Most Requested Solutions</h3>
-              <p className="text-gray-500 dark:text-gray-400 mb-8 text-[17px]">What ambitious founders are focusing on right now.</p>
-              
-              <div className="grid sm:grid-cols-2 gap-4">
-                <Link href="/services/search-engine-optimization-seo" className="flex items-center gap-4 bg-gray-50 dark:bg-white/5 p-4 rounded-2xl hover:bg-[#0097B2]/10 dark:hover:bg-[#0097B2]/20 border border-transparent hover:border-[#0097B2]/30 transition-all group">
-                  <div className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center group-hover:scale-110 transition"><Search className="w-5 h-5" /></div>
-                  <div>
-                    <span className="block font-bold text-[#0B2545] dark:text-white group-hover:text-[#0097B2]">SEO Mastery</span>
-                    <span className="text-xs text-gray-500">Organic Growth</span>
-                  </div>
-                </Link>
-                
-                <Link href="/services/performance-advertising" className="flex items-center gap-4 bg-gray-50 dark:bg-white/5 p-4 rounded-2xl hover:bg-[#0097B2]/10 dark:hover:bg-[#0097B2]/20 border border-transparent hover:border-[#0097B2]/30 transition-all group">
-                  <div className="w-12 h-12 rounded-xl bg-pink-100 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400 flex items-center justify-center group-hover:scale-110 transition"><Megaphone className="w-5 h-5" /></div>
-                  <div>
-                    <span className="block font-bold text-[#0B2545] dark:text-white group-hover:text-[#0097B2]">Meta Ads</span>
-                    <span className="text-xs text-gray-500">High ROAS</span>
-                  </div>
-                </Link>
-
-                <Link href="/services/whatsapp-automation-systems" className="flex items-center gap-4 bg-gray-50 dark:bg-white/5 p-4 rounded-2xl hover:bg-[#0097B2]/10 dark:hover:bg-[#0097B2]/20 border border-transparent hover:border-[#0097B2]/30 transition-all group">
-                  <div className="w-12 h-12 rounded-xl bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 flex items-center justify-center group-hover:scale-110 transition"><Phone className="w-5 h-5" /></div>
-                  <div>
-                    <span className="block font-bold text-[#0B2545] dark:text-white group-hover:text-[#0097B2]">WhatsApp Bots</span>
-                    <span className="text-xs text-gray-500">24/7 Automation</span>
-                  </div>
-                </Link>
-
-                <Link href="/services/business-registration-services" className="flex items-center gap-4 bg-gray-50 dark:bg-white/5 p-4 rounded-2xl hover:bg-[#0097B2]/10 dark:hover:bg-[#0097B2]/20 border border-transparent hover:border-[#0097B2]/30 transition-all group">
-                  <div className="w-12 h-12 rounded-xl bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 flex items-center justify-center group-hover:scale-110 transition"><Briefcase className="w-5 h-5" /></div>
-                  <div>
-                    <span className="block font-bold text-[#0B2545] dark:text-white group-hover:text-[#0097B2]">Startup Setup</span>
-                    <span className="text-xs text-gray-500">Pvt Ltd / LLP</span>
-                  </div>
-                </Link>
-              </div>
-
-              <Link href="/services" className="mt-8 inline-flex items-center gap-2 text-[#0097B2] font-bold hover:underline">
-                Explore all 32 services <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
+      {/* 4. CONTEXTUAL SERVICES CTA */}
+      <section className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-[#F8FAFC] dark:from-[#030D1A] dark:to-[#071A30] text-center">
+        <div className="max-w-3xl mx-auto space-y-6">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-heading text-[#0B2545] dark:text-white tracking-tight">
+            Ready to Build Better Growth Systems?
+          </h2>
+          <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 font-light leading-relaxed">
+            Turn insights into execution. Explore how SM NextGen connects strategy, marketing, technology and automation.
+          </p>
+          <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              href="/contact"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-[#0097B2] hover:bg-[#007a91] text-white font-bold text-xs uppercase tracking-wider transition shadow-md"
+            >
+              <span>Start a Growth Conversation</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+            <Link
+              href="/services"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-white dark:bg-white/10 text-slate-800 dark:text-white font-bold text-xs uppercase tracking-wider border border-slate-200 dark:border-white/15 hover:border-[#0097B2] transition"
+            >
+              Explore Capabilities
+            </Link>
           </div>
         </div>
       </section>
-
     </main>
   );
 }

@@ -1,20 +1,27 @@
 import ServicesClient from "./ServicesClient";
 
 export const metadata = {
-  title: "Strategic Growth Capabilities | SM NextGen — Business Growth Partner",
+  title: "Business Growth Capabilities | Marketing, Technology & AI — SM NextGen",
   description:
-    "Explore SM NextGen's full-stack growth capabilities: Growth Strategy, Marketing & Demand, Conversion & Digital Experience, AI & Automation, Data Intelligence, and Operations Support.",
-  keywords:
-    "Growth Capabilities, Growth Strategy, Marketing & Demand, Conversion Rate Optimization, AI Business Automation, Enterprise Next.js Development, Revenue Intelligence, SM NextGen",
-  metadataBase: new URL('https://smnextgen.com'),
+    "Explore connected business growth capabilities across strategy, marketing, digital experience, AI automation, data intelligence and business operations.",
+  keywords: [
+    "Business Growth Capabilities",
+    "Growth Strategy & Positioning",
+    "Marketing & Demand Generation",
+    "Conversion & Digital Experience",
+    "AI & Business Automation",
+    "Data & Intelligence",
+    "Business Operations & Compliance",
+  ],
+  metadataBase: new URL('https://www.smnextgen.com'),
   alternates: {
-    canonical: 'https://smnextgen.com/services',
+    canonical: 'https://www.smnextgen.com/services',
   },
   openGraph: {
-    title: "Strategic Growth Capabilities | SM NextGen — Business Growth Partner",
+    title: "Business Growth Capabilities | Marketing, Technology & AI — SM NextGen",
     description:
-      "Full-stack capabilities engineered to accelerate qualified pipeline, lower CAC, and compound enterprise revenue.",
-    url: "https://smnextgen.com/services",
+      "Explore connected business growth capabilities across strategy, marketing, digital experience, AI automation, data intelligence and business operations.",
+    url: "https://www.smnextgen.com/services",
     siteName: "SM NextGen",
     images: [
       {

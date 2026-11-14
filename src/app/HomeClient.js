@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect } from "react";
-import dynamic from "next/dynamic";
 import Lenis from "lenis";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -17,11 +16,6 @@ import CaseStudiesProof from "./components/home_editorial/CaseStudiesProof";
 import GrowthOSShowcase from "./components/home_editorial/GrowthOSShowcase";
 import AboutLeadership from "./components/home_editorial/AboutLeadership";
 import FinalConsultationCTA from "./components/home_editorial/FinalConsultationCTA";
-
-// Dynamically import 3D Canvas layer (SSR: false for client-side WebGL)
-const ScrollPrism3D = dynamic(() => import("./components/3d/ScrollPrism3D"), {
-  ssr: false,
-});
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -80,9 +74,6 @@ export default function HomeClient() {
   return (
     <main className="relative w-full z-10 overflow-x-hidden min-h-screen bg-white dark:bg-[#030D1A] font-body text-[#0B2545] dark:text-[#E6EEF2] selection:bg-[#0097B2] selection:text-white transition-colors duration-200">
       
-      {/* 3D Interactive Background Prism Layer (Desktop & Mobile) */}
-      <ScrollPrism3D />
-
       {/* SECTION 01 — HERO */}
       <HeroEditorial
         onStartConversation={scrollToConsultation}

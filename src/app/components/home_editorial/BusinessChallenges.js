@@ -17,25 +17,31 @@ export default function BusinessChallenges({ onExploreSystem }) {
       icon: <Unplug className="w-5 h-5 text-[#0097B2]" />,
       num: "01",
       title: "Disconnected Marketing",
-      desc: "Campaigns generate clicks and engagement, but the connection between marketing spend and actual sales remains unclear."
+      desc: "Your marketing channels generate activity, but they aren't working towards one clear business objective."
     },
     {
       icon: <Clock className="w-5 h-5 text-[#0097B2]" />,
       num: "02",
-      title: "Lost Opportunities",
-      desc: "Potential customers enquire, but slow responses and inconsistent follow-ups leave valuable opportunities behind."
+      title: "Leads Without Follow-ups",
+      desc: "Potential customers show interest, but slow responses and disconnected processes create missed opportunities."
     },
     {
       icon: <EyeOff className="w-5 h-5 text-[#0097B2]" />,
       num: "03",
-      title: "Weak Conversion Systems",
-      desc: "Your website attracts visitors, but poor user experience, unclear messaging and unnecessary friction prevent them from taking action."
+      title: "Websites That Don't Convert",
+      desc: "Visitors arrive, but confusing experiences and weak conversion journeys prevent them from taking action."
     },
     {
       icon: <Layers className="w-5 h-5 text-[#0097B2]" />,
       num: "04",
-      title: "Operational Complexity",
-      desc: "Multiple tools, vendors and manual processes make it harder to manage customers, campaigns and business operations."
+      title: "Unclear Performance",
+      desc: "You invest in marketing but lack a clear understanding of which activities contribute to genuine business results."
+    },
+    {
+      icon: <Layers className="w-5 h-5 text-[#0097B2]" />,
+      num: "05",
+      title: "Manual Operations",
+      desc: "Repetitive tasks consume time that could be spent on customers, strategy and business development."
     }
   ];
 
@@ -94,7 +100,7 @@ export default function BusinessChallenges({ onExploreSystem }) {
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center gap-2 mb-3">
           <span className="text-xs font-subheading font-bold text-[#0097B2] uppercase tracking-wider">
-            THE REAL CHALLENGE
+            THE PROBLEM ISN'T ALWAYS YOUR MARKETING.
           </span>
         </div>
 
@@ -108,7 +114,7 @@ export default function BusinessChallenges({ onExploreSystem }) {
             </h2>
 
             <p className="text-base sm:text-lg text-slate-700 dark:text-slate-200 font-normal leading-relaxed">
-              More ads cannot fix a weak conversion funnel. More leads cannot help if follow-ups are delayed. More tools cannot create efficiency when your systems don't communicate.
+              More traffic doesn't automatically mean more customers. More leads don't guarantee more sales. And more tools don't necessarily create better systems.
             </p>
 
             <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 font-light leading-relaxed">
@@ -178,7 +184,7 @@ export default function BusinessChallenges({ onExploreSystem }) {
 
         <div
           ref={frictionListRef}
-          className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8"
+          className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 mb-8"
         >
           {frictionPoints.map((item, index) => (
             <div
@@ -204,9 +210,12 @@ export default function BusinessChallenges({ onExploreSystem }) {
         </div>
 
         {/* Closing Line */}
-        <div className="text-center max-w-2xl mx-auto pt-4 border-t border-slate-100 dark:border-white/5">
-          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-light italic leading-relaxed">
-            The problem isn't always a lack of effort. Sometimes, the system behind the effort needs to work better.
+        <div className="text-center max-w-2xl mx-auto pt-4 border-t border-slate-100 dark:border-white/5 space-y-1">
+          <p className="text-sm font-semibold text-[#0B2545] dark:text-white font-heading">
+            Your business doesn't need another disconnected service provider.
+          </p>
+          <p className="text-xs sm:text-sm text-[#0097B2] font-medium">
+            It needs a system where every important activity works towards growth.
           </p>
         </div>
       </div>

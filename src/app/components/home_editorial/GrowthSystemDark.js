@@ -189,7 +189,7 @@ export default function GrowthSystemDark({ onStartConversation }) {
         <div className="max-w-3xl mx-auto text-center mb-16 sm:mb-20">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0097B2]/15 border border-[#0097B2]/30 text-cyan-400 text-xs font-mono font-bold uppercase tracking-wider mb-4">
             <Cpu className="w-3.5 h-3.5" />
-            <span>A BETTER WAY TO GROW</span>
+            <span>THE SM NEXTGEN APPROACH</span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-heading text-white tracking-tight mb-5 leading-tight">
@@ -200,7 +200,7 @@ export default function GrowthSystemDark({ onStartConversation }) {
           </h2>
 
           <p className="text-base sm:text-lg text-slate-300 font-light leading-relaxed mb-3">
-            Your business doesn't grow through marketing alone. It grows when positioning, customer acquisition, digital experiences, sales processes and technology work together.
+            We connect the essential parts of your business into one coordinated growth approach.
           </p>
           <p className="text-sm sm:text-base text-cyan-300 font-medium">
             SM NextGen connects the capabilities that move your business forward.

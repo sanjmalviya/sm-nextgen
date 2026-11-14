@@ -24,29 +24,29 @@ const DASHBOARD_VIEWS = [
     label: "Marketing Performance",
     icon: TrendingUp,
     title: "Marketing Performance",
-    subtitle: "Understand campaign performance across paid, organic and social channels.",
+    subtitle: "Understand how your marketing channels are performing.",
     src: "/images/SM NextGen Marketing Dashboard.png",
     width: 1672,
     height: 941,
     alt: "SM NextGen Marketing Performance dashboard visual preview displaying ad spend, total leads, conversions, 3.8x ROI, channel share, and campaign comparison",
     highlights: [
-      "Understand campaign performance across paid, organic and social channels",
+      "Understand how your marketing channels are performing",
       "Connect ad spend directly to inbound customer inquiries",
       "Shift budget toward highest-performing customer acquisition channels",
     ],
   },
   {
     id: "leads",
-    label: "Lead Management",
+    label: "Lead Pipeline",
     icon: Users,
-    title: "Lead Management",
-    subtitle: "See how inquiries move through your sales pipeline.",
+    title: "Lead Pipeline",
+    subtitle: "Track enquiries and understand where opportunities stand.",
     src: "/images/Modern SaaS Lead Management Dashboard.png",
     width: 1672,
     height: 941,
     alt: "SM NextGen Lead Management CRM dashboard visual preview showing total leads, qualification stages, lead source distribution, and recent lead table",
     highlights: [
-      "See how inquiries move through your sales pipeline",
+      "Track enquiries and understand where opportunities stand",
       "Track response velocity and eliminate follow-up delays",
       "Identify high-intent prospects and monitor conversion stages",
     ],
@@ -56,29 +56,61 @@ const DASHBOARD_VIEWS = [
     label: "Conversion Insights",
     icon: Kanban,
     title: "Conversion Insights",
-    subtitle: "Identify where potential customers drop off.",
+    subtitle: "Identify potential gaps in your customer journey.",
     src: "/images/SM NextGen Sales Pipeline Dashboard.png",
     width: 1672,
     height: 941,
     alt: "SM NextGen Conversion Insights and Sales Pipeline Kanban board visual preview",
     highlights: [
-      "Identify where potential customers drop off across the funnel",
+      "Identify potential gaps in your customer journey",
       "Pinpoint landing page, form, and checkout friction points",
       "Measure stage-by-stage conversion velocity and close rates",
     ],
   },
   {
+    id: "cac",
+    label: "Customer Acquisition Cost",
+    icon: BarChart3,
+    title: "Customer Acquisition Cost",
+    subtitle: "Understand what it takes to acquire a customer.",
+    src: "/images/Business Performance Dashboard.png",
+    width: 1672,
+    height: 941,
+    alt: "Customer Acquisition Cost and unit economics dashboard visual preview",
+    highlights: [
+      "Understand what it takes to acquire a customer across each channel",
+      "Evaluate blended and paid CAC across product lines",
+      "Protect gross margins before scaling ad spend",
+    ],
+  },
+  {
+    id: "roas",
+    label: "ROI & ROAS",
+    icon: TrendingUp,
+    title: "ROI & ROAS",
+    subtitle: "Evaluate marketing investment and campaign efficiency.",
+    src: "/images/Isometric Performance Optimization Dashboard.png",
+    width: 1672,
+    height: 941,
+    alt: "ROI & ROAS campaign efficiency dashboard visual preview",
+    highlights: [
+      "Evaluate marketing investment and campaign efficiency",
+      "Break-even and target ROAS forecasting per campaign",
+      "Track incremental return on advertising spend",
+    ],
+  },
+  {
     id: "revenue",
-    label: "Revenue & ROI",
+    label: "Revenue Attribution",
     icon: IndianRupee,
-    title: "Revenue & ROI",
-    subtitle: "Understand the commercial contribution of your growth activities.",
+    title: "Revenue Attribution",
+    subtitle: "Understand how your acquisition activities contribute to business outcomes.",
     src: "/images/SM NextGen Revenue Analytics Dashboard.png",
     width: 1672,
     height: 941,
     alt: "SM NextGen Revenue & ROI Analytics dashboard visual preview showing total revenue, service category mix, and monthly revenue forecast",
     highlights: [
-      "Understand the commercial contribution of your growth activities",
+      "Understand how your acquisition activities contribute to business outcomes",
       "Track Customer Acquisition Cost (CAC) and Lifetime Value (LTV)",
       "Measure true return on ad spend tied directly to deposited revenue",
     ],
@@ -130,7 +162,7 @@ export default function DashboardsShowcase() {
         <div className="max-w-3xl mx-auto text-center mb-12 sm:mb-14">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0097B2]/10 border border-[#0097B2]/20 text-[#0097B2] dark:text-cyan-300 text-xs font-subheading font-bold uppercase tracking-wider mb-4">
             <Eye className="w-3.5 h-3.5" />
-            <span>CLARITY BEHIND EVERY DECISION</span>
+            <span>MAKE BETTER BUSINESS DECISIONS</span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-heading text-[#0B2545] dark:text-white tracking-tight leading-tight mb-4">
@@ -141,10 +173,10 @@ export default function DashboardsShowcase() {
           </h2>
 
           <p className="text-base sm:text-lg text-slate-700 dark:text-slate-200 font-normal leading-relaxed mb-2">
-            Marketing performance should mean more than impressions, clicks and likes.
+            Business growth becomes easier to manage when you can see what is happening across your marketing, customer acquisition and conversion processes.
           </p>
           <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 font-light leading-relaxed">
-            We help connect the important parts of performance — from acquisition and lead quality to conversion, customer acquisition cost and revenue.
+            We help connect performance information to meaningful business decisions.
           </p>
         </div>
 
@@ -251,7 +283,7 @@ export default function DashboardsShowcase() {
         {/* Closing Statement */}
         <div className="mt-8 text-center">
           <p className="text-sm sm:text-base font-bold font-heading text-[#0B2545] dark:text-white">
-            Better visibility leads to better decisions.
+            Move beyond activity reports. Focus on the information that helps you make better decisions.
           </p>
           <p className="text-[11px] text-slate-400 dark:text-slate-500 font-mono mt-1">
             *Illustrative interface previews. Actual client reporting configured with verified live attribution.

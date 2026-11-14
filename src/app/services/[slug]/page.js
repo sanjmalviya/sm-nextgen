@@ -1,6 +1,7 @@
 // file: src/app/services/[slug]/page.js
 import Link from "next/link";
 import LeadForm from "./LeadForm";
+import HeroSkyBackdrop from "@/app/components/HeroSkyBackdrop";
 import { 
   Check, ArrowRight, ShieldCheck, Laptop, 
   TrendingUp, Bot, Compass, BarChart3, Scale, 
@@ -168,37 +169,43 @@ export default async function ServiceDetail({ params }) {
   return (
     <main className="bg-white dark:bg-[#030D1A] font-body text-[#0B2545] dark:text-[#E6EEF2] selection:bg-[#0097B2] selection:text-white transition-colors duration-200">
       
-      {/* 1. HERO SECTION */}
-      <section className="relative pt-36 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#F8FAFC] to-white dark:from-[#071A30] dark:to-[#030D1A] border-b border-slate-200/80 dark:border-white/5">
+      {/* 1. HERO SECTION WITH AIRY SKY BACKDROP */}
+      <HeroSkyBackdrop className="pt-36 pb-20 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80 dark:border-white/5">
         <div className="max-w-7xl mx-auto">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0097B2]/10 border border-[#0097B2]/20 text-[#0097B2] text-xs font-mono font-bold uppercase tracking-wider mb-4">
-              <span>{service.category}</span>
-              <span>•</span>
-              <span>In-House Execution</span>
+            {/* Frosted Positioning Badge */}
+            <div className="inline-flex flex-wrap items-center gap-2 px-4 py-1.5 rounded-full bg-white/95 dark:bg-white/10 backdrop-blur-md border border-slate-200 dark:border-white/15 text-xs font-semibold text-[#0B2545] dark:text-white shadow-xs mb-6">
+              <span className="w-2 h-2 rounded-full bg-[#0097B2]" />
+              <span className="text-[#0097B2] font-subheading font-bold uppercase tracking-wider text-[11px]">
+                {service.category}
+              </span>
+              <span className="text-slate-300 dark:text-white/25 hidden sm:inline">|</span>
+              <span className="text-slate-600 dark:text-slate-300 text-[11px] hidden sm:inline">
+                In-House Engineering &amp; Strategy
+              </span>
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-heading text-[#0B2545] dark:text-white tracking-tight leading-tight mb-6">
               {service.title}
             </h1>
 
-            <p className="text-lg sm:text-xl text-slate-600 dark:text-slate-300 font-light leading-relaxed mb-8">
+            <p className="text-lg sm:text-xl text-slate-700 dark:text-slate-200 font-normal leading-relaxed mb-8">
               {service.short_description}
             </p>
 
             <div className="flex flex-wrap items-center gap-4 text-xs font-bold text-slate-700 dark:text-slate-200">
-              <div className="flex items-center gap-2 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 px-4 py-2 rounded-xl">
+              <div className="flex items-center gap-2 bg-white/95 dark:bg-white/10 backdrop-blur-md border border-slate-200 dark:border-white/15 px-4 py-2 rounded-xl shadow-xs">
                 <ShieldCheck className="w-4 h-4 text-[#0097B2]" />
                 <span>Zero Outsourcing Guarantee</span>
               </div>
-              <div className="flex items-center gap-2 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 px-4 py-2 rounded-xl">
+              <div className="flex items-center gap-2 bg-white/95 dark:bg-white/10 backdrop-blur-md border border-slate-200 dark:border-white/15 px-4 py-2 rounded-xl shadow-xs">
                 <Sparkles className="w-4 h-4 text-emerald-500" />
                 <span>{service.metric}</span>
               </div>
             </div>
           </div>
         </div>
-      </section>
+      </HeroSkyBackdrop>
 
       {/* 2. CORE ANSWERS & STICKY INTAKE FORM */}
       <section className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8">

@@ -1,20 +1,27 @@
 import { ContactFormClient } from "./ContactClient";
 
 export const metadata = {
-  title: "Start a Growth Conversation | SM NextGen — Business Growth Partner",
+  title: "Contact SM NextGen | Start Your Business Growth Journey",
   description:
-    "Schedule an executive consultation with an SM NextGen principal. We audit your revenue bottlenecks and engineer custom compounding growth architectures.",
-  keywords:
-    "Contact SM NextGen, Business Growth Partner Consultation, Growth Audit, Enterprise Scaling Advisory, AI Automation Architecture",
-  metadataBase: new URL('https://smnextgen.com'),
+    "Connect with SM NextGen for business growth strategy, digital marketing, branding, website development, AI automation and technology solutions.",
+  keywords: [
+    "Contact SM NextGen",
+    "Business Growth Strategy",
+    "Digital Marketing",
+    "Branding",
+    "Website Development",
+    "AI Automation",
+    "Technology Solutions",
+  ],
+  metadataBase: new URL('https://www.smnextgen.com'),
   alternates: {
-    canonical: 'https://smnextgen.com/contact',
+    canonical: 'https://www.smnextgen.com/contact',
   },
   openGraph: {
-    title: "Start a Growth Conversation | SM NextGen — Business Growth Partner",
+    title: "Contact SM NextGen | Start Your Business Growth Journey",
     description:
-      "Direct principal engagement. 4-hour SLA guarantee. Mutual NDA protection. Schedule your diagnostic session today.",
-    url: "https://smnextgen.com/contact",
+      "Connect with SM NextGen for business growth strategy, digital marketing, branding, website development, AI automation and technology solutions.",
+    url: "https://www.smnextgen.com/contact",
     siteName: "SM NextGen",
     images: [
       {

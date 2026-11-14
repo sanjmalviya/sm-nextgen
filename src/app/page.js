@@ -1,30 +1,30 @@
 import HomeClient from './HomeClient';
 
 export const metadata = {
-  title: 'SM NextGen | Business Growth Partner | Strategy, Marketing & Technology',
+  title: 'SM NextGen | Business Growth Partner – Strategy, Marketing & Technology',
   description:
-    'SM NextGen helps businesses build sustainable growth through strategy, marketing, technology, AI and automation — driving stronger demand, sales, revenue and long-term ROI.',
-  metadataBase: new URL('https://smnextgen.com'),
+    'SM NextGen is your complete business growth partner, connecting business strategy, marketing, branding, technology, AI and automation to help businesses grow.',
+  metadataBase: new URL('https://www.smnextgen.com'),
   keywords: [
     'Business Growth Partner',
+    'Business Growth Solutions',
     'Business Growth Company',
-    'Growth Strategy',
-    'Technology-Enabled Growth',
-    'Revenue Growth Systems',
+    'Business Growth Strategy',
+    'Marketing & Technology Partner',
+    'Business Automation Solutions',
     'AI Business Automation',
-    'Marketing Automation',
-    'Enterprise Web Development',
-    'Customer Acquisition Systems',
-    'SM NextGen'
+    'Customer Acquisition Strategy',
+    'Revenue Growth Solutions',
+    'Growth Systems',
+    'Digital Transformation',
   ],
   alternates: {
-    canonical: 'https://smnextgen.com',
+    canonical: 'https://www.smnextgen.com/',
   },
   openGraph: {
-    title: 'SM NextGen | Business Growth Partner | Strategy, Marketing & Technology',
-    description:
-      'SM NextGen helps businesses build sustainable growth through strategy, marketing, technology, AI and automation — driving stronger demand, sales, revenue and long-term ROI.',
-    url: 'https://smnextgen.com',
+    title: 'SM NextGen — Your Complete Business Growth Partner',
+    description: 'Build stronger brands. Create smarter systems. Grow better businesses.',
+    url: 'https://www.smnextgen.com/',
     siteName: 'SM NextGen',
     images: [
       {
@@ -39,9 +39,8 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'SM NextGen | Business Growth Partner',
-    description:
-      'SM NextGen helps businesses build sustainable growth through strategy, marketing, technology, AI and automation.',
+    title: 'SM NextGen — Your Complete Business Growth Partner',
+    description: 'Build stronger brands. Create smarter systems. Grow better businesses.',
     images: ['/icon.png'],
   },
 };

@@ -68,26 +68,32 @@ export default function AboutLeadership({ onStartConversation }) {
     {
       num: "01",
       title: "Business-First Thinking",
-      desc: "We begin with your business goals, not a predefined service package.",
+      desc: "We begin by understanding your objectives and challenges.",
       icon: Clock,
     },
     {
       num: "02",
       title: "Connected Execution",
-      desc: "Marketing, digital experience, technology and automation work towards shared objectives.",
+      desc: "Marketing, technology and automation work towards shared business goals.",
       icon: Users,
     },
     {
       num: "03",
       title: "Clear Communication",
-      desc: "Understand what is being done, why it matters and what comes next.",
+      desc: "Understand the work, priorities and progress throughout the engagement.",
       icon: BarChart3,
     },
     {
       num: "04",
       title: "Continuous Improvement",
-      desc: "Review performance, identify opportunities and refine the approach as your business evolves.",
+      desc: "Evaluate what works, identify opportunities and refine the approach.",
       icon: Lock,
+    },
+    {
+      num: "05",
+      title: "Long-Term Perspective",
+      desc: "Build systems that support your business beyond individual campaigns and projects.",
+      icon: ShieldCheck,
     },
   ];
 
@@ -98,7 +104,7 @@ export default function AboutLeadership({ onStartConversation }) {
         <div className="max-w-3xl mx-auto text-center mb-12 sm:mb-14">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0097B2]/10 border border-[#0097B2]/20 text-[#0097B2] text-xs font-mono font-bold uppercase tracking-wider mb-3">
             <ShieldCheck className="w-3.5 h-3.5" />
-            <span>MORE THAN A SERVICE PROVIDER</span>
+            <span>MORE THAN ANOTHER SERVICE PROVIDER</span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-heading text-[#0B2545] dark:text-white tracking-tight mb-4 leading-tight">
@@ -109,10 +115,10 @@ export default function AboutLeadership({ onStartConversation }) {
           </h2>
 
           <p className="text-base sm:text-lg text-slate-700 dark:text-slate-200 font-normal leading-relaxed max-w-2xl mx-auto mb-2">
-            Your marketing, technology and business operations shouldn't work against each other.
+            Your business doesn't operate in separate departments. Your growth strategy shouldn't either.
           </p>
           <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-light max-w-2xl mx-auto">
-            We work with businesses to understand their priorities, identify growth opportunities and bring the right capabilities together.
+            We bring business thinking, creative capabilities and technology together under one coordinated approach.
           </p>
         </div>
 
@@ -169,8 +175,8 @@ export default function AboutLeadership({ onStartConversation }) {
           </div>
         </div>
 
-        {/* 4 Partnership Principles */}
-        <div className="guarantees-grid grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+        {/* 5 Partnership Principles */}
+        <div className="guarantees-grid grid sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-10">
           {PARTNERSHIP_PILLARS.map((item, idx) => {
             const Icon = item.icon;
             return (
@@ -201,10 +207,10 @@ export default function AboutLeadership({ onStartConversation }) {
         <div className="rounded-xl bg-[#0B2545] p-6 text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
           <div>
             <span className="text-xs font-mono text-cyan-400 font-bold uppercase tracking-wider block mb-1">
-              Commercial Partnership
+              Closing Statement
             </span>
             <p className="text-sm sm:text-base font-heading font-bold text-white">
-              We're here to help you build a stronger business — not simply add another vendor to manage.
+              One growth partner. A connected approach. A clearer direction for your business.
             </p>
           </div>
 

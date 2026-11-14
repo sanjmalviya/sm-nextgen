@@ -1,20 +1,25 @@
 import CaseStudiesClient from './CaseStudiesClient'; 
 
 export const metadata = {
-  title: 'Case Studies & Commercial Outcomes | SM NextGen — Business Growth Partner',
+  title: 'Business Growth Case Studies & Client Projects | SM NextGen',
   description:
-    'Explore verified commercial case studies from SM NextGen. Discover how we engineer qualified enterprise pipelines, lower CAC, and accelerate revenue across B2B SaaS, D2C Commerce, and Healthcare.',
-  keywords:
-    'SM NextGen case studies, business growth results, B2B SaaS growth, D2C commerce scaling, healthcare patient acquisition, CAC reduction case studies',
-  metadataBase: new URL('https://smnextgen.com'),
+    'Explore SM NextGen client projects and illustrative case studies across hospitality, finance, events, D2C, e-commerce, healthcare and B2B.',
+  keywords: [
+    'Business Growth Case Studies',
+    'Client Projects',
+    'Growth Solutions',
+    'SM NextGen Case Studies',
+    'Digital Transformation Case Studies',
+  ],
+  metadataBase: new URL('https://www.smnextgen.com'),
   alternates: {
-    canonical: 'https://smnextgen.com/case-studies',
+    canonical: 'https://www.smnextgen.com/case-studies',
   },
   openGraph: {
-    title: 'Case Studies & Results | SM NextGen — Business Growth Partner',
+    title: 'Business Growth Case Studies & Client Projects | SM NextGen',
     description:
-      'Real businesses. Real problems. Quantifiable growth systems. Discover how we scale enterprise market leaders.',
-    url: 'https://smnextgen.com/case-studies',
+      'Explore SM NextGen client projects and illustrative case studies across hospitality, finance, events, D2C, e-commerce, healthcare and B2B.',
+    url: 'https://www.smnextgen.com/case-studies',
     siteName: 'SM NextGen',
     images: [
       {

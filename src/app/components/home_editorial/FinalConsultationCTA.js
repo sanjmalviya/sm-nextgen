@@ -87,22 +87,28 @@ export default function FinalConsultationCTA() {
             </h2>
 
             <p className="text-base sm:text-lg text-slate-300 font-light leading-relaxed max-w-xl">
-              Tell us about your business, your current challenges and where you want to go. We'll explore the opportunities and identify the right next steps.
+              Whether you want to strengthen your brand, generate more demand, improve conversions, build better technology or automate your operations, let's understand your business and identify the right next steps.
             </p>
 
             <div className="space-y-3 pt-2 max-w-lg mx-auto lg:mx-0 text-left">
               <div className="flex items-center gap-3 text-xs sm:text-sm text-slate-200">
                 <CheckCircle2 className="w-4 h-4 text-[#0097B2] shrink-0" />
-                <span>Direct session with Senior Growth Leads</span>
+                <span>Understand Your Growth Challenges</span>
               </div>
               <div className="flex items-center gap-3 text-xs sm:text-sm text-slate-200">
                 <CheckCircle2 className="w-4 h-4 text-[#0097B2] shrink-0" />
-                <span>Actionable bottleneck review, zero sales pressure</span>
+                <span>Identify Practical Opportunities</span>
               </div>
               <div className="flex items-center gap-3 text-xs sm:text-sm text-slate-200">
                 <CheckCircle2 className="w-4 h-4 text-[#0097B2] shrink-0" />
-                <span>Strict commercial NDA confidentiality</span>
+                <span>Explore the Right Way Forward</span>
               </div>
+            </div>
+
+            {/* Direct Contact Details Block */}
+            <div className="pt-4 text-xs text-slate-400 space-y-1 font-mono border-t border-white/10">
+              <p><strong className="text-white">SM NextGen</strong> · Udaipur, Rajasthan, India</p>
+              <p>Email: <a href="mailto:info@smnextgen.com" className="text-cyan-400 hover:underline">info@smnextgen.com</a> · Phone: <a href="tel:+917073538077" className="text-cyan-400 hover:underline">+91 70735 38077</a></p>
             </div>
 
             <div className="pt-4 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">

@@ -2,17 +2,32 @@ import { client } from "../../lib/sanity";
 import BlogsClient from "./BlogsClient";
 
 export const metadata = {
-  title: "Growth Lab Insights & Strategies | SM NextGen",
-  description: "Engineering-grade strategies for Marketing, AI Automation, and Finance. Read our latest insights.",
-  metadataBase: new URL("https://smnextgen.com"),
+  title: "Growth Lab | Business, Marketing, Technology & AI Insights — SM NextGen",
+  description:
+    "Practical insights on business growth, marketing strategy, sales, SEO, AI automation, technology and smarter business systems.",
+  keywords: [
+    "Growth Lab",
+    "Business Growth",
+    "Marketing Strategy",
+    "Sales & Revenue",
+    "SEO & Search",
+    "AI & Automation",
+    "Technology & Systems",
+    "SM NextGen Blog",
+  ],
+  metadataBase: new URL("https://www.smnextgen.com"),
+  alternates: {
+    canonical: "https://www.smnextgen.com/blogs",
+  },
   openGraph: {
-    title: "Growth Lab Insights | SM NextGen",
-    description: "Marketing, AI, and Finance strategies for scaling businesses.",
-    url: "https://smnextgen.com/blogs",
+    title: "Growth Lab | Business, Marketing, Technology & AI Insights — SM NextGen",
+    description:
+      "Practical insights on business growth, marketing strategy, sales, SEO, AI automation, technology and smarter business systems.",
+    url: "https://www.smnextgen.com/blogs",
     siteName: "SM NextGen",
     images: [
       {
-        url: "/images/og-home.png",
+        url: "/icon.png",
         width: 1200,
         height: 630,
         alt: "SM NextGen Growth Lab",

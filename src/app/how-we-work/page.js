@@ -1,20 +1,26 @@
 import HowWeWorkClient from './HowWeWorkClient';
 
 export const metadata = {
-  title: 'How We Grow | SM NextGen — Business Growth Partner',
+  title: 'How We Grow | SM NextGen Business Growth Framework',
   description:
-    'From business problems to growth opportunities. Explore SM NextGen’s 6-stage compounding growth methodology combining strategy, marketing, technology, and AI automation.',
-  keywords:
-    'how we grow, business growth methodology, growth architecture, 6-stage growth framework, SM NextGen, compounding business growth',
-  metadataBase: new URL('https://smnextgen.com'),
+    'Discover the SM NextGen six-stage growth framework: Discover, Diagnose, Strategize, Build, Optimize and Scale.',
+  keywords: [
+    'Business Growth Strategy',
+    'Business Growth Framework',
+    'Business Growth Process',
+    'Growth Strategy Consulting',
+    'Business Growth Methodology',
+    'Business Growth Solutions',
+  ],
+  metadataBase: new URL('https://www.smnextgen.com'),
   alternates: {
-    canonical: 'https://smnextgen.com/how-we-work',
+    canonical: 'https://www.smnextgen.com/how-we-work',
   },
   openGraph: {
-    title: 'How We Grow | SM NextGen — Business Growth Partner',
+    title: 'How We Grow | SM NextGen Business Growth Framework',
     description:
-      'A structured 6-stage methodology to diagnose bottlenecks, build high-converting systems, and scale modern businesses globally.',
-    url: 'https://smnextgen.com/how-we-work',
+      'Discover the SM NextGen six-stage growth framework: Discover, Diagnose, Strategize, Build, Optimize and Scale.',
+    url: 'https://www.smnextgen.com/how-we-work',
     siteName: 'SM NextGen',
     images: [
       {
